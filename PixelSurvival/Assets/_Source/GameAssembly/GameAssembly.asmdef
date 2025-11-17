@@ -1,0 +1,20 @@
+{
+    "name": "GameAssembly",
+    "rootNamespace": "",
+    "references": [
+        "DOTween.Modules",
+        "Unity.InputSystem",
+        "VContainer",
+        "Unity.TextMeshPro",
+        "Mirror"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
