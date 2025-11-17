@@ -35,6 +35,7 @@ namespace GameAssembly.Utils.Extensions
         private static void GetRandom<T>(IEnumerable<T> source, out T item, out int index, out T[] asArray)
         {
             asArray = source.ToArray();
+            
             if (asArray.Length == 0)
             {
                 item = default;
