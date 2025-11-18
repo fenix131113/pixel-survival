@@ -70,6 +70,9 @@ namespace GameAssembly.Core.Network
 
         public override void OnClientDisconnect()
         {
+            if(SceneManager.GetActiveScene().buildIndex != ScenesData.MENU_SCENE_INDEX)
+                SceneManager.LoadScene(ScenesData.MENU_SCENE_INDEX);
+            
             ClientOnDisconnected?.Invoke();
         }
 
@@ -83,6 +86,8 @@ namespace GameAssembly.Core.Network
 
         public override void OnServerDisconnect(NetworkConnectionToClient conn)
         {
+            base.OnServerDisconnect(conn);
+            
             if (SceneManager.GetActiveScene().buildIndex == ScenesData.MENU_SCENE_INDEX) // If in menu
                 NetworkServer.SendToAll(LobbyPlayerChangedMessage.CreateMessage());
 
@@ -109,6 +114,7 @@ namespace GameAssembly.Core.Network
                 var spawnedPlayer = Instantiate(playerPrefab);
 
                 NetworkServer.AddPlayerForConnection(conn, spawnedPlayer);
+                Debug.Log("Added player");
             }
         }
 
