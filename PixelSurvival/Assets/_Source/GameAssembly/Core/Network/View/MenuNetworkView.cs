@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using GameAssembly.Utils;
+using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,7 +34,8 @@ namespace GameAssembly.Core.Network.View
 
         private void OnStartGameButtonClicked()
         {
-            //TODO: LOGIC TO START GAME
+            if (NetworkServer.active && !NetworkServer.isLoadingScene)
+                _netManager.ServerChangeScene(ScenesData.GAME_SCENE_NAME);
         }
 
         private void OnSelectHostButtonClicked()
@@ -41,6 +43,7 @@ namespace GameAssembly.Core.Network.View
             _netManager.RegisterLobbyMessages();
             _netManager.CreateHost();
             hostPanel.SetActive(true);
+            startHostButton.gameObject.SetActive(true);
         }
 
         private void OnJoinButtonClicked()
@@ -51,28 +54,38 @@ namespace GameAssembly.Core.Network.View
 
         private void OnLeaveButtonClicked()
         {
-            if(NetworkServer.active && NetworkClient.active)
+            if (NetworkServer.active && NetworkClient.active)
                 _netManager.StopHost();
-            else if (NetworkClient.active) 
+            else if (NetworkClient.active)
                 NetworkClient.Disconnect();
         }
 
         private void Client_OnDisconnected()
         {
+            startHostButton.gameObject.SetActive(false);
             hostPanel.SetActive(false);
-            UpdatePlayersList();
+            ClearPlayersList();
         }
 
-        private void UpdatePlayersList()
+        private void Client_OnConnected()
         {
-            if (!NetworkClient.active)
-            {
-                lobbyPlayersListLabel.text = string.Empty;
-                return;
-            }
+            hostPanel.SetActive(true);
+            ClearPlayersList();
+        }
 
-            foreach (var conn in NetworkServer.connections.Values)
-                lobbyPlayersListLabel.text += conn.connectionId.ToString() + "\n";
+        private void UpdatePlayersList(NetManager.LobbyPlayerChangedMessage msg)
+        {
+            ClearPlayersList();
+
+            if (!NetworkClient.active)
+                return;
+
+            lobbyPlayersListLabel.text = msg.PlayersList;
+        }
+
+        private void ClearPlayersList()
+        {
+            lobbyPlayersListLabel.text = string.Empty;
         }
 
         private void BindClient()
@@ -83,8 +96,9 @@ namespace GameAssembly.Core.Network.View
             leaveHostButton.onClick.AddListener(OnLeaveButtonClicked);
 
             // Auto-expose
-            _netManager.Client_OnNewLobbyPlayer += UpdatePlayersList;
-            _netManager.Client_OnDisconnected += Client_OnDisconnected;
+            _netManager.ClientOnChangedLobbyPlayer += UpdatePlayersList;
+            _netManager.ClientOnDisconnected += Client_OnDisconnected;
+            _netManager.ClientOnConnected += Client_OnConnected;
         }
 
         private void Expose()
