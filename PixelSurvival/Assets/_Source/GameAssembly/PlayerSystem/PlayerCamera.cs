@@ -1,5 +1,6 @@
 ﻿using Mirror;
 using Unity.Cinemachine;
+using UnityEngine;
 
 namespace GameAssembly.PlayerSystem
 {
@@ -9,11 +10,13 @@ namespace GameAssembly.PlayerSystem
 
         private void Start()
         {
-            if(!isLocalPlayer)
+            if (!isLocalPlayer)
                 return;
-            
+
             _playerCamera = FindFirstObjectByType<CinemachineCamera>();
-            _playerCamera.Target = new CameraTarget { TrackingTarget = transform };
+            SetTarget(transform);
         }
+
+        public void SetTarget(Transform target) => _playerCamera.Target = new CameraTarget { TrackingTarget = target };
     }
 }

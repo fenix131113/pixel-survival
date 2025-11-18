@@ -2,7 +2,6 @@
 using System.Linq;
 using GameAssembly.Utils;
 using Mirror;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace GameAssembly.Core.Network
