@@ -114,7 +114,6 @@ namespace GameAssembly.Core.Network
                 var spawnedPlayer = Instantiate(playerPrefab);
 
                 NetworkServer.AddPlayerForConnection(conn, spawnedPlayer);
-                Debug.Log("Added player");
             }
         }
 
