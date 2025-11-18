@@ -1,4 +1,5 @@
 ﻿using GameAssembly.PlayerSystem.Data;
+using GameAssembly.PlayerSystem.Variables;
 using PlayerSystem;
 using UnityEngine;
 using Utils;
@@ -22,7 +23,12 @@ namespace GameAssembly.Core
             _input = new InputSystem_Actions();
             _input.Player.Enable();
             builder.RegisterInstance(_input);
+
             builder.RegisterInstance(playerData);
+
+            builder.Register<PlayerVariables>(Lifetime.Scoped)
+                .AsImplementedInterfaces()
+                .AsSelf();
 
             #endregion
         }

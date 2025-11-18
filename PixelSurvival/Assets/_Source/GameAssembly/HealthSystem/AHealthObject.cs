@@ -10,7 +10,7 @@ namespace GameAssembly.HealthSystem
         [SerializeField] protected HealthType healthType;
         [SerializeField] protected int maxHealth;
 
-        [SyncVar(hook = nameof(OnHealthChanged))]
+        [SyncVar(hook = nameof(InvokeOnHealthChanged))]
         protected int _health;
 
         /// <summary>
@@ -28,7 +28,9 @@ namespace GameAssembly.HealthSystem
         public int GetMaxHealth() => maxHealth;
 
         public int GetHealth() => _health;
-        
+
+        protected void InvokeOnHealthChanged(int oldValue, int newValue) => OnHealthChanged?.Invoke(oldValue, newValue);
+
         [ClientRpc]
         protected void Rpc_InvokeOnZeroHealth() => OnZeroHealth?.Invoke();
 
