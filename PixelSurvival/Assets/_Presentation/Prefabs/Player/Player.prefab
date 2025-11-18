@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2886495063340788718}
   - component: {fileID: 7384765159282054741}
   - component: {fileID: 2017142520416078629}
+  - component: {fileID: -6342820332488632917}
   - component: {fileID: 7482978751402099095}
   - component: {fileID: 5380170667326270308}
   - component: {fileID: 5765003504016066890}
@@ -106,6 +107,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ed2660c45f0404e8b758842fda92b08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: GameAssembly::GameAssembly.PlayerSystem.PlayerMovement
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+--- !u!114 &-6342820332488632917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7138410634727892820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e97c57b6d1c043768a640e0437aa8e1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.PlayerSystem.PlayerCamera
   syncDirection: 0
   syncMode: 0
   syncInterval: 0

@@ -6,7 +6,8 @@
         "Unity.InputSystem",
         "VContainer",
         "Unity.TextMeshPro",
-        "Mirror"
+        "Mirror",
+        "Unity.Cinemachine"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
