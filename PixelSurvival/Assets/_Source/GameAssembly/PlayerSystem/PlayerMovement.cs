@@ -22,12 +22,7 @@ namespace GameAssembly.PlayerSystem
 
         private void Start()
         {
-            StartCoroutine(TEST());
             ObjectInjector.Inject(this);
-
-            _blocker = new PlayerVariableBlocker(PlayerVariableBlockerType.MOVEMENT,
-                PlayerVariableBlockerType.INTERACT);
-            _playerVars.RegisterBlocker(_blocker);
 
             if (!isLocalPlayer)
                 Destroy(_rb);
@@ -43,13 +38,6 @@ namespace GameAssembly.PlayerSystem
             var movement = _input.Player.enabled ? _input.Player.Move.ReadValue<Vector2>() : Vector2.zero;
 
             _rb.linearVelocity = movement * _playerData.MoveSpeed;
-        }
-
-        private IEnumerator TEST()
-        {
-            yield return new WaitForSeconds(4);
-            
-            _blocker.Dispose();
         }
     }
 }

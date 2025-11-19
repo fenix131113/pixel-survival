@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7384765159282054741}
   - component: {fileID: 2017142520416078629}
   - component: {fileID: -6342820332488632917}
+  - component: {fileID: 2148171681158481574}
   - component: {fileID: 7482978751402099095}
   - component: {fileID: 5380170667326270308}
   - component: {fileID: 5765003504016066890}
@@ -125,6 +126,22 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+--- !u!114 &2148171681158481574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7138410634727892820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 825c5a592a4845fe88ce6bf11d06f443, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.PlayerSystem.PlayerAim
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  centerPoint: {fileID: 2886495063340788718}
 --- !u!50 &7482978751402099095
 Rigidbody2D:
   serializedVersion: 5

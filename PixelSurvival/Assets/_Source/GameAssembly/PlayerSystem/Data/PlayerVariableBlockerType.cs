@@ -3,7 +3,8 @@
     public enum PlayerVariableBlockerType : byte
     {
         MOVEMENT = 0,
-        ATTACK = 1,
-        INTERACT = 2
+        LOOK = 1,
+        ATTACK = 2,
+        INTERACT = 3
     }
 }
