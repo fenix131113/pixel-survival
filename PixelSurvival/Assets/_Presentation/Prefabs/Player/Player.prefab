@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 2017142520416078629}
   - component: {fileID: -6342820332488632917}
   - component: {fileID: 2148171681158481574}
+  - component: {fileID: -6101252009794579923}
+  - component: {fileID: -3002872422467099977}
   - component: {fileID: 7482978751402099095}
   - component: {fileID: 5380170667326270308}
   - component: {fileID: 5765003504016066890}
@@ -85,7 +87,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: -2670100242169240431, guid: ac44d7f50681087458df704400ba9347, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -142,6 +144,45 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   centerPoint: {fileID: 2886495063340788718}
+--- !u!114 &-6101252009794579923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7138410634727892820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d2238e94f44dd2a8c1975fef9dd410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.Utils.Drawer.SingleSpriteDrawer
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  spriteRenderer: {fileID: 7384765159282054741}
+--- !u!114 &-3002872422467099977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7138410634727892820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 228a4393f6e646fd9018031247a4a33e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.PlayerSystem.PlayerDrawer
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  playerAim: {fileID: 2148171681158481574}
+  bodyDrawer: {fileID: -6101252009794579923}
+  rotationGroup:
+    <Rotations>k__BackingField:
+    - {fileID: 4699842155992170130, guid: c52aa97a120df87468719bf34e303baf, type: 3}
+    - {fileID: 2912147235762990277, guid: 74ea38532339af642896b5c6527603cf, type: 3}
+    - {fileID: 5895540913150188443, guid: 7d8cdc86c8a5e394d8a6f2f7187b6e68, type: 3}
+    - {fileID: -2670100242169240431, guid: ac44d7f50681087458df704400ba9347, type: 3}
 --- !u!50 &7482978751402099095
 Rigidbody2D:
   serializedVersion: 5
