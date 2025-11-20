@@ -1,4 +1,5 @@
-﻿using GameAssembly.PlayerSystem.Data;
+﻿using GameAssembly.ItemsSystem;
+using GameAssembly.PlayerSystem.Data;
 using GameAssembly.PlayerSystem.Variables;
 using PlayerSystem;
 using UnityEngine;
@@ -30,6 +31,10 @@ namespace GameAssembly.Core
                 .AsImplementedInterfaces()
                 .AsSelf();
 
+            #endregion
+
+            #region ItemsSystem
+            
             #endregion
         }
     }
