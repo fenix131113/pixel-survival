@@ -1,4 +1,4 @@
-﻿using GameAssembly.ItemsSystem;
+﻿using GameAssembly.InventorySystem.View;
 using GameAssembly.PlayerSystem.Data;
 using GameAssembly.PlayerSystem.Variables;
 using PlayerSystem;
@@ -33,8 +33,10 @@ namespace GameAssembly.Core
 
             #endregion
 
-            #region ItemsSystem
-            
+            #region InventorySystem
+
+            builder.RegisterComponentInHierarchy<MovingItem>();
+
             #endregion
         }
     }

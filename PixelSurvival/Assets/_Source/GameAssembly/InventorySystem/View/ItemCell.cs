@@ -1,89 +1,110 @@
-﻿using System.Linq;
+﻿using System;
 using GameAssembly.ItemsSystem;
+using Mirror;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Utils;
+using VContainer;
 
 namespace GameAssembly.InventorySystem.View
 {
-    public class ItemCell : MonoBehaviour
+    public class ItemCell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
     {
         [SerializeField] private Image icon;
         [SerializeField] private TMP_Text counter;
         
+        [Inject] private MovingItem _movingItem;
+
+        private NetworkIdentity _inventoryIdentity;
         private IInventory _inventory;
         private bool _isExposed = true;
 
         public int CellIndex { get; private set; }
         private ItemInstance _lastItem;
 
-        public void Initialize(IInventory inventory, int cellIndex)
+        public void Initialize(NetworkIdentity inventoryIdentity, int cellIndex)
         {
-            _inventory = inventory;
+            ObjectInjector.Inject(this);
+
+            _inventoryIdentity = inventoryIdentity;
+            _inventory = _inventoryIdentity.GetComponent<IInventory>();
             CellIndex = cellIndex;
             Bind();
             Draw();
         }
 
-        private void OnDestroy()
-        {
-            Expose();
-        }
+        private void OnDestroy() => Expose();
 
         protected virtual void CheckForChanges(int index)
         {
-            var items = _inventory.GetItems().ToArray();
-
-            if (items[index] == _lastItem)
+            if(CellIndex != index)
                 return;
             
-            ExposeItem(_lastItem);
-            _lastItem = items[index];
-            BindItem(_lastItem);
-                
+            var item = _inventory.GetItemByIndex(index);
+
+            if (item == _lastItem)
+            {
+                Draw();
+                return;
+            }
+            
+            _lastItem = item;
+
             Draw();
         }
 
         protected virtual void Draw()
         {
-            var items = _inventory.GetItems().ToArray();
-            counter.gameObject.SetActive(items[CellIndex] != null);
-            
-            if(items[CellIndex] == null)
+            counter.gameObject.SetActive(_lastItem != null);
+
+            if (_lastItem == null)
+            {
+                icon.sprite = null;
                 return;
-            
-            icon.sprite = items[CellIndex].Definition.Icon;
-            counter.text = items[CellIndex].Count.ToString();
-        }
+            }
 
-        protected virtual void BindItem(ItemInstance instance)
-        {
-            if (instance != null)
-                instance.OnItemChanged += Draw;
-        }
-
-        protected virtual void ExposeItem(ItemInstance instance)
-        {
-            if (instance != null)
-                instance.OnItemChanged -= Draw;
+            icon.sprite = _lastItem.Definition.Icon;
+            counter.text = _lastItem.Count.ToString();
         }
 
         private void Bind()
         {
-            if(!_isExposed)
+            if (!_isExposed)
                 return;
-            
+
             _isExposed = false;
             _inventory.OnItemChanged += CheckForChanges;
         }
 
         private void Expose()
         {
-            if(_isExposed)
+            if (_isExposed)
                 return;
-            
+
             _isExposed = true;
             _inventory.OnItemChanged -= CheckForChanges;
+        }
+
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            _movingItem.StartDrag(_inventoryIdentity, CellIndex);
+        }
+        
+        public void OnDrop(PointerEventData eventData)
+        {
+            _movingItem.TriggerDrop(_inventoryIdentity, CellIndex);
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            
         }
     }
 }

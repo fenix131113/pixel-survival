@@ -4,7 +4,6 @@ using GameAssembly.ItemsSystem.Data;
 using GameAssembly.Utils;
 using Mirror;
 using UnityEngine;
-using Debug = System.Diagnostics.Debug;
 
 namespace GameAssembly.ItemsSystem
 {
@@ -32,6 +31,8 @@ namespace GameAssembly.ItemsSystem
             _meta = meta;
             Count = count;
         }
+
+        public ItemInstance Copy() => new(Definition, _meta, Count);
 
         public bool TryAddMeta(string key, string value)
         {

@@ -43,7 +43,7 @@ namespace GameAssembly.InventorySystem
                     writer.WriteString(kv.Value);
                 }
             }
-            
+
             base.OnSerialize(writer, initialState);
         }
 
@@ -51,7 +51,7 @@ namespace GameAssembly.InventorySystem
         {
             foreach (var itemInstance in _items)
                 itemInstance?.Dispose();
-            
+
             var size = reader.ReadInt();
             _items = new ItemInstance[size];
 
@@ -87,13 +87,14 @@ namespace GameAssembly.InventorySystem
             }
 
             OnInventoryChanged?.Invoke();
-            
+
             base.OnDeserialize(reader, initialState);
         }
 
         public int GetInventorySize() => inventorySize;
 
         public IEnumerable<ItemInstance> GetItems() => _items;
+        public ItemInstance GetItemByIndex(int index) => _items[index];
 
         [Server]
         public virtual bool TryAddItemFromInstance(ItemInstance instance, bool ignoreMeta = false)
@@ -218,10 +219,10 @@ namespace GameAssembly.InventorySystem
                 count -= newCount;
 
                 BindNewItem(index);
+                InvokeOnItemChanged(index);
 
                 if (count <= 0)
                 {
-                    InvokeOnItemChanged(index);
                     SetDirty();
                     return true;
                 }
@@ -272,6 +273,60 @@ namespace GameAssembly.InventorySystem
                 }
             }
 
+            SetDirty();
+            return true;
+        }
+
+        [Server]
+        public bool TryRemoveItemByIndex(int index, bool removeCount)
+        {
+            if (_items[index] == null)
+                return true;
+            
+            if (removeCount)
+                _items[index].TryRemoveCount(_items[index].Count);
+            else
+            {
+                _items[index].Dispose();
+                _items[index] = null;
+                InvokeOnItemChanged(index);
+            }
+            
+            SetDirty();
+            return true;
+        }
+
+        [Server]
+        public bool TryAddItemInIndexFromInstance(ItemInstance item, int index, bool fullInsert)
+        {
+            if (item == null)
+                return false;
+            
+            if (_items[index] == null)
+            {
+                _items[index] = item;
+                BindNewItem(index);
+                InvokeOnItemChanged(index);
+                SetDirty();
+                return true;
+            }
+
+            if (_items[index].Definition != item.Definition)
+                return false;
+
+            var freeSpace = item.Definition.MaxCount - _items[index].Count;
+
+            if (freeSpace >= item.Count)
+            {
+                _items[index].TryAddCount(item.Count);
+                item.TryRemoveCount(item.Count);
+            }
+            else if (!fullInsert)
+            {
+                item.TryRemoveCount(freeSpace);
+                _items[index].TryAddCount(freeSpace);
+            }
+            
             SetDirty();
             return true;
         }

@@ -5,6 +5,8 @@ using GameAssembly.ItemsSystem.Data;
 using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utils;
+using VContainer;
 
 namespace GameAssembly.InventorySystem.View
 {
@@ -14,13 +16,22 @@ namespace GameAssembly.InventorySystem.View
         [SerializeField] private GameObject inventoryPanel;
         [SerializeField] private Transform cellsParent;
 
+        [Inject] private MovingItem _movingItem;
+        
         private IInventory _inventory;
         private ItemCell[] _cells;
 
         public void Start()
         {
-            if(!isServerOnly)
+            if (!isServerOnly)
+            {
                 StartCoroutine(WaitForPlayer());
+            }
+
+            if (isClient)
+            {
+                ObjectInjector.Inject(this);
+            }
         }
 
         private void Update()
@@ -29,7 +40,12 @@ namespace GameAssembly.InventorySystem.View
                 return;
 
             if (Keyboard.current.cKey.wasPressedThisFrame)
+            {
                 inventoryPanel.SetActive(!inventoryPanel.activeSelf);
+                
+                if(!inventoryPanel.activeSelf)
+                    _movingItem.ForceClose();
+            }
 
             if (Keyboard.current.yKey.wasPressedThisFrame)
                 Cmd_AddItem(NetworkClient.localPlayer, ItemDatabase.Apple, 5);
@@ -51,7 +67,7 @@ namespace GameAssembly.InventorySystem.View
             for (var i = 0; i < _inventory.GetInventorySize(); i++)
             {
                 _cells[i] = Instantiate(cellPrefab, cellsParent);
-                _cells[i].Initialize(_inventory, i);
+                _cells[i].Initialize(NetworkClient.localPlayer, i);
             }
         }
 

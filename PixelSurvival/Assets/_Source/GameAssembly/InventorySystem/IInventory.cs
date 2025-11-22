@@ -11,9 +11,12 @@ namespace GameAssembly.InventorySystem
         event Action<int> OnItemChanged;
         int GetInventorySize();
         IEnumerable<ItemInstance> GetItems();
+        ItemInstance GetItemByIndex(int index);
         bool TryAddItemFromInstance(ItemInstance instance, bool ignoreMeta = false);
         bool TryAddNewItem(ItemDefinitionSO definition, int count);
         bool TryRemoveItem(ItemDefinitionSO item, int count);
+        bool TryRemoveItemByIndex(int index, bool removeCount);
+        bool TryAddItemInIndexFromInstance(ItemInstance item, int index, bool fullInsert);
         bool HasItem(ItemDefinitionSO item, int count = 1);
     }
 }
