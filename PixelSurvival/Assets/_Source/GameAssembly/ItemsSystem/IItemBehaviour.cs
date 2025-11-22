@@ -13,6 +13,10 @@
         virtual void OnDrop(ItemContext ctx)
         {
         }
+        
+        virtual void OnPickup(ItemContext ctx)
+        {
+        }
 
         virtual void OnEquip(ItemContext ctx)
         {
@@ -27,6 +31,14 @@
         }
 
         virtual void OnDeselect(ItemContext ctx)
+        {
+        }
+        
+        virtual void OnItemInventoryMoved(ItemContext ctx) // MAYBE
+        {
+        }
+        
+        virtual void OnItemInventoryTaken(ItemContext ctx) // MAYBE
         {
         }
 

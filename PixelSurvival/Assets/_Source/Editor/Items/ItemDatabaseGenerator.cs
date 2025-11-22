@@ -39,6 +39,8 @@ namespace Editor.Items
             writer.WriteLine("// Auto-generated code");
             writer.WriteLine();
             writer.WriteLine("using GameAssembly.ItemsSystem.Data;");
+            writer.WriteLine("using GameAssembly.Utils;");
+            writer.WriteLine("using UnityEngine;");
             writer.WriteLine();
             writer.WriteLine("namespace GameAssembly.Generated");
             writer.WriteLine("{");
@@ -48,7 +50,7 @@ namespace Editor.Items
 
             foreach (var safeName in items.Select(item => item.name.Replace(" ", "_")))
             {
-                writer.WriteLine($"        public readonly static ItemDefinitionSO {safeName};");
+                writer.WriteLine($"        public static readonly ItemDefinitionSO {safeName};");
             }
 
             writer.WriteLine();
@@ -58,9 +60,9 @@ namespace Editor.Items
             foreach (var item in items)
             {
                 var safeName = item.name.Replace(" ", "_");
-                var assetPath = AssetDatabase.GetAssetPath(item);
+                var assetPath = item.name;
                 writer.WriteLine(
-                    $"            {safeName} = UnityEditor.AssetDatabase.LoadAssetAtPath<ItemDefinitionSO>(\"{assetPath}\");");
+                    $"            {safeName} = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEMS_CONFIGS_PATH + \"/{assetPath}\");");
             }
 
             writer.WriteLine("        }");

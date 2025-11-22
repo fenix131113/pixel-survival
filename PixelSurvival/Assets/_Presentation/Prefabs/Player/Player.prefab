@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 7482978751402099095}
   - component: {fileID: 5380170667326270308}
   - component: {fileID: 5765003504016066890}
-  - component: {fileID: 1925308310299082166}
+  - component: {fileID: -9156696748127036231}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -262,7 +262,7 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &1925308310299082166
+--- !u!114 &-9156696748127036231
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -271,6 +271,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7138410634727892820}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ef61b70892e4c33851de8056f47f805, type: 3}
+  m_Script: {fileID: 11500000, guid: 6ba79d67cb0c4eceb940d6dadb079260, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: GameAssembly::GameAssembly.TestInventory
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.InventorySystem.BaseInventory
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  inventorySize: 40

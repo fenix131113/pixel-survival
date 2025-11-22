@@ -14,8 +14,7 @@ namespace GameAssembly
 
         private void Start()
         {
-            _firstItem = new ItemInstance(ItemDatabase.TestItem);
-            _secondItem = new ItemInstance(ItemDatabase.SecondTestItem);
+            _firstItem = new ItemInstance(ItemDatabase.Apple);
             CurrentItem = _firstItem;
         }
 

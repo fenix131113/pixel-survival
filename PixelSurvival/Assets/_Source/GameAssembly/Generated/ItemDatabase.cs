@@ -1,18 +1,24 @@
 // Auto-generated code
 
 using GameAssembly.ItemsSystem.Data;
+using GameAssembly.Utils;
+using UnityEngine;
 
 namespace GameAssembly.Generated
 {
     public static class ItemDatabase
     {
-        public readonly static ItemDefinitionSO SecondTestItem;
-        public readonly static ItemDefinitionSO TestItem;
+        public static readonly ItemDefinitionSO Apple;
+        public static readonly ItemDefinitionSO Pie;
+        public static readonly ItemDefinitionSO SecondTestItem;
+        public static readonly ItemDefinitionSO TestItem;
 
         static ItemDatabase()
         {
-            SecondTestItem = UnityEditor.AssetDatabase.LoadAssetAtPath<ItemDefinitionSO>("Assets/_Presentation/Resources/Configs/Items/SecondTestItem.asset");
-            TestItem = UnityEditor.AssetDatabase.LoadAssetAtPath<ItemDefinitionSO>("Assets/_Presentation/Resources/Configs/Items/TestItem.asset");
+            Apple = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEMS_CONFIGS_PATH + "/Apple");
+            Pie = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEMS_CONFIGS_PATH + "/Pie");
+            SecondTestItem = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEMS_CONFIGS_PATH + "/SecondTestItem");
+            TestItem = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEMS_CONFIGS_PATH + "/TestItem");
         }
     }
 }
