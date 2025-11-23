@@ -1,5 +1,4 @@
-﻿using System;
-using GameAssembly.ItemsSystem;
+﻿using GameAssembly.ItemsSystem;
 using Mirror;
 using TMPro;
 using UnityEngine;
@@ -10,11 +9,12 @@ using VContainer;
 
 namespace GameAssembly.InventorySystem.View
 {
-    public class ItemCell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+    public class ItemCell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler // TODO: Make new class for hot bar slot with PlayerSelector link
     {
         [SerializeField] private Image icon;
         [SerializeField] private TMP_Text counter;
-        
+        [SerializeField] private GameObject selection;
+
         [Inject] private MovingItem _movingItem;
 
         private NetworkIdentity _inventoryIdentity;
@@ -39,9 +39,9 @@ namespace GameAssembly.InventorySystem.View
 
         protected virtual void CheckForChanges(int index)
         {
-            if(CellIndex != index)
+            if (CellIndex != index)
                 return;
-            
+
             var item = _inventory.GetItemByIndex(index);
 
             if (item == _lastItem)
@@ -49,7 +49,7 @@ namespace GameAssembly.InventorySystem.View
                 Draw();
                 return;
             }
-            
+
             _lastItem = item;
 
             Draw();
@@ -68,6 +68,10 @@ namespace GameAssembly.InventorySystem.View
             icon.sprite = _lastItem.Definition.Icon;
             counter.text = _lastItem.Count.ToString();
         }
+
+        public void SetSelectionActive() => selection.SetActive(true);
+
+        public void SetSelectionInactive() => selection.SetActive(false);
 
         private void Bind()
         {
@@ -91,7 +95,7 @@ namespace GameAssembly.InventorySystem.View
         {
             _movingItem.StartDrag(_inventoryIdentity, CellIndex);
         }
-        
+
         public void OnDrop(PointerEventData eventData)
         {
             _movingItem.TriggerDrop(_inventoryIdentity, CellIndex);
@@ -99,12 +103,10 @@ namespace GameAssembly.InventorySystem.View
 
         public void OnDrag(PointerEventData eventData)
         {
-            
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            
         }
     }
 }

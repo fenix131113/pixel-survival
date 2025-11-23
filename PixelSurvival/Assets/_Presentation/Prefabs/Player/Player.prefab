@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -3002872422467099977}
   - component: {fileID: -9156696748127036231}
   - component: {fileID: -2963712798787047777}
+  - component: {fileID: 5733486683184924061}
   - component: {fileID: 7482978751402099095}
   - component: {fileID: 5380170667326270308}
   - component: {fileID: 5765003504016066890}
@@ -200,7 +201,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  inventorySize: 40
+  inventorySize: 50
 --- !u!114 &-2963712798787047777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,6 +217,22 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+--- !u!114 &5733486683184924061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7138410634727892820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bebaa10c64154489ab3731c17d1055cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.InventorySystem.PlayerSelector
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  <HotBarSize>k__BackingField: 10
 --- !u!50 &7482978751402099095
 Rigidbody2D:
   serializedVersion: 5

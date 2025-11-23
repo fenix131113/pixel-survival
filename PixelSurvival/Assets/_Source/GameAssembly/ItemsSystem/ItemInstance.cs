@@ -31,6 +31,8 @@ namespace GameAssembly.ItemsSystem
             _meta = meta;
             Count = count;
         }
+        
+        ~ItemInstance() => Dispose();
 
         public ItemInstance Copy() => new(Definition, _meta, Count);
 
@@ -139,7 +141,7 @@ namespace GameAssembly.ItemsSystem
         {
             writer.WriteString(item.Definition.name);
             writer.WriteInt(item.Count);
-
+            
             writer.WriteInt(item.Meta.Count);
 
             foreach (var kv in item.Meta)

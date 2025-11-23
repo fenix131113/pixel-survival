@@ -282,7 +282,7 @@ namespace GameAssembly.InventorySystem
         {
             if (_items[index] == null)
                 return true;
-            
+
             if (removeCount)
                 _items[index].TryRemoveCount(_items[index].Count);
             else
@@ -291,7 +291,7 @@ namespace GameAssembly.InventorySystem
                 _items[index] = null;
                 InvokeOnItemChanged(index);
             }
-            
+
             SetDirty();
             return true;
         }
@@ -301,7 +301,7 @@ namespace GameAssembly.InventorySystem
         {
             if (item == null)
                 return false;
-            
+
             if (_items[index] == null)
             {
                 _items[index] = item;
@@ -326,7 +326,7 @@ namespace GameAssembly.InventorySystem
                 item.TryRemoveCount(freeSpace);
                 _items[index].TryAddCount(freeSpace);
             }
-            
+
             SetDirty();
             return true;
         }
@@ -348,7 +348,11 @@ namespace GameAssembly.InventorySystem
         protected virtual void BindNewItem(int index)
         {
             _items[index].OnItemChanged += () => InvokeOnItemChanged(index);
-            _items[index].OnZeroItems += () => _items[index] = null;
+            _items[index].OnZeroItems += () =>
+            {
+                _items[index] = null;
+                InvokeOnItemChanged(index);
+            };
         }
     }
 }
