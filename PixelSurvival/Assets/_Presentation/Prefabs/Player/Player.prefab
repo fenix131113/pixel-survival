@@ -18,9 +18,11 @@ GameObject:
   - component: {fileID: -9156696748127036231}
   - component: {fileID: -2963712798787047777}
   - component: {fileID: 5733486683184924061}
+  - component: {fileID: -1487007735813195068}
   - component: {fileID: 7482978751402099095}
   - component: {fileID: 5380170667326270308}
   - component: {fileID: 5765003504016066890}
+  - component: {fileID: 3510546047238882582}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -232,7 +234,28 @@ MonoBehaviour:
   syncDirection: 1
   syncMode: 0
   syncInterval: 0
+  playerLocalInventoryManager: {fileID: -2963712798787047777}
   <HotBarSize>k__BackingField: 10
+--- !u!114 &-1487007735813195068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7138410634727892820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e785994110444a5eb52ef7b3d52adcae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.PlayerSystem.PlayerAttack
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  handDamage: 1
+  baseAttackDistance: 1.5
+  meleeTriggerLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!50 &7482978751402099095
 Rigidbody2D:
   serializedVersion: 5
@@ -311,3 +334,49 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
+--- !u!61 &3510546047238882582
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7138410634727892820}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.875, y: 0.9375}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.875, y: 0.9375}
+  m_EdgeRadius: 0

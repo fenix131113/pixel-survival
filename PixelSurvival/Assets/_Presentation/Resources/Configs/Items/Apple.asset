@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.ItemDefinitionSO
   <NameTranslationKey>k__BackingField: 
   <Icon>k__BackingField: {fileID: 21300000, guid: b7012da4ebf9008458abc3ef9a741f3c, type: 3}
-  <MaxCount>k__BackingField: 15
+  <MaxCount>k__BackingField: 7

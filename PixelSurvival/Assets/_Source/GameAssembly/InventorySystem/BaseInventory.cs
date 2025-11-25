@@ -94,10 +94,17 @@ namespace GameAssembly.InventorySystem
         public int GetInventorySize() => inventorySize;
 
         public IEnumerable<ItemInstance> GetItems() => _items;
-        public ItemInstance GetItemByIndex(int index) => _items[index];
+
+        public ItemInstance GetItemByIndex(int index)
+        {
+            if (index >= 0 && index < _items.Length)
+                return _items[index];
+
+            return null;
+        }
 
         [Server]
-        public virtual bool TryAddItemFromInstance(ItemInstance instance, bool ignoreMeta = false)
+        public virtual bool TryAddItemFromInstance(ItemInstance instance, bool fullInsert, bool ignoreMeta = false)
         {
             var exactItemsIndexes = new List<int>();
             var emptyItemsIndexes = new List<int>();
@@ -116,7 +123,7 @@ namespace GameAssembly.InventorySystem
             var freeCountSpace = exactItemsIndexes.Sum(x => instance.Definition.MaxCount - _items[x].Count) +
                                  emptyItemsIndexes.Count * instance.Definition.MaxCount;
 
-            if (freeCountSpace < instance.Count) // Not enough space for given count
+            if (freeCountSpace < instance.Count && fullInsert) // Not enough space for given count
                 return false;
 
             foreach (var index in exactItemsIndexes)

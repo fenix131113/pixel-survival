@@ -23,11 +23,16 @@ namespace GameAssembly.HealthSystem
         /// </summary>
         public event Action OnZeroHealth;
 
-        public HealthType GetHealthType() => healthType;
+        public override void OnStartServer()
+        {
+            _health = maxHealth;
+        }
 
-        public int GetMaxHealth() => maxHealth;
+        public virtual HealthType GetHealthType() => healthType;
 
-        public int GetHealth() => _health;
+        public virtual int GetMaxHealth() => maxHealth;
+
+        public virtual int GetHealth() => _health;
 
         protected void InvokeOnHealthChanged(int oldValue, int newValue) => OnHealthChanged?.Invoke(oldValue, newValue);
 
@@ -35,7 +40,7 @@ namespace GameAssembly.HealthSystem
         protected void Rpc_InvokeOnZeroHealth() => OnZeroHealth?.Invoke();
 
         [Server]
-        public virtual void ChangeHealth(int value)
+        public virtual void ChangeHealth(int value, DamageContext ctx)
         {
             var temp = _health;
             _health = Mathf.Clamp(_health + value, 0, maxHealth);
@@ -46,6 +51,12 @@ namespace GameAssembly.HealthSystem
             
             Rpc_InvokeOnZeroHealth();
             OnZeroHealth?.Invoke();
+            Server_OnHealthZero();
+        }
+
+        [Server]
+        protected virtual void Server_OnHealthZero()
+        {
         }
     }
 }

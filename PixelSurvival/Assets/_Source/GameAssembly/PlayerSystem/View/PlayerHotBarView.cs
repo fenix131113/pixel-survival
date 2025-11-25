@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Linq;
+using GameAssembly.InventorySystem.View;
 using Mirror;
 using UnityEngine;
 
-namespace GameAssembly.InventorySystem.View
+namespace GameAssembly.PlayerSystem.View
 {
     public class PlayerHotBarView : MonoBehaviour
     {
@@ -34,7 +35,7 @@ namespace GameAssembly.InventorySystem.View
             if (oldValue != -1)
                 playerInventoryView.HotBarCells.ElementAt(oldValue).SetSelectionInactive();
             
-            if(_playerSelector.IsSelectedSomething)
+            if(_playerSelector.IsSelectionActive)
                 playerInventoryView.HotBarCells.ElementAt(newValue).SetSelectionActive();
         }
 

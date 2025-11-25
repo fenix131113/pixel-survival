@@ -1,9 +1,19 @@
-﻿using Mirror;
+﻿using System;
+using Mirror;
 
 namespace GameAssembly.InventorySystem
 {
     public class PlayerLocalInventoryManager : NetworkBehaviour // For managing any inventory by player authority
     {
+        /// <summary>
+        /// Called on the server and current client. Firstly on the server
+        /// </summary>
+        public event Action<NetworkIdentity, int, NetworkIdentity, int> OnCombiningCellsReplace;
+        /// <summary>
+        /// Called on the server and current client. Firstly on the server
+        /// </summary>
+        public event Action<NetworkIdentity, int, NetworkIdentity, int> OnCombiningCellsChangeAmount;
+
         /// <summary>
         /// Combine FIRST in SECOND! First item can not be null
         /// </summary>
@@ -30,11 +40,41 @@ namespace GameAssembly.InventorySystem
 
                 if (item2 != null)
                     inv1.TryAddItemInIndexFromInstance(item2, firstIndex, true);
+
+                OnCombiningCellsReplace?.Invoke(firstInvIdentity, firstIndex, secondInvIdentity, secondIndex);
+                Target_InvokeOnCombiningCellsReplace(connectionToClient, firstInvIdentity, firstIndex,
+                    secondInvIdentity, secondIndex);
             }
             else if (item2.Count < item2.Definition.MaxCount) // Add count
             {
-                item2.TryAddFromAnotherItem(item1, ignoreMeta);
+                if (!item2.TryAddFromAnotherItem(item1, ignoreMeta))
+                    return;
+
+                OnCombiningCellsChangeAmount?.Invoke(firstInvIdentity, firstIndex, secondInvIdentity, secondIndex);
+                Target_InvokeOnCombiningCellsChangeAmount(connectionToClient, firstInvIdentity, firstIndex,
+                    secondInvIdentity, secondIndex);
             }
+        }
+
+        [TargetRpc]
+        private void Target_InvokeOnCombiningCellsReplace(NetworkConnectionToClient target,
+            NetworkIdentity firstInvIdentity,
+            int firstIndex, NetworkIdentity secondInvIdentity, int secondIndex)
+        {
+            if(isServer && isClient)
+                return;
+            
+            OnCombiningCellsReplace?.Invoke(firstInvIdentity, firstIndex, secondInvIdentity, secondIndex);
+        }
+
+        [TargetRpc]
+        private void Target_InvokeOnCombiningCellsChangeAmount(NetworkConnectionToClient target,
+            NetworkIdentity firstInvIdentity, int firstIndex, NetworkIdentity secondInvIdentity, int secondIndex)
+        {
+            if(isServer && isClient)
+                return;
+            
+            OnCombiningCellsChangeAmount?.Invoke(firstInvIdentity, firstIndex, secondInvIdentity, secondIndex);
         }
     }
 }

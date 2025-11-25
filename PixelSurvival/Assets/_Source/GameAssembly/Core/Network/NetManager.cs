@@ -52,7 +52,6 @@ namespace GameAssembly.Core.Network
         }
 
         #endregion
-
         public override void OnClientConnect()
         {
             base.OnClientConnect();

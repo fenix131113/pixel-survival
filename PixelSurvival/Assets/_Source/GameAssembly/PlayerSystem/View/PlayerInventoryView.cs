@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using GameAssembly.Generated;
+using GameAssembly.InventorySystem;
+using GameAssembly.InventorySystem.View;
 using GameAssembly.ItemsSystem.Data;
 using Mirror;
 using UnityEngine;
@@ -9,7 +10,7 @@ using UnityEngine.InputSystem;
 using Utils;
 using VContainer;
 
-namespace GameAssembly.InventorySystem.View
+namespace GameAssembly.PlayerSystem.View
 {
     public class PlayerInventoryView : NetworkBehaviour
     {
@@ -58,14 +59,6 @@ namespace GameAssembly.InventorySystem.View
 
             if (Keyboard.current.tKey.wasPressedThisFrame)
                 Cmd_AddItem(NetworkClient.localPlayer, ItemDatabase.TestItem, 5);
-
-            if (Keyboard.current.gKey.wasPressedThisFrame)
-                foreach (var inventory in FindObjectsByType<BaseInventory>(FindObjectsInactive.Include,
-                             FindObjectsSortMode.None))
-                {
-                    Debug.Log(
-                        $"[SERVER]: {inventory.GetComponent<NetworkIdentity>().netId} - {inventory.GetItems().Count(x => x != null)}");
-                }
         }
 
         private void SpawnCells()

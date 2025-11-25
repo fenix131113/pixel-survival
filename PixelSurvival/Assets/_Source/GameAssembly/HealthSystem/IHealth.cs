@@ -1,5 +1,6 @@
 ﻿using System;
 using GameAssembly.HealthSystem.Data;
+using UnityEngine;
 
 namespace GameAssembly.HealthSystem
 {
@@ -11,6 +12,6 @@ namespace GameAssembly.HealthSystem
         HealthType GetHealthType();
         int GetMaxHealth();
         int GetHealth();
-        void ChangeHealth(int value);
+        void ChangeHealth(int value, DamageContext ctx);
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace GameAssembly.ItemsSystem
+﻿using GameAssembly.Generated;
+using GameAssembly.ItemsSystem.Items;
+
+namespace GameAssembly.ItemsSystem
 {
     public static class BehaviourRegister
     {
@@ -9,7 +12,7 @@
             if(Initialized)
                 return;
             
-            //ItemRegistry.Instance.RegisterItemBehaviour(ItemDatabase.TestItem, new TestBehaviour());
+            ItemRegistry.Instance.RegisterItemBehaviour(ItemDatabase.Apple, new DebugBehaviour());
 
             Initialized = true;
         }

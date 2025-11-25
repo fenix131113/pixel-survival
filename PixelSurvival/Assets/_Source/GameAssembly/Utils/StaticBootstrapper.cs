@@ -5,7 +5,7 @@ namespace GameAssembly.Utils
 {
     public class StaticBootstrapper : MonoBehaviour
     {
-        private void Awake()
+        private void Start()
         {
             ItemRegistry.Initialize();
             BehaviourRegister.Initialize();
