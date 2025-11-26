@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace GameAssembly.HealthSystem.View
 {
@@ -29,5 +30,13 @@ namespace GameAssembly.HealthSystem.View
             healthObject.OnHealthChanged -= OnHealthChanged;
             healthObject.OnZeroHealth -= OnZeroHealth;
         }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (!healthObject && TryGetComponent<AHealthObject>(out var hp))
+                healthObject = hp;
+        }
+#endif
     }
 }

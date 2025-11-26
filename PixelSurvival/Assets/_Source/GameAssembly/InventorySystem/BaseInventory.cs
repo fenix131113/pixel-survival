@@ -273,11 +273,11 @@ namespace GameAssembly.InventorySystem
                     _items[index].TryRemoveCount(_items[index].Count);
                 }
 
-                if (count <= 0)
-                {
-                    SetDirty();
-                    return true;
-                }
+                if (count > 0)
+                    continue;
+                
+                SetDirty();
+                return true;
             }
 
             SetDirty();
@@ -340,8 +340,11 @@ namespace GameAssembly.InventorySystem
 
         public virtual bool HasItem(ItemDefinitionSO item, int count = 1)
         {
+            if(!item)
+                return false;
+            
             if (count <= 1)
-                return _items.Any(x => x.Definition == item);
+                return _items.Any(x => x?.Definition == item);
 
             return _items.Where(x => x != null && x.Definition == item).Sum(x => x.Count) >= count;
         }

@@ -55,7 +55,7 @@ namespace GameAssembly.PlayerSystem
             CheckForBehaviour();
 
             OnMeleeAttack?.Invoke(_aim.LookDegrees);
-            Cmd_MeleeAttack(_aim.LookDegrees);
+            Cmd_MeleeAttack();
         }
 
         // [ClientRpc(includeOwner = false)]
@@ -72,19 +72,20 @@ namespace GameAssembly.PlayerSystem
         {
             ObjectInjector.Inject(this);
 
+            _aim = GetComponent<PlayerAim>();
             InitializeClientAndServer();
         }
 
         [Command]
-        private void Cmd_MeleeAttack(float currentRotationAngle)
+        private void Cmd_MeleeAttack()
         {
             if (isServerOnly)
             {
                 CheckForBehaviour();
-                OnMeleeAttack?.Invoke(currentRotationAngle);
+                OnMeleeAttack?.Invoke(_aim.LookDegrees);
             }
             
-            Server_CheckForMeleeAttack(currentRotationAngle, baseAttackDistance, meleeTriggerLayers);
+            Server_CheckForMeleeAttack(_aim.LookDegrees, baseAttackDistance, meleeTriggerLayers);
         }
 
         [Server]

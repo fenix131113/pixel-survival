@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: TestCraft
   m_EditorClassIdentifier: GameAssembly::GameAssembly.CraftSystem.Data.CraftRecipeSO
   craftGroups:
-  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 3282d7c58ac46fe43bcde0c98fd1929b, type: 2}
-    <Count>k__BackingField: 5
-  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 567cd0177d45c4349a225d77ae959349, type: 2}
-    <Count>k__BackingField: 5
-  <ResultItem>k__BackingField: {fileID: 11400000, guid: 04bc08f64196afa49be89b35aff16edb, type: 2}
-  <ResultCount>k__BackingField: 7
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 58d7dd8ba35b2134382f96857b929d93, type: 2}
+    <Count>k__BackingField: 1
+  <ResultItem>k__BackingField: {fileID: 11400000, guid: b859d97518225804c90e415b16b98b89, type: 2}
+  <ResultCount>k__BackingField: 5
