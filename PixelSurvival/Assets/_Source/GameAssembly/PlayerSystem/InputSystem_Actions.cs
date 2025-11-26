@@ -165,6 +165,24 @@ namespace PlayerSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""0cad2ba5-66aa-4470-b35a-98e676f05e16"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CraftMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""fd282761-37cb-46cd-9b09-3a20666442b8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -616,6 +634,28 @@ namespace PlayerSystem
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Selection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6c3a1533-2f80-45e2-bab0-c9913cb0a69f"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""158b07ee-2dda-478e-92af-7eb59edc1f37"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""CraftMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1211,6 +1251,8 @@ namespace PlayerSystem
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
             m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
             m_Player_Selection = m_Player.FindAction("Selection", throwIfNotFound: true);
+            m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
+            m_Player_CraftMenu = m_Player.FindAction("CraftMenu", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1312,6 +1354,8 @@ namespace PlayerSystem
         private readonly InputAction m_Player_Jump;
         private readonly InputAction m_Player_Sprint;
         private readonly InputAction m_Player_Selection;
+        private readonly InputAction m_Player_Inventory;
+        private readonly InputAction m_Player_CraftMenu;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
         /// </summary>
@@ -1355,6 +1399,14 @@ namespace PlayerSystem
             /// Provides access to the underlying input action "Player/Selection".
             /// </summary>
             public InputAction @Selection => m_Wrapper.m_Player_Selection;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/Inventory".
+            /// </summary>
+            public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/CraftMenu".
+            /// </summary>
+            public InputAction @CraftMenu => m_Wrapper.m_Player_CraftMenu;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -1405,6 +1457,12 @@ namespace PlayerSystem
                 @Selection.started += instance.OnSelection;
                 @Selection.performed += instance.OnSelection;
                 @Selection.canceled += instance.OnSelection;
+                @Inventory.started += instance.OnInventory;
+                @Inventory.performed += instance.OnInventory;
+                @Inventory.canceled += instance.OnInventory;
+                @CraftMenu.started += instance.OnCraftMenu;
+                @CraftMenu.performed += instance.OnCraftMenu;
+                @CraftMenu.canceled += instance.OnCraftMenu;
             }
 
             /// <summary>
@@ -1440,6 +1498,12 @@ namespace PlayerSystem
                 @Selection.started -= instance.OnSelection;
                 @Selection.performed -= instance.OnSelection;
                 @Selection.canceled -= instance.OnSelection;
+                @Inventory.started -= instance.OnInventory;
+                @Inventory.performed -= instance.OnInventory;
+                @Inventory.canceled -= instance.OnInventory;
+                @CraftMenu.started -= instance.OnCraftMenu;
+                @CraftMenu.performed -= instance.OnCraftMenu;
+                @CraftMenu.canceled -= instance.OnCraftMenu;
             }
 
             /// <summary>
@@ -1796,6 +1860,20 @@ namespace PlayerSystem
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnSelection(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Inventory" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnInventory(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "CraftMenu" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnCraftMenu(InputAction.CallbackContext context);
         }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

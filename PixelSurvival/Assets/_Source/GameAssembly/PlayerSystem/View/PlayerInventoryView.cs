@@ -5,6 +5,7 @@ using GameAssembly.InventorySystem;
 using GameAssembly.InventorySystem.View;
 using GameAssembly.ItemsSystem.Data;
 using Mirror;
+using PlayerSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utils;
@@ -20,6 +21,7 @@ namespace GameAssembly.PlayerSystem.View
         [SerializeField] private Transform hotBarParent;
 
         [Inject] private MovingItem _movingItem;
+        [Inject] private InputSystem_Actions _input;
 
         private PlayerSelector _playerSelector;
         private IInventory _inventory;
@@ -35,10 +37,17 @@ namespace GameAssembly.PlayerSystem.View
                 StartCoroutine(WaitForPlayer());
             }
 
+            if (!isClient)
+                return;
+
+            ObjectInjector.Inject(this);
+            Bind();
+        }
+
+        private void OnDestroy()
+        {
             if (isClient)
-            {
-                ObjectInjector.Inject(this);
-            }
+                Expose();
         }
 
         private void Update()
@@ -46,19 +55,19 @@ namespace GameAssembly.PlayerSystem.View
             if (NetworkServer.active && !NetworkClient.active)
                 return;
 
-            if (Keyboard.current.cKey.wasPressedThisFrame)
-            {
-                inventoryPanel.SetActive(!inventoryPanel.activeSelf);
-
-                if (!inventoryPanel.activeSelf)
-                    _movingItem.ForceClose();
-            }
-
             if (Keyboard.current.yKey.wasPressedThisFrame)
                 Cmd_AddItem(NetworkClient.localPlayer, ItemDatabase.Apple, 5);
 
             if (Keyboard.current.tKey.wasPressedThisFrame)
                 Cmd_AddItem(NetworkClient.localPlayer, ItemDatabase.TestItem, 5);
+        }
+
+        private void OnInventoryClicked(InputAction.CallbackContext callbackContext)
+        {
+            inventoryPanel.SetActive(!inventoryPanel.activeSelf);
+
+            if (!inventoryPanel.activeSelf)
+                _movingItem.ForceClose();
         }
 
         private void SpawnCells()
@@ -89,6 +98,10 @@ namespace GameAssembly.PlayerSystem.View
             identity.GetComponent<BaseInventory>().TryAddNewItem(item, amount);
         }
 
+        private void Bind() => _input.Player.Inventory.performed += OnInventoryClicked;
+
+        private void Expose() => _input.Player.Inventory.performed -= OnInventoryClicked;
+
         private IEnumerator WaitForPlayer()
         {
             while (!NetworkClient.localPlayer)
@@ -96,7 +109,7 @@ namespace GameAssembly.PlayerSystem.View
 
             _inventory = NetworkClient.localPlayer.GetComponent<IInventory>();
             _playerSelector = NetworkClient.localPlayer.GetComponent<PlayerSelector>();
-            
+
             SpawnCells();
         }
     }

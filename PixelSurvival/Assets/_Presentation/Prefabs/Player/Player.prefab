@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: -2963712798787047777}
   - component: {fileID: 5733486683184924061}
   - component: {fileID: -1487007735813195068}
+  - component: {fileID: -7355307408136034134}
   - component: {fileID: 7482978751402099095}
   - component: {fileID: 5380170667326270308}
   - component: {fileID: 5765003504016066890}
@@ -256,6 +257,21 @@ MonoBehaviour:
   meleeTriggerLayers:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &-7355307408136034134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7138410634727892820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c682eead42f74dfea7e51e978c13f173, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.CraftSystem.CraftManager
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!50 &7482978751402099095
 Rigidbody2D:
   serializedVersion: 5

@@ -250,7 +250,7 @@ namespace GameAssembly.InventorySystem
             {
                 var item = _items[index];
 
-                if (item.Definition != definition)
+                if (item == null || item.Definition != definition)
                     continue;
 
                 exactItemsIndexes.Add(index);
@@ -343,7 +343,28 @@ namespace GameAssembly.InventorySystem
             if (count <= 1)
                 return _items.Any(x => x.Definition == item);
 
-            return _items.Sum(x => x.Count) >= count;
+            return _items.Where(x => x != null && x.Definition == item).Sum(x => x.Count) >= count;
+        }
+
+        public bool CanAddNewItem(ItemDefinitionSO definition, int count = 1)
+        {
+            var exactItemsIndexes = new List<int>();
+            var emptyItemsIndexes = new List<int>();
+
+            for (var index = 0; index < _items.Length; index++)
+            {
+                var item = _items[index];
+
+                if (item == null)
+                    emptyItemsIndexes.Add(index);
+                else if (item.Definition == definition)
+                    exactItemsIndexes.Add(index);
+            }
+
+            var freeCountSpace = exactItemsIndexes.Sum(x => definition.MaxCount - _items[x].Count) +
+                                 emptyItemsIndexes.Count * definition.MaxCount;
+
+            return freeCountSpace >= count;
         }
 
         protected virtual void InvokeOnItemChanged(int index)

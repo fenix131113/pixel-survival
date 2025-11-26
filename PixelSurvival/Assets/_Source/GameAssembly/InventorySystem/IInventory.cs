@@ -18,5 +18,6 @@ namespace GameAssembly.InventorySystem
         bool TryRemoveItemByIndex(int index, bool removeCount);
         bool TryAddItemInIndexFromInstance(ItemInstance item, int index, bool fullInsert);
         bool HasItem(ItemDefinitionSO item, int count = 1);
+        bool CanAddNewItem(ItemDefinitionSO definition, int count = 1);
     }
 }
