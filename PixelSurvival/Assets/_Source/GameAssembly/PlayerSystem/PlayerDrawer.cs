@@ -1,6 +1,4 @@
-﻿using GameAssembly.Utils.Drawer;
-using GameAssembly.Utils.Drawer.Data;
-using Mirror;
+﻿using Mirror;
 using UnityEngine;
 
 namespace GameAssembly.PlayerSystem
@@ -8,8 +6,7 @@ namespace GameAssembly.PlayerSystem
     public class PlayerDrawer : NetworkBehaviour
     {
         [SerializeField] private PlayerAim playerAim;
-        [SerializeField] private SingleSpriteDrawer bodyDrawer;
-        [SerializeField] private FourSideGroup rotationGroup;
+        [SerializeField] private Animator anim;
 
         private int _lastRotSpriteIndex = -1;
 
@@ -18,7 +15,7 @@ namespace GameAssembly.PlayerSystem
             if (!isLocalPlayer)
                 return;
 
-            var selectedSpriteIndex = playerAim.LookDegrees switch
+            var selectedSpriteKey = playerAim.LookDegrees switch
             {
                 > -45 and < 45 => 0,
                 > 45 and < 135 => 3,
@@ -27,26 +24,25 @@ namespace GameAssembly.PlayerSystem
                 _ => _lastRotSpriteIndex
             };
 
-            if (_lastRotSpriteIndex == selectedSpriteIndex)
+            if (_lastRotSpriteIndex == selectedSpriteKey)
                 return;
 
-            _lastRotSpriteIndex = selectedSpriteIndex;
-            bodyDrawer.Draw(rotationGroup.Rotations[selectedSpriteIndex]);
-            Cmd_SetPlayerSprite(_lastRotSpriteIndex);
+            _lastRotSpriteIndex = selectedSpriteKey;
+            //Cmd_SetPlayerSprite(_lastRotSpriteIndex);
         }
 
         [ClientRpc(includeOwner = false)]
         private void Rpc_SetPlayerSprite(int spriteIndex)
         {
             _lastRotSpriteIndex = spriteIndex;
-            bodyDrawer.Draw(rotationGroup.Rotations[spriteIndex]);
+            //bodyDrawer.Draw(rotationGroup.Rotations[spriteIndex]);
         }
 
         [Command]
         private void Cmd_SetPlayerSprite(int index)
         {
-            if (index is >= 0 and < 4)
-                Rpc_SetPlayerSprite(index);
+            //if (index is >= 0 and < 4)
+                //Rpc_SetPlayerSprite(index);
         }
     }
 }

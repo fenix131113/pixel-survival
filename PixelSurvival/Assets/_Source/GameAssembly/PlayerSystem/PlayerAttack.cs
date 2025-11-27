@@ -35,7 +35,19 @@ namespace GameAssembly.PlayerSystem
 
         private void OnDestroy()
         {
-            Expose(); // Server and client expose
+            if(isLocalPlayer)
+                Expose(); // Client expose
+        }
+
+        private void Start()
+        {
+            if(isClientOnly)
+                return;
+            
+            ObjectInjector.Inject(this);
+
+            _aim = GetComponent<PlayerAim>();
+            InitializeClientAndServer();
         }
 
         #region Client
@@ -44,10 +56,11 @@ namespace GameAssembly.PlayerSystem
         {
             ObjectInjector.Inject(this);
 
-            InitializeClientAndServer();
             _aim = GetComponent<PlayerAim>();
-
-            Bind();
+            InitializeClientAndServer();
+            
+            if(isLocalPlayer)
+                Bind();
         }
 
         public void MeleeAttack()
@@ -55,7 +68,7 @@ namespace GameAssembly.PlayerSystem
             CheckForBehaviour();
 
             OnMeleeAttack?.Invoke(_aim.LookDegrees);
-            Cmd_MeleeAttack();
+            Cmd_MeleeAttack(_aim.LookDegrees);
         }
 
         // [ClientRpc(includeOwner = false)]
@@ -70,22 +83,19 @@ namespace GameAssembly.PlayerSystem
 
         public override void OnStartServer()
         {
-            ObjectInjector.Inject(this);
-
-            _aim = GetComponent<PlayerAim>();
-            InitializeClientAndServer();
+            
         }
 
         [Command]
-        private void Cmd_MeleeAttack()
+        private void Cmd_MeleeAttack(float lookDegrees)
         {
             if (isServerOnly)
             {
                 CheckForBehaviour();
-                OnMeleeAttack?.Invoke(_aim.LookDegrees);
+                OnMeleeAttack?.Invoke(lookDegrees);
             }
             
-            Server_CheckForMeleeAttack(_aim.LookDegrees, baseAttackDistance, meleeTriggerLayers);
+            Server_CheckForMeleeAttack(lookDegrees, baseAttackDistance, meleeTriggerLayers);
         }
 
         [Server]

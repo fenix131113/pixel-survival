@@ -13,7 +13,7 @@ using VContainer;
 
 namespace GameAssembly.PlayerSystem.View
 {
-    public class PlayerInventoryView : NetworkBehaviour
+    public class PlayerInventoryView : NetworkBehaviour // TODO: Fix that client visual items still stay after change item in cell(only visual technically everything works)
     {
         [SerializeField] private ItemCell cellPrefab;
         [SerializeField] private GameObject inventoryPanel;

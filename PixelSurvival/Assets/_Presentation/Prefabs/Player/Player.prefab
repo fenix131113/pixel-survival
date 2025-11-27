@@ -20,10 +20,12 @@ GameObject:
   - component: {fileID: 5733486683184924061}
   - component: {fileID: -1487007735813195068}
   - component: {fileID: -7355307408136034134}
+  - component: {fileID: 3510546047238882582}
   - component: {fileID: 7482978751402099095}
   - component: {fileID: 5380170667326270308}
   - component: {fileID: 5765003504016066890}
-  - component: {fileID: 3510546047238882582}
+  - component: {fileID: 9217038876141930847}
+  - component: {fileID: 8009426558975941573}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -93,12 +95,12 @@ SpriteRenderer:
   m_SortingLayerID: -1049979271
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -8468551184017497215, guid: 81c1165fd3e40f847b48a97c2ee17aad, type: 3}
+  m_Sprite: {fileID: 4289470928935290471, guid: 7b429474292bb3040affd0b90415d798, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.875, y: 1.4375}
+  m_Size: {x: 1, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -119,6 +121,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  anim: {fileID: 8009426558975941573}
 --- !u!114 &-6342820332488632917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,6 +153,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   centerPoint: {fileID: 2886495063340788718}
+  anim: {fileID: 8009426558975941573}
 --- !u!114 &-6101252009794579923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,13 +186,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   playerAim: {fileID: 2148171681158481574}
-  bodyDrawer: {fileID: -6101252009794579923}
-  rotationGroup:
-    <Rotations>k__BackingField:
-    - {fileID: 4382831919887955810, guid: 81c1165fd3e40f847b48a97c2ee17aad, type: 3}
-    - {fileID: -8468551184017497215, guid: 81c1165fd3e40f847b48a97c2ee17aad, type: 3}
-    - {fileID: -149948240992525047, guid: 81c1165fd3e40f847b48a97c2ee17aad, type: 3}
-    - {fileID: -4105872012985070785, guid: 81c1165fd3e40f847b48a97c2ee17aad, type: 3}
+  anim: {fileID: 8009426558975941573}
 --- !u!114 &-9156696748127036231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,6 +270,52 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+--- !u!61 &3510546047238882582
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7138410634727892820}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -0.30522746}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 2}
+    newSize: {x: 1, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.875, y: 0.8270451}
+  m_EdgeRadius: 0
 --- !u!50 &7482978751402099095
 Rigidbody2D:
   serializedVersion: 5
@@ -350,49 +394,42 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!61 &3510546047238882582
-BoxCollider2D:
+--- !u!114 &9217038876141930847
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7138410634727892820}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.30522746}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.875, y: 1.4375}
-    newSize: {x: 0.875, y: 1.4375}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 0.875, y: 0.8270451}
-  m_EdgeRadius: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Mirror.Components::Mirror.NetworkAnimator
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  clientAuthority: 1
+  animator: {fileID: 8009426558975941573}
+--- !u!95 &8009426558975941573
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7138410634727892820}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f759cb967a177d04e88dabe77d06ef8a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
