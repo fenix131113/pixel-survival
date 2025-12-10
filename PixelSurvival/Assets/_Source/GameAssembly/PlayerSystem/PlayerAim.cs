@@ -54,12 +54,13 @@ namespace GameAssembly.PlayerSystem
 
             var selectedSpriteKey = LookDegrees switch
             {
-                > -45 and < 45 => 0,
-                > 45 and < 135 => 3,
-                > 135 and <= 180 or < -135 and > -180 => 2,
-                > -135 and < -45 => 1
+                > -45f and < 45f => 0,
+                > 45f and < 135f => 3,
+                > 135f and <= 180f or < -135f and > -180f => 2,
+                > -135f and < -45f => 1,
+                _ => 0
             };
-            
+
             switch (selectedSpriteKey)
             {
                 case 0:

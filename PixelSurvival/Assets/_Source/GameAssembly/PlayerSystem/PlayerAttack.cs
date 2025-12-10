@@ -18,14 +18,18 @@ namespace GameAssembly.PlayerSystem
     {
         [SerializeField] private int handDamage = 1;
         [SerializeField] private float baseAttackDistance = 1.5f;
+        [SerializeField] private float baseCooldown = 0.5f;
         [SerializeField] private LayerMask meleeTriggerLayers;
 
         [Inject] private InputSystem_Actions _input;
         [Inject] private IVariablesResolver<PlayerVariableBlockerType, Action, Action> _variables;
 
+        private float _cooldown;
         private IInventory _inventory;
         private PlayerSelector _selector;
         private PlayerAim _aim;
+        
+        private readonly RaycastHit2D[] _hits = new RaycastHit2D[4];
 
         /// <summary>
         /// Called on the server and current client. On current client first<br/>
@@ -50,6 +54,12 @@ namespace GameAssembly.PlayerSystem
             InitializeClientAndServer();
         }
 
+        private void Update()
+        {
+            if (_cooldown > 0)
+                _cooldown -= Time.deltaTime;
+        }
+
         #region Client
 
         public override void OnStartClient()
@@ -65,10 +75,16 @@ namespace GameAssembly.PlayerSystem
 
         public void MeleeAttack()
         {
+            if(_cooldown > 0)
+                return;
+            
             CheckForBehaviour();
 
             OnMeleeAttack?.Invoke(_aim.LookDegrees);
             Cmd_MeleeAttack(_aim.LookDegrees);
+            
+            if(isClientOnly)
+                _cooldown = baseCooldown;
         }
 
         // [ClientRpc(includeOwner = false)]
@@ -81,14 +97,12 @@ namespace GameAssembly.PlayerSystem
 
         #region Server
 
-        public override void OnStartServer()
-        {
-            
-        }
-
         [Command]
         private void Cmd_MeleeAttack(float lookDegrees)
         {
+            if(_cooldown > 0)
+                return;
+            
             if (isServerOnly)
             {
                 CheckForBehaviour();
@@ -96,6 +110,7 @@ namespace GameAssembly.PlayerSystem
             }
             
             Server_CheckForMeleeAttack(lookDegrees, baseAttackDistance, meleeTriggerLayers);
+            _cooldown = baseCooldown;
         }
 
         [Server]
@@ -107,12 +122,14 @@ namespace GameAssembly.PlayerSystem
                 Mathf.Sin(currentRotationAngle * Mathf.Deg2Rad)
             );
 
-            var results = new RaycastHit2D[4];
-            Physics2D.RaycastNonAlloc(transform.position, dir, results, distance, layerMask);
+            for (var index = 0; index < _hits.Length; index++)
+                _hits[index] = default;
 
-            foreach (var h in results)
+            Physics2D.RaycastNonAlloc(transform.position, dir, _hits, distance, layerMask);
+
+            foreach (var h in _hits)
             {
-                if (!h.collider || h.collider.gameObject == gameObject)
+                if (h == default || !h.collider || h.collider.gameObject == gameObject)
                     continue;
 
                 if (h.collider.TryGetComponent<IHealth>(out var health))

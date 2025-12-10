@@ -252,6 +252,7 @@ MonoBehaviour:
   syncInterval: 0
   handDamage: 1
   baseAttackDistance: 1.5
+  baseCooldown: 0.5
   meleeTriggerLayers:
     serializedVersion: 2
     m_Bits: 4294967295
