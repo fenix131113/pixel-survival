@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="GameAssembly" pattern="file:Assets/_Source//*" />
+</component>

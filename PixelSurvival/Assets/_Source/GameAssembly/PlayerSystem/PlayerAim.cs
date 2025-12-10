@@ -40,11 +40,7 @@ namespace GameAssembly.PlayerSystem
         private void Update()
         {
             if (!isLocalPlayer)
-            {
-                anim.SetFloat(_x, 0);
-                anim.SetFloat(_y, 0);
                 return;
-            }
 
             if (!_input.Player.enabled || _playerVariables.IsVariableBlocked(PlayerVariableBlockerType.LOOK))
                 return;

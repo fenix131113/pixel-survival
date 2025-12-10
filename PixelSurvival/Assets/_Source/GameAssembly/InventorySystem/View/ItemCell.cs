@@ -69,6 +69,14 @@ namespace GameAssembly.InventorySystem.View
             counter.text = _lastItem.Count.ToString();
         }
 
+        protected void Client_CheckInventory()
+        {
+            if(!NetworkClient.active || NetworkServer.active)
+                return;
+            
+            CheckForChanges(CellIndex);
+        }
+
         public void SetSelectionActive() => selection.SetActive(true);
 
         public void SetSelectionInactive() => selection.SetActive(false);
@@ -80,6 +88,7 @@ namespace GameAssembly.InventorySystem.View
 
             _isExposed = false;
             _inventory.OnItemChanged += CheckForChanges;
+            _inventory.OnInventoryChanged += Client_CheckInventory;
         }
 
         private void Expose()
@@ -89,6 +98,7 @@ namespace GameAssembly.InventorySystem.View
 
             _isExposed = true;
             _inventory.OnItemChanged -= CheckForChanges;
+            _inventory.OnInventoryChanged -= Client_CheckInventory;
         }
 
         public void OnBeginDrag(PointerEventData eventData)

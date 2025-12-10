@@ -47,7 +47,7 @@ namespace GameAssembly.InventorySystem
             base.OnSerialize(writer, initialState);
         }
 
-        public override void OnDeserialize(NetworkReader reader, bool initialState)
+        public override void OnDeserialize(NetworkReader reader, bool initialState) // TODO: make sync only for changed items to prevent over network usage
         {
             foreach (var itemInstance in _items)
                 itemInstance?.Dispose();

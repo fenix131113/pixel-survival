@@ -24,9 +24,6 @@ namespace GameAssembly.PlayerSystem
                 _ => _lastRotSpriteIndex
             };
 
-            if (_lastRotSpriteIndex == selectedSpriteKey)
-                return;
-
             _lastRotSpriteIndex = selectedSpriteKey;
             //Cmd_SetPlayerSprite(_lastRotSpriteIndex);
         }

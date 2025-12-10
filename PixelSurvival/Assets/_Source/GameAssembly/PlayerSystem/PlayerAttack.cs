@@ -14,7 +14,7 @@ using VContainer;
 
 namespace GameAssembly.PlayerSystem
 {
-    public class PlayerAttack : NetworkBehaviour // TODO: Make cooldown
+    public class PlayerAttack : NetworkBehaviour
     {
         [SerializeField] private int handDamage = 1;
         [SerializeField] private float baseAttackDistance = 1.5f;
