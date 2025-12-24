@@ -32,6 +32,9 @@ namespace GameAssembly.ObjectsSystem
         
         private void OnDeath()
         {
+            if(!isServer)
+                return;
+            
             var spawned = Instantiate(droppingObject, transform.position, Quaternion.identity);
             spawned.Initialize(new ItemInstance(itemDefinition, Random.Range(minCount, maxCount + 1)));
             NetworkServer.Spawn(spawned.gameObject);

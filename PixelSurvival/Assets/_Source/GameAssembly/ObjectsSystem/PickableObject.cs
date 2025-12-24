@@ -1,5 +1,6 @@
 ﻿using GameAssembly.InventorySystem;
 using GameAssembly.ItemsSystem;
+using GameAssembly.ItemsSystem.Data;
 using GameAssembly.Utils;
 using Mirror;
 using TMPro;
@@ -9,6 +10,8 @@ namespace GameAssembly.ObjectsSystem
 {
     public class PickableObject : NetworkBehaviour
     {
+        [SerializeField] public ItemDefinitionSO itemDefinition;
+        [SerializeField] public int itemCount;
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private TMP_Text counter;
         [SerializeField] private LayerMask triggerLayers;
@@ -26,7 +29,16 @@ namespace GameAssembly.ObjectsSystem
         public void Initialize(ItemInstance item)
         {
             Item = item;
+            SetDirty();
             Draw();
+        }
+
+        public override void OnStartServer()
+        {
+            if(!itemDefinition)
+                return;
+            
+            Initialize(new ItemInstance(itemDefinition, itemCount));
         }
 
         private void Draw()
