@@ -43,5 +43,11 @@ namespace GameAssembly.ObjectsSystem
         private void Bind() => healthObject.OnZeroHealth += OnDeath;
 
         private void Expose() => healthObject.OnZeroHealth -= OnDeath;
+
+        protected override void OnValidate()
+        {
+            if(!healthObject && TryGetComponent(out AHealthObject hp))
+                healthObject = hp;
+        }
     }
 }

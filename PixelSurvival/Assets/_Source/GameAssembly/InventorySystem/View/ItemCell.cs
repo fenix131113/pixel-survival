@@ -58,6 +58,7 @@ namespace GameAssembly.InventorySystem.View
         protected virtual void Draw()
         {
             counter.gameObject.SetActive(_lastItem != null);
+            icon.gameObject.SetActive(_lastItem != null);
 
             if (_lastItem == null)
             {

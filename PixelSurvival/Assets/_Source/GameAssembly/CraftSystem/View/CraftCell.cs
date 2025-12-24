@@ -3,12 +3,14 @@ using GameAssembly.CraftSystem.Data;
 using Mirror;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace GameAssembly.CraftSystem.View
 {
     public class CraftCell : MonoBehaviour, IPointerClickHandler
     {
         [SerializeField] private CraftRecipeSO recipe;
+        [SerializeField] private Image icon;
         [SerializeField] private float effectMultiplier = 0.8f;
         [SerializeField] private float effectDuration = 0.2f;
 
@@ -18,10 +20,17 @@ namespace GameAssembly.CraftSystem.View
 
         private void Start()
         {
-            if (NetworkClient.active)
-                _craftManager = NetworkClient.localPlayer.GetComponent<CraftManager>();
+            if (!NetworkClient.active)
+                return;
             
+            _craftManager = NetworkClient.localPlayer.GetComponent<CraftManager>();
             _startScale = transform.localScale.x;
+            Draw();
+        }
+
+        private void Draw()
+        {
+            icon.sprite = recipe.ResultItem.Icon;
         }
 
         public void OnPointerClick(PointerEventData eventData)

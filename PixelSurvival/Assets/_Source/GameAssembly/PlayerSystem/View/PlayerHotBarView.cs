@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Linq;
-using GameAssembly.InventorySystem.View;
 using Mirror;
 using UnityEngine;
 
