@@ -425,12 +425,12 @@ TextureImporter:
       name: Props1_11
       rect:
         serializedVersion: 2
-        x: 8
+        x: 0
         y: 0
-        width: 52
-        height: 58
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 64
+        height: 64
+      alignment: 9
+      pivot: {x: 0.34375, y: 0.125}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -447,12 +447,12 @@ TextureImporter:
       name: Props1_12
       rect:
         serializedVersion: 2
-        x: 67
+        x: 64
         y: 0
-        width: 44
-        height: 72
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 48
+        height: 80
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -535,12 +535,12 @@ TextureImporter:
       name: Props1_16
       rect:
         serializedVersion: 2
-        x: 214
+        x: 208
         y: 0
-        width: 36
-        height: 51
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 48
+        height: 64
+      alignment: 9
+      pivot: {x: 0.5208333, y: 0.125}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
