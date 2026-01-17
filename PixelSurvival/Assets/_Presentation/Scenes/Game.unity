@@ -27661,7 +27661,9 @@ Tilemap:
   m_TileColorArray:
   - m_RefCount: 2475
     m_Data: {r: 1, g: 1, b: 1, a: 1}
-  m_TileObjectToInstantiateArray: []
+  m_TileObjectToInstantiateArray:
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -27, y: -22, z: 0}
@@ -29889,6 +29891,7 @@ GameObject:
   m_Component:
   - component: {fileID: 766049870}
   - component: {fileID: 766049869}
+  - component: {fileID: 766049871}
   m_Layer: 0
   m_Name: GENERAL
   m_TagString: Untagged
@@ -29931,6 +29934,20 @@ Transform:
   - {fileID: 1141360489}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &766049871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766049868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 737d2b37a00f42b29765d9f3c7d27097, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.WorldSystem.View.WorldRenderer
+  defaultBlock: {fileID: 11400000, guid: 7e358825b07d0934180adf59b75b1b0a, type: 2}
+  chunkPrefab: {fileID: 8156280199853017371, guid: 1eab7a3bf26bc2f41b9bc944a2afc28b, type: 3}
 --- !u!1 &852989994
 GameObject:
   m_ObjectHideFlags: 0

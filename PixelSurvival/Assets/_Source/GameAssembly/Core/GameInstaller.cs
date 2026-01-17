@@ -1,6 +1,7 @@
 ﻿using GameAssembly.InventorySystem.View;
 using GameAssembly.PlayerSystem.Data;
 using GameAssembly.PlayerSystem.Variables;
+using GameAssembly.WorldSystem;
 using PlayerSystem;
 using UnityEngine;
 using Utils;
@@ -36,6 +37,12 @@ namespace GameAssembly.Core
             #region InventorySystem
 
             builder.RegisterComponentInHierarchy<MovingItem>();
+
+            #endregion
+
+            #region World
+
+            builder.Register<World>(Lifetime.Scoped);
 
             #endregion
         }
