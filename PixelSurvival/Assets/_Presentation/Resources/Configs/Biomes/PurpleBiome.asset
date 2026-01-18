@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b2ab1f32114aa6a283351b8833564c, type: 3}
+  m_Name: PurpleBiome
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.WorldSystem.Data.BiomeDefinition
+  <NameKey>k__BackingField: 
+  <DefaultFloor>k__BackingField: {fileID: 11400000, guid: 9d4bd761a8a70c542ab3cce5218c4a9d, type: 2}
+  <DefaultWall>k__BackingField: {fileID: 11400000, guid: a2c81f9a41b840f4dac2c072a251e83c, type: 2}
+  <Min>k__BackingField: 0
+  <Max>k__BackingField: 0.3
+  <WallDensity>k__BackingField: 0.75

@@ -11,7 +11,7 @@ namespace GameAssembly.WorldSystem
 
         public bool DirtyVisual { get; set; }
         public bool DirtyCollider { get; set; }
-        
+
         public event Action<Chunk> OnChunkChanged;
 
         public Chunk(ChunkCoord coord)
@@ -28,7 +28,7 @@ namespace GameAssembly.WorldSystem
             for (var y = 0; y < CHUNK_SIZE; y++)
                 Cells[x, y] = CellData.Empty;
         }
-        
+
         public CellData GetCell(int x, int y)
         {
             return Cells[x, y];
@@ -37,6 +37,18 @@ namespace GameAssembly.WorldSystem
         public void SetCell(int x, int y, CellData cell)
         {
             Cells[x, y] = cell;
+            DirtyVisual = true;
+            DirtyCollider = true;
+            OnChunkChanged?.Invoke(this);
+        }
+
+        public void SetBlock(int x, int y, bool isFloor, BlockData block)
+        {
+            if (isFloor)
+                Cells[x, y].Floor = block;
+            else
+                Cells[x, y].Block = block;
+
             DirtyVisual = true;
             DirtyCollider = true;
             OnChunkChanged?.Invoke(this);

@@ -9,11 +9,18 @@ namespace GameAssembly.WorldSystem.View
         [field: SerializeField] public Tilemap Tilemap { get; private set; }
         [SerializeField] private TilemapCollider2D tilemapCollider;
         public Chunk Chunk { get; private set; }
-        
+
 
         public void Construct(Chunk chunk)
         {
             Chunk = chunk;
+            Chunk.OnChunkChanged += OnChunkChanged;
+        }
+
+        private void OnChunkChanged(Chunk chunk)
+        {
+            RebuildVisual();
+            RebuildCollider();
         }
 
         public void RebuildVisual()
@@ -29,8 +36,8 @@ namespace GameAssembly.WorldSystem.View
                     if (cell.Floor.type != BlockType.AIR)
                     {
                         var def = cell.Floor.definition;
-                        if (def.tile)
-                            Tilemap.SetTile(new Vector3Int(x, y, 0), def.tile);
+                        if (def.Tile)
+                            Tilemap.SetTile(new Vector3Int(x, y, 0), def.Tile);
                     }
                     else
                         Tilemap.SetTile(new Vector3Int(x, y, 0), null);
@@ -38,20 +45,22 @@ namespace GameAssembly.WorldSystem.View
                     if (cell.Block.type != BlockType.AIR)
                     {
                         var def = cell.Block.definition;
-                        if (def.tile)
-                            Tilemap.SetTile(new Vector3Int(x, y, 1), def.tile);
+                        if (def.Tile)
+                            Tilemap.SetTile(new Vector3Int(x, y, 1), def.Tile);
                     }
                     else
                         Tilemap.SetTile(new Vector3Int(x, y, 1), null);
                 }
             }
+
+            Chunk.DirtyVisual = false;
         }
 
-        public void RebuildCollider() // TODO: Make collider building
+        public void RebuildCollider()
         {
             if (!Chunk.DirtyCollider)
                 return;
-            
+
             tilemapCollider.enabled = false;
             tilemapCollider.enabled = true;
             Chunk.DirtyCollider = false;

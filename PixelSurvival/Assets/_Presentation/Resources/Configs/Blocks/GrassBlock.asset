@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f7a9ef6b4c242eaa1dad5e3d146bfe6, type: 3}
-  m_Name: Grass
+  m_Name: GrassBlock
   m_EditorClassIdentifier: GameAssembly::GameAssembly.WorldSystem.Data.BlockDefinition
   <BlockNameKey>k__BackingField: 
-  <Type>k__BackingField: 3
+  <Type>k__BackingField: 2
   <Flags>k__BackingField: 0
-  <Tile>k__BackingField: {fileID: 11400000, guid: 482d779b8b99f9946b6daa67380f1af1, type: 2}
+  <Tile>k__BackingField: {fileID: 11400000, guid: 410c73439ef2ef348873c5c9a5906e42, type: 2}
   <DropItem>k__BackingField: {fileID: 0}
   <DropItemCount>k__BackingField: 1
   <Health>k__BackingField: 1

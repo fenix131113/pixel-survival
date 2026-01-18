@@ -12,13 +12,24 @@ namespace GameAssembly.WorldSystem
 
         public BlockData(BlockDefinition definition, byte meta = 0)
         {
-            type = definition.type;
-            flags = definition.flags;
+            type = definition.Type;
+            flags = definition.Flags;
             this.definition = definition;
             this.meta = meta;
         }
 
         public static BlockData Air => new() { type = BlockType.AIR, flags = BlockFlags.NONE};
+        
+        public static BlockData CreateBlock(BlockDefinition def)
+        {
+            return new BlockData
+            {
+                definition = def,
+                type = def.Type,
+                flags = def.Flags,
+                meta = 0
+            };
+        }
         
         public bool IsSolid => (flags & BlockFlags.SOLID) != 0;
     }
