@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::GameAssembly.WorldSystem.Data.BlockDefinition
   <BlockNameKey>k__BackingField: 
   <Type>k__BackingField: 2
-  <Flags>k__BackingField: 0
+  <Flags>k__BackingField: 255
   <Tile>k__BackingField: {fileID: 11400000, guid: da82c6961590fed4d96c3642922c0e85, type: 2}
   <DropItem>k__BackingField: {fileID: 0}
   <DropItemCount>k__BackingField: 1

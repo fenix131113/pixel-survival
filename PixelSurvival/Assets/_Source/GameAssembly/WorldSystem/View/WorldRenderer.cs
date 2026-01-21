@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GameAssembly.WorldSystem.Data;
 using UnityEngine;
 using VContainer;
@@ -11,12 +12,23 @@ namespace GameAssembly.WorldSystem.View
         [SerializeField] private ChunkRenderer chunkPrefab;
         private readonly Dictionary<ChunkCoord, ChunkRenderer> _chunksRenderers = new();
 
-        [Inject] public World World;
+        [Inject] private World _world;
 
         private void Awake()
         {
-            foreach (var pair in World.Chunks)
-                SpawnChunk(pair.Value);
+            _world.Progress.ProgressChanged += OnGenerateProgressChanged;
+        }
+
+        private void OnDestroy()
+        {
+            _world.Progress.ProgressChanged -= OnGenerateProgressChanged;
+        }
+
+        private void OnGenerateProgressChanged(object sender, float e)
+        {
+            foreach (var pair in _world.Chunks)
+                if (!_chunksRenderers.ContainsKey(pair.Key))
+                    SpawnChunk(pair.Value);
         }
 
         public void SpawnChunk(Chunk chunk)
@@ -33,13 +45,13 @@ namespace GameAssembly.WorldSystem.View
 
         private void RebuildChunkVisual(Chunk chunk)
         {
-            if(_chunksRenderers.TryGetValue(chunk.Coord, out var rend))
+            if (_chunksRenderers.TryGetValue(chunk.Coord, out var rend))
                 rend.RebuildVisual();
         }
 
         private void RebuildChunkCollider(Chunk chunk)
         {
-            if(_chunksRenderers.TryGetValue(chunk.Coord, out var rend))
+            if (_chunksRenderers.TryGetValue(chunk.Coord, out var rend))
                 rend.RebuildCollider();
         }
     }

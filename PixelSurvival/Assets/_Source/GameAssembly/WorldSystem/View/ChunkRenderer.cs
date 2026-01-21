@@ -36,8 +36,7 @@ namespace GameAssembly.WorldSystem.View
                     if (cell.Floor.type != BlockType.AIR)
                     {
                         var def = cell.Floor.definition;
-                        if (def.Tile)
-                            Tilemap.SetTile(new Vector3Int(x, y, 0), def.Tile);
+                        Tilemap.SetTile(new Vector3Int(x, y, 0), def.Tile ? def.Tile : null);
                     }
                     else
                         Tilemap.SetTile(new Vector3Int(x, y, 0), null);
@@ -45,8 +44,7 @@ namespace GameAssembly.WorldSystem.View
                     if (cell.Block.type != BlockType.AIR)
                     {
                         var def = cell.Block.definition;
-                        if (def.Tile)
-                            Tilemap.SetTile(new Vector3Int(x, y, 1), def.Tile);
+                        Tilemap.SetTile(new Vector3Int(x, y, 1), def.Tile ? def.Tile : null);
                     }
                     else
                         Tilemap.SetTile(new Vector3Int(x, y, 1), null);

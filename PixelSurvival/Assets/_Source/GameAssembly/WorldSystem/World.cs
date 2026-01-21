@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using GameAssembly.Utils;
 using GameAssembly.WorldSystem.Data;
 using UnityEngine;
 
@@ -8,20 +11,23 @@ namespace GameAssembly.WorldSystem
     public class World
     {
         public readonly int Seed = 2147483647;
-        public const int WORLD_SIZE = 8;
-        public const float BLOCKS_NOISE_STRENGTH = 0.08f;
-        public const float BIOMES_NOISE_STRENGTH = 0.02f;
+        public const int WORLD_SIZE = 10;
+
+        private const float BLOCKS_NOISE_STRENGTH = 0.08f;
+        private const float BIOMES_NOISE_STRENGTH = 0.02f;
 
         private readonly Dictionary<ChunkCoord, Chunk> _chunks = new();
-        private readonly BiomeDefinition[] _biomes;
+
+        private readonly BiomeDefinition[]
+            _biomes = Resources.LoadAll<BiomeDefinition>(AssetsPaths.BIOMES_CONFIGS_PATH);
 
         public IReadOnlyDictionary<ChunkCoord, Chunk> Chunks => _chunks;
 
+        public Progress<float> Progress { get; private set; } = new();
+
         public World()
         {
-            _biomes = Resources.LoadAll<BiomeDefinition>($"Configs/Biomes");
-
-            GenerateWorld(); // TODO: Move to another call point to call this only on host
+            //_ = GenerateWorldAsync(Progress); // TODO: Move to another call point to call this only on host   
         }
 
         public void GenerateWorld()
@@ -32,6 +38,26 @@ namespace GameAssembly.WorldSystem
                 {
                     var coords = new ChunkCoord(i, j);
                     GetOrCreateChunk(coords);
+                }
+            }
+        }
+
+        public async Task GenerateWorldAsync()
+        {
+            const int total = WORLD_SIZE * WORLD_SIZE;
+            var done = 0;
+
+            for (var i = 0; i < WORLD_SIZE; i++)
+            {
+                for (var j = 0; j < WORLD_SIZE; j++)
+                {
+                    var coords = new ChunkCoord(i, j);
+                    GetOrCreateChunk(coords);
+
+                    done++;
+                    ((IProgress<float>)Progress)?.Report(done / (float)total);
+
+                    await Task.Yield();
                 }
             }
         }
