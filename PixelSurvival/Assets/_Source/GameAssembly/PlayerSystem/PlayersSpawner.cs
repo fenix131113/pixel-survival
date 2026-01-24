@@ -10,18 +10,24 @@ namespace GameAssembly.PlayerSystem
 {
     public class PlayersSpawner : NetworkBehaviour
     {
-        private readonly NetManager _net = NetworkManager.singleton as NetManager;
+        private NetManager _net;
 
         [Inject] private World _world;
 
         private void Awake()
         {
-            if (!isClientOnly || isServer)
-                Bind();
+            if (isClientOnly)
+                return;
+            
+            _net = NetworkManager.singleton as NetManager;
+            Bind();
         }
 
         private void OnDestroy()
         {
+            if (isClientOnly)
+                return;
+            
             StopAllCoroutines();
             Expose();
         }

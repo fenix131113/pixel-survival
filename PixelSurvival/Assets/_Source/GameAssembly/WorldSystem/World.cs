@@ -259,10 +259,10 @@ namespace GameAssembly.WorldSystem
                     var nx = worldX * BLOCKS_NOISE_STRENGTH + Seed * 0.00001f;
                     var ny = worldY * BLOCKS_NOISE_STRENGTH + Seed * 0.00001f;
 
-                    var noise = Mathf.PerlinNoise(nx, ny);
+                    var noise = Mathf.Clamp01(Mathf.PerlinNoise(nx, ny));
 
                     chunk.Cells[x, y].Block =
-                        noise < biome.WallDensity
+                        noise <= biome.WallDensity
                             ? BlockData.CreateBlock(biome.DefaultWall)
                             : BlockData.Air;
                 }
