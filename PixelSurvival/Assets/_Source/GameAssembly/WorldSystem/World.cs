@@ -11,10 +11,13 @@ namespace GameAssembly.WorldSystem
     public class World
     {
         public readonly int Seed = 2147483647;
+
+        public const float WORLD_CENTER_XY = WORLD_SIZE * Chunk.CHUNK_SIZE * 0.5f;
         public const int WORLD_SIZE = 10;
 
         private const float BLOCKS_NOISE_STRENGTH = 0.08f;
         private const float BIOMES_NOISE_STRENGTH = 0.02f;
+        private const float MAX_BIOME_RADIUS = WORLD_SIZE * Chunk.CHUNK_SIZE * 1f;
 
         private readonly Dictionary<ChunkCoord, Chunk> _chunks = new();
 
@@ -114,13 +117,18 @@ namespace GameAssembly.WorldSystem
         public BiomeDefinition GetBiomeByBlockPosition(int worldX, int worldY) =>
             PickBiome(GetBiomeWeights(worldX, worldY), worldX, worldY);
 
-        private BiomeDefinition PickBiome(Dictionary<BiomeDefinition, float> weights, int worldX, int worldY)
+        private BiomeDefinition PickBiome(
+            Dictionary<BiomeDefinition, float> weights, int worldX, int worldY)
         {
+            if (weights.Count == 0)
+                return _biomes[0];
+
+            var sum = weights.Values.Sum();
+
             var nx = worldX * BIOMES_NOISE_STRENGTH + Seed * 0.00001f;
             var ny = worldY * BIOMES_NOISE_STRENGTH + Seed * 0.00001f;
 
-            var r = Mathf.PerlinNoise(nx, ny);
-            r = Mathf.Clamp01(r);
+            var r = Mathf.PerlinNoise(nx + 1000f, ny + 1000f) * sum;
 
             foreach (var kv in weights)
             {
@@ -141,19 +149,46 @@ namespace GameAssembly.WorldSystem
             var noise = Mathf.PerlinNoise(nx, ny);
             noise = Mathf.Clamp01(noise);
 
+            var dist = Vector2.Distance(
+                new Vector2(worldX, worldY),
+                new Vector2(WORLD_CENTER_XY, WORLD_CENTER_XY)
+            );
+            var dist01 = Mathf.InverseLerp(0f, MAX_BIOME_RADIUS, dist);
+
             Dictionary<BiomeDefinition, float> result = new();
+            var totalWeight = 0f;
 
             foreach (var biome in _biomes)
             {
+                if (dist01 < biome.MinDistance || dist01 > biome.MaxDistance)
+                    continue;
+
                 if (noise < biome.Min || noise > biome.Max)
                     continue;
 
-                var center = (biome.Min + biome.Max) * 0.5f;
-                var half = (biome.Max - biome.Min) * 0.5f;
+                var noiseCenter = (biome.Min + biome.Max) * 0.5f;
+                var noiseHalf = (biome.Max - biome.Min) * 0.5f;
+                var noiseWeight = 1f - Mathf.Abs(noise - noiseCenter) / noiseHalf;
 
-                var weight = 1f - Mathf.Abs(noise - center) / half;
+                var distCenter = (biome.MinDistance + biome.MaxDistance) * 0.5f;
+                var distHalf = (biome.MaxDistance - biome.MinDistance) * 0.5f;
+                var distWeight = 1f - Mathf.Abs(dist01 - distCenter) / distHalf;
+
+                var weight = Mathf.Clamp01(noiseWeight * distWeight);
+
+                if (weight <= 0f)
+                    continue;
+
                 result[biome] = weight;
+                totalWeight += weight;
             }
+
+            if (totalWeight <= 0f)
+                return result;
+            
+            var keys = result.Keys.ToArray();
+            foreach (var key in keys)
+                result[key] /= totalWeight;
 
             return result;
         }

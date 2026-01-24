@@ -13,5 +13,8 @@ namespace GameAssembly.WorldSystem.Data
         [field: SerializeField]
         [field: Range(0f, 1f)] public float WallDensity { get; private set; }
         
+        public float MinDistance; // 0..1
+        public float MaxDistance; // 0..1
+        
     }
 }

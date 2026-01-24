@@ -30157,7 +30157,7 @@ MonoBehaviour:
   autoRun: 1
   autoInjectGameObjects:
   - {fileID: 766049868}
-  - {fileID: 23616741}
+  - {fileID: 906161360}
   playerData: {fileID: 11400000, guid: c9b65b208783b4046bd9257fdbb6c8b7, type: 2}
 --- !u!4 &766049870
 Transform:
