@@ -5,24 +5,32 @@ using System.Threading.Tasks;
 using GameAssembly.Utils;
 using GameAssembly.WorldSystem.Data;
 using UnityEngine;
+using Random = System.Random;
 
 namespace GameAssembly.WorldSystem
 {
     public class World
     {
-        public readonly int Seed = 2147483647;
+        public readonly int Seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);//2147483647;
 
+        public const int WORLD_SIZE = 20;
         public const float WORLD_CENTER_XY = WORLD_SIZE * Chunk.CHUNK_SIZE * 0.5f;
-        public const int WORLD_SIZE = 10;
 
         private const float BLOCKS_NOISE_STRENGTH = 0.08f;
         private const float BIOMES_NOISE_STRENGTH = 0.02f;
-        private const float MAX_BIOME_RADIUS = WORLD_SIZE * Chunk.CHUNK_SIZE * 1f;
+
+        private const float MAX_BIOME_RADIUS = WORLD_SIZE * Chunk.CHUNK_SIZE * 0.5f;
+
 
         private readonly Dictionary<ChunkCoord, Chunk> _chunks = new();
 
-        private readonly BiomeDefinition[]
-            _biomes = Resources.LoadAll<BiomeDefinition>(AssetsPaths.BIOMES_CONFIGS_PATH);
+        private readonly BiomeDefinition[] _biomes =
+            Resources.LoadAll<BiomeDefinition>(AssetsPaths.BIOMES_CONFIGS_PATH);
+
+        private readonly DifficultyIslandConfig _difficultyConfig =
+            Resources.Load<DifficultyIslandConfig>($"Configs/DifficultyIsland");
+
+        private readonly List<DifficultyIsland> _difficultyIslands = new();
 
         public IReadOnlyDictionary<ChunkCoord, Chunk> Chunks => _chunks;
 
@@ -30,20 +38,169 @@ namespace GameAssembly.WorldSystem
 
         public World()
         {
-            //_ = GenerateWorldAsync(Progress); // TODO: Move to another call point to call this only on host   
+            GenerateDifficultyIslands();
         }
 
-        public void GenerateWorld()
+        #region Difficulty islands
+
+        private struct DifficultyIsland
         {
-            for (var i = 0; i < WORLD_SIZE; i++)
+            public Vector2 Center;
+            public float YellowRadius;
+            public float OrangeRadius;
+            public float RedRadius;
+        }
+
+        private void GenerateDifficultyIslands()
+        {
+            _difficultyIslands.Clear();
+
+            var center = new Vector2(WORLD_CENTER_XY, WORLD_CENTER_XY);
+            var rng = new Random(Seed);
+
+            var totalCount =
+                rng.Next(_difficultyConfig.MinIslands, _difficultyConfig.MaxIslands + 1);
+
+            var redCount = Mathf.CeilToInt(totalCount * _difficultyConfig.RedChance);
+            var yellowCount = totalCount - redCount;
+
+            var guard = 0;
+
+            for (var i = 0; i < redCount; i++)
             {
-                for (var j = 0; j < WORLD_SIZE; j++)
+                if (guard++ > 5000) break;
+
+                var island = CreateIsland(
+                    i,
+                    minDist01: _difficultyConfig.ThreeBiomeMin01,
+                    maxDist01: _difficultyConfig.OuterLimit01,
+                    allowRed: true
+                );
+
+                if (_difficultyIslands.Any(x => IsIntersects(x, island)))
                 {
-                    var coords = new ChunkCoord(i, j);
-                    GetOrCreateChunk(coords);
+                    i--;
+                    continue;
                 }
+
+                _difficultyIslands.Add(island);
+            }
+
+            guard = 0;
+            
+            for (var i = 0; i < yellowCount; i++)
+            {
+                if (guard++ > 5000) break;
+
+                var island = CreateIsland(
+                    i + 1000,
+                    minDist01: _difficultyConfig.InnerDeadZone01,
+                    maxDist01: _difficultyConfig.TwoBiomeMax01,
+                    allowRed: false
+                );
+
+                if (_difficultyIslands.Any(x => IsIntersects(x, island)))
+                {
+                    i--;
+                    continue;
+                }
+
+                _difficultyIslands.Add(island);
+            }
+
+            return;
+
+            DifficultyIsland CreateIsland(
+                int index,
+                float minDist01,
+                float maxDist01,
+                bool allowRed)// TODO: Change that circles can spawn less then minimum value
+            {
+                var si = index * 0.2f + Seed * 0.00001f;
+
+                var angle = Mathf.PerlinNoise(si, 0.2f) * Mathf.PI * 2f;
+
+                var dist01 = Mathf.Lerp(
+                    minDist01,
+                    maxDist01,
+                    Mathf.PerlinNoise(si, 3.3f)
+                );
+
+                var dist = dist01 * MAX_BIOME_RADIUS * _difficultyConfig.IslandSpacingMultiplier;
+
+                var pos = center + new Vector2(
+                    Mathf.Cos(angle),
+                    Mathf.Sin(angle)
+                ) * dist;
+
+                var yellow = Mathf.Lerp(
+                    _difficultyConfig.YellowMin,
+                    _difficultyConfig.YellowMax,
+                    Mathf.PerlinNoise(si, 10.1f)
+                );
+
+                var orange = Mathf.Lerp(
+                    _difficultyConfig.OrangeMin,
+                    _difficultyConfig.OrangeMax,
+                    Mathf.PerlinNoise(si, 20.2f)
+                );
+
+                var red = allowRed
+                    ? Mathf.Lerp(
+                        _difficultyConfig.RedMin,
+                        _difficultyConfig.RedMax,
+                        Mathf.PerlinNoise(si, 30.3f)
+                    )
+                    : 0f;
+
+                return new DifficultyIsland
+                {
+                    Center = pos,
+                    YellowRadius = yellow,
+                    OrangeRadius = orange,
+                    RedRadius = red
+                };
             }
         }
+
+
+        private BiomeDefinition GetDifficultyBiome(int worldX, int worldY)
+        {
+            var pos = new Vector2(worldX, worldY);
+
+            foreach (var island in _difficultyIslands)
+            {
+                var dist = Vector2.Distance(pos, island.Center);
+
+                if (island.RedRadius > 0f && dist <= island.RedRadius)
+                    return GetBiome("Red");
+
+                if (dist <= island.OrangeRadius)
+                    return GetBiome("Orange");
+
+                if (dist <= island.YellowRadius)
+                    return GetBiome("Yellow");
+            }
+
+            return null;
+        }
+
+        private BiomeDefinition GetBiome(string name)
+        {
+            return _biomes.First(b => b.name == name);
+        }
+
+        private bool IsIntersects(DifficultyIsland a, DifficultyIsland b)
+        {
+            var ra = Mathf.Max(a.YellowRadius, a.OrangeRadius, a.RedRadius);
+            var rb = Mathf.Max(b.YellowRadius, b.OrangeRadius, b.RedRadius);
+
+            return Vector2.Distance(a.Center, b.Center) < (ra + rb);
+        }
+
+        #endregion
+
+        #region World generation
 
         public async Task GenerateWorldAsync()
         {
@@ -54,20 +211,13 @@ namespace GameAssembly.WorldSystem
             {
                 for (var j = 0; j < WORLD_SIZE; j++)
                 {
-                    var coords = new ChunkCoord(i, j);
-                    GetOrCreateChunk(coords);
-
+                    GetOrCreateChunk(new ChunkCoord(i, j));
                     done++;
-                    ((IProgress<float>)Progress)?.Report(done / (float)total);
 
+                    ((IProgress<float>)Progress)?.Report(done / (float)total);
                     await Task.Yield();
                 }
             }
-        }
-
-        public IEnumerable<Chunk> GetDirtyChunks()
-        {
-            return _chunks.Values.Where(c => c.DirtyVisual || c.DirtyCollider);
         }
 
         public Chunk GetOrCreateChunk(ChunkCoord coord)
@@ -77,7 +227,6 @@ namespace GameAssembly.WorldSystem
 
             chunk = GenerateChunk(coord);
             _chunks.Add(coord, chunk);
-
             return chunk;
         }
 
@@ -92,33 +241,41 @@ namespace GameAssembly.WorldSystem
                     var worldX = coord.X * Chunk.CHUNK_SIZE + x;
                     var worldY = coord.Y * Chunk.CHUNK_SIZE + y;
 
-                    var biome = GetBiomeByBlockPosition(worldX, worldY);
+                    var biome =
+                        GetDifficultyBiome(worldX, worldY)
+                        ?? GetBiomeByBlockPosition(worldX, worldY);
 
-                    chunk.Cells[x, y].Floor = BlockData.CreateBlock(biome.DefaultFloor);
+                    chunk.Cells[x, y].Floor =
+                        BlockData.CreateBlock(biome.DefaultFloor);
 
                     var nx = worldX * BLOCKS_NOISE_STRENGTH + Seed * 0.00001f;
                     var ny = worldY * BLOCKS_NOISE_STRENGTH + Seed * 0.00001f;
 
                     var noise = Mathf.PerlinNoise(nx, ny);
-                    noise = Mathf.Clamp01(noise);
 
-                    chunk.Cells[x, y].Block = noise < biome.WallDensity
-                        ? BlockData.CreateBlock(biome.DefaultWall)
-                        : BlockData.Air;
+                    chunk.Cells[x, y].Block =
+                        noise < biome.WallDensity
+                            ? BlockData.CreateBlock(biome.DefaultWall)
+                            : BlockData.Air;
                 }
             }
 
             chunk.DirtyVisual = true;
             chunk.DirtyCollider = true;
-
             return chunk;
         }
 
+        #endregion
+
+        #region Base biome logic
+
         public BiomeDefinition GetBiomeByBlockPosition(int worldX, int worldY) =>
-            PickBiome(GetBiomeWeights(worldX, worldY), worldX, worldY);
+            PickBiome(GetBiomeWeights(worldX, worldY), worldX, worldY);// TODO: Also return difficulty biomes
 
         private BiomeDefinition PickBiome(
-            Dictionary<BiomeDefinition, float> weights, int worldX, int worldY)
+            Dictionary<BiomeDefinition, float> weights,
+            int worldX,
+            int worldY)
         {
             if (weights.Count == 0)
                 return _biomes[0];
@@ -147,92 +304,37 @@ namespace GameAssembly.WorldSystem
             var ny = worldY * BIOMES_NOISE_STRENGTH + Seed * 0.00001f;
 
             var noise = Mathf.PerlinNoise(nx, ny);
-            noise = Mathf.Clamp01(noise);
-
-            var dist = Vector2.Distance(
-                new Vector2(worldX, worldY),
-                new Vector2(WORLD_CENTER_XY, WORLD_CENTER_XY)
-            );
-            var dist01 = Mathf.InverseLerp(0f, MAX_BIOME_RADIUS, dist);
 
             Dictionary<BiomeDefinition, float> result = new();
-            var totalWeight = 0f;
+            var total = 0f;
 
             foreach (var biome in _biomes)
             {
-                if (dist01 < biome.MinDistance || dist01 > biome.MaxDistance)
+                if (!biome.NaturalSpawn)
                     continue;
 
                 if (noise < biome.Min || noise > biome.Max)
                     continue;
 
-                var noiseCenter = (biome.Min + biome.Max) * 0.5f;
-                var noiseHalf = (biome.Max - biome.Min) * 0.5f;
-                var noiseWeight = 1f - Mathf.Abs(noise - noiseCenter) / noiseHalf;
+                var w = 1f - Mathf.Abs(noise - (biome.Min + biome.Max) * 0.5f)
+                    / ((biome.Max - biome.Min) * 0.5f);
 
-                var distCenter = (biome.MinDistance + biome.MaxDistance) * 0.5f;
-                var distHalf = (biome.MaxDistance - biome.MinDistance) * 0.5f;
-                var distWeight = 1f - Mathf.Abs(dist01 - distCenter) / distHalf;
+                w = Mathf.Clamp01(w);
+                if (w <= 0f) continue;
 
-                var weight = Mathf.Clamp01(noiseWeight * distWeight);
-
-                if (weight <= 0f)
-                    continue;
-
-                result[biome] = weight;
-                totalWeight += weight;
+                result[biome] = w;
+                total += w;
             }
 
-            if (totalWeight <= 0f)
+            if (total <= 0f)
                 return result;
-            
-            var keys = result.Keys.ToArray();
-            foreach (var key in keys)
-                result[key] /= totalWeight;
+
+            foreach (var key in result.Keys.ToArray())
+                result[key] /= total;
 
             return result;
         }
 
-        public CellData GetCell(Vector2Int worldPos)
-        {
-            var chunkCoord = WorldToChunk(worldPos);
-            var localPos = WorldToLocal(worldPos);
-
-            var chunk = GetOrCreateChunk(chunkCoord);
-            return chunk.GetCell(localPos.x, localPos.y);
-        }
-
-        public void SetBlock(Vector2Int worldPos, BlockData block, bool isFloor = false)
-        {
-            var chunkCoord = WorldToChunk(worldPos);
-            var localPos = WorldToLocal(worldPos);
-
-            var chunk = GetOrCreateChunk(chunkCoord);
-
-            var cell = chunk.GetCell(localPos.x, localPos.y);
-
-            if (isFloor)
-                cell.Floor = block;
-            else
-                cell.Block = block;
-
-            chunk.SetCell(localPos.x, localPos.y, cell);
-        }
-
-        /// <returns>Chunk coords by world position</returns>
-        private ChunkCoord WorldToChunk(Vector2Int pos)
-        {
-            var cx = Mathf.FloorToInt((float)pos.x / Chunk.CHUNK_SIZE);
-            var cy = Mathf.FloorToInt((float)pos.y / Chunk.CHUNK_SIZE);
-            return new ChunkCoord(cx, cy);
-        }
-
-        /// <returns>Block position in chunk coords space by world position</returns>
-        private Vector2Int WorldToLocal(Vector2Int pos)
-        {
-            var lx = Mathf.FloorToInt(Mathf.Repeat(pos.x, Chunk.CHUNK_SIZE));
-            var ly = Mathf.FloorToInt(Mathf.Repeat(pos.y, Chunk.CHUNK_SIZE));
-            return new Vector2Int(lx, ly);
-        }
+        #endregion
     }
 }

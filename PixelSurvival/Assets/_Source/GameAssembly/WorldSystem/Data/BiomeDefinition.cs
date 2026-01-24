@@ -8,6 +8,7 @@ namespace GameAssembly.WorldSystem.Data
         [field: SerializeField] public string NameKey { get; private set; }
         [field: SerializeField] public BlockDefinition DefaultFloor { get; private set; }
         [field: SerializeField] public BlockDefinition DefaultWall { get; private set; }
+        [field: SerializeField] public bool NaturalSpawn { get; private set; }
         [field: SerializeField] public float Min { get; private set; }
         [field: SerializeField] public float Max { get; private set; }
         [field: SerializeField]

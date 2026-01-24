@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 401b07543bff40f7be1d407291684b13, type: 3}
+  m_Name: DifficultyIsland
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.WorldSystem.Data.DifficultyIslandConfig
+  <MinIslands>k__BackingField: 4
+  <MaxIslands>k__BackingField: 6
+  <InnerDeadZone01>k__BackingField: 0.1
+  <TwoBiomeMax01>k__BackingField: 1
+  <ThreeBiomeMin01>k__BackingField: 0.4
+  <OuterLimit01>k__BackingField: 0.6
+  <IslandSpacingMultiplier>k__BackingField: 1.2
+  <YellowMin>k__BackingField: 50
+  <YellowMax>k__BackingField: 75
+  <OrangeMin>k__BackingField: 25
+  <OrangeMax>k__BackingField: 45
+  <RedMin>k__BackingField: 8
+  <RedMax>k__BackingField: 15
+  <RedChance>k__BackingField: 0.5

@@ -200,7 +200,7 @@ MonoBehaviour:
   width: 256
   height: 256
   seed: 2147483647
-  scale: 0.05
+  scale: 0.2
   fileName: BiomeNoise.png
 --- !u!1 &132389180
 GameObject:

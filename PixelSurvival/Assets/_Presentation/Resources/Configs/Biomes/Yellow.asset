@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8b2ab1f32114aa6a283351b8833564c, type: 3}
-  m_Name: PurpleBiome
+  m_Name: Yellow
   m_EditorClassIdentifier: GameAssembly::GameAssembly.WorldSystem.Data.BiomeDefinition
   <NameKey>k__BackingField: 
-  <DefaultFloor>k__BackingField: {fileID: 11400000, guid: 9d4bd761a8a70c542ab3cce5218c4a9d, type: 2}
-  <DefaultWall>k__BackingField: {fileID: 11400000, guid: a2c81f9a41b840f4dac2c072a251e83c, type: 2}
-  <NaturalSpawn>k__BackingField: 0
-  <Min>k__BackingField: 0
-  <Max>k__BackingField: 0.8
-  <WallDensity>k__BackingField: 0.75
-  MinDistance: 0.5
+  <DefaultFloor>k__BackingField: {fileID: 11400000, guid: 84e93cea338dd5c44b97fc901b7251c8, type: 2}
+  <DefaultWall>k__BackingField: {fileID: 11400000, guid: 0d742de3e50cb9b45985aab948cf7d26, type: 2}
+  <Min>k__BackingField: 0.75
+  <Max>k__BackingField: 1
+  <WallDensity>k__BackingField: 0.4
+  MinDistance: 0
   MaxDistance: 1
