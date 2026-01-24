@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace GameAssembly.WorldSystem
 {
@@ -32,6 +33,11 @@ namespace GameAssembly.WorldSystem
         public CellData GetCell(int x, int y)
         {
             return Cells[x, y];
+        }
+        
+        public CellData GetCell(Vector2Int indexes)
+        {
+            return Cells[indexes.x, indexes.y];
         }
 
         public void SetCell(int x, int y, CellData cell)

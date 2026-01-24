@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GameAssembly.Utils;
+using GameAssembly.Utils.Extensions;
 using GameAssembly.WorldSystem.Data;
+using R3;
 using UnityEngine;
 using Random = System.Random;
 
@@ -11,16 +13,16 @@ namespace GameAssembly.WorldSystem
 {
     public class World
     {
-        public readonly int Seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);//2147483647;
+        public readonly int Seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue); //2147483647;
 
         public const int WORLD_SIZE = 20;
-        public const float WORLD_CENTER_XY = WORLD_SIZE * Chunk.CHUNK_SIZE * 0.5f;
 
         private const float BLOCKS_NOISE_STRENGTH = 0.08f;
         private const float BIOMES_NOISE_STRENGTH = 0.02f;
 
         private const float MAX_BIOME_RADIUS = WORLD_SIZE * Chunk.CHUNK_SIZE * 0.5f;
 
+        public readonly int WorldCenterXY = Mathf.RoundToInt(WORLD_SIZE * Chunk.CHUNK_SIZE * 0.5f);
 
         private readonly Dictionary<ChunkCoord, Chunk> _chunks = new();
 
@@ -35,6 +37,7 @@ namespace GameAssembly.WorldSystem
         public IReadOnlyDictionary<ChunkCoord, Chunk> Chunks => _chunks;
 
         public Progress<float> Progress { get; private set; } = new();
+        public ReactiveProperty<bool> IsLoaded { get; private set; } = new();
 
         public World()
         {
@@ -55,7 +58,7 @@ namespace GameAssembly.WorldSystem
         {
             _difficultyIslands.Clear();
 
-            var center = new Vector2(WORLD_CENTER_XY, WORLD_CENTER_XY);
+            var center = new Vector2(WorldCenterXY, WorldCenterXY);
             var rng = new Random(Seed);
 
             var totalCount =
@@ -87,7 +90,7 @@ namespace GameAssembly.WorldSystem
             }
 
             guard = 0;
-            
+
             for (var i = 0; i < yellowCount; i++)
             {
                 if (guard++ > 5000) break;
@@ -114,7 +117,7 @@ namespace GameAssembly.WorldSystem
                 int index,
                 float minDist01,
                 float maxDist01,
-                bool allowRed)// TODO: Change that circles can spawn less then minimum value
+                bool allowRed) // TODO: Change that circles can spawn less then minimum value
             {
                 var si = index * 0.2f + Seed * 0.00001f;
 
@@ -195,7 +198,7 @@ namespace GameAssembly.WorldSystem
             var ra = Mathf.Max(a.YellowRadius, a.OrangeRadius, a.RedRadius);
             var rb = Mathf.Max(b.YellowRadius, b.OrangeRadius, b.RedRadius);
 
-            return Vector2.Distance(a.Center, b.Center) < (ra + rb);
+            return Vector2.Distance(a.Center, b.Center) < ra + rb;
         }
 
         #endregion
@@ -214,7 +217,12 @@ namespace GameAssembly.WorldSystem
                     GetOrCreateChunk(new ChunkCoord(i, j));
                     done++;
 
-                    ((IProgress<float>)Progress)?.Report(done / (float)total);
+                    var currentProgress = done / (float)total;
+                    ((IProgress<float>)Progress)?.Report(currentProgress);
+
+                    if (Mathf.Approximately(currentProgress, 1f))
+                        IsLoaded.Value = true;
+
                     await Task.Yield();
                 }
             }
@@ -270,7 +278,7 @@ namespace GameAssembly.WorldSystem
         #region Base biome logic
 
         public BiomeDefinition GetBiomeByBlockPosition(int worldX, int worldY) =>
-            PickBiome(GetBiomeWeights(worldX, worldY), worldX, worldY);// TODO: Also return difficulty biomes
+            PickBiome(GetBiomeWeights(worldX, worldY), worldX, worldY); // TODO: Also return difficulty biomes
 
         private BiomeDefinition PickBiome(
             Dictionary<BiomeDefinition, float> weights,
@@ -334,6 +342,103 @@ namespace GameAssembly.WorldSystem
 
             return result;
         }
+
+        #endregion
+
+        #region Utils
+
+        #region Base Utils
+
+        public Chunk GetChunk(ChunkCoord coord)
+        {
+            var chunk = _chunks.GetValueOrDefault(coord);
+            return chunk;
+        }
+
+        public Vector2Int ConvertWorldToChunkCoord(int worldX, int worldY)
+        {
+            var localX = Mathf.RoundToInt(worldX) % Chunk.CHUNK_SIZE;
+            var localY = Mathf.RoundToInt(worldY) % Chunk.CHUNK_SIZE;
+
+            return new Vector2Int(localX, localY);
+        }
+
+        #endregion
+
+        #region Complex Utils
+
+        public Chunk GetChunkByWorldPosition(int worldX, int worldY)
+        {
+            var chunkX = worldX / Chunk.CHUNK_SIZE;
+            var chunkY = worldY / Chunk.CHUNK_SIZE;
+
+            return GetChunk(new ChunkCoord(chunkX, chunkY));
+        }
+
+        public CellData GetCellByWorldPosition(int worldX, int worldY)
+        {
+            var chunk = GetChunkByWorldPosition(worldX, worldY);
+            
+            return chunk?.GetCell(ConvertWorldToChunkCoord(worldX, worldY)) ?? CellData.Empty;
+        }
+
+        public Vector2Int FindRandomNearestBlockByType(int x, int y, BlockType findType, bool isFloor)
+        {
+            var currentLayerIndex = 0;
+            List<(Vector2Int, CellData)> needBlocks = null;
+
+            while (needBlocks == null || needBlocks.Count == 0)
+            {
+                var nearestBlocks = GetLayer(x, y, currentLayerIndex);
+
+                if (x > WORLD_SIZE * Chunk.CHUNK_SIZE / 2 || y > WORLD_SIZE * Chunk.CHUNK_SIZE / 2)
+                    return Vector2Int.one * WorldCenterXY;
+                
+                needBlocks = nearestBlocks.Where(tuple =>
+                    isFloor ? tuple.Item2.Floor.type == findType : tuple.Item2.Block.type == findType).ToList();
+
+                currentLayerIndex++;
+            }
+            
+            return needBlocks.GetRandomElement().Item1;
+
+            List<(Vector2Int, CellData)> GetLayer(int centerX, int centerY, int layerIndex)
+            {
+                var min = -layerIndex;
+                var length = (layerIndex + 1 + layerIndex * 2) * 4 - 4;
+
+                var result = new List<(Vector2Int, CellData)>();
+                var index = 0;
+
+                for (var cx = min; cx <= layerIndex; cx++)
+                {
+                    var pos = new Vector2Int(centerX + cx, centerY + layerIndex);
+                    result.Add((pos, GetCellByWorldPosition(pos.x, pos.y)));
+                }
+                
+                for (var cx = min; cx <= layerIndex; cx++)
+                {
+                    var pos = new Vector2Int(centerX + cx, centerY + min);
+                    result.Add((pos, GetCellByWorldPosition(pos.x, pos.y)));
+                }
+
+                for (var cy = min + 1; cy < layerIndex; cy++)
+                {
+                    var pos = new Vector2Int(centerX + layerIndex, centerY + cy);
+                    result.Add((pos, GetCellByWorldPosition(pos.x, pos.y)));
+                }
+
+                for (var cy = min + 1; cy < layerIndex; cy++)
+                {
+                    var pos = new Vector2Int(centerX + min, centerY + cy);
+                    result.Add((pos, GetCellByWorldPosition(pos.x, pos.y)));
+                }
+
+                return result;
+            }
+        }
+
+        #endregion
 
         #endregion
     }

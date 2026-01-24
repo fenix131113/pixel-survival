@@ -2,6 +2,7 @@
 using System.Linq;
 using GameAssembly.Utils;
 using Mirror;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace GameAssembly.Core.Network
@@ -10,6 +11,7 @@ namespace GameAssembly.Core.Network
     {
         public event Action<NetworkConnectionToClient> ServerOnClientConnected;
         public event Action<NetworkConnectionToClient> ServerOnClientDisconnected;
+        public event Action<NetworkConnectionToClient> ServerOnServerReadyInGame;
         public event Action<LobbyPlayerChangedMessage> ClientOnChangedLobbyPlayer;
         public event Action ClientOnDisconnected;
         public event Action ClientOnConnected;
@@ -109,9 +111,7 @@ namespace GameAssembly.Core.Network
             
             if (SceneManager.GetActiveScene().buildIndex == ScenesData.GAME_SCENE_INDEX) // If in game
             {
-                var spawnedPlayer = Instantiate(playerPrefab);
-
-                NetworkServer.AddPlayerForConnection(conn, spawnedPlayer);
+                ServerOnServerReadyInGame?.Invoke(conn);
             }
         }
 
