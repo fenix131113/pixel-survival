@@ -155,6 +155,9 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  itemDefinition: {fileID: 0}
+  itemCount: 0
+  despawnTime: 180
   spriteRenderer: {fileID: 8700024626687278863}
   counter: {fileID: 1871278897349403197}
   triggerLayers:

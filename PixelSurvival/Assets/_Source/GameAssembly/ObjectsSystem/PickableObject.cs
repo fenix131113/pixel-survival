@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using GameAssembly.InventorySystem;
@@ -13,8 +13,9 @@ namespace GameAssembly.ObjectsSystem
 {
     public class PickableObject : NetworkBehaviour
     {
-        [SerializeField] public ItemDefinitionSO itemDefinition;
-        [SerializeField] public int itemCount;
+        [SerializeField] private ItemDefinitionSO itemDefinition;
+        [SerializeField] private int itemCount;
+        [SerializeField] private float despawnTime = 180f;
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private TMP_Text counter;
         [SerializeField] private LayerMask triggerLayers;
@@ -52,6 +53,8 @@ namespace GameAssembly.ObjectsSystem
 
         public override void OnStartServer()
         {
+            StartCoroutine(DespawnCoroutine());
+            
             if (!itemDefinition)
                 return;
 
@@ -89,6 +92,14 @@ namespace GameAssembly.ObjectsSystem
                 SetDirty();
                 Draw();
             }
+        }
+
+        [Server]
+        private IEnumerator DespawnCoroutine()
+        {
+            yield return new WaitForSeconds(despawnTime);
+            
+            NetworkServer.Destroy(gameObject);
         }
     }
 }
