@@ -44,9 +44,9 @@ namespace GameAssembly.PlayerSystem
         private IEnumerator WaitForWorldAndSpawnPlayer(NetworkConnectionToClient conn)
         {
             yield return new WaitUntil(() => _world.IsLoaded.Value);
-            
-            var spawnPos =
-                _world.FindRandomNearestBlockByType(_world.WorldCenterXY, _world.WorldCenterXY, BlockType.AIR, false);
+
+            var spawnPos = Vector3.zero;
+                //_world.FindRandomNearestBlockByType(_world.WorldCenterXY, _world.WorldCenterXY, BlockType.AIR, false);
             var spawnedPlayer = Instantiate(_net.playerPrefab, new Vector3(spawnPos.x, spawnPos.y, 0),
                 Quaternion.identity);
 

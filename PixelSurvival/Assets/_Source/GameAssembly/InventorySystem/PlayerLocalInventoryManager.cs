@@ -1,10 +1,18 @@
 ﻿using System;
+using GameAssembly.ItemsSystem;
+using GameAssembly.ObjectsSystem;
 using Mirror;
+using UnityEngine;
 
 namespace GameAssembly.InventorySystem
 {
     public class PlayerLocalInventoryManager : NetworkBehaviour // For managing any inventory by player authority
     {
+        [SerializeField] private PickableObject dropPrefab;
+
+        private const float MAX_ITEM_DROP_DISTANCE = 5f;
+        private const float ITEM_DROP_TAKE_PROTECTION_TIME = 2f;
+        
         /// <summary>
         /// Called on the server and current client. Firstly on the server
         /// </summary>
@@ -54,6 +62,35 @@ namespace GameAssembly.InventorySystem
                 Target_InvokeOnCombiningCellsChangeAmount(connectionToClient, firstInvIdentity, firstIndex,
                     secondInvIdentity, secondIndex);
             }
+        }
+
+        [Command]
+        public void DropItemFromInventory(NetworkIdentity inventoryIdentity, int cellIndex, Vector2 dropPosition, NetworkConnectionToClient sender = null)
+        {
+            var inv = inventoryIdentity.GetComponent<IInventory>();
+            var item = inv.GetItemByIndex(cellIndex);
+            
+            if(item == null)
+                return;
+            
+            if(Vector2.Distance(inventoryIdentity.transform.position, dropPosition) > MAX_ITEM_DROP_DISTANCE)
+            {
+#if UNITY_EDITOR
+               Debug.LogWarning("Trying to drop an item from too long distance"); 
+#endif
+                return;
+            }
+
+            var defTemp = item.Definition;
+            var countTemp = item.Count;
+            
+            if(sender == null || !inv.TryRemoveItemByIndex(cellIndex, false))
+                return;
+            
+            var pickable = Instantiate(dropPrefab, dropPosition, Quaternion.identity);
+            pickable.Initialize(new ItemInstance(defTemp, countTemp));
+            NetworkServer.Spawn(pickable.gameObject);
+            pickable.SetTakeProtectionForPlayer(sender.identity, ITEM_DROP_TAKE_PROTECTION_TIME);
         }
 
         [TargetRpc]

@@ -405,10 +405,8 @@ namespace GameAssembly.WorldSystem
             List<(Vector2Int, CellData)> GetLayer(int centerX, int centerY, int layerIndex)
             {
                 var min = -layerIndex;
-                var length = (layerIndex + 1 + layerIndex * 2) * 4 - 4;
 
                 var result = new List<(Vector2Int, CellData)>();
-                var index = 0;
 
                 for (var cx = min; cx <= layerIndex; cx++)
                 {

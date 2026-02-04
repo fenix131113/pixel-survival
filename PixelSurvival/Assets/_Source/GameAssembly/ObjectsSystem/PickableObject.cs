@@ -1,4 +1,7 @@
-﻿using GameAssembly.InventorySystem;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using GameAssembly.InventorySystem;
 using GameAssembly.ItemsSystem;
 using GameAssembly.ItemsSystem.Data;
 using GameAssembly.Utils;
@@ -16,6 +19,8 @@ namespace GameAssembly.ObjectsSystem
         [SerializeField] private TMP_Text counter;
         [SerializeField] private LayerMask triggerLayers;
 
+        private Dictionary<NetworkIdentity, float> _takeProtections;
+
         public ItemInstance Item { get; private set; }
 
         public override void OnSerialize(NetworkWriter writer, bool initialState) => writer.Write(Item);
@@ -25,7 +30,7 @@ namespace GameAssembly.ObjectsSystem
             Item = reader.Read<ItemInstance>();
             Draw();
         }
-        
+
         public void Initialize(ItemInstance item)
         {
             Item = item;
@@ -33,12 +38,32 @@ namespace GameAssembly.ObjectsSystem
             Draw();
         }
 
+        private void Update()
+        {
+            if (!isServer || _takeProtections == null || _takeProtections.Count == 0)
+                return;
+
+            foreach (var pair in _takeProtections.Where(pair => Time.time >= pair.Value))
+            {
+                _takeProtections.Remove(pair.Key);
+                break;
+            }
+        }
+
         public override void OnStartServer()
         {
-            if(!itemDefinition)
+            if (!itemDefinition)
                 return;
-            
+
             Initialize(new ItemInstance(itemDefinition, itemCount));
+        }
+
+        [Server]
+        public void SetTakeProtectionForPlayer(NetworkIdentity playerIdentity, float protectionTime)
+        {
+            _takeProtections ??= new Dictionary<NetworkIdentity, float>();
+
+            _takeProtections.TryAdd(playerIdentity, Time.time + protectionTime);
         }
 
         private void Draw()
@@ -50,7 +75,8 @@ namespace GameAssembly.ObjectsSystem
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!isServer || !LayerService.CheckLayersEquality(other.gameObject.layer, triggerLayers) ||
-                !other.TryGetComponent<IInventory>(out var inventory))
+                !other.TryGetComponent<IInventory>(out var inventory) ||
+                (_takeProtections != null && _takeProtections.ContainsKey(other.GetComponent<NetworkIdentity>())))
                 return;
 
             if (!inventory.TryAddItemFromInstance(Item, false))

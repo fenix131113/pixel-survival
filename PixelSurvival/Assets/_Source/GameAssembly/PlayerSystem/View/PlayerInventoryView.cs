@@ -17,6 +17,7 @@ namespace GameAssembly.PlayerSystem.View
     {
         [SerializeField] private ItemCell cellPrefab;
         [SerializeField] private GameObject inventoryPanel;
+        [SerializeField] private GameObject inventoriesContentPanel;
         [SerializeField] private Transform cellsParent;
         [SerializeField] private Transform hotBarParent;
 
@@ -64,9 +65,10 @@ namespace GameAssembly.PlayerSystem.View
 
         private void OnInventoryClicked(InputAction.CallbackContext callbackContext)
         {
-            inventoryPanel.SetActive(!inventoryPanel.activeSelf);
+            inventoriesContentPanel.SetActive(!inventoriesContentPanel.activeSelf);
+            inventoryPanel.SetActive(inventoriesContentPanel.activeSelf);
 
-            if (!inventoryPanel.activeSelf)
+            if (!inventoriesContentPanel.activeSelf)
                 _movingItem.ForceClose();
         }
 

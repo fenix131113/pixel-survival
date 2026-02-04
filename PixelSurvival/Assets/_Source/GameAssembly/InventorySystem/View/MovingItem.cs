@@ -22,6 +22,9 @@ namespace GameAssembly.InventorySystem.View
 
         private void Start()
         {
+            if(NetworkServer.active && !NetworkClient.active)
+                return;
+            
             StartCoroutine(WaitForPlayer());
         }
 

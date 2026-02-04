@@ -15,7 +15,7 @@ namespace GameAssembly.InventorySystem
         bool TryAddItemFromInstance(ItemInstance instance,  bool fullInsert, bool ignoreMeta = false);
         bool TryAddNewItem(ItemDefinitionSO definition, int count);
         bool TryRemoveItem(ItemDefinitionSO item, int count);
-        bool TryRemoveItemByIndex(int index, bool removeCount);
+        bool TryRemoveItemByIndex(int index, bool countRemove);
         bool TryAddItemInIndexFromInstance(ItemInstance item, int index, bool fullInsert);
         bool HasItem(ItemDefinitionSO item, int count = 1);
         bool CanAddNewItem(ItemDefinitionSO definition, int count = 1);

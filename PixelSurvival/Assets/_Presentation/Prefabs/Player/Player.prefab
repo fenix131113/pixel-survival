@@ -255,6 +255,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  dropPrefab: {fileID: 9090697042307161094, guid: 3be4b7b7b0e727441b9259d6e5613423, type: 3}
 --- !u!114 &5733486683184924061
 MonoBehaviour:
   m_ObjectHideFlags: 0
