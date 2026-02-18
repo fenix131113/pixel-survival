@@ -12,7 +12,10 @@ namespace GameAssembly.WorldSystem.Data
         [field: SerializeField] public BlockFlags Flags { get; private set; }
         [field: SerializeField] public TileBase Tile { get; private set; }
         [field: SerializeField] public ItemDefinitionSO DropItem { get; private set; }
-        [field: SerializeField] public int DropItemCount { get; private set; }
+        [field: SerializeField] public int MinDropAmount { get; private set; }
+        [field: SerializeField] public int MaxDropAmount { get; private set; }
         [field: SerializeField] public int Health { get; private set; }
+
+        public int RandomizeDropAmount() => Random.Range(MinDropAmount, MaxDropAmount + 1);
     }
 }

@@ -21,6 +21,8 @@ namespace GameAssembly.PlayerSystem
         [Inject] private IVariablesResolver<PlayerVariableBlockerType, Action, Action> _playerVariables;
         [Inject] private InputSystem_Actions _input;
 
+        private Collider2D _playerCollider;
+
         /// <summary>
         /// Works only on client
         /// </summary>
@@ -28,6 +30,8 @@ namespace GameAssembly.PlayerSystem
 
         private void Start()
         {
+            _playerCollider = GetComponent<Collider2D>();
+
             if (!isLocalPlayer && !isServer)
             {
                 Destroy(this);
@@ -45,7 +49,8 @@ namespace GameAssembly.PlayerSystem
             if (!_input.Player.enabled || _playerVariables.IsVariableBlocked(PlayerVariableBlockerType.LOOK))
                 return;
 
-            var rotVector = Camera.main!.ScreenToWorldPoint(Mouse.current.position.ReadValue()) - centerPoint.position;
+            var rotVector = Camera.main!.ScreenToWorldPoint(Mouse.current.position.ReadValue()) -
+                            (centerPoint.position + new Vector3(_playerCollider.offset.x, _playerCollider.offset.y, 0));
             LookDegrees = Mathf.Atan2(rotVector.y, rotVector.x) * Mathf.Rad2Deg;
 
             var selectedSpriteKey = LookDegrees switch

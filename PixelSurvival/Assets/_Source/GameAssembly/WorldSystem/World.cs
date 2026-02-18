@@ -15,7 +15,7 @@ namespace GameAssembly.WorldSystem
     {
         public readonly int Seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue); //2147483647;
 
-        public const int WORLD_SIZE = 20;
+        public const int WORLD_SIZE = 5;
 
         private const float BLOCKS_NOISE_STRENGTH = 0.08f;
         private const float BIOMES_NOISE_STRENGTH = 0.02f;

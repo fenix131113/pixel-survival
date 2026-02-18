@@ -28,8 +28,10 @@ namespace GameAssembly.ItemsSystem
         public ItemInstance(ItemDefinitionSO definition, Dictionary<string, string> meta, int count = 1)
         {
             Definition = definition;
-            _meta = meta;
             Count = count;
+            
+            if(meta != null)
+                _meta = meta;
         }
         
         ~ItemInstance() => Dispose();

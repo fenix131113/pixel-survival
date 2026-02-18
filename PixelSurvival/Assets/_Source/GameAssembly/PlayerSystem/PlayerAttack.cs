@@ -3,9 +3,12 @@ using GameAssembly.HealthSystem;
 using GameAssembly.HealthSystem.Data;
 using GameAssembly.InventorySystem;
 using GameAssembly.ItemsSystem;
+using GameAssembly.ObjectsSystem;
 using GameAssembly.PlayerSystem.Data;
+using GameAssembly.Utils.Extensions;
 using GameAssembly.Utils.VariablesSystem;
 using GameAssembly.WorldSystem;
+using GameAssembly.WorldSystem.Data;
 using GameAssembly.WorldSystem.View;
 using Mirror;
 using PlayerSystem;
@@ -16,7 +19,7 @@ using VContainer;
 
 namespace GameAssembly.PlayerSystem
 {
-    public class PlayerAttack : NetworkBehaviour
+    public class PlayerAttack : NetworkBehaviour //TODO: make attack block when inventory or other panels opened
     {
         [SerializeField] private int handDamage = 1;
         [SerializeField] private float baseAttackDistance = 1.5f;
@@ -30,7 +33,8 @@ namespace GameAssembly.PlayerSystem
         private IInventory _inventory;
         private PlayerSelector _selector;
         private PlayerAim _aim;
-        
+        private Collider2D _playerCollider;
+
         private readonly RaycastHit2D[] _hits = new RaycastHit2D[4];
 
         /// <summary>
@@ -41,15 +45,17 @@ namespace GameAssembly.PlayerSystem
 
         private void OnDestroy()
         {
-            if(isLocalPlayer)
+            if (isLocalPlayer)
                 Expose(); // Client expose
         }
 
         private void Start()
         {
-            if(isClientOnly)
+            _playerCollider = GetComponent<Collider2D>();
+
+            if (isClientOnly)
                 return;
-            
+
             ObjectInjector.Inject(this);
 
             _aim = GetComponent<PlayerAim>();
@@ -70,22 +76,22 @@ namespace GameAssembly.PlayerSystem
 
             _aim = GetComponent<PlayerAim>();
             InitializeClientAndServer();
-            
-            if(isLocalPlayer)
+
+            if (isLocalPlayer)
                 Bind();
         }
 
         public void MeleeAttack()
         {
-            if(_cooldown > 0)
+            if (_cooldown > 0)
                 return;
-            
+
             CheckForBehaviour();
 
             OnMeleeAttack?.Invoke(_aim.LookDegrees);
             Cmd_MeleeAttack(_aim.LookDegrees);
-            
-            if(isClientOnly)
+
+            if (isClientOnly)
                 _cooldown = baseCooldown;
         }
 
@@ -102,15 +108,15 @@ namespace GameAssembly.PlayerSystem
         [Command]
         private void Cmd_MeleeAttack(float lookDegrees)
         {
-            if(_cooldown > 0)
+            if (_cooldown > 0)
                 return;
-            
+
             if (isServerOnly)
             {
                 CheckForBehaviour();
                 OnMeleeAttack?.Invoke(lookDegrees);
             }
-            
+
             Server_CheckForMeleeAttack(lookDegrees, baseAttackDistance, meleeTriggerLayers);
             _cooldown = baseCooldown;
         }
@@ -127,7 +133,9 @@ namespace GameAssembly.PlayerSystem
             for (var index = 0; index < _hits.Length; index++)
                 _hits[index] = default;
 
-            Physics2D.RaycastNonAlloc(transform.position, dir, _hits, distance, layerMask);
+            Physics2D.RaycastNonAlloc(
+                transform.position + new Vector3(_playerCollider.offset.x, _playerCollider.offset.y, 0), dir, _hits,
+                distance, layerMask);
 
             foreach (var h in _hits)
             {
@@ -144,9 +152,23 @@ namespace GameAssembly.PlayerSystem
                     health.ChangeHealth(-damage,
                         new DamageContext(gameObject, _selector.GetSelectedItem(), HealthType.PLAYER));
                 }
-                else if(h.collider.TryGetComponent<ChunkRenderer>(out var chunkVisual)) // Breaking world(chunk) blocks
+                else if (h.collider.gameObject
+                         .GetComponentInAnyParent<ChunkRenderer>(out var chunkVisual)) // Breaking world(chunk) blocks. TODO: maybe move break logic to another script
                 {
-                    
+                    var hitPoint = h.point + dir * 0.01f;
+                    var blockIndexes = chunkVisual.Tilemap.WorldToCell(hitPoint);
+
+                    if (blockIndexes.x < 0 || blockIndexes.x >= Chunk.CHUNK_SIZE ||
+                        blockIndexes.y < 0 || blockIndexes.y >= Chunk.CHUNK_SIZE)
+                        continue;
+
+                    var cell = chunkVisual.Chunk.GetCell(blockIndexes.x, blockIndexes.y);
+
+                    if (cell.Block.type != BlockType.AIR)
+                    {
+                        ServerItemSpawner.Server_SpawnItem(chunkVisual.Tilemap.GetCellCenterWorld(blockIndexes), cell.Block.definition.DropItem, cell.Block.definition.RandomizeDropAmount());
+                        chunkVisual.Chunk.SetBlock(blockIndexes.x, blockIndexes.y, false, BlockData.Air);
+                    }
                 }
 
                 break;
@@ -170,7 +192,7 @@ namespace GameAssembly.PlayerSystem
 
         private void OnAttackInput(InputAction.CallbackContext callbackContext)
         {
-            if(!_variables.IsVariableBlocked(PlayerVariableBlockerType.ATTACK))
+            if (!_variables.IsVariableBlocked(PlayerVariableBlockerType.ATTACK))
                 MeleeAttack();
         }
 
