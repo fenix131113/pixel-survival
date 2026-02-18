@@ -5,6 +5,8 @@ using GameAssembly.InventorySystem;
 using GameAssembly.ItemsSystem;
 using GameAssembly.PlayerSystem.Data;
 using GameAssembly.Utils.VariablesSystem;
+using GameAssembly.WorldSystem;
+using GameAssembly.WorldSystem.View;
 using Mirror;
 using PlayerSystem;
 using UnityEngine;
@@ -132,7 +134,7 @@ namespace GameAssembly.PlayerSystem
                 if (h == default || !h.collider || h.collider.gameObject == gameObject)
                     continue;
 
-                if (h.collider.TryGetComponent<IHealth>(out var health))
+                if (h.collider.TryGetComponent<IHealth>(out var health)) // Attacking objects & mobs
                 {
                     var damage = handDamage;
 
@@ -141,6 +143,10 @@ namespace GameAssembly.PlayerSystem
 
                     health.ChangeHealth(-damage,
                         new DamageContext(gameObject, _selector.GetSelectedItem(), HealthType.PLAYER));
+                }
+                else if(h.collider.TryGetComponent<ChunkRenderer>(out var chunkVisual)) // Breaking world(chunk) blocks
+                {
+                    
                 }
 
                 break;

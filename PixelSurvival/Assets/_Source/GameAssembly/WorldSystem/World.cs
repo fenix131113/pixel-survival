@@ -30,7 +30,7 @@ namespace GameAssembly.WorldSystem
             Resources.LoadAll<BiomeDefinition>(AssetsPaths.BIOMES_CONFIGS_PATH);
 
         private readonly DifficultyIslandConfig _difficultyConfig =
-            Resources.Load<DifficultyIslandConfig>($"Configs/DifficultyIsland");
+            Resources.Load<DifficultyIslandConfig>(AssetsPaths.DIFFICULTY_ISLANDS_CONFIGS_PATH);
 
         private readonly List<DifficultyIsland> _difficultyIslands = new();
 
@@ -355,7 +355,7 @@ namespace GameAssembly.WorldSystem
             return chunk;
         }
 
-        public Vector2Int ConvertWorldToChunkCoord(int worldX, int worldY)
+        public static Vector2Int ConvertWorldToChunkCoord(int worldX, int worldY)
         {
             var localX = Mathf.RoundToInt(worldX) % Chunk.CHUNK_SIZE;
             var localY = Mathf.RoundToInt(worldY) % Chunk.CHUNK_SIZE;
