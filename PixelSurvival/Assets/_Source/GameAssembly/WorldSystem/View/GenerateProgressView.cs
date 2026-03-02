@@ -11,21 +11,12 @@ namespace GameAssembly.WorldSystem.View
 
         [Inject] private World _world;
 
-        private async void Awake()
+        private void Awake()
         {
-            try
-            {
-                _world.Progress.ProgressChanged += ProgressOnProgressChanged;
-                progressText.text = "0%";
+            _world.Progress.ProgressChanged += ProgressOnProgressChanged;
+            progressText.text = "0%";
 
-                await _world.GenerateWorldAsync();
-
-                progressText.text = "Done";
-            }
-            catch (Exception e)
-            {
-                Debug.LogException(e);
-            }
+            progressText.text = "Done";
         }
 
         private void OnDestroy()

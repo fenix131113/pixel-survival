@@ -62,7 +62,7 @@ namespace Editor.Items
                 var safeName = item.name.Replace(" ", "_");
                 var assetPath = item.name;
                 writer.WriteLine(
-                    $"            {safeName} = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEMS_CONFIGS_PATH + \"/{assetPath}\");");
+                    $"            {safeName} = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + \"/{assetPath}\");");
             }
 
             writer.WriteLine("        }");

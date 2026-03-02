@@ -168,7 +168,7 @@ namespace GameAssembly.ItemsSystem
                 meta[key] = value;
             }
 
-            var def = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEMS_CONFIGS_PATH + "/" + defName);
+            var def = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/" + defName);
 
             return new ItemInstance(def, meta, count);
         }

@@ -13,6 +13,7 @@ namespace GameAssembly.PlayerSystem
         private NetManager _net;
 
         [Inject] private World _world;
+        private bool _isBind;
 
         private void Awake()
         {
@@ -20,6 +21,10 @@ namespace GameAssembly.PlayerSystem
                 return;
             
             _net = NetworkManager.singleton as NetManager;
+            
+            if (!_net)
+                return;
+            
             Bind();
         }
 
@@ -37,9 +42,19 @@ namespace GameAssembly.PlayerSystem
             StartCoroutine(WaitForWorldAndSpawnPlayer(conn));
         }
 
-        private void Bind() => _net.ServerOnServerReadyInGame += SpawnPlayer;
+        private void Bind()
+        {
+            _net.ServerOnServerReadyInGame += SpawnPlayer;
+            _isBind = true;
+        }
 
-        private void Expose() => _net.ServerOnServerReadyInGame -= SpawnPlayer;
+        private void Expose()
+        {
+            if(!_isBind)
+                return;
+            
+            _net.ServerOnServerReadyInGame -= SpawnPlayer;
+        }
 
         private IEnumerator WaitForWorldAndSpawnPlayer(NetworkConnectionToClient conn)
         {

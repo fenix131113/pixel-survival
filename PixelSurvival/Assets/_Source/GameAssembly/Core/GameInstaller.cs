@@ -14,9 +14,16 @@ namespace GameAssembly.Core
     {
         [SerializeField] private PlayerDataSO playerData;
 
-        private InputSystem_Actions _input;
+        private static GameInstaller _instance;
 
-        protected void Start() => ObjectInjector.Initialize(Container);
+        private InputSystem_Actions _input;
+        private World _world;
+
+        protected void Start()
+        {
+            ObjectInjector.Initialize(Container);
+            _instance = this;
+        }
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -32,6 +39,8 @@ namespace GameAssembly.Core
                 .AsImplementedInterfaces()
                 .AsSelf();
 
+            builder.RegisterComponentInHierarchy<WorldCreateManager>();
+
             #endregion
 
             #region InventorySystem
@@ -42,9 +51,15 @@ namespace GameAssembly.Core
 
             #region World
 
-            builder.Register<World>(Lifetime.Scoped);
+            _world = new World();
+            builder.RegisterInstance(_world);
 
             #endregion
+        }
+
+        public static T Resolve<T>()
+        {
+            return !_instance ? default : _instance.Container.Resolve<T>();
         }
     }
 }

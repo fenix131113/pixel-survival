@@ -78,7 +78,7 @@ namespace GameAssembly.InventorySystem
                 }
 
                 var definition = Resources.Load<ItemDefinitionSO>(
-                    AssetsPaths.ITEMS_CONFIGS_PATH + "/" + defName);
+                    AssetsPaths.ITEM_CONFIGS_PATH + "/" + defName);
 
                 _items[i] = new ItemInstance(definition, meta, count);
                 BindNewItem(i);

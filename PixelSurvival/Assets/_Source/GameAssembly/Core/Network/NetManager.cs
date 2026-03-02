@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using GameAssembly.Utils;
+using GameAssembly.WorldSystem;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,9 +27,9 @@ namespace GameAssembly.Core.Network
             public static LobbyPlayerChangedMessage CreateMessage()
             {
                 var result = NetworkServer.connections.Values.Aggregate(string.Empty,
-                    (current, conn) => current + (conn.connectionId.ToString() + "\n"));
+                    (current, conn) => current + conn.connectionId.ToString() + "\n");
 
-                return new LobbyPlayerChangedMessage() { PlayersList = result };
+                return new LobbyPlayerChangedMessage { PlayersList = result };
             }
         }
 
@@ -54,6 +56,7 @@ namespace GameAssembly.Core.Network
         }
 
         #endregion
+
         public override void OnClientConnect()
         {
             base.OnClientConnect();
@@ -70,16 +73,18 @@ namespace GameAssembly.Core.Network
 
         public override void OnClientDisconnect()
         {
-            if(SceneManager.GetActiveScene().buildIndex != ScenesData.MENU_SCENE_INDEX)
+            if (SceneManager.GetActiveScene().buildIndex != ScenesData.MENU_SCENE_INDEX)
                 SceneManager.LoadScene(ScenesData.MENU_SCENE_INDEX);
-            
+
             ClientOnDisconnected?.Invoke();
         }
 
         public override void OnServerConnect(NetworkConnectionToClient conn)
         {
             if (SceneManager.GetActiveScene().buildIndex == ScenesData.MENU_SCENE_INDEX) // If in menu
+            {
                 NetworkServer.SendToAll(LobbyPlayerChangedMessage.CreateMessage());
+            }
 
             ServerOnClientConnected?.Invoke(conn);
         }
@@ -87,7 +92,7 @@ namespace GameAssembly.Core.Network
         public override void OnServerDisconnect(NetworkConnectionToClient conn)
         {
             base.OnServerDisconnect(conn);
-            
+
             if (SceneManager.GetActiveScene().buildIndex == ScenesData.MENU_SCENE_INDEX) // If in menu
                 NetworkServer.SendToAll(LobbyPlayerChangedMessage.CreateMessage());
 
@@ -99,16 +104,46 @@ namespace GameAssembly.Core.Network
         {
             if (newSceneName != ScenesData.MENU_SCENE_NAME) // If in menu
                 NetworkClient.UnregisterHandler<LobbyPlayerChangedMessage>();
-            
+
             Client_Expose();
         }
 
-        public override void OnServerChangeScene(string newSceneName) => Server_Expose();
+        public override void OnClientSceneChanged()
+        {
+            base.OnClientSceneChanged();
+
+            if (SceneManager.GetActiveScene().buildIndex != ScenesData.GAME_SCENE_INDEX || NetworkServer.active)
+                return;
+
+            StartCoroutine(RequestMapCoroutine());
+            return;
+
+            IEnumerator RequestMapCoroutine()
+            {
+                var wcm = GameInstaller.Resolve<WorldCreateManager>();
+                yield return new WaitUntil(() => wcm.netIdentity.netId != 0);
+                wcm.Cmd_RequestMap();
+            }
+        }
+
+        public override void OnServerChangeScene(string newSceneName)
+        {
+            Server_Expose();
+        }
+
+        public override void OnServerSceneChanged(string sceneName)
+        {
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+            foreach (var conn in NetworkServer.connections.Values)
+            {
+                GameInstaller.Resolve<WorldCreateManager>().Server_SendWorldToConn(conn);
+            }
+        }
 
         public override void OnServerReady(NetworkConnectionToClient conn)
         {
             base.OnServerReady(conn);
-            
+
             if (SceneManager.GetActiveScene().buildIndex == ScenesData.GAME_SCENE_INDEX) // If in game
             {
                 ServerOnServerReadyInGame?.Invoke(conn);

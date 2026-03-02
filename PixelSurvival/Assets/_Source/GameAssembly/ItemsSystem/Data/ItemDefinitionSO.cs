@@ -18,6 +18,6 @@ namespace GameAssembly.ItemsSystem.Data
             writer.WriteString(data.name);
 
         public static ItemDefinitionSO ReadArmor(this NetworkReader reader) =>
-            Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEMS_CONFIGS_PATH + "/" + reader.ReadString());
+            Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/" + reader.ReadString());
     }
 }

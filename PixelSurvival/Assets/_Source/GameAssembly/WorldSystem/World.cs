@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GameAssembly.Utils;
 using GameAssembly.Utils.Extensions;
 using GameAssembly.WorldSystem.Data;
+using Mirror;
 using R3;
 using UnityEngine;
 using Random = System.Random;
@@ -13,7 +14,7 @@ namespace GameAssembly.WorldSystem
 {
     public class World
     {
-        public readonly int Seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue); //2147483647;
+        public int Seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue); //2147483647;
 
         public const int WORLD_SIZE = 5;
 
@@ -24,7 +25,7 @@ namespace GameAssembly.WorldSystem
 
         public readonly int WorldCenterXY = Mathf.RoundToInt(WORLD_SIZE * Chunk.CHUNK_SIZE * 0.5f);
 
-        private readonly Dictionary<ChunkCoord, Chunk> _chunks = new();
+        private Dictionary<ChunkCoord, Chunk> _chunks = new();
 
         private readonly BiomeDefinition[] _biomes =
             Resources.LoadAll<BiomeDefinition>(AssetsPaths.BIOMES_CONFIGS_PATH);
@@ -42,6 +43,23 @@ namespace GameAssembly.WorldSystem
         public World()
         {
             GenerateDifficultyIslands();
+        }
+
+        public void SetupSeed(int seed) => Seed = seed;
+
+        public void SetupChunk(Chunk chunk)
+        {
+            _chunks.Add(chunk.Coord, chunk);
+
+            var progress = (float)_chunks.Count / (WORLD_SIZE * WORLD_SIZE);
+
+            ((IProgress<float>)Progress)?.Report(progress);
+
+            if (!Mathf.Approximately(progress, 1f))
+                return;
+            
+            GenerateDifficultyIslands();
+            IsLoaded.Value = true;
         }
 
         #region Difficulty islands
@@ -277,8 +295,12 @@ namespace GameAssembly.WorldSystem
 
         #region Base biome logic
 
-        public BiomeDefinition GetBiomeByBlockPosition(int worldX, int worldY) =>
-            PickBiome(GetBiomeWeights(worldX, worldY), worldX, worldY); // TODO: Also return difficulty biomes
+        public BiomeDefinition GetBiomeByBlockPosition(int worldX, int worldY)
+        {
+            var difficultyBiome = GetDifficultyBiome(worldX, worldY);
+
+            return !difficultyBiome ? PickBiome(GetBiomeWeights(worldX, worldY), worldX, worldY) : difficultyBiome;
+        }
 
         private BiomeDefinition PickBiome(
             Dictionary<BiomeDefinition, float> weights,
@@ -378,11 +400,12 @@ namespace GameAssembly.WorldSystem
         public CellData GetCellByWorldPosition(int worldX, int worldY)
         {
             var chunk = GetChunkByWorldPosition(worldX, worldY);
-            
+
             return chunk?.GetCell(ConvertWorldToChunkCoord(worldX, worldY)) ?? CellData.Empty;
         }
 
-        public Vector2Int FindRandomNearestBlockByType(int x, int y, BlockType findType, bool isFloor)
+        public Vector2Int
+            FindRandomNearestBlockByType(int x, int y, BlockType findType, bool isFloor) // TODO: fix spawn in blocks
         {
             var currentLayerIndex = 0;
             List<(Vector2Int, CellData)> needBlocks = null;
@@ -393,13 +416,13 @@ namespace GameAssembly.WorldSystem
 
                 if (x > WORLD_SIZE * Chunk.CHUNK_SIZE / 2 || y > WORLD_SIZE * Chunk.CHUNK_SIZE / 2)
                     return Vector2Int.one * WorldCenterXY;
-                
+
                 needBlocks = nearestBlocks.Where(tuple =>
                     isFloor ? tuple.Item2.Floor.type == findType : tuple.Item2.Block.type == findType).ToList();
 
                 currentLayerIndex++;
             }
-            
+
             return needBlocks.GetRandomElement().Item1;
 
             List<(Vector2Int, CellData)> GetLayer(int centerX, int centerY, int layerIndex)
@@ -413,7 +436,7 @@ namespace GameAssembly.WorldSystem
                     var pos = new Vector2Int(centerX + cx, centerY + layerIndex);
                     result.Add((pos, GetCellByWorldPosition(pos.x, pos.y)));
                 }
-                
+
                 for (var cx = min; cx <= layerIndex; cx++)
                 {
                     var pos = new Vector2Int(centerX + cx, centerY + min);
@@ -440,4 +463,34 @@ namespace GameAssembly.WorldSystem
 
         #endregion
     }
+
+    /*public static class WorldReaderWriter
+    {
+        public static void WriteWorld(this NetworkWriter writer, World world)
+        {
+            writer.WriteInt(world.Seed);
+            writer.WriteInt(world.Chunks.Count);
+
+            for (var i = 0; i < world.Chunks.Count; i++)
+            {
+                writer.WriteChunkCoord(world.Chunks.ElementAt(i).Key);
+                writer.WriteChunk(world.Chunks.ElementAt(i).Value);
+            }
+        }
+
+        public static World ReadWorld(this NetworkReader reader)
+        {
+            var seed = reader.ReadInt();
+            var chunkCount = reader.ReadInt();
+            var chunks = new Dictionary<ChunkCoord, Chunk>();
+
+            for (var i = 0; i < chunkCount; i++)
+            {
+                var coord = reader.ReadChunkCoord();
+                var chunk = reader.ReadChunk();
+                chunks.Add(coord, chunk);
+            }
+
+            return new World(seed, chunks);
+        }*/
 }

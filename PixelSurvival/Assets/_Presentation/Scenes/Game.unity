@@ -2456,6 +2456,7 @@ GameObject:
   - component: {fileID: 355121247}
   - component: {fileID: 355121248}
   - component: {fileID: 355121249}
+  - component: {fileID: 355121250}
   m_Layer: 0
   m_Name: PlayerNetworkSystems
   m_TagString: Untagged
@@ -2553,6 +2554,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cef5803528d45dea7fe7642ed165440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: GameAssembly::GameAssembly.PlayerSystem.PlayersSpawner
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+--- !u!114 &355121250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355121243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d5e33ebabb4baca298c7573f977de7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.WorldSystem.WorldCreateManager
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
