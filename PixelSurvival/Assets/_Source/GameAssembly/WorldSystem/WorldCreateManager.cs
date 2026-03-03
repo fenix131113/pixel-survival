@@ -42,6 +42,7 @@ namespace GameAssembly.WorldSystem
         [Command(requiresAuthority = false)]
         public void Cmd_RequestMap(NetworkConnectionToClient sender = null)
         {
+            Debug.Log($"Sender is {sender != null}");
             StartCoroutine(WorldSendCoroutine(sender));
         }
 

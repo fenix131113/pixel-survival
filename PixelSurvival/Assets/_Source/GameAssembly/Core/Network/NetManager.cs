@@ -120,8 +120,9 @@ namespace GameAssembly.Core.Network
 
             IEnumerator RequestMapCoroutine()
             {
+                yield return new WaitForSeconds(0.1f);
+                
                 var wcm = GameInstaller.Resolve<WorldCreateManager>();
-                yield return new WaitUntil(() => wcm.netIdentity.netId != 0);
                 wcm.Cmd_RequestMap();
             }
         }
