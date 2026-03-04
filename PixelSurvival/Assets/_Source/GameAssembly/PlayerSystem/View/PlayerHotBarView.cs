@@ -8,7 +8,6 @@ namespace GameAssembly.PlayerSystem.View
     public class PlayerHotBarView : MonoBehaviour
     {
         [SerializeField] private PlayerInventoryView playerInventoryView;
-
         private PlayerSelector _playerSelector;
 
         private IEnumerator Start()
@@ -20,6 +19,7 @@ namespace GameAssembly.PlayerSystem.View
                 yield return null;
             
             _playerSelector = NetworkClient.localPlayer.GetComponent<PlayerSelector>();
+            
             Bind();
         }
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using GameAssembly.InventorySystem;
 using GameAssembly.ItemsSystem;
 using Mirror;
@@ -14,6 +14,7 @@ namespace GameAssembly.PlayerSystem
     public class PlayerSelector : NetworkBehaviour // TODO: Make selection with scroll
     {
         [SerializeField] private PlayerLocalInventoryManager playerLocalInventoryManager;
+        [SerializeField] private bool invertMouseWheelSelection;
 
         [field: SerializeField] public int HotBarSize { get; private set; } = 10;
 
@@ -150,6 +151,14 @@ namespace GameAssembly.PlayerSystem
             Client_Bind();
         }
 
+        private void Update()
+        {
+            if (isServerOnly || !isLocalPlayer || _inventory == null)
+                return;
+
+            HandleMouseWheelSelection();
+        }
+
         /// <summary>Works only on client </summary>
         /// <param name="index">-1 = null</param>
         public void SetSelection(int index) // Only client method because script SyncDirection is Client To Server
@@ -173,22 +182,60 @@ namespace GameAssembly.PlayerSystem
 
         private void OnSelectionClicked(InputAction.CallbackContext callbackContext)
         {
+            if (TryGetHotBarIndexFromKeyboard(callbackContext, out var hotBarIndex))
+                SetSelection(hotBarIndex);
+        }
+
+        private bool TryGetHotBarIndexFromKeyboard(InputAction.CallbackContext callbackContext, out int hotBarIndex)
+        {
+            hotBarIndex = -1;
+
+            if (callbackContext.control is not KeyControl key)
+                return false;
+
             if (callbackContext.ReadValue<float>() < 0.1f)
+                return false;
+
+            if (!int.TryParse(key.name, out var index))
+                return false;
+
+            hotBarIndex = index == 0 ? 9 : index - 1;
+
+            return hotBarIndex >= 0 && hotBarIndex < HotBarSize;
+        }
+
+        private void HandleMouseWheelSelection()
+        {
+            if (Mouse.current == null)
                 return;
 
-            var key = callbackContext.control as KeyControl;
+            var scrollDirection = Mouse.current.scroll.ReadValue().y;
 
-            var index = int.Parse(key!.name);
-
-            if (index == 0)
-                index = 9;
-            else
-                index--;
-
-            if (index < 0 || index >= HotBarSize)
+            if (Mathf.Abs(scrollDirection) < 0.01f)
                 return;
 
-            SetSelection(index);
+            var direction = scrollDirection < 0 ? 1 : -1;
+
+            if (invertMouseWheelSelection)
+                direction *= -1;
+
+            var hotBarIndex = GetWrappedHotBarIndex(direction);
+
+            if (hotBarIndex < 0 || hotBarIndex == SelectedIndex)
+                return;
+
+            SetSelection(hotBarIndex);
+        }
+
+        private int GetWrappedHotBarIndex(int direction)
+        {
+            if (HotBarSize <= 0)
+                return -1;
+
+            if (!IsSelectionActive)
+                return direction > 0 ? 0 : HotBarSize - 1;
+
+            return (SelectedIndex + direction + HotBarSize) % HotBarSize;
         }
 
         private void Client_Bind()

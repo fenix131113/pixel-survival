@@ -2530,6 +2530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: GameAssembly::GameAssembly.InventorySystem.View.PlayerHotBarView
   playerInventoryView: {fileID: 355121245}
+  selectionTexture: {fileID: 7452511706716290368, guid: dd2d9d2c9c8949e4992da1d09cc671ed, type: 3}
 --- !u!114 &355121248
 MonoBehaviour:
   m_ObjectHideFlags: 0
