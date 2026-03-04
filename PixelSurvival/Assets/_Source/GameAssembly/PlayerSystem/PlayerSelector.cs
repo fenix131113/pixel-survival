@@ -11,7 +11,7 @@ using VContainer;
 
 namespace GameAssembly.PlayerSystem
 {
-    public class PlayerSelector : NetworkBehaviour
+    public class PlayerSelector : NetworkBehaviour // TODO: Make selection with scroll
     {
         [SerializeField] private PlayerLocalInventoryManager playerLocalInventoryManager;
 
@@ -22,7 +22,7 @@ namespace GameAssembly.PlayerSystem
 
         /// <returns>
         /// <b>True</b> - If selected one of the cells and this cell contains any item, otherwise <b>False</b>
-        /// </returns>>
+        /// </returns>
         public bool IsSelectedItem => IsSelectionActive &&
                                       _inventory.GetItemByIndex(GetInventoryIndexByHotBarIndex(SelectedIndex)) != null;
 
@@ -65,19 +65,24 @@ namespace GameAssembly.PlayerSystem
                 return;
 
             CheckForBehaviour(-1);
+            OnSelectedItemChanged?.Invoke();
         }
 
         // Called on server and OTHER clients (not on called client)
         private void OnSelectionChanged(int oldValue, int newValue)
         {
             if (!isLocalPlayer)
+            {
                 OnSelectionChangedEvent?.Invoke(oldValue, newValue);
+                OnSelectedItemChanged?.Invoke();
+            }
 
             if (!isServerOnly)
                 return;
 
-            OnSelectionChangedEvent?.Invoke(oldValue, newValue);
             CheckForBehaviour(oldValue);
+            OnSelectionChangedEvent?.Invoke(oldValue, newValue);
+            OnSelectedItemChanged?.Invoke();
         }
 
         private void CheckForBehaviour(int oldItemInvIndex)
@@ -112,7 +117,6 @@ namespace GameAssembly.PlayerSystem
                 return;
 
             var inv1 = invIdentity1.GetComponent<IInventory>();
-            var inv2 = invIdentity2.GetComponent<IInventory>();
 
 
             if (firstIndex == GetInventoryIndexByHotBarIndex(SelectedIndex) &&
@@ -156,6 +160,7 @@ namespace GameAssembly.PlayerSystem
             {
                 SelectedIndex = -1;
                 OnSelectionChangedEvent?.Invoke(temp, SelectedIndex);
+                OnSelectedItemChanged?.Invoke();
                 CheckForBehaviour(temp);
                 return;
             }
@@ -163,6 +168,7 @@ namespace GameAssembly.PlayerSystem
             SelectedIndex = index;
             CheckForBehaviour(temp);
             OnSelectionChangedEvent?.Invoke(temp, index);
+            OnSelectedItemChanged?.Invoke();
         }
 
         private void OnSelectionClicked(InputAction.CallbackContext callbackContext)

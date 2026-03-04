@@ -1,12 +1,13 @@
-﻿using GameAssembly.Utils;
+﻿using System;
+using GameAssembly.Utils;
 using GameAssembly.WorldSystem.Data;
 using Mirror;
 using UnityEngine;
 
 namespace GameAssembly.WorldSystem
 {
-    [System.Serializable]
-    public struct BlockData
+    [Serializable]
+    public struct BlockData : IEquatable<BlockData>
     {
         public BlockType type;
         public BlockFlags flags;
@@ -35,6 +36,15 @@ namespace GameAssembly.WorldSystem
         }
 
         public bool IsSolid => (flags & BlockFlags.SOLID) != 0;
+        public bool IsBreakable => (flags & BlockFlags.BREAKABLE) != 0;
+
+        public bool Equals(BlockData other) =>
+            type == other.type && Equals(definition, other.definition);
+
+        public override bool Equals(object obj) =>
+            obj is BlockData other && Equals(other);
+
+        public override int GetHashCode() => HashCode.Combine((int)type, definition);
     }
 
     public static class BlockDataWriteReader
@@ -45,7 +55,7 @@ namespace GameAssembly.WorldSystem
 
             if (!blockData.definition)
                 return;
-            
+
             writer.WriteString(blockData.definition.name);
             writer.WriteByte(blockData.meta);
         }

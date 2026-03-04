@@ -7,7 +7,7 @@ namespace GameAssembly.WorldSystem
         public BlockData Floor;
         public BlockData Block;
 
-        public static CellData Empty => new CellData
+        public static CellData Empty => new()
         {
             Floor = BlockData.Air,
             Block = BlockData.Air,

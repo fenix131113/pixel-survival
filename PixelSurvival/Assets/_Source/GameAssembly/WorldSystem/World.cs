@@ -377,7 +377,10 @@ namespace GameAssembly.WorldSystem
             return chunk;
         }
 
-        public static Vector2Int ConvertWorldToChunkCoord(int worldX, int worldY)
+        /// <summary>
+        /// Converts world position to local chunk cell position
+        /// </summary>
+        public static Vector2Int ConvertWorldToChunkSpace(int worldX, int worldY)
         {
             var localX = Mathf.RoundToInt(worldX) % Chunk.CHUNK_SIZE;
             var localY = Mathf.RoundToInt(worldY) % Chunk.CHUNK_SIZE;
@@ -401,11 +404,10 @@ namespace GameAssembly.WorldSystem
         {
             var chunk = GetChunkByWorldPosition(worldX, worldY);
 
-            return chunk?.GetCell(ConvertWorldToChunkCoord(worldX, worldY)) ?? CellData.Empty;
+            return chunk?.GetCell(ConvertWorldToChunkSpace(worldX, worldY)) ?? CellData.Empty;
         }
 
-        public Vector2Int
-            FindRandomNearestBlockByType(int x, int y, BlockType findType, bool isFloor) // TODO: fix spawn in blocks
+        public Vector2Int FindRandomNearestBlockByType(int x, int y, BlockType findType, bool isFloor) // TODO: fix spawn in blocks
         {
             var currentLayerIndex = 0;
             List<(Vector2Int, CellData)> needBlocks = null;

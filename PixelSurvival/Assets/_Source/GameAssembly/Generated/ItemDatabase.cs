@@ -10,6 +10,7 @@ namespace GameAssembly.Generated
     {
         public static readonly ItemDefinitionSO Apple;
         public static readonly ItemDefinitionSO Axe;
+        public static readonly ItemDefinitionSO Dirt;
         public static readonly ItemDefinitionSO Pickaxe;
         public static readonly ItemDefinitionSO Pie;
         public static readonly ItemDefinitionSO RedMushroom;
@@ -23,6 +24,7 @@ namespace GameAssembly.Generated
         {
             Apple = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Apple");
             Axe = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Axe");
+            Dirt = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Dirt");
             Pickaxe = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Pickaxe");
             Pie = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Pie");
             RedMushroom = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/RedMushroom");

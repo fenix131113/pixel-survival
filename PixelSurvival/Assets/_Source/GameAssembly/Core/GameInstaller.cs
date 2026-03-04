@@ -1,4 +1,5 @@
-﻿using GameAssembly.InventorySystem.View;
+﻿using GameAssembly.BuildSystem;
+using GameAssembly.InventorySystem.View;
 using GameAssembly.PlayerSystem.Data;
 using GameAssembly.PlayerSystem.Variables;
 using GameAssembly.WorldSystem;
@@ -38,9 +39,7 @@ namespace GameAssembly.Core
             builder.Register<PlayerVariables>(Lifetime.Scoped)
                 .AsImplementedInterfaces()
                 .AsSelf();
-
-            builder.RegisterComponentInHierarchy<WorldCreateManager>();
-
+            
             #endregion
 
             #region InventorySystem
@@ -53,6 +52,13 @@ namespace GameAssembly.Core
 
             _world = new World();
             builder.RegisterInstance(_world);
+            builder.RegisterComponentInHierarchy<WorldCreateManager>();
+
+            #endregion
+
+            #region Build
+
+            builder.RegisterComponentInHierarchy<ServerBuild>();
 
             #endregion
         }

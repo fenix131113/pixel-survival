@@ -13,7 +13,7 @@ using VContainer;
 
 namespace GameAssembly.PlayerSystem.View
 {
-    public class PlayerInventoryView : NetworkBehaviour
+    public class PlayerInventoryView : NetworkBehaviour // TODO: Make blockers for player attack, build and etc. when open inventories
     {
         [SerializeField] private ItemCell cellPrefab;
         [SerializeField] private GameObject inventoryPanel;

@@ -22,14 +22,14 @@
         /// <summary>
         /// All methods call on server and clients via RPC so it's wouldn't sync with new players
         /// </summary>
-        virtual void OnDrop(ItemContext ctx)
+        virtual void OnDrop(ItemContext ctx) // TODO
         {
         }
 
         /// <summary>
         /// All methods call on server and clients via RPC so it's wouldn't sync with new players
         /// </summary>
-        virtual void OnPickup(ItemContext ctx)
+        virtual void OnPickup(ItemContext ctx) // TODO
         {
         }
 

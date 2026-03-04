@@ -67,8 +67,11 @@ namespace GameAssembly.InventorySystem
         [Command]
         public void DropItemFromInventory(NetworkIdentity inventoryIdentity, int cellIndex, Vector2 dropPosition, NetworkConnectionToClient sender = null)
         {
+            if(!inventoryIdentity)
+                return;
+            
             var inv = inventoryIdentity.GetComponent<IInventory>();
-            var item = inv.GetItemByIndex(cellIndex);
+            var item = inv?.GetItemByIndex(cellIndex);
             
             if(item == null)
                 return;

@@ -154,7 +154,7 @@ namespace GameAssembly.PlayerSystem
                 }
                 else if (h.collider.gameObject
                          .GetComponentInAnyParent<ChunkRenderer>(out var chunkVisual)) // Breaking world(chunk) blocks. TODO: maybe move break logic to another script
-                {
+                {// TODO: Add placed floor breaking and separate it's logic
                     var hitPoint = h.point + dir * 0.01f;
                     var blockIndexes = chunkVisual.Tilemap.WorldToCell(hitPoint);
 
@@ -164,7 +164,7 @@ namespace GameAssembly.PlayerSystem
 
                     var cell = chunkVisual.Chunk.GetCell(blockIndexes.x, blockIndexes.y);
 
-                    if (cell.Block.type != BlockType.AIR)
+                    if (cell.Block.type != BlockType.AIR && cell.Block.IsBreakable)
                     {
                         ServerItemSpawner.Server_SpawnItem(chunkVisual.Tilemap.GetCellCenterWorld(blockIndexes), cell.Block.definition.DropItem, cell.Block.definition.RandomizeDropAmount());
                         chunkVisual.Chunk.SetBlock(blockIndexes.x, blockIndexes.y, false, BlockData.Air);

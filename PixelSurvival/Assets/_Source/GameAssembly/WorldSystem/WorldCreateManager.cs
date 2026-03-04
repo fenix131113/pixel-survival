@@ -53,8 +53,9 @@ namespace GameAssembly.WorldSystem
                 return;
             
             var world = GameInstaller.Resolve<World>();
-            var currentChunk = world.GetOrCreateChunk(chunkCoord);
-            currentChunk.SetCell(x, y, cell);
+            var currentChunk = world.GetChunk(chunkCoord);
+
+            currentChunk?.SetCell(x, y, cell);
         }
 
         [Server]

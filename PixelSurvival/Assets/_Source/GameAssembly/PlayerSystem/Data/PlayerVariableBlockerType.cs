@@ -5,6 +5,7 @@
         MOVEMENT = 0,
         LOOK = 1,
         ATTACK = 2,
-        INTERACT = 3
+        INTERACT = 3,
+        BUILD = 4,
     }
 }

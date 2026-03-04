@@ -53,14 +53,11 @@ namespace GameAssembly.WorldSystem
             Cells[x, y] = cell;
             DirtyVisual = true;
             DirtyCollider = true;
-            
+
             OnChunkChanged?.Invoke(this);
-            
-            if(NetworkServer.active)
-            {
-                Debug.Log("PUPUPU");
+
+            if (NetworkServer.active)
                 GameInstaller.Resolve<WorldCreateManager>().Rpc_SyncCell(Coord, x, y, cell);
-            }
         }
 
         public void SetBlock(int x, int y, bool isFloor, BlockData block)
@@ -72,15 +69,19 @@ namespace GameAssembly.WorldSystem
 
             DirtyVisual = true;
             DirtyCollider = true;
-            
+
             OnChunkChanged?.Invoke(this);
-            
-            if(NetworkServer.active)
-            {
-                Debug.Log("PUPUPU");
+
+            if (NetworkServer.active)
                 GameInstaller.Resolve<WorldCreateManager>().Rpc_SyncCell(Coord, x, y, Cells[x, y]);
-            }
         }
+
+        #region Utils
+
+        public CellData GetLocalCellByWorldPosition(int worldX, int worldY) =>
+            GetCell(World.ConvertWorldToChunkSpace(worldX, worldY));
+
+        #endregion
     }
 
     public static class ChunkWriteReader
