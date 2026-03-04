@@ -101,7 +101,7 @@ Animator:
   m_GameObject: {fileID: 2050274975896816977}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f759cb967a177d04e88dabe77d06ef8a, type: 2}
+  m_Controller: {fileID: 9100000, guid: edc242af336d58546b85b97e3a2c477b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -322,6 +322,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea54cbd6208d4c339e37ee72bc445cc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: GameAssembly::GameAssembly.BuildSystem.PlayerBuild
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!61 &3510546047238882582
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 81c1165fd3e40f847b48a97c2ee17aad
+guid: 4b1e3f6d9057f3a41a8cdd8b5f385480
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8468551184017497215
-    second: GG_0
+      213: 1589381665132965103
+    second: GGWomanWalkRight_0
   - first:
-      213: -4105872012985070785
-    second: GG_1
+      213: -4985442215753517948
+    second: GGWomanWalkRight_1
   - first:
-      213: 4382831919887955810
-    second: GG_2
+      213: 1269470422887555254
+    second: GGWomanWalkRight_2
   - first:
-      213: -149948240992525047
-    second: GG_3
+      213: -6475128626044094502
+    second: GGWomanWalkRight_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -84,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -135,89 +135,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: GG_0
+      name: GGWomanWalkRight_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 0
-        width: 14
-        height: 23
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 15
+        y: 15
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.24}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1836c620199a97a80800000000000000
-      internalID: -8468551184017497215
+      spriteID: fece4ca143e9e0610800000000000000
+      internalID: 1589381665132965103
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GG_1
+      name: GGWomanWalkRight_1
       rect:
         serializedVersion: 2
-        x: 17
-        y: 0
-        width: 14
-        height: 23
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 63
+        y: 15
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.24}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f3b8ec478230507c0800000000000000
-      internalID: -4105872012985070785
+      spriteID: 48476c108b620dab0800000000000000
+      internalID: -4985442215753517948
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GG_2
+      name: GGWomanWalkRight_2
       rect:
         serializedVersion: 2
-        x: 33
-        y: 0
-        width: 14
-        height: 23
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 111
+        y: 15
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.24}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2673a2fe862f2dc30800000000000000
-      internalID: 4382831919887955810
+      spriteID: 6b0e319af901e9110800000000000000
+      internalID: 1269470422887555254
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GG_3
+      name: GGWomanWalkRight_3
       rect:
         serializedVersion: 2
-        x: 49
-        y: 0
-        width: 14
-        height: 23
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 159
+        y: 15
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.24}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 90522f88ed64bedf0800000000000000
-      internalID: -149948240992525047
+      spriteID: ad7bda142d8b326a0800000000000000
+      internalID: -6475128626044094502
       vertices: []
       indices: 
       edges: []
@@ -226,7 +226,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: ed9672a0dc602d246ae753d96189e8bb
+    spriteID: 061b7a60e1fe9b94f895384f89105643
     internalID: 0
     vertices: []
     indices: 
@@ -236,10 +236,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      GG_0: -8468551184017497215
-      GG_1: -4105872012985070785
-      GG_2: 4382831919887955810
-      GG_3: -149948240992525047
+      GGWomanWalkRight_0: 1589381665132965103
+      GGWomanWalkRight_1: -4985442215753517948
+      GGWomanWalkRight_2: 1269470422887555254
+      GGWomanWalkRight_3: -6475128626044094502
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
