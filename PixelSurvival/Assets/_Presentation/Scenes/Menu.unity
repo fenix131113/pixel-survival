@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 47898039}
   - component: {fileID: 47898040}
   - component: {fileID: 47898041}
+  - component: {fileID: 47898042}
   m_Layer: 0
   m_Name: GENERAL
   m_TagString: Untagged
@@ -202,6 +203,21 @@ MonoBehaviour:
   seed: 2147483647
   scale: 0.2
   fileName: BiomeNoise.png
+--- !u!114 &47898042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 47898037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2acc50a490695e46a4e2548c3428c75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::LocalizationSystem.LocalizationBootstrap
+  database: {fileID: 11400000, guid: e0f5ec35643d27245a0fac223574617d, type: 2}
+  defaultLanguageCode: en
+  dontDestroyOnLoad: 1
 --- !u!1 &132389180
 GameObject:
   m_ObjectHideFlags: 0

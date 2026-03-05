@@ -45,6 +45,14 @@ namespace GameAssembly.PlayerSystem
         /// Called on server and current client
         /// </summary>
         public event Action OnSelectedItemChanged;
+        
+        private void Update()
+        {
+            if (isServerOnly || !isLocalPlayer || _inventory == null)
+                return;
+
+            HandleMouseWheelSelection();
+        }
 
         private void OnDestroy()
         {
@@ -149,14 +157,6 @@ namespace GameAssembly.PlayerSystem
 
             ObjectInjector.Inject(this);
             Client_Bind();
-        }
-
-        private void Update()
-        {
-            if (isServerOnly || !isLocalPlayer || _inventory == null)
-                return;
-
-            HandleMouseWheelSelection();
         }
 
         /// <summary>Works only on client </summary>
