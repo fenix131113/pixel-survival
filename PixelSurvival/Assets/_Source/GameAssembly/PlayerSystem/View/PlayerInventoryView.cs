@@ -1,10 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using GameAssembly.Generated;
 using GameAssembly.InventorySystem;
 using GameAssembly.InventorySystem.View;
-using GameAssembly.ItemsSystem.Data;
+using GameAssembly.PlayerSystem.Data;
+using GameAssembly.PlayerSystem.Variables;
+using GameAssembly.UiSystem;
+using GameAssembly.UiSystem.Data;
 using GameAssembly.Utils;
+using GameAssembly.Utils.VariablesSystem;
 using Mirror;
 using PlayerSystem;
 using UnityEngine;
@@ -13,7 +17,7 @@ using VContainer;
 
 namespace GameAssembly.PlayerSystem.View
 {
-    public class PlayerInventoryView : NetworkBehaviour // TODO: Make blockers for player attack, build and etc. when open inventories
+    public class PlayerInventoryView : NetworkBehaviour, IUiInventory // TODO: Make blockers for player attack, build and etc. when open inventories
     {
         [SerializeField] private ItemCell cellPrefab;
         [SerializeField] private GameObject inventoryPanel;
@@ -23,20 +27,23 @@ namespace GameAssembly.PlayerSystem.View
 
         [Inject] private MovingItem _movingItem;
         [Inject] private InputSystem_Actions _input;
+        [Inject] private IVariablesResolver<PlayerVariableBlockerType, Action, Action> _variablesResolver;
 
         private PlayerSelector _playerSelector;
         private IInventory _inventory;
         private ItemCell[] _cells;
         private ItemCell[] _hotBarCells;
 
+        private readonly IVariableBlocker<PlayerVariableBlockerType> _inventoryBlocker =
+            new PlayerVariableBlocker(PlayerVariableBlockerType.MOVEMENT, PlayerVariableBlockerType.BUILD,
+                PlayerVariableBlockerType.ATTACK, PlayerVariableBlockerType.INTERACT);
+
         public IReadOnlyCollection<ItemCell> HotBarCells => _hotBarCells;
 
         public void Start()
         {
             if (!isServerOnly)
-            {
                 StartCoroutine(WaitForPlayer());
-            }
 
             if (!isClient)
                 return;
@@ -51,25 +58,12 @@ namespace GameAssembly.PlayerSystem.View
                 Expose();
         }
 
-        private void Update()
-        {
-            if (NetworkServer.active && !NetworkClient.active)
-                return;
-
-            if (Keyboard.current.yKey.wasPressedThisFrame)
-                Cmd_AddItem(NetworkClient.localPlayer, ItemDatabase.Apple, 5);
-
-            if (Keyboard.current.tKey.wasPressedThisFrame)
-                Cmd_AddItem(NetworkClient.localPlayer, ItemDatabase.TestItem, 5);
-        }
-
         private void OnInventoryClicked(InputAction.CallbackContext callbackContext)
         {
-            inventoriesContentPanel.SetActive(!inventoriesContentPanel.activeSelf);
-            inventoryPanel.SetActive(inventoriesContentPanel.activeSelf);
-
-            if (!inventoriesContentPanel.activeSelf)
-                _movingItem.ForceClose();
+            if (inventoriesContentPanel.activeSelf)
+                UiManager.Instance.CloseRequest(this);
+            else
+                UiManager.Instance.OpenRequest(this);
         }
 
         private void SpawnCells()
@@ -94,11 +88,27 @@ namespace GameAssembly.PlayerSystem.View
             }
         }
 
-        [Command(requiresAuthority = false)]
-        private void Cmd_AddItem(NetworkIdentity identity, ItemDefinitionSO item, int amount)
+        public void Open()
         {
-            identity.GetComponent<BaseInventory>().TryAddNewItem(item, amount);
+            inventoriesContentPanel.SetActive(true);
+            inventoryPanel.SetActive(true);
+
+            _variablesResolver.RegisterBlocker(_inventoryBlocker);
         }
+
+        public void Close()
+        {
+            inventoriesContentPanel.SetActive(false);
+            inventoryPanel.SetActive(false);
+
+            _movingItem.ForceClose();
+            _inventoryBlocker.Dispose();
+        }
+
+        public bool IsOpen() => inventoriesContentPanel.activeSelf;
+        public MenuType GetMenuType() => MenuType.PLAYER_INVENTORY;
+
+        public IInventory GetInventory() => _inventory;
 
         private void Bind() => _input.Player.Inventory.performed += OnInventoryClicked;
 

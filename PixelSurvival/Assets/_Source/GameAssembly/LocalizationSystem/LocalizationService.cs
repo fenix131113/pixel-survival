@@ -8,7 +8,7 @@ namespace GameAssembly.LocalizationSystem
     {
         public static event Action<string> LanguageChanged;
 
-        public static bool IsInitialized => _database != null;
+        public static bool IsInitialized => _database;
         public static string CurrentLanguageCode => _currentLanguageCode;
 
         private static LocalizationDatabase _database;
@@ -18,7 +18,7 @@ namespace GameAssembly.LocalizationSystem
         {
             _database = localizationDatabase;
 
-            if (_database == null)
+            if (!_database)
             {
                 Debug.LogError("LocalizationService.Initialize called with null database.");
                 _currentLanguageCode = string.Empty;
@@ -26,16 +26,12 @@ namespace GameAssembly.LocalizationSystem
             }
 
             if (!string.IsNullOrWhiteSpace(defaultLanguageCode) && SetLanguage(defaultLanguageCode))
-            {
                 return;
-            }
 
             foreach (var preset in _database.Languages)
             {
                 if (!preset)
-                {
                     continue;
-                }
 
                 _currentLanguageCode = preset.LanguageCode;
                 LanguageChanged?.Invoke(_currentLanguageCode);
@@ -55,19 +51,13 @@ namespace GameAssembly.LocalizationSystem
             }
 
             if (string.IsNullOrWhiteSpace(languageCode))
-            {
                 return false;
-            }
 
             if (!_database.TryGetLanguage(languageCode, out _))
-            {
                 return false;
-            }
 
             if (string.Equals(_currentLanguageCode, languageCode, StringComparison.OrdinalIgnoreCase))
-            {
                 return true;
-            }
 
             _currentLanguageCode = languageCode;
             LanguageChanged?.Invoke(_currentLanguageCode);
@@ -99,16 +89,12 @@ namespace GameAssembly.LocalizationSystem
         public static IEnumerable<string> GetAvailableLanguageCodes()
         {
             if (!IsInitialized)
-            {
                 yield break;
-            }
 
             foreach (var language in _database.Languages)
             {
-                if (language == null || string.IsNullOrWhiteSpace(language.LanguageCode))
-                {
+                if (!language || string.IsNullOrWhiteSpace(language.LanguageCode))
                     continue;
-                }
 
                 yield return language.LanguageCode;
             }

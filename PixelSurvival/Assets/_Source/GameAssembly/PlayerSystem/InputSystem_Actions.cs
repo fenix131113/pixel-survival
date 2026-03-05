@@ -192,6 +192,15 @@ namespace PlayerSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""94554c94-c0cf-4a96-878c-3d65217b4b37"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -687,6 +696,17 @@ namespace PlayerSystem
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
                     ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""92f3e466-3695-4a7c-9994-33114d71066c"",
+                    ""path"": ""*/{Cancel}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";XR;Joystick;Touch;Gamepad;Keyboard&Mouse"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1285,6 +1305,7 @@ namespace PlayerSystem
             m_Player_Selection = m_Player.FindAction("Selection", throwIfNotFound: true);
             m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
             m_Player_CraftMenu = m_Player.FindAction("CraftMenu", throwIfNotFound: true);
+            m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1389,6 +1410,7 @@ namespace PlayerSystem
         private readonly InputAction m_Player_Selection;
         private readonly InputAction m_Player_Inventory;
         private readonly InputAction m_Player_CraftMenu;
+        private readonly InputAction m_Player_Cancel;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
         /// </summary>
@@ -1444,6 +1466,10 @@ namespace PlayerSystem
             /// Provides access to the underlying input action "Player/CraftMenu".
             /// </summary>
             public InputAction @CraftMenu => m_Wrapper.m_Player_CraftMenu;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/Cancel".
+            /// </summary>
+            public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -1503,6 +1529,9 @@ namespace PlayerSystem
                 @CraftMenu.started += instance.OnCraftMenu;
                 @CraftMenu.performed += instance.OnCraftMenu;
                 @CraftMenu.canceled += instance.OnCraftMenu;
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
             }
 
             /// <summary>
@@ -1547,6 +1576,9 @@ namespace PlayerSystem
                 @CraftMenu.started -= instance.OnCraftMenu;
                 @CraftMenu.performed -= instance.OnCraftMenu;
                 @CraftMenu.canceled -= instance.OnCraftMenu;
+                @Cancel.started -= instance.OnCancel;
+                @Cancel.performed -= instance.OnCancel;
+                @Cancel.canceled -= instance.OnCancel;
             }
 
             /// <summary>
@@ -1924,6 +1956,13 @@ namespace PlayerSystem
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnCraftMenu(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Cancel" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnCancel(InputAction.CallbackContext context);
         }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

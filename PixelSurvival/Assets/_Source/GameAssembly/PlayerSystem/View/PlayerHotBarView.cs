@@ -8,6 +8,7 @@ namespace GameAssembly.PlayerSystem.View
     public class PlayerHotBarView : MonoBehaviour
     {
         [SerializeField] private PlayerInventoryView playerInventoryView;
+        [SerializeField] private Transform hotBarParent;
         private PlayerSelector _playerSelector;
 
         private IEnumerator Start()
@@ -28,7 +29,7 @@ namespace GameAssembly.PlayerSystem.View
             if (NetworkClient.active)
                 Expose();
         }
-
+        
         private void OnSelectionChanged(int oldValue, int newValue)
         {
             if (oldValue != -1)
