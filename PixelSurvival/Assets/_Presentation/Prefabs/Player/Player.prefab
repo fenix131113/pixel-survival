@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: -1487007735813195068}
   - component: {fileID: -7355307408136034134}
   - component: {fileID: -3329573428407861186}
+  - component: {fileID: 940379009787909008}
   - component: {fileID: 3510546047238882582}
   - component: {fileID: 7482978751402099095}
   - component: {fileID: 5380170667326270308}
@@ -273,6 +274,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   playerLocalInventoryManager: {fileID: -2963712798787047777}
+  invertMouseWheelSelection: 0
   <HotBarSize>k__BackingField: 10
 --- !u!114 &-1487007735813195068
 MonoBehaviour:
@@ -325,6 +327,24 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+--- !u!114 &940379009787909008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7138410634727892820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99b8825e494f4b1690ecfdc0ddac5309, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.HealthSystem.BaseHealthObject
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  healthType: 1
+  maxHealth: 100
+  immediatelyDestroy: 0
 --- !u!61 &3510546047238882582
 BoxCollider2D:
   m_ObjectHideFlags: 0

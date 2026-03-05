@@ -11,7 +11,7 @@ using VContainer;
 
 namespace GameAssembly.PlayerSystem
 {
-    public class PlayerSelector : NetworkBehaviour // TODO: Make selection with scroll
+    public class PlayerSelector : NetworkBehaviour
     {
         [SerializeField] private PlayerLocalInventoryManager playerLocalInventoryManager;
         [SerializeField] private bool invertMouseWheelSelection;
