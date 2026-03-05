@@ -2,7 +2,7 @@
 using VContainer;
 using VContainer.Unity;
 
-namespace Utils
+namespace GameAssembly.Utils
 {
     public static class ObjectInjector
     {

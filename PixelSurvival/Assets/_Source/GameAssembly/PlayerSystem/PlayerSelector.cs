@@ -1,12 +1,12 @@
 using System;
 using GameAssembly.InventorySystem;
 using GameAssembly.ItemsSystem;
+using GameAssembly.Utils;
 using Mirror;
 using PlayerSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
-using Utils;
 using VContainer;
 
 namespace GameAssembly.PlayerSystem

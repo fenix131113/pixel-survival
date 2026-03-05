@@ -1,11 +1,11 @@
 ﻿using System;
 using GameAssembly.PlayerSystem.Data;
 using GameAssembly.PlayerSystem.Variables;
+using GameAssembly.Utils;
 using GameAssembly.Utils.VariablesSystem;
 using Mirror;
 using PlayerSystem;
 using UnityEngine;
-using Utils;
 using VContainer;
 
 namespace GameAssembly.PlayerSystem

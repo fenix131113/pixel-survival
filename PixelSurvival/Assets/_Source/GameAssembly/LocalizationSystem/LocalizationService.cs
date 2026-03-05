@@ -2,26 +2,26 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LocalizationSystem
+namespace GameAssembly.LocalizationSystem
 {
     public static class LocalizationService
     {
         public static event Action<string> LanguageChanged;
 
-        public static bool IsInitialized => database != null;
-        public static string CurrentLanguageCode => currentLanguageCode;
+        public static bool IsInitialized => _database != null;
+        public static string CurrentLanguageCode => _currentLanguageCode;
 
-        private static LocalizationDatabase database;
-        private static string currentLanguageCode;
+        private static LocalizationDatabase _database;
+        private static string _currentLanguageCode;
 
         public static void Initialize(LocalizationDatabase localizationDatabase, string defaultLanguageCode = null)
         {
-            database = localizationDatabase;
+            _database = localizationDatabase;
 
-            if (database == null)
+            if (_database == null)
             {
                 Debug.LogError("LocalizationService.Initialize called with null database.");
-                currentLanguageCode = string.Empty;
+                _currentLanguageCode = string.Empty;
                 return;
             }
 
@@ -30,19 +30,19 @@ namespace LocalizationSystem
                 return;
             }
 
-            foreach (var preset in database.Languages)
+            foreach (var preset in _database.Languages)
             {
-                if (preset == null)
+                if (!preset)
                 {
                     continue;
                 }
 
-                currentLanguageCode = preset.LanguageCode;
-                LanguageChanged?.Invoke(currentLanguageCode);
+                _currentLanguageCode = preset.LanguageCode;
+                LanguageChanged?.Invoke(_currentLanguageCode);
                 return;
             }
 
-            currentLanguageCode = string.Empty;
+            _currentLanguageCode = string.Empty;
             Debug.LogWarning("Localization database does not contain any languages.");
         }
 
@@ -59,18 +59,18 @@ namespace LocalizationSystem
                 return false;
             }
 
-            if (!database.TryGetLanguage(languageCode, out _))
+            if (!_database.TryGetLanguage(languageCode, out _))
             {
                 return false;
             }
 
-            if (string.Equals(currentLanguageCode, languageCode, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(_currentLanguageCode, languageCode, StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }
 
-            currentLanguageCode = languageCode;
-            LanguageChanged?.Invoke(currentLanguageCode);
+            _currentLanguageCode = languageCode;
+            LanguageChanged?.Invoke(_currentLanguageCode);
             return true;
         }
 
@@ -83,22 +83,17 @@ namespace LocalizationSystem
         {
             value = key;
 
-            if (!IsInitialized || string.IsNullOrWhiteSpace(currentLanguageCode))
+            if (!IsInitialized || string.IsNullOrWhiteSpace(_currentLanguageCode))
             {
                 return false;
             }
 
-            if (!database.TryGetLanguage(currentLanguageCode, out var languagePreset))
+            if (!_database.TryGetLanguage(_currentLanguageCode, out var languagePreset))
             {
                 return false;
             }
 
-            if (languagePreset == null)
-            {
-                return false;
-            }
-
-            return languagePreset.TryGetValue(key, out value);
+            return languagePreset && languagePreset.TryGetValue(key, out value);
         }
 
         public static IEnumerable<string> GetAvailableLanguageCodes()
@@ -108,7 +103,7 @@ namespace LocalizationSystem
                 yield break;
             }
 
-            foreach (var language in database.Languages)
+            foreach (var language in _database.Languages)
             {
                 if (language == null || string.IsNullOrWhiteSpace(language.LanguageCode))
                 {

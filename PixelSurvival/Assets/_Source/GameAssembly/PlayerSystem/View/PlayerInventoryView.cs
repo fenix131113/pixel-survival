@@ -4,11 +4,11 @@ using GameAssembly.Generated;
 using GameAssembly.InventorySystem;
 using GameAssembly.InventorySystem.View;
 using GameAssembly.ItemsSystem.Data;
+using GameAssembly.Utils;
 using Mirror;
 using PlayerSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Utils;
 using VContainer;
 
 namespace GameAssembly.PlayerSystem.View

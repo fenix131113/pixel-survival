@@ -1,11 +1,11 @@
 using System;
 
-namespace LocalizationSystem
+namespace GameAssembly.LocalizationSystem
 {
     [Serializable]
     public struct LocalizationEntry
     {
-        public string Key;
-        public string Value;
+        public string key;
+        public string value;
     }
 }

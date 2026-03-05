@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LocalizationSystem
+namespace GameAssembly.LocalizationSystem
 {
     public class LocalizationBootstrap : MonoBehaviour
     {

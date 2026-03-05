@@ -1,10 +1,10 @@
 ﻿using GameAssembly.ItemsSystem;
+using GameAssembly.Utils;
 using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using Utils;
 using VContainer;
 
 namespace GameAssembly.InventorySystem.View

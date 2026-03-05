@@ -2,10 +2,10 @@
 using GameAssembly.InventorySystem.View;
 using GameAssembly.PlayerSystem.Data;
 using GameAssembly.PlayerSystem.Variables;
+using GameAssembly.Utils;
 using GameAssembly.WorldSystem;
 using PlayerSystem;
 using UnityEngine;
-using Utils;
 using VContainer;
 using VContainer.Unity;
 

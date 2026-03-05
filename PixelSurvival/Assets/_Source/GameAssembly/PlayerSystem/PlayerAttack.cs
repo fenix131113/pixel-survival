@@ -5,6 +5,7 @@ using GameAssembly.InventorySystem;
 using GameAssembly.ItemsSystem;
 using GameAssembly.ObjectsSystem;
 using GameAssembly.PlayerSystem.Data;
+using GameAssembly.Utils;
 using GameAssembly.Utils.Extensions;
 using GameAssembly.Utils.VariablesSystem;
 using GameAssembly.WorldSystem;
@@ -14,7 +15,6 @@ using Mirror;
 using PlayerSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Utils;
 using VContainer;
 
 namespace GameAssembly.PlayerSystem

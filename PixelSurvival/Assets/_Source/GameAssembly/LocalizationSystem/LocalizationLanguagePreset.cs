@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LocalizationSystem
+namespace GameAssembly.LocalizationSystem
 {
     [CreateAssetMenu(fileName = "LocalizationLanguagePreset", menuName = "SO/Localization/Language Preset")]
     public class LocalizationLanguagePreset : ScriptableObject
@@ -11,7 +11,7 @@ namespace LocalizationSystem
         [SerializeField] private string languageName = "English";
         [SerializeField] private LocalizationEntry[] entries = Array.Empty<LocalizationEntry>();
 
-        private Dictionary<string, string> cachedEntries;
+        private Dictionary<string, string> _cachedEntries;
 
         public string LanguageCode => languageCode;
         public string LanguageName => languageName;
@@ -19,36 +19,35 @@ namespace LocalizationSystem
         public bool TryGetValue(string key, out string value)
         {
             EnsureCache();
-            return cachedEntries.TryGetValue(key, out value);
+            return _cachedEntries.TryGetValue(key, out value);
         }
 
         public IReadOnlyCollection<LocalizationEntry> Entries => entries;
 
         private void EnsureCache()
         {
-            if (cachedEntries != null)
+            if (_cachedEntries != null)
             {
                 return;
             }
 
-            cachedEntries = new Dictionary<string, string>(StringComparer.Ordinal);
+            _cachedEntries = new Dictionary<string, string>(StringComparer.Ordinal);
 
-            for (var i = 0; i < entries.Length; i++)
+            foreach (var entry in entries)
             {
-                var entry = entries[i];
-                if (string.IsNullOrWhiteSpace(entry.Key))
+                if (string.IsNullOrWhiteSpace(entry.key))
                 {
                     continue;
                 }
 
-                cachedEntries[entry.Key] = entry.Value ?? string.Empty;
+                _cachedEntries[entry.key] = entry.value ?? string.Empty;
             }
         }
 
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            cachedEntries = null;
+            _cachedEntries = null;
         }
 #endif
     }
