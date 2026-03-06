@@ -9,6 +9,7 @@ namespace GameAssembly.PlayerSystem.View
     {
         [SerializeField] private PlayerInventoryView playerInventoryView;
         [SerializeField] private Transform hotBarParent;
+        
         private PlayerSelector _playerSelector;
 
         private IEnumerator Start()

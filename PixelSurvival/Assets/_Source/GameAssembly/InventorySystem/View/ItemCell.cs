@@ -1,4 +1,5 @@
 ﻿using GameAssembly.ItemsSystem;
+using GameAssembly.UiSystem;
 using GameAssembly.Utils;
 using Mirror;
 using TMPro;
@@ -9,7 +10,7 @@ using VContainer;
 
 namespace GameAssembly.InventorySystem.View
 {
-    public class ItemCell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler // TODO: Make new class for hot bar slot with PlayerSelector link
+    public class ItemCell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerClickHandler // TODO: Make new class for hot bar slot with PlayerSelector link
     {
         [SerializeField] private Image icon;
         [SerializeField] private TMP_Text counter;
@@ -31,11 +32,19 @@ namespace GameAssembly.InventorySystem.View
             _inventoryIdentity = inventoryIdentity;
             _inventory = _inventoryIdentity.GetComponent<IInventory>();
             CellIndex = cellIndex;
+            
+            if(!_isExposed)
+                Expose();
+            
             Bind();
             Draw();
         }
 
-        private void OnDestroy() => Expose();
+        private void OnDestroy()
+        {
+            if(!_isExposed)
+                Expose();
+        }
 
         protected virtual void CheckForChanges(int index)
         {
@@ -51,7 +60,6 @@ namespace GameAssembly.InventorySystem.View
             }
 
             _lastItem = item;
-
             Draw();
         }
 
@@ -72,7 +80,7 @@ namespace GameAssembly.InventorySystem.View
 
         protected void Client_CheckInventory()
         {
-            if(!NetworkClient.active || NetworkServer.active)
+            if (!NetworkClient.active || NetworkServer.active)
                 return;
             
             CheckForChanges(CellIndex);
@@ -111,7 +119,15 @@ namespace GameAssembly.InventorySystem.View
         {
             _movingItem.TriggerDrop(_inventoryIdentity, CellIndex);
         }
+        
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (eventData.button != PointerEventData.InputButton.Left)
+                return;
 
+            UiManager.Instance?.TryFastTransferBetweenOpenedInventories(_inventoryIdentity, CellIndex);
+        }
+        
         public void OnDrag(PointerEventData eventData)
         {
         }

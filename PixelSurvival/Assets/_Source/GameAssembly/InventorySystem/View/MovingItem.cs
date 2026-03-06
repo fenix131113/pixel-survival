@@ -41,6 +41,9 @@ namespace GameAssembly.InventorySystem.View
 
         public void StartDrag(NetworkIdentity inventoryIdentity, int cellIndex)
         {
+            if (Mouse.current.rightButton.isPressed || Mouse.current.middleButton.isPressed)
+                return;
+            
             if (!inventoryIdentity.TryGetComponent(out IInventory inventory))
                 return;
 
@@ -70,7 +73,7 @@ namespace GameAssembly.InventorySystem.View
             if(cellIndex == CurrentCellIndex)
                 return;
 
-            _playerLocalInventoryManager.CombineCells(CurrentInventoryIdentity, CurrentCellIndex, inventoryIdentity,
+            _playerLocalInventoryManager.Cmd_CombineCells(CurrentInventoryIdentity, CurrentCellIndex, inventoryIdentity,
                 cellIndex, false);
         }
 

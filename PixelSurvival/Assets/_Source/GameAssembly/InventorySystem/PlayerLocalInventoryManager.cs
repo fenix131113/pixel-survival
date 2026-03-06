@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using GameAssembly.ItemsSystem;
 using GameAssembly.ObjectsSystem;
 using Mirror;
@@ -10,13 +11,14 @@ namespace GameAssembly.InventorySystem
     {
         [SerializeField] private PickableObject dropPrefab;
 
-        private const float MAX_ITEM_DROP_DISTANCE = 5f;
+        private const float MAX_ITEM_DROP_DISTANCE = 1f;
         private const float ITEM_DROP_TAKE_PROTECTION_TIME = 2f;
-        
+
         /// <summary>
         /// Called on the server and current client. Firstly on the server
         /// </summary>
         public event Action<NetworkIdentity, int, NetworkIdentity, int> OnCombiningCellsReplace;
+
         /// <summary>
         /// Called on the server and current client. Firstly on the server
         /// </summary>
@@ -26,7 +28,19 @@ namespace GameAssembly.InventorySystem
         /// Combine FIRST in SECOND! First item can not be null
         /// </summary>
         [Command]
-        public void CombineCells(NetworkIdentity firstInvIdentity, int firstIndex, NetworkIdentity secondInvIdentity,
+        public void Cmd_CombineCells(NetworkIdentity firstInvIdentity, int firstIndex,
+            NetworkIdentity secondInvIdentity,
+            int secondIndex, bool ignoreMeta)
+        {
+            Server_CombineCells(firstInvIdentity, firstIndex, secondInvIdentity, secondIndex, ignoreMeta);
+        }
+
+        /// <summary>
+        /// Combine FIRST in SECOND! First item can not be null
+        /// </summary>
+        [Server]
+        public void Server_CombineCells(NetworkIdentity firstInvIdentity, int firstIndex,
+            NetworkIdentity secondInvIdentity,
             int secondIndex, bool ignoreMeta)
         {
             var inv1 = firstInvIdentity.GetComponent<IInventory>();
@@ -65,35 +79,144 @@ namespace GameAssembly.InventorySystem
         }
 
         [Command]
-        public void DropItemFromInventory(NetworkIdentity inventoryIdentity, int cellIndex, Vector2 dropPosition, NetworkConnectionToClient sender = null)
+        public void DropItemFromInventory(NetworkIdentity inventoryIdentity, int cellIndex, Vector2 dropPosition,
+            NetworkConnectionToClient sender = null)
         {
-            if(!inventoryIdentity)
+            Server_DropItemFromInventory(inventoryIdentity, cellIndex, dropPosition, sender);
+        }
+
+        [Server]
+        public void Server_DropItemFromInventory(NetworkIdentity inventoryIdentity, int cellIndex, Vector2 dropPosition,
+            NetworkConnectionToClient sender)
+        {
+            if (!inventoryIdentity || sender == null)
                 return;
-            
+
             var inv = inventoryIdentity.GetComponent<IInventory>();
             var item = inv?.GetItemByIndex(cellIndex);
-            
-            if(item == null)
+
+            if (item == null)
                 return;
-            
-            if(Vector2.Distance(inventoryIdentity.transform.position, dropPosition) > MAX_ITEM_DROP_DISTANCE)
+
+            if (Vector2.Distance(inventoryIdentity.transform.position, dropPosition) > MAX_ITEM_DROP_DISTANCE)
             {
 #if UNITY_EDITOR
-               Debug.LogWarning("Trying to drop an item from too long distance"); 
+                Debug.LogWarning("Trying to drop an item from too long distance");
 #endif
                 return;
             }
 
             var defTemp = item.Definition;
             var countTemp = item.Count;
-            
-            if(sender == null || !inv.TryRemoveItemByIndex(cellIndex, false))
+
+            if (!inv.TryRemoveItemByIndex(cellIndex, false))
                 return;
-            
+
             var pickable = Instantiate(dropPrefab, dropPosition, Quaternion.identity);
             pickable.Initialize(new ItemInstance(defTemp, countTemp));
             NetworkServer.Spawn(pickable.gameObject);
             pickable.SetTakeProtectionForPlayer(sender.identity, ITEM_DROP_TAKE_PROTECTION_TIME);
+        }
+
+        [Command]
+        public void Cmd_CombineItemWithInventory(NetworkIdentity firstInvIdentity, int firstIndex,
+            NetworkIdentity secondInvIdentity)
+        {
+            Server_CombineItemWithInventory(firstInvIdentity, firstIndex, secondInvIdentity);
+        }
+
+        [Server]
+        public void Server_CombineItemWithInventory(NetworkIdentity firstInvIdentity, int firstIndex,
+            NetworkIdentity secondInvIdentity)
+        {
+            if (!firstInvIdentity || !secondInvIdentity)
+                return;
+
+            var inv = firstInvIdentity.GetComponent<IInventory>();
+            var inv2 = firstInvIdentity.GetComponent<IInventory>();
+            var item = inv?.GetItemByIndex(firstIndex);
+
+            if (item == null || inv2 == null)
+                return;
+
+            inv2.TryAddItemFromInstance(item, false);
+        }
+
+        [Command]
+        public void Cmd_PlaceFromOneCellToAnother(NetworkIdentity firstInvIdentity, int firstIndex,
+            NetworkIdentity secondInvIdentity, int secondIndex, bool ignoreMeta)
+        {
+            Server_PlaceFromOneCellToAnother(firstInvIdentity, firstIndex, secondInvIdentity, secondIndex, ignoreMeta);
+        }
+
+        [Server]
+        public void Server_PlaceFromOneCellToAnother(NetworkIdentity firstInvIdentity, int firstIndex,
+            NetworkIdentity secondInvIdentity, int secondIndex, bool ignoreMeta)
+        {
+            var inv1 = firstInvIdentity.GetComponent<IInventory>();
+            var inv2 = secondInvIdentity.GetComponent<IInventory>();
+            var item1 = inv1.GetItemByIndex(firstIndex);
+            var item2 = inv2.GetItemByIndex(secondIndex);
+
+            if (item1 == null)
+                return;
+
+            if (item2 == null) // Place first item in empty second cell
+            {
+                inv2.TryAddItemInIndexFromInstance(item1.Copy(), secondIndex,
+                    true); // Used Copy() for prevent disposing original item1. If you don't - that will be disposed in another cell
+                inv1.TryRemoveItemByIndex(firstIndex, false);
+            }
+            else if (item2.Definition == item1.Definition && item2.Count < item2.Definition.MaxCount) // Add count
+            {
+                item2.TryAddFromAnotherItem(item1, ignoreMeta);
+            }
+        }
+
+        /// <summary>
+        /// Add item again. For example can move item from hot bar to main inventory at start (except hot bar range). You can select index after which items will be unable to put in
+        /// </summary>
+        [Command]
+        public void Cmd_AddInSameInventoryExceptGivenItemAndRange(NetworkIdentity inventoryIdentity, int itemIndex,
+            int ignoreAfterIndexExclude)
+        {
+            if (!inventoryIdentity)
+                return;
+
+            var inv = inventoryIdentity.GetComponent<IInventory>();
+
+            if (inv == null)
+                return;
+
+            var item = inv.GetItemByIndex(itemIndex);
+            var items = inv.GetItems().ToList();
+
+            var firstAvailableCellIndex = -1;
+
+            for (var i = 0; i < items.Count; i++)
+            {
+                if (i > ignoreAfterIndexExclude)
+                    break;
+
+                if (i == itemIndex)
+                    continue;
+
+                if (firstAvailableCellIndex == -1 && items[i] == null)
+                    firstAvailableCellIndex = i;
+
+                if (items[i] == null || items[i].Definition != item.Definition ||
+                    items[i].Count >= items[i].Definition.MaxCount)
+                    continue;
+
+                firstAvailableCellIndex = i;
+                break;
+            }
+
+            if (firstAvailableCellIndex == -1)
+                return;
+
+            Server_PlaceFromOneCellToAnother(inventoryIdentity, itemIndex, inventoryIdentity, firstAvailableCellIndex,
+                false);
         }
 
         [TargetRpc]
@@ -101,9 +224,9 @@ namespace GameAssembly.InventorySystem
             NetworkIdentity firstInvIdentity,
             int firstIndex, NetworkIdentity secondInvIdentity, int secondIndex)
         {
-            if(isServer && isClient)
+            if (isServer && isClient)
                 return;
-            
+
             OnCombiningCellsReplace?.Invoke(firstInvIdentity, firstIndex, secondInvIdentity, secondIndex);
         }
 
@@ -111,9 +234,9 @@ namespace GameAssembly.InventorySystem
         private void Target_InvokeOnCombiningCellsChangeAmount(NetworkConnectionToClient target,
             NetworkIdentity firstInvIdentity, int firstIndex, NetworkIdentity secondInvIdentity, int secondIndex)
         {
-            if(isServer && isClient)
+            if (isServer && isClient)
                 return;
-            
+
             OnCombiningCellsChangeAmount?.Invoke(firstInvIdentity, firstIndex, secondInvIdentity, secondIndex);
         }
     }

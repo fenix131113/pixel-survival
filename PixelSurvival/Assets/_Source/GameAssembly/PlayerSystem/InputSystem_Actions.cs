@@ -201,6 +201,15 @@ namespace PlayerSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FastUiMove"",
+                    ""type"": ""Button"",
+                    ""id"": ""f7233612-5282-4b20-8c6f-05f2d7965b5c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -709,6 +718,39 @@ namespace PlayerSystem
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""0e75d8ee-9640-4707-888c-1e4e028edf21"",
+                    ""path"": ""OneModifier(modifiersOrder=2)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FastUiMove"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""256af068-f379-4974-b067-290350faae82"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""FastUiMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""2e5991bd-e428-46a8-859f-acdadbc51f08"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""FastUiMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -1306,6 +1348,7 @@ namespace PlayerSystem
             m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
             m_Player_CraftMenu = m_Player.FindAction("CraftMenu", throwIfNotFound: true);
             m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
+            m_Player_FastUiMove = m_Player.FindAction("FastUiMove", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1411,6 +1454,7 @@ namespace PlayerSystem
         private readonly InputAction m_Player_Inventory;
         private readonly InputAction m_Player_CraftMenu;
         private readonly InputAction m_Player_Cancel;
+        private readonly InputAction m_Player_FastUiMove;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
         /// </summary>
@@ -1470,6 +1514,10 @@ namespace PlayerSystem
             /// Provides access to the underlying input action "Player/Cancel".
             /// </summary>
             public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/FastUiMove".
+            /// </summary>
+            public InputAction @FastUiMove => m_Wrapper.m_Player_FastUiMove;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -1532,6 +1580,9 @@ namespace PlayerSystem
                 @Cancel.started += instance.OnCancel;
                 @Cancel.performed += instance.OnCancel;
                 @Cancel.canceled += instance.OnCancel;
+                @FastUiMove.started += instance.OnFastUiMove;
+                @FastUiMove.performed += instance.OnFastUiMove;
+                @FastUiMove.canceled += instance.OnFastUiMove;
             }
 
             /// <summary>
@@ -1579,6 +1630,9 @@ namespace PlayerSystem
                 @Cancel.started -= instance.OnCancel;
                 @Cancel.performed -= instance.OnCancel;
                 @Cancel.canceled -= instance.OnCancel;
+                @FastUiMove.started -= instance.OnFastUiMove;
+                @FastUiMove.performed -= instance.OnFastUiMove;
+                @FastUiMove.canceled -= instance.OnFastUiMove;
             }
 
             /// <summary>
@@ -1963,6 +2017,13 @@ namespace PlayerSystem
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnCancel(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "FastUiMove" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnFastUiMove(InputAction.CallbackContext context);
         }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

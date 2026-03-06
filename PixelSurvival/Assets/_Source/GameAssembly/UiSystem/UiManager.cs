@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using GameAssembly.InventorySystem;
+using GameAssembly.PlayerSystem;
 using GameAssembly.UiSystem.Data;
+using Mirror;
 using PlayerSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,28 +18,44 @@ namespace GameAssembly.UiSystem
 
         [Inject] private InputSystem_Actions _input;
 
+        private PlayerLocalInventoryManager _playerInventoryManager;
+        private PlayerSelector _playerSelector;
+
         private readonly List<IUiMenu> _openedMenus = new();
 
         private void Awake() => Instance = this;
 
-        private void Start() => Bind();
+        private void Start()
+        {
+            if (!NetworkClient.active)
+                return;
 
-        private void OnDestroy() => Expose();
+            StartCoroutine(WaitForPlayer());
+            Bind();
+        }
+
+        private void OnDestroy()
+        {
+            if (!NetworkClient.active)
+                return;
+
+            Expose();
+        }
 
         public void OpenRequest(IUiMenu menu)
         {
-            if(_openedMenus.Contains(menu))
+            if (_openedMenus.Contains(menu))
                 return;
-            
+
             menu.Open();
             _openedMenus.Add(menu);
         }
-        
+
         public void CloseRequest(IUiMenu menu)
         {
-            if(!_openedMenus.Contains(menu))
+            if (!_openedMenus.Contains(menu))
                 return;
-            
+
             menu.Close();
             _openedMenus.Remove(menu);
         }
@@ -44,24 +63,92 @@ namespace GameAssembly.UiSystem
         public bool IsMenuTypeOpened(MenuType menuType) => _openedMenus.Any(x => x.GetMenuType() == menuType);
 
         /// <returns>Max 2 inventories</returns>
-        public List<IInventory> GetOpenedInventories()
+        public List<IUiInventory> GetOpenedInventoriesUi()
         {
-            if (_openedMenus.Count > 0)
-                return new List<IInventory>();
-            
-            var openedInventories = new List<IInventory>();
+            if (_openedMenus.Count == 0)
+                return new List<IUiInventory>();
 
-            for (var i = _openedMenus.Count - 1; i >= 0 ; i++)
+            var openedInventories = new List<IUiInventory>();
+
+            for (var i = _openedMenus.Count - 1; i >= 0; i--)
             {
                 if (_openedMenus[i] is IUiInventory iInv)
-                    openedInventories.Add(iInv.GetInventory());
-                
-                if(openedInventories.Count == 2)
+                    openedInventories.Add(iInv);
+
+                if (openedInventories.Count == 2)
                     break;
             }
 
             return openedInventories;
         }
+
+        public bool TryFastTransferBetweenOpenedInventories(NetworkIdentity sourceInventoryIdentity,
+            int sourceCellIndex)
+        {
+            if (!IsShiftPressed() || !sourceInventoryIdentity)
+                return false;
+
+            var sourceInventory = sourceInventoryIdentity.GetComponent<IInventory>();
+            var sourceItem = sourceInventory?.GetItemByIndex(sourceCellIndex);
+
+            if (sourceItem == null)
+                return false;
+
+            var openedInventories = GetOpenedInventoriesUi();
+
+            if (openedInventories.Count == 1 &&
+                openedInventories[0].GetMenuType() ==
+                MenuType.PLAYER_INVENTORY) // Moving items between hot bar and inventory
+            {
+                var items = sourceInventory.GetItems().ToList();
+
+                var hotBarStartIndex = sourceInventory.GetItems().Count() - _playerSelector.HotBarSize;
+
+                if (sourceCellIndex < hotBarStartIndex)
+                    for (var i = 0; i < _playerSelector.HotBarSize; i++)
+                    {
+                        var index = hotBarStartIndex + i;
+
+                        if (items[index] != null && items[index].Definition != sourceItem.Definition)
+                            continue;
+
+                        if (items[index] != null && items[index].Definition.MaxCount - items[index].Count == 0)
+                            continue;
+
+                        _playerInventoryManager.Cmd_PlaceFromOneCellToAnother(sourceInventoryIdentity, sourceCellIndex,
+                            sourceInventoryIdentity, index, false);
+
+                        return true;
+                    }
+                else // Move item from hot bar to inventory
+                    _playerInventoryManager.Cmd_AddInSameInventoryExceptGivenItemAndRange(sourceInventoryIdentity,
+                        sourceCellIndex, hotBarStartIndex - 1);
+
+                return true;
+            }
+
+            // Moving items between two opened inventories
+
+            var targetInventory = openedInventories.FirstOrDefault(x => x.GetInventory() != sourceInventory);
+            var targetIdentity = (targetInventory as NetworkBehaviour)?.netIdentity;
+
+            if (targetInventory == null || !targetIdentity)
+                return false;
+
+            if (!NetworkClient.localPlayer)
+                return false;
+
+            var inventoryManager = NetworkClient.localPlayer.GetComponent<PlayerLocalInventoryManager>();
+
+            if (!inventoryManager)
+                return false;
+
+            inventoryManager.Cmd_CombineItemWithInventory(sourceInventoryIdentity, sourceCellIndex, targetIdentity);
+            return true;
+        }
+
+        private static bool IsShiftPressed() => Keyboard.current?.leftShiftKey.isPressed == true ||
+                                                Keyboard.current?.rightShiftKey.isPressed == true;
 
         private void OnCancelClicked(InputAction.CallbackContext callbackContext)
         {
@@ -70,7 +157,7 @@ namespace GameAssembly.UiSystem
                 CloseRequest(_openedMenus.Last());
                 return;
             }
-            
+
             //TODO: add open esc menu
         }
 
@@ -82,6 +169,15 @@ namespace GameAssembly.UiSystem
         private void Expose()
         {
             _input.Player.Cancel.performed -= OnCancelClicked;
+        }
+
+        private IEnumerator WaitForPlayer()
+        {
+            while (!NetworkClient.localPlayer)
+                yield return null;
+
+            _playerSelector = NetworkClient.localPlayer.GetComponent<PlayerSelector>();
+            _playerInventoryManager = NetworkClient.localPlayer.GetComponent<PlayerLocalInventoryManager>();
         }
     }
 }
