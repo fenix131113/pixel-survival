@@ -33,11 +33,11 @@ namespace GameAssembly.PlayerSystem
                 _rb = GetComponent<Rigidbody2D>();
         }
 
-        private void Update() // TODO: FIX
+        private void Update()
         {
             if (!isLocalPlayer || _playerVars.IsVariableBlocked(PlayerVariableBlockerType.MOVEMENT))
             {
-                if(_playerVars.IsVariableBlocked(PlayerVariableBlockerType.MOVEMENT))
+                if(isLocalPlayer && _playerVars.IsVariableBlocked(PlayerVariableBlockerType.MOVEMENT))
                     _rb.linearVelocity = Vector2.zero;
                 
                 if(isLocalPlayer)

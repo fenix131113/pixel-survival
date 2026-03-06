@@ -14,79 +14,75 @@ namespace GameAssembly.InventorySystem
         [SerializeField] protected int inventorySize;
 
         private ItemInstance[] _items;
+        private readonly HashSet<int> _dirtyItemIndexes = new();
 
         public event Action OnInventoryChanged;
         public event Action<int> OnItemChanged;
 
-        private void Awake() => _items = new ItemInstance[inventorySize];
+        private void Awake() => EnsureItemsArrayInitialized();
 
         public override void OnSerialize(NetworkWriter writer, bool initialState)
         {
-            writer.WriteInt(_items.Length);
+            EnsureItemsArrayInitialized();
 
-            foreach (var item in _items)
+            if (initialState)
             {
-                if (item == null)
-                {
-                    writer.WriteBool(false);
-                    continue;
-                }
+                writer.WriteInt(_items.Length);
 
-                writer.WriteBool(true);
-                writer.WriteString(item.Definition.name);
-                writer.WriteInt(item.Count);
+                foreach (var item in _items)
+                    WriteItem(writer, item);
 
-                writer.WriteInt(item.Meta.Count);
-                foreach (var kv in item.Meta)
-                {
-                    writer.WriteString(kv.Key);
-                    writer.WriteString(kv.Value);
-                }
+                _dirtyItemIndexes.Clear();
+                base.OnSerialize(writer, true);
+                return;
             }
 
-            base.OnSerialize(writer, initialState);
+            writer.WriteInt(_dirtyItemIndexes.Count);
+
+            foreach (var index in _dirtyItemIndexes)
+            {
+                writer.WriteInt(index);
+                WriteItem(writer, _items[index]);
+            }
+
+            _dirtyItemIndexes.Clear();
+
+            base.OnSerialize(writer, false);
         }
 
-        public override void OnDeserialize(NetworkReader reader, bool initialState) // TODO: make sync only for changed items to prevent over network usage
+        public override void OnDeserialize(NetworkReader reader, bool initialState)
         {
-            foreach (var itemInstance in _items)
-                itemInstance?.Dispose();
+            EnsureItemsArrayInitialized();
 
-            var size = reader.ReadInt();
-            _items = new ItemInstance[size];
-
-            for (var i = 0; i < size; i++)
+            if (initialState)
             {
-                var hasItem = reader.ReadBool();
-                if (!hasItem)
+                foreach (var itemInstance in _items)
+                    itemInstance?.Dispose();
+
+                var size = reader.ReadInt();
+                _items = new ItemInstance[size];
+
+                for (var i = 0; i < size; i++)
                 {
-                    _items[i] = null;
-                    continue;
+                    ApplyItem(i, ReadItem(reader));
+                    OnItemChanged?.Invoke(i);
                 }
 
-                var defName = reader.ReadString();
-                var count = reader.ReadInt();
-
-                var metaCount = reader.ReadInt();
-                var meta = new Dictionary<string, string>(metaCount);
-
-                for (var m = 0; m < metaCount; m++)
-                {
-                    var k = reader.ReadString();
-                    var v = reader.ReadString();
-                    meta[k] = v;
-                }
-
-                var definition = Resources.Load<ItemDefinitionSO>(
-                    AssetsPaths.ITEM_CONFIGS_PATH + "/" + defName);
-
-                _items[i] = new ItemInstance(definition, meta, count);
-                BindNewItem(i);
-
-                OnItemChanged?.Invoke(i);
+                OnInventoryChanged?.Invoke();
+                base.OnDeserialize(reader, initialState);
+                return;
             }
 
-            OnInventoryChanged?.Invoke();
+            var changedItemsCount = reader.ReadInt();
+            if (changedItemsCount > 0)
+                OnInventoryChanged?.Invoke();
+
+            for (var i = 0; i < changedItemsCount; i++)
+            {
+                var itemIndex = reader.ReadInt();
+                ApplyItem(itemIndex, ReadItem(reader));
+                OnItemChanged?.Invoke(itemIndex);
+            }
 
             base.OnDeserialize(reader, initialState);
         }
@@ -275,7 +271,7 @@ namespace GameAssembly.InventorySystem
 
                 if (count > 0)
                     continue;
-                
+
                 SetDirty();
                 return true;
             }
@@ -340,9 +336,9 @@ namespace GameAssembly.InventorySystem
 
         public virtual bool HasItem(ItemDefinitionSO item, int count = 1)
         {
-            if(!item)
+            if (!item)
                 return false;
-            
+
             if (count <= 1)
                 return _items.Any(x => x?.Definition == item);
 
@@ -372,6 +368,9 @@ namespace GameAssembly.InventorySystem
 
         protected virtual void InvokeOnItemChanged(int index)
         {
+            if (isServer)
+                _dirtyItemIndexes.Add(index);
+
             OnInventoryChanged?.Invoke();
             OnItemChanged?.Invoke(index);
         }
@@ -384,6 +383,66 @@ namespace GameAssembly.InventorySystem
                 _items[index] = null;
                 InvokeOnItemChanged(index);
             };
+        }
+        
+        private void EnsureItemsArrayInitialized()
+        {
+            if (_items != null)
+                return;
+
+            _items = new ItemInstance[inventorySize];
+        }
+
+        private void WriteItem(NetworkWriter writer, ItemInstance item)
+        {
+            if (item == null)
+            {
+                writer.WriteBool(false);
+                return;
+            }
+
+            writer.WriteBool(true);
+            writer.WriteString(item.Definition.name);
+            writer.WriteInt(item.Count);
+
+            writer.WriteInt(item.Meta.Count);
+            foreach (var kv in item.Meta)
+            {
+                writer.WriteString(kv.Key);
+                writer.WriteString(kv.Value);
+            }
+        }
+
+        private ItemInstance ReadItem(NetworkReader reader)
+        {
+            if (!reader.ReadBool())
+                return null;
+
+            var defName = reader.ReadString();
+            var count = reader.ReadInt();
+
+            var metaCount = reader.ReadInt();
+            var meta = new Dictionary<string, string>(metaCount);
+
+            for (var m = 0; m < metaCount; m++)
+            {
+                var k = reader.ReadString();
+                var v = reader.ReadString();
+                meta[k] = v;
+            }
+
+            var definition = Resources.Load<ItemDefinitionSO>(
+                AssetsPaths.ITEM_CONFIGS_PATH + "/" + defName);
+
+            return new ItemInstance(definition, meta, count);
+        }
+
+        private void ApplyItem(int index, ItemInstance item)
+        {
+            _items[index]?.Dispose();
+            _items[index] = item;
+            if (item != null)
+                BindNewItem(index);
         }
     }
 }

@@ -39,13 +39,6 @@ namespace GameAssembly.WorldSystem
             _world.SetupChunk(chunk);
         }
 
-        [Command(requiresAuthority = false)]
-        public void Cmd_RequestMap(NetworkConnectionToClient sender = null)
-        {
-            Debug.Log($"Sender is {sender != null}");
-            StartCoroutine(WorldSendCoroutine(sender));
-        }
-
         [ClientRpc(includeOwner = false)]
         public void Rpc_SyncCell(ChunkCoord chunkCoord, int x, int y, CellData cell)
         {

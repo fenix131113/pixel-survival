@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Linq;
 using GameAssembly.Utils;
 using GameAssembly.WorldSystem;
 using Mirror;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace GameAssembly.Core.Network
@@ -108,25 +106,6 @@ namespace GameAssembly.Core.Network
             Client_Expose();
         }
 
-        public override void OnClientSceneChanged()
-        {
-            base.OnClientSceneChanged();
-
-            if (SceneManager.GetActiveScene().buildIndex != ScenesData.GAME_SCENE_INDEX || NetworkServer.active)
-                return;
-
-            StartCoroutine(RequestMapCoroutine());
-            return;
-
-            IEnumerator RequestMapCoroutine()
-            {
-                yield return new WaitForSeconds(0.1f);
-                
-                var wcm = GameInstaller.Resolve<WorldCreateManager>();
-                wcm.Cmd_RequestMap();
-            }
-        }
-
         public override void OnServerChangeScene(string newSceneName)
         {
             Server_Expose();
@@ -147,6 +126,7 @@ namespace GameAssembly.Core.Network
 
             if (SceneManager.GetActiveScene().buildIndex == ScenesData.GAME_SCENE_INDEX) // If in game
             {
+                GameInstaller.Resolve<WorldCreateManager>().Server_SendWorldToConn(conn);
                 ServerOnServerReadyInGame?.Invoke(conn);
             }
         }
