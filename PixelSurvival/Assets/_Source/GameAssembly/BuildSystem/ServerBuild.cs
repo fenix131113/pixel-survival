@@ -1,4 +1,5 @@
-﻿using GameAssembly.ItemsSystem.Data;
+﻿using GameAssembly.BuildSystem.WorldObjects;
+using GameAssembly.ItemsSystem.Data;
 using GameAssembly.PlayerSystem;
 using GameAssembly.WorldSystem;
 using Mirror;
@@ -14,6 +15,7 @@ namespace GameAssembly.BuildSystem
         [SerializeField] private LayerMask blockBuildingLayers;
         
         [Inject] private World _world;
+        [Inject] private WorldObjectRegistry _objectRegistry;
 
         [Server]
         public void Server_PlaceBlock(Vector2Int blockWorldPos, NetworkConnectionToClient sender)
@@ -24,7 +26,16 @@ namespace GameAssembly.BuildSystem
             
             var selector = sender.identity.GetComponent<PlayerSelector>();
             
-            if(!selector || !selector.IsSelectedItem || selector.GetSelectedItem().Definition is not BlockItemDefinitionSO blockItem)
+            if(!selector || !selector.IsSelectedItem)
+                return;
+            
+            if (selector.GetSelectedItem().Definition is PlaceableObjectItemDefinitionSO objectItem)
+            {
+                TryPlaceObject(blockWorldPos, selector, objectItem);
+                return;
+            }
+
+            if (selector.GetSelectedItem().Definition is not BlockItemDefinitionSO blockItem)
                 return;
             
             if(Physics2D.OverlapBox(blockWorldPos + new Vector2(0.5f, 0.5f), Vector2.one * 0.95f, 0, blockBuildingLayers))
@@ -41,6 +52,18 @@ namespace GameAssembly.BuildSystem
                 return;
             
             chunk.SetBlock(coords.x, coords.y, blockItem.IsFloorBlock, BlockData.CreateBlock(blockItem.BlockDefinition));
+        }
+        
+        [Server]
+        private void TryPlaceObject(Vector2Int blockWorldPos, PlayerSelector selector, PlaceableObjectItemDefinitionSO objectItem)
+        {
+            if (!objectItem.PlaceableDefinition)
+                return;
+
+            if (!_objectRegistry.TryPlaceObject(objectItem.PlaceableDefinition, blockWorldPos, blockBuildingLayers, _world))
+                return;
+
+            selector.GetSelectedItem().TryRemoveCount(1);
         }
     }
 }

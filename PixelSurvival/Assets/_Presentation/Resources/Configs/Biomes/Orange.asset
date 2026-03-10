@@ -15,6 +15,7 @@ MonoBehaviour:
   <NameKey>k__BackingField: 
   <DefaultFloor>k__BackingField: {fileID: 11400000, guid: 8720d303d3d3ec640aa2f9fbdde6ada5, type: 2}
   <DefaultWall>k__BackingField: {fileID: 11400000, guid: eaf8544fd0f006142840412c361b7e3d, type: 2}
+  <NaturalSpawn>k__BackingField: 0
   <Min>k__BackingField: 0.75
   <Max>k__BackingField: 1
   <WallDensity>k__BackingField: 0.4

@@ -1,4 +1,5 @@
 ﻿using GameAssembly.BuildSystem;
+using GameAssembly.BuildSystem.WorldObjects;
 using GameAssembly.InventorySystem.View;
 using GameAssembly.PlayerSystem.Data;
 using GameAssembly.PlayerSystem.Variables;
@@ -58,6 +59,8 @@ namespace GameAssembly.Core
 
             #region Build
 
+            builder.Register<WorldObjectRegistry>(Lifetime.Scoped)
+                .AsSelf();
             builder.RegisterComponentInHierarchy<ServerBuild>();
 
             #endregion

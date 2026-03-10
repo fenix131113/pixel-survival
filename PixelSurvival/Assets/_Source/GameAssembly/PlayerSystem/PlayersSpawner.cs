@@ -62,7 +62,7 @@ namespace GameAssembly.PlayerSystem
 
             var spawnPos =
                 _world.FindRandomNearestBlockByType(_world.WorldCenterXY, _world.WorldCenterXY, BlockType.AIR, false);
-            var spawnedPlayer = Instantiate(_net.playerPrefab, new Vector3(spawnPos.x, spawnPos.y, 0),
+            var spawnedPlayer = Instantiate(_net.playerPrefab, new Vector3(spawnPos.x + 0.5f, spawnPos.y + 0.5f, 0),
                 Quaternion.identity);
 
             NetworkServer.AddPlayerForConnection(conn, spawnedPlayer);

@@ -407,7 +407,7 @@ namespace GameAssembly.WorldSystem
             return chunk?.GetCell(ConvertWorldToChunkSpace(worldX, worldY)) ?? CellData.Empty;
         }
 
-        public Vector2Int FindRandomNearestBlockByType(int x, int y, BlockType findType, bool isFloor) // TODO: fix spawn in blocks
+        public Vector2Int FindRandomNearestBlockByType(int x, int y, BlockType findType, bool isFloor)
         {
             var currentLayerIndex = 0;
             List<(Vector2Int, CellData)> needBlocks = null;

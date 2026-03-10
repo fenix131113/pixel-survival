@@ -5,6 +5,7 @@
         UNKNOWN = 0,
         PLAYER = 1,
         ENEMY = 2,
-        BLOCK = 3
+        BLOCK = 3,
+        MACHINE = 4
     }
 }

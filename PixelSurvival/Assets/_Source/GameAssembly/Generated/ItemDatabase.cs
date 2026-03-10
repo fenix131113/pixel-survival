@@ -19,6 +19,7 @@ namespace GameAssembly.Generated
         public static readonly ItemDefinitionSO Stone;
         public static readonly ItemDefinitionSO Stump;
         public static readonly ItemDefinitionSO TestItem;
+        public static readonly ItemDefinitionSO Workbecnh;
 
         static ItemDatabase()
         {
@@ -33,6 +34,7 @@ namespace GameAssembly.Generated
             Stone = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Stone");
             Stump = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Stump");
             TestItem = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/TestItem");
+            Workbecnh = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Workbecnh");
         }
     }
 }
