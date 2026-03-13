@@ -9,12 +9,15 @@ using PlayerSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using VContainer;
+// ReSharper disable TailRecursiveCall
 
 namespace GameAssembly.UiSystem
 {
     public class UiManager : MonoBehaviour
     {
         public static UiManager Instance;
+
+        [SerializeField] private GameObject inventoriesPanel;
 
         [Inject] private InputSystem_Actions _input;
 
@@ -49,6 +52,9 @@ namespace GameAssembly.UiSystem
 
             menu.Open();
             _openedMenus.Add(menu);
+
+            if (menu is IUiInventory)
+                inventoriesPanel.SetActive(true);
         }
 
         public void CloseRequest(IUiMenu menu)
@@ -57,6 +63,25 @@ namespace GameAssembly.UiSystem
                 return;
 
             menu.Close();
+            _openedMenus.Remove(menu);
+            
+            if(!_openedMenus.Any(x => x is IUiInventory))
+                inventoriesPanel.SetActive(false);
+            
+            if(menu.GetMenuType() == MenuType.PLAYER_INVENTORY)
+            {
+                var invMenu = _openedMenus.FirstOrDefault(x => x is IUiInventory);
+                if(invMenu != null)
+                    CloseRequest(invMenu);
+            }
+        }
+
+        private void CancelRequest(IUiMenu menu)
+        {
+            if (!_openedMenus.Contains(menu))
+                return;
+
+            menu.Cancel();
             _openedMenus.Remove(menu);
         }
 
@@ -85,6 +110,9 @@ namespace GameAssembly.UiSystem
         public bool TryFastTransferBetweenOpenedInventories(NetworkIdentity sourceInventoryIdentity,
             int sourceCellIndex)
         {
+            if (!NetworkClient.localPlayer)
+                return false;
+            
             if (!IsShiftPressed() || !sourceInventoryIdentity)
                 return false;
 
@@ -130,14 +158,11 @@ namespace GameAssembly.UiSystem
             // Moving items between two opened inventories
 
             var targetInventory = openedInventories.FirstOrDefault(x => x.GetInventory() != sourceInventory);
-            var targetIdentity = (targetInventory as NetworkBehaviour)?.netIdentity;
-
+            var targetIdentity = targetInventory?.GetNetworkIdentity();
+            
             if (targetInventory == null || !targetIdentity)
                 return false;
-
-            if (!NetworkClient.localPlayer)
-                return false;
-
+            
             var inventoryManager = NetworkClient.localPlayer.GetComponent<PlayerLocalInventoryManager>();
 
             if (!inventoryManager)
@@ -154,7 +179,7 @@ namespace GameAssembly.UiSystem
         {
             if (_openedMenus.Count > 0)
             {
-                CloseRequest(_openedMenus.Last());
+                CancelRequest(_openedMenus.Last());
                 return;
             }
 

@@ -13,7 +13,7 @@ namespace GameAssembly.InventorySystem
     {
         [SerializeField] protected int inventorySize;
 
-        private ItemInstance[] _items;
+        protected ItemInstance[] _items;
         private readonly HashSet<int> _dirtyItemIndexes = new();
 
         public event Action OnInventoryChanged;
@@ -69,13 +69,11 @@ namespace GameAssembly.InventorySystem
                 }
 
                 OnInventoryChanged?.Invoke();
-                base.OnDeserialize(reader, initialState);
+                base.OnDeserialize(reader, true);
                 return;
             }
 
             var changedItemsCount = reader.ReadInt();
-            if (changedItemsCount > 0)
-                OnInventoryChanged?.Invoke();
 
             for (var i = 0; i < changedItemsCount; i++)
             {
@@ -84,7 +82,10 @@ namespace GameAssembly.InventorySystem
                 OnItemChanged?.Invoke(itemIndex);
             }
 
-            base.OnDeserialize(reader, initialState);
+            if (changedItemsCount > 0)
+                OnInventoryChanged?.Invoke();
+
+            base.OnDeserialize(reader, false);
         }
 
         public int GetInventorySize() => inventorySize;
@@ -155,10 +156,10 @@ namespace GameAssembly.InventorySystem
                     instance.Meta.ToDictionary(x => x.Key, y => y.Value), newCount);
 
                 BindNewItem(index);
+                InvokeOnItemChanged(index);
 
                 if (instance.Count <= 0)
                 {
-                    InvokeOnItemChanged(index);
                     SetDirty();
                     return true;
                 }
@@ -373,6 +374,9 @@ namespace GameAssembly.InventorySystem
 
             OnInventoryChanged?.Invoke();
             OnItemChanged?.Invoke(index);
+
+            if (isServer)
+                SetDirty();
         }
 
         protected virtual void BindNewItem(int index)
@@ -384,7 +388,7 @@ namespace GameAssembly.InventorySystem
                 InvokeOnItemChanged(index);
             };
         }
-        
+
         private void EnsureItemsArrayInitialized()
         {
             if (_items != null)

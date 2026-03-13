@@ -21,17 +21,23 @@ namespace GameAssembly.InventorySystem.View
         private NetworkIdentity _inventoryIdentity;
         private IInventory _inventory;
         private bool _isExposed = true;
+        private bool _injected;
 
         public int CellIndex { get; private set; }
         private ItemInstance _lastItem;
 
         public void Initialize(NetworkIdentity inventoryIdentity, int cellIndex)
         {
-            ObjectInjector.Inject(this);
+            if (!_injected)
+            {
+                _injected = true;
+                ObjectInjector.Inject(this);
+            }
 
             _inventoryIdentity = inventoryIdentity;
             _inventory = _inventoryIdentity.GetComponent<IInventory>();
             CellIndex = cellIndex;
+            _lastItem = _inventory.GetItemByIndex(cellIndex);
             
             if(!_isExposed)
                 Expose();
@@ -50,14 +56,11 @@ namespace GameAssembly.InventorySystem.View
         {
             if (CellIndex != index)
                 return;
+            
+            if (!NetworkClient.active && NetworkServer.active)
+                return;
 
             var item = _inventory.GetItemByIndex(index);
-
-            if (item == _lastItem)
-            {
-                Draw();
-                return;
-            }
 
             _lastItem = item;
             Draw();
@@ -78,14 +81,6 @@ namespace GameAssembly.InventorySystem.View
             counter.text = _lastItem.Count.ToString();
         }
 
-        protected void Client_CheckInventory()
-        {
-            if (!NetworkClient.active || NetworkServer.active)
-                return;
-            
-            CheckForChanges(CellIndex);
-        }
-
         public void SetSelectionActive() => selection.SetActive(true);
 
         public void SetSelectionInactive() => selection.SetActive(false);
@@ -97,17 +92,15 @@ namespace GameAssembly.InventorySystem.View
 
             _isExposed = false;
             _inventory.OnItemChanged += CheckForChanges;
-            _inventory.OnInventoryChanged += Client_CheckInventory;
         }
 
-        private void Expose()
+        public void Expose()
         {
             if (_isExposed)
                 return;
 
             _isExposed = true;
             _inventory.OnItemChanged -= CheckForChanges;
-            _inventory.OnInventoryChanged -= Client_CheckInventory;
         }
 
         public void OnBeginDrag(PointerEventData eventData)

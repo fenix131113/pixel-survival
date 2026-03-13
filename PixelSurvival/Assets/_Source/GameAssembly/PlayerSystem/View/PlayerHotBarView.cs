@@ -8,7 +8,6 @@ namespace GameAssembly.PlayerSystem.View
     public class PlayerHotBarView : MonoBehaviour
     {
         [SerializeField] private PlayerInventoryView playerInventoryView;
-        [SerializeField] private Transform hotBarParent;
         
         private PlayerSelector _playerSelector;
 

@@ -23,6 +23,8 @@ namespace GameAssembly.BuildSystem
 
         private void Start()
         {
+            ObjectInjector.Inject(this);
+            
             if (!NetworkClient.active)
                 return;
 
@@ -31,8 +33,6 @@ namespace GameAssembly.BuildSystem
                 enabled = false;
                 return;
             }
-
-            ObjectInjector.Inject(this);
 
             _selector = NetworkClient.localPlayer.GetComponent<PlayerSelector>();
             Bind();
@@ -80,8 +80,10 @@ namespace GameAssembly.BuildSystem
         }
 
         [Command]
-        private void Cmd_PlaceBlock(Vector2Int blockWorldPos, NetworkConnectionToClient sender = null) =>
+        private void Cmd_PlaceBlock(Vector2Int blockWorldPos, NetworkConnectionToClient sender = null)
+        {
             _serverBuild.Server_PlaceBlock(blockWorldPos, sender);
+        }
 
         private void Bind()
         {

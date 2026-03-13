@@ -296,7 +296,7 @@ MonoBehaviour:
   baseCooldown: 0.5
   meleeTriggerLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 63
 --- !u!114 &-7355307408136034134
 MonoBehaviour:
   m_ObjectHideFlags: 0

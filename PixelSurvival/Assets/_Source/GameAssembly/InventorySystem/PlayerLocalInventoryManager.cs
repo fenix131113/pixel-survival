@@ -11,7 +11,7 @@ namespace GameAssembly.InventorySystem
     {
         [SerializeField] private PickableObject dropPrefab;
 
-        private const float MAX_ITEM_DROP_DISTANCE = 1f;
+        private const float MAX_ITEM_DROP_DISTANCE = 3f;
         private const float ITEM_DROP_TAKE_PROTECTION_TIME = 2f;
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace GameAssembly.InventorySystem
                 return;
 
             var inv = firstInvIdentity.GetComponent<IInventory>();
-            var inv2 = firstInvIdentity.GetComponent<IInventory>();
+            var inv2 = secondInvIdentity.GetComponent<IInventory>();
             var item = inv?.GetItemByIndex(firstIndex);
 
             if (item == null || inv2 == null)

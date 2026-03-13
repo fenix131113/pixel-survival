@@ -17,11 +17,10 @@ using VContainer;
 
 namespace GameAssembly.PlayerSystem.View
 {
-    public class PlayerInventoryView : NetworkBehaviour, IUiInventory // TODO: Make blockers for player attack, build and etc. when open inventories
+    public class PlayerInventoryView : NetworkBehaviour, IUiInventory
     {
         [SerializeField] private ItemCell cellPrefab;
         [SerializeField] private GameObject inventoryPanel;
-        [SerializeField] private GameObject inventoriesContentPanel;
         [SerializeField] private Transform cellsParent;
         [SerializeField] private Transform hotBarParent;
 
@@ -36,9 +35,11 @@ namespace GameAssembly.PlayerSystem.View
 
         private readonly IVariableBlocker<PlayerVariableBlockerType> _inventoryBlocker =
             new PlayerVariableBlocker(PlayerVariableBlockerType.MOVEMENT, PlayerVariableBlockerType.BUILD,
-                PlayerVariableBlockerType.ATTACK, PlayerVariableBlockerType.INTERACT);
+                PlayerVariableBlockerType.ATTACK, PlayerVariableBlockerType.INTERACT, PlayerVariableBlockerType.LOOK);
 
         public IReadOnlyCollection<ItemCell> HotBarCells => _hotBarCells;
+
+        public event Action OnMenuCanceled;
 
         public void Start()
         {
@@ -60,7 +61,7 @@ namespace GameAssembly.PlayerSystem.View
 
         private void OnInventoryClicked(InputAction.CallbackContext callbackContext)
         {
-            if (inventoriesContentPanel.activeSelf)
+            if (inventoryPanel.activeSelf)
                 UiManager.Instance.CloseRequest(this);
             else
                 UiManager.Instance.OpenRequest(this);
@@ -90,7 +91,6 @@ namespace GameAssembly.PlayerSystem.View
 
         public void Open()
         {
-            inventoriesContentPanel.SetActive(true);
             inventoryPanel.SetActive(true);
 
             _variablesResolver.RegisterBlocker(_inventoryBlocker);
@@ -98,17 +98,23 @@ namespace GameAssembly.PlayerSystem.View
 
         public void Close()
         {
-            inventoriesContentPanel.SetActive(false);
             inventoryPanel.SetActive(false);
 
             _movingItem.ForceClose();
             _inventoryBlocker.Dispose();
         }
 
-        public bool IsOpen() => inventoriesContentPanel.activeSelf;
+        public void Cancel()
+        {
+            Close();
+            OnMenuCanceled?.Invoke();
+        }
+
+        public bool IsOpen() => inventoryPanel.activeSelf;
         public MenuType GetMenuType() => MenuType.PLAYER_INVENTORY;
 
         public IInventory GetInventory() => _inventory;
+        public NetworkIdentity GetNetworkIdentity() => NetworkClient.localPlayer ? NetworkClient.localPlayer : null;
 
         private void Bind() => _input.Player.Inventory.performed += OnInventoryClicked;
 

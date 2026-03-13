@@ -60,6 +60,8 @@ namespace GameAssembly.WorldSystem
         [Server]
         private IEnumerator WorldSendCoroutine(NetworkConnectionToClient conn)
         {
+            yield return new WaitUntil(() => conn.isReady);
+            
             var world = GameInstaller.Resolve<World>();
 
             yield return new WaitUntil(() => world.IsLoaded.Value);

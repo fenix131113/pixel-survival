@@ -5,5 +5,6 @@
         UNKNOWN = 0,
         PLAYER_INVENTORY = 1,
         ESC_MENU = 2,
+        CHEST = 3,
     }
 }

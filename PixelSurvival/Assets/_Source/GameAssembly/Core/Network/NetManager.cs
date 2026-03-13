@@ -83,6 +83,9 @@ namespace GameAssembly.Core.Network
             {
                 NetworkServer.SendToAll(LobbyPlayerChangedMessage.CreateMessage());
             }
+            else // If in game
+            {
+            }
 
             ServerOnClientConnected?.Invoke(conn);
         }

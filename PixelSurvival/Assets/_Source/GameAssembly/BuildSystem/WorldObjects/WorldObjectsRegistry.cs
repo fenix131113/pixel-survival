@@ -72,9 +72,7 @@ namespace GameAssembly.BuildSystem.WorldObjects
             _records[worldObject] = record;
 
             foreach (var t in footprint)
-            {
                 _occupiedCells[t] = worldObject;
-            }
         }
 
         private bool CanPlace(PlaceableObjectDefinitionSO definition, IReadOnlyList<Vector2Int> footprint, LayerMask blockingMask,
