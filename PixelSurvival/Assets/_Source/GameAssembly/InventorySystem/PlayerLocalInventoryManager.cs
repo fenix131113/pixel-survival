@@ -2,17 +2,18 @@
 using System.Linq;
 using GameAssembly.ItemsSystem;
 using GameAssembly.ObjectsSystem;
+using GameAssembly.Utils;
 using Mirror;
 using UnityEngine;
+using VContainer;
 
 namespace GameAssembly.InventorySystem
 {
     public class PlayerLocalInventoryManager : NetworkBehaviour // For managing any inventory by player authority
     {
-        [SerializeField] private PickableObject dropPrefab;
+        [Inject] private ServerInventoryManager _serverInventoryManager;
 
-        private const float MAX_ITEM_DROP_DISTANCE = 3f;
-        private const float ITEM_DROP_TAKE_PROTECTION_TIME = 2f;
+        private void Start() => ObjectInjector.Inject(this);
 
         /// <summary>
         /// Called on the server and current client. Firstly on the server
@@ -82,40 +83,7 @@ namespace GameAssembly.InventorySystem
         public void DropItemFromInventory(NetworkIdentity inventoryIdentity, int cellIndex, Vector2 dropPosition,
             NetworkConnectionToClient sender = null)
         {
-            Server_DropItemFromInventory(inventoryIdentity, cellIndex, dropPosition, sender);
-        }
-
-        [Server]
-        public void Server_DropItemFromInventory(NetworkIdentity inventoryIdentity, int cellIndex, Vector2 dropPosition,
-            NetworkConnectionToClient sender)
-        {
-            if (!inventoryIdentity || sender == null)
-                return;
-
-            var inv = inventoryIdentity.GetComponent<IInventory>();
-            var item = inv?.GetItemByIndex(cellIndex);
-
-            if (item == null)
-                return;
-
-            if (Vector2.Distance(inventoryIdentity.transform.position, dropPosition) > MAX_ITEM_DROP_DISTANCE)
-            {
-#if UNITY_EDITOR
-                Debug.LogWarning("Trying to drop an item from too long distance");
-#endif
-                return;
-            }
-
-            var defTemp = item.Definition;
-            var countTemp = item.Count;
-
-            if (!inv.TryRemoveItemByIndex(cellIndex, false))
-                return;
-
-            var pickable = Instantiate(dropPrefab, dropPosition, Quaternion.identity);
-            pickable.Initialize(new ItemInstance(defTemp, countTemp));
-            NetworkServer.Spawn(pickable.gameObject);
-            pickable.SetTakeProtectionForPlayer(sender.identity, ITEM_DROP_TAKE_PROTECTION_TIME);
+            _serverInventoryManager.Server_DropItemFromInventory(inventoryIdentity, cellIndex, dropPosition, sender);
         }
 
         [Command]

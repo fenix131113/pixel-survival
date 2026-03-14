@@ -28,13 +28,13 @@ namespace GameAssembly.WorldSystem
         }
 
         [TargetRpc]
-        public void Target_LoadSeed(NetworkConnection target, int seed)
+        public void Target_LoadSeed(NetworkConnectionToClient target, int seed)
         {
             _world.SetupSeed(seed);
         }
 
         [TargetRpc]
-        public void Target_LoadChunk(NetworkConnection target, Chunk chunk)
+        public void Target_LoadChunk(NetworkConnectionToClient target, Chunk chunk)
         {
             _world.SetupChunk(chunk);
         }
@@ -60,12 +60,13 @@ namespace GameAssembly.WorldSystem
         [Server]
         private IEnumerator WorldSendCoroutine(NetworkConnectionToClient conn)
         {
+            Debug.Log("WORLD");
             yield return new WaitUntil(() => conn.isReady);
             
             var world = GameInstaller.Resolve<World>();
-
+            Debug.Log("WORLD 2");
             yield return new WaitUntil(() => world.IsLoaded.Value);
-
+            Debug.Log("WORLD 3");
             Target_LoadSeed(conn, world.Seed);
 
             for (var i = 0; i < world.Chunks.Count; i++)

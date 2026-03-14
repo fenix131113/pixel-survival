@@ -1,5 +1,6 @@
 ﻿using GameAssembly.BuildSystem;
 using GameAssembly.BuildSystem.WorldObjects;
+using GameAssembly.InventorySystem;
 using GameAssembly.InventorySystem.View;
 using GameAssembly.ObjectsSystem.View.ObjectsView;
 using GameAssembly.PlayerSystem.Data;
@@ -47,6 +48,7 @@ namespace GameAssembly.Core
 
             #region InventorySystem
 
+            builder.RegisterComponentInHierarchy<ServerInventoryManager>();
             builder.RegisterComponentInHierarchy<PlayerInventoryView>();
             builder.RegisterComponentInHierarchy<MovingItem>();
             builder.RegisterComponentInHierarchy<ChestView>();

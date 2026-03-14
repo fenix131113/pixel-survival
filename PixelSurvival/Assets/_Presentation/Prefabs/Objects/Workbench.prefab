@@ -247,6 +247,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   inventorySize: 15
+  healthObject: {fileID: -3069487792209887469}
 --- !u!1 &7565389612257122605
 GameObject:
   m_ObjectHideFlags: 0

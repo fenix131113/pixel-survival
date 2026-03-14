@@ -21,7 +21,7 @@ namespace GameAssembly.UiSystem
 
         [Inject] private InputSystem_Actions _input;
 
-        private PlayerLocalInventoryManager _playerInventoryManager;
+        private PlayerLocalInventoryManager _playerPlayerLocalInventoryManager;
         private PlayerSelector _playerSelector;
 
         private readonly List<IUiMenu> _openedMenus = new();
@@ -143,13 +143,13 @@ namespace GameAssembly.UiSystem
                         if (items[index] != null && items[index].Definition.MaxCount - items[index].Count == 0)
                             continue;
 
-                        _playerInventoryManager.Cmd_PlaceFromOneCellToAnother(sourceInventoryIdentity, sourceCellIndex,
+                        _playerPlayerLocalInventoryManager.Cmd_PlaceFromOneCellToAnother(sourceInventoryIdentity, sourceCellIndex,
                             sourceInventoryIdentity, index, false);
 
                         return true;
                     }
                 else // Move item from hot bar to inventory
-                    _playerInventoryManager.Cmd_AddInSameInventoryExceptGivenItemAndRange(sourceInventoryIdentity,
+                    _playerPlayerLocalInventoryManager.Cmd_AddInSameInventoryExceptGivenItemAndRange(sourceInventoryIdentity,
                         sourceCellIndex, hotBarStartIndex - 1);
 
                 return true;
@@ -202,7 +202,7 @@ namespace GameAssembly.UiSystem
                 yield return null;
 
             _playerSelector = NetworkClient.localPlayer.GetComponent<PlayerSelector>();
-            _playerInventoryManager = NetworkClient.localPlayer.GetComponent<PlayerLocalInventoryManager>();
+            _playerPlayerLocalInventoryManager = NetworkClient.localPlayer.GetComponent<PlayerLocalInventoryManager>();
         }
     }
 }
