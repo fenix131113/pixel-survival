@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f52243c485424389ada6acf3c3c3273e, type: 3}
+  m_Name: DefinitionIndex
+  m_EditorClassIdentifier: GameAssembly.Editor::Editor.Definitions.DefinitionIndexSO
+  entries:
+  - id: 079aa58148a34197b9d3356505fb17a0
+    definition: {fileID: 11400000, guid: 1ba9ddeec6be5884682f046976235177, type: 2}
+  - id: 0ff7ee05becf487d893de55e193cd1d4
+    definition: {fileID: 11400000, guid: b859d97518225804c90e415b16b98b89, type: 2}
+  - id: 19ce49c26db74a04a6034580547be7ef
+    definition: {fileID: 11400000, guid: 84e93cea338dd5c44b97fc901b7251c8, type: 2}
+  - id: 273d3f7bf1b1496d8c7b154ed6e53656
+    definition: {fileID: 11400000, guid: ac498c322bcc5574bb0e696f63b9c163, type: 2}
+  - id: 40a9c3d4737646ebbf37a487b9be0c11
+    definition: {fileID: 11400000, guid: 8020ab57802ff7146a1786bccedefa24, type: 2}
+  - id: 4d1309c114834c7b96789cb6de213e27
+    definition: {fileID: 11400000, guid: f21cdbf19849af0498490be035c9009e, type: 2}
+  - id: 56e03b15ac5947d5bd5b5c978d9d2c6e
+    definition: {fileID: 11400000, guid: 82eda54d2653ae24a960d98a5a3c5784, type: 2}
+  - id: 5af51ca72d164f6ebca140b89d69b50e
+    definition: {fileID: 11400000, guid: 9d4bd761a8a70c542ab3cce5218c4a9d, type: 2}
+  - id: 6f70107611994230a5481f8b0171fcbd
+    definition: {fileID: 11400000, guid: 47994d9212e42d04e80b7e239f46a806, type: 2}
+  - id: 7ba37b520ae545be99b01364755c0953
+    definition: {fileID: 11400000, guid: 29abe697d09798a45a5596829aae56cd, type: 2}
+  - id: 7d196a19ec6c491385aae88c81feb1ae
+    definition: {fileID: 11400000, guid: 58d7dd8ba35b2134382f96857b929d93, type: 2}
+  - id: 870000baeb47475596466632fa8d2003
+    definition: {fileID: 11400000, guid: 04bc08f64196afa49be89b35aff16edb, type: 2}
+  - id: 87e59887e6e24ff39ca63aadd54ad423
+    definition: {fileID: 11400000, guid: a2c81f9a41b840f4dac2c072a251e83c, type: 2}
+  - id: 9ca4020f8fa44d0b960c953b5c652456
+    definition: {fileID: 11400000, guid: eaf8544fd0f006142840412c361b7e3d, type: 2}
+  - id: adcaf8d73a474feeb66fd0de3b5bc894
+    definition: {fileID: 11400000, guid: 3282d7c58ac46fe43bcde0c98fd1929b, type: 2}
+  - id: af2ad981bd394506af8aa512146a0782
+    definition: {fileID: 11400000, guid: cb751a22d1d2cb74fb9b662b3b0b5a3e, type: 2}
+  - id: c2936216af3948f589e5bb162ab9ae30
+    definition: {fileID: 11400000, guid: 34a740c9fff5e1348b482173047305c0, type: 2}
+  - id: e7ec70ec327e43f1aaa3958c2ef51236
+    definition: {fileID: 11400000, guid: 168f365779a483d40b8801ae8dfe2dd9, type: 2}
+  - id: ea18efd508e94c25b579a4b7bb4d9437
+    definition: {fileID: 11400000, guid: 34ebff2e4a367f1438e3d99d6c706c7f, type: 2}
+  - id: eb4e0643eca148f186cd7700015ddcca
+    definition: {fileID: 11400000, guid: aad9e1ed92d7c354b94fa398d38ce7d3, type: 2}
+  - id: f475833385e74df7b2214a45e68834e8
+    definition: {fileID: 11400000, guid: 8720d303d3d3ec640aa2f9fbdde6ada5, type: 2}
+  - id: f9228262695c4c27aca29686635a70a9
+    definition: {fileID: 11400000, guid: 7e358825b07d0934180adf59b75b1b0a, type: 2}
+  - id: ff409291e82c4ee3bcee0ebbfe58970f
+    definition: {fileID: 11400000, guid: 0d742de3e50cb9b45985aab948cf7d26, type: 2}

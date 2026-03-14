@@ -15,4 +15,5 @@ MonoBehaviour:
   <NameTranslationKey>k__BackingField: object.workbench
   <Icon>k__BackingField: {fileID: -950083742, guid: 18c521fd49cc856429d874f1a2d534cf, type: 3}
   <MaxCount>k__BackingField: 1
+  id: 079aa58148a34197b9d3356505fb17a0
   <PlaceableDefinition>k__BackingField: {fileID: 11400000, guid: f8abdf7db66fe4b47ab4582b01c13f0f, type: 2}

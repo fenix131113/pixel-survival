@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameAssembly.Core.Definitions;
 using GameAssembly.ItemsSystem.Data;
 using GameAssembly.Utils;
 using Mirror;
@@ -29,11 +30,11 @@ namespace GameAssembly.ItemsSystem
         {
             Definition = definition;
             Count = count;
-            
-            if(meta != null)
+
+            if (meta != null)
                 _meta = meta;
         }
-        
+
         ~ItemInstance() => Dispose();
 
         public ItemInstance Copy() => new(Definition, _meta, Count);
@@ -42,10 +43,9 @@ namespace GameAssembly.ItemsSystem
         {
             if (!_meta.TryAdd(key, value))
                 return false;
-            
+
             OnItemChanged?.Invoke();
             return true;
-
         }
 
         public bool TryRemoveMeta(string key)
@@ -125,7 +125,7 @@ namespace GameAssembly.ItemsSystem
                 TryAddCount(instance.Count);
                 instance.TryRemoveCount(instance.Count);
             }
-            
+
             OnItemChanged?.Invoke();
             return true;
         }
@@ -141,9 +141,9 @@ namespace GameAssembly.ItemsSystem
     {
         public static void WriteItemInstance(this NetworkWriter writer, ItemInstance item)
         {
-            writer.WriteString(item.Definition.name);
+            writer.WriteString(item.Definition.Id);
             writer.WriteInt(item.Count);
-            
+
             writer.WriteInt(item.Meta.Count);
 
             foreach (var kv in item.Meta)
@@ -155,7 +155,7 @@ namespace GameAssembly.ItemsSystem
 
         public static ItemInstance ReadItemInstance(this NetworkReader reader)
         {
-            var defName = reader.ReadString();
+            var defId = reader.ReadString();
             var count = reader.ReadInt();
 
             var metaCount = reader.ReadInt();
@@ -168,7 +168,7 @@ namespace GameAssembly.ItemsSystem
                 meta[key] = value;
             }
 
-            var def = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/" + defName);
+            DefinitionResolverProvider.TryResolve<ItemDefinitionSO>(defId, out var def);
 
             return new ItemInstance(def, meta, count);
         }

@@ -7,6 +7,6 @@ namespace GameAssembly.ItemsSystem.Data
     public class BlockItemDefinitionSO : ItemDefinitionSO
     {
         [field: SerializeField] public bool IsFloorBlock { get; private set; }
-        [field: SerializeField] public BlockDefinition BlockDefinition { get; private set; }
+        [field: SerializeField] public BlockDefinitionSO BlockDefinition { get; private set; }
     }
 }

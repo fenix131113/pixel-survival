@@ -7,12 +7,17 @@ namespace Editor.Items
 {
     public class ItemDatabaseGenerator : AssetPostprocessor
     {
+        private static bool _needToRebuild = true;
+        
         private static void OnPostprocessAllAssets(
             string[] imported,
             string[] deleted,
             string[] moved,
             string[] _)
         {
+            if(!_needToRebuild)
+                return;
+            
             var needRegenerate =
                 imported.Any(a => a.EndsWith(".asset")) ||
                 deleted.Any(a => a.EndsWith(".asset")) ||
@@ -23,6 +28,12 @@ namespace Editor.Items
                 Generate();
             }
         }
+
+        [MenuItem("Tools/Generate/Activate Auto Rebuild")]
+        private static void ActivateAutoRebuild() => _needToRebuild = true;
+
+        [MenuItem("Tools/Generate/Deactivate Auto Rebuild")]
+        private static void DeactivateAutoRebuild() => _needToRebuild = false;
 
         [MenuItem("Tools/Generate/Regenerate ItemDatabase")]
         private static void Generate()

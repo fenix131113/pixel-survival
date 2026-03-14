@@ -1,4 +1,5 @@
 ﻿using System;
+using GameAssembly.Core.Definitions;
 using GameAssembly.Utils;
 using GameAssembly.WorldSystem.Data;
 using Mirror;
@@ -11,10 +12,10 @@ namespace GameAssembly.WorldSystem
     {
         public BlockType type;
         public BlockFlags flags;
-        public BlockDefinition definition;
+        public BlockDefinitionSO definition;
         public byte meta;
 
-        public BlockData(BlockDefinition definition, byte meta = 0)
+        public BlockData(BlockDefinitionSO definition, byte meta = 0)
         {
             type = definition.Type;
             flags = definition.Flags;
@@ -24,7 +25,7 @@ namespace GameAssembly.WorldSystem
 
         public static BlockData Air => new() { type = BlockType.AIR, flags = BlockFlags.NONE };
 
-        public static BlockData CreateBlock(BlockDefinition def)
+        public static BlockData CreateBlock(BlockDefinitionSO def)
         {
             return new BlockData
             {
@@ -56,7 +57,7 @@ namespace GameAssembly.WorldSystem
             if (!blockData.definition)
                 return;
 
-            writer.WriteString(blockData.definition.name);
+            writer.WriteString(blockData.definition.Id);
             writer.WriteByte(blockData.meta);
         }
 
@@ -67,9 +68,10 @@ namespace GameAssembly.WorldSystem
             if (reader.ReadByte() == 0)
                 result = BlockData.Air;
             else
-                result = new BlockData(
-                    Resources.Load<BlockDefinition>(AssetsPaths.BLOCK_CONFIGS_PATH + $"/{reader.ReadString()}"),
-                    reader.ReadByte());
+            {
+                DefinitionResolverProvider.TryResolve<BlockDefinitionSO>(reader.ReadString(), out var block);
+                result = new BlockData(block, reader.ReadByte());
+            }
 
             return result;
         }
