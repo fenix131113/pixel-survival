@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GameAssembly.Core.Definitions;
 using GameAssembly.ItemsSystem;
 using GameAssembly.ItemsSystem.Data;
 using GameAssembly.Utils;
@@ -406,7 +407,7 @@ namespace GameAssembly.InventorySystem
             }
 
             writer.WriteBool(true);
-            writer.WriteString(item.Definition.name);
+            writer.WriteString(item.Definition.Id);
             writer.WriteInt(item.Count);
 
             writer.WriteInt(item.Meta.Count);
@@ -422,7 +423,7 @@ namespace GameAssembly.InventorySystem
             if (!reader.ReadBool())
                 return null;
 
-            var defName = reader.ReadString();
+            var defId = reader.ReadString();
             var count = reader.ReadInt();
 
             var metaCount = reader.ReadInt();
@@ -435,8 +436,7 @@ namespace GameAssembly.InventorySystem
                 meta[k] = v;
             }
 
-            var definition = Resources.Load<ItemDefinitionSO>(
-                AssetsPaths.ITEM_CONFIGS_PATH + "/" + defName);
+            DefinitionResolverProvider.TryResolve<ItemDefinitionSO>(defId, out var definition);
 
             return new ItemInstance(definition, meta, count);
         }
