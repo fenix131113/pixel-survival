@@ -6,7 +6,8 @@ namespace GameAssembly.WorldSystem.View
 {
     public class ChunkRenderer : MonoBehaviour
     {
-        [field: SerializeField] public Tilemap Tilemap { get; private set; }
+        [field: SerializeField] public Tilemap UpperTilemap { get; private set; }
+        [field: SerializeField] public Tilemap FloorTilemap { get; private set; }
         [SerializeField] private TilemapCollider2D tilemapCollider;
         public Chunk Chunk { get; private set; }
 
@@ -25,7 +26,7 @@ namespace GameAssembly.WorldSystem.View
 
         public void RebuildVisual()
         {
-            Tilemap.ClearAllTiles();
+            UpperTilemap.ClearAllTiles();
 
             for (var x = 0; x < Chunk.CHUNK_SIZE; x++)
             {
@@ -36,18 +37,20 @@ namespace GameAssembly.WorldSystem.View
                     if (cell.Floor.type != BlockType.AIR)
                     {
                         var def = cell.Floor.definition;
-                        Tilemap.SetTile(new Vector3Int(x, y, 0), def.Tile ? def.Tile : null);
+                        FloorTilemap.SetTile(new Vector3Int(x, y, 0), def.Tile ? def.Tile : null);
                     }
                     else
-                        Tilemap.SetTile(new Vector3Int(x, y, 0), null);
+                    {
+                        FloorTilemap.SetTile(new Vector3Int(x, y, 0), null);
+                    }
 
                     if (cell.Block.type != BlockType.AIR)
                     {
                         var def = cell.Block.definition;
-                        Tilemap.SetTile(new Vector3Int(x, y, 1), def.Tile ? def.Tile : null);
+                        UpperTilemap.SetTile(new Vector3Int(x, y, 1), def.Tile ? def.Tile : null);
                     }
                     else
-                        Tilemap.SetTile(new Vector3Int(x, y, 1), null);
+                        UpperTilemap.SetTile(new Vector3Int(x, y, 1), null);
                 }
             }
 
