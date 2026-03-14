@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameAssembly.HealthSystem;
 using GameAssembly.InventorySystem;
 using GameAssembly.InventorySystem.View;
+using GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects;
 using GameAssembly.PlayerSystem.Data;
 using GameAssembly.PlayerSystem.Variables;
 using GameAssembly.PlayerSystem.View;
@@ -24,7 +26,8 @@ namespace GameAssembly.ObjectsSystem.View.ObjectsView
 
         [Inject] private IVariablesResolver<PlayerVariableBlockerType, Action, Action> _variables;
 
-        private BaseInventory _currentInventory;
+        private Chest _currentInventory;
+        private IHealth _currentHealth;
         private readonly List<ItemCell> _cells = new();
         private bool _isBind;
 
@@ -40,12 +43,13 @@ namespace GameAssembly.ObjectsSystem.View.ObjectsView
                 ExposeInventory();
         }
 
-        public void Initialize(BaseInventory inventory)
+        public void Initialize(Chest inventory)
         {
             if(!NetworkClient.active)
                 return;
             
             _currentInventory = inventory;
+            _currentHealth = inventory.GetComponent<IHealth>();
             ActivateCells();
         }
         
@@ -56,6 +60,7 @@ namespace GameAssembly.ObjectsSystem.View.ObjectsView
             
             chestMenu.SetActive(true);
             _variables.RegisterBlocker(_chestBlocker);
+            BindChestBreaking();
         }
 
         public void Close()
@@ -63,6 +68,7 @@ namespace GameAssembly.ObjectsSystem.View.ObjectsView
             UiManager.Instance.CloseRequest(playerInventoryView);
             chestMenu.SetActive(false);
             _chestBlocker.Dispose();
+            ExposeChestBreaking();
             ExposeInventory();
         }
 
@@ -93,6 +99,11 @@ namespace GameAssembly.ObjectsSystem.View.ObjectsView
                 _cells[i].gameObject.SetActive(true);
             }
         }
+        
+        private void OnCurrentChestBroken()
+        {
+            Close();
+        }
 
         private void SpawnNewCell()
         {
@@ -110,6 +121,22 @@ namespace GameAssembly.ObjectsSystem.View.ObjectsView
                 x.gameObject.SetActive(false);
                 x.Expose();
             });
+        }
+
+        private void BindChestBreaking()
+        {
+            if(_currentHealth == null)
+                return;
+            
+            _currentHealth.OnZeroHealth += OnCurrentChestBroken;
+        }
+
+        private void ExposeChestBreaking()
+        {
+            if(_currentHealth == null)
+                return;
+            
+            _currentHealth.OnZeroHealth -= OnCurrentChestBroken;
         }
     }
 }
