@@ -13,6 +13,7 @@ namespace GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects
     public class Chest : BaseInventory, IInteractiveObject
     {
         [SerializeField] private AHealthObject healthObject;
+        [SerializeField] private SpriteRenderer chestRenderer;
         
         [Inject] private ChestView _view;
         [Inject] private PlayerInventoryView _playerInventoryView;
@@ -40,6 +41,8 @@ namespace GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects
             UiManager.Instance.OpenRequest(_playerInventoryView);
             UiManager.Instance.OpenRequest(_view);
         }
+
+        public Renderer GetRendererTarget() => chestRenderer;
 
         [Server]
         private void DropEverythingFromChest()

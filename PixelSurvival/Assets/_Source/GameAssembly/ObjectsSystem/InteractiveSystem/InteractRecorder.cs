@@ -8,21 +8,40 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using VContainer;
 
+// ReSharper disable Unity.PerformanceCriticalCodeInvocation
+
 namespace GameAssembly.ObjectsSystem.InteractiveSystem
 {
     public class InteractRecorder : MonoBehaviour
     {
         [SerializeField] private LayerMask interactiveLayers;
+        [SerializeField] private Material outlineMaterial;
 
         private const float MAX_INTERACT_DISTANCE = 2.5f;
 
         [Inject] private InputSystem_Actions _input;
         [Inject] private IVariablesResolver<PlayerVariableBlockerType, Action, Action> _variables;
 
+        private Camera _camera;
+        private Material _lastMaterial;
+        private Renderer _lastRenderer;
+
         private void Start()
         {
-            if (NetworkClient.active)
-                Bind();
+            if (!NetworkClient.active)
+                return;
+
+            _camera = Camera.main;
+            Bind();
+        }
+        
+        private void Update()
+        {
+            if (!_camera || Mouse.current == null || !NetworkClient.active)
+                return;
+
+            if (_camera)
+                CheckForOutline();
         }
 
         private void OnDestroy()
@@ -31,12 +50,49 @@ namespace GameAssembly.ObjectsSystem.InteractiveSystem
                 Expose();
         }
 
+        private void CheckForOutline()
+        {
+            if(!outlineMaterial)
+                return;
+            
+            var worldPos = _camera!.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            
+            if (Vector2.Distance(worldPos, NetworkClient.localPlayer.transform.position) > MAX_INTERACT_DISTANCE)
+            {
+                DisposeLastRenderer();
+                return;
+            }
+
+            var result = Physics2D.Raycast(worldPos, Vector2.zero, float.PositiveInfinity, interactiveLayers);
+
+            if (!result || !result.collider.TryGetComponent(out IInteractiveObject interactive))
+            {
+                DisposeLastRenderer();
+                return;
+            }
+            
+            DisposeLastRenderer();
+            _lastRenderer = interactive.GetRendererTarget();
+            _lastMaterial = interactive.GetRendererTarget().material;
+            interactive.GetRendererTarget().material = outlineMaterial;
+        }
+
+        private void DisposeLastRenderer()
+        {
+            if (!_lastRenderer)
+                return;
+            
+            _lastRenderer.material = _lastMaterial;
+            _lastMaterial = null;
+            _lastRenderer = null;
+        }
+
         private void CheckInteract(InputAction.CallbackContext callbackContext)
         {
             if (_variables.IsVariableBlocked(PlayerVariableBlockerType.INTERACT))
                 return;
 
-            var worldPos = Camera.main!.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            var worldPos = _camera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             var result = Physics2D.Raycast(worldPos, Vector2.zero, float.PositiveInfinity, interactiveLayers);
 
             if (!NetworkClient.localPlayer ||

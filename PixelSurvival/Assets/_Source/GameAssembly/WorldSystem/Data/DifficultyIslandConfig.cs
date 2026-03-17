@@ -7,9 +7,13 @@ namespace GameAssembly.WorldSystem.Data
     {
         [Header("Island Count")]
         [field: SerializeField]
-        public int MinIslands { get; private set; } = 2;
+        public int Min2LayerIslands { get; private set; } = 2;
 
-        [field: SerializeField] public int MaxIslands { get; private set; } = 6;
+        [field: SerializeField] public int Max2LayerIslands { get; private set; } = 6;
+        
+        [field: SerializeField] public int Min3LayerIslands { get; private set; } = 2;
+
+        [field: SerializeField] public int Max3LayerIslands { get; private set; } = 6;
 
         [Header("Spawn Distance From Center")]
         [Range(0f, 1f)]

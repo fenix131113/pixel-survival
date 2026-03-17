@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using GameAssembly.Utils;
 using GameAssembly.Utils.Extensions;
 using GameAssembly.WorldSystem.Data;
-using Mirror;
 using R3;
 using UnityEngine;
 using Random = System.Random;
@@ -16,7 +15,7 @@ namespace GameAssembly.WorldSystem
     {
         public int Seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue); //2147483647;
 
-        public const int WORLD_SIZE = 5;
+        public const int WORLD_SIZE = 15;
 
         private const float BLOCKS_NOISE_STRENGTH = 0.08f;
         private const float BIOMES_NOISE_STRENGTH = 0.02f;
@@ -25,7 +24,7 @@ namespace GameAssembly.WorldSystem
 
         public readonly int WorldCenterXY = Mathf.RoundToInt(WORLD_SIZE * Chunk.CHUNK_SIZE * 0.5f);
 
-        private Dictionary<ChunkCoord, Chunk> _chunks = new();
+        private readonly Dictionary<ChunkCoord, Chunk> _chunks = new();
 
         private readonly BiomeDefinition[] _biomes =
             Resources.LoadAll<BiomeDefinition>(AssetsPaths.BIOMES_CONFIGS_PATH);
@@ -57,7 +56,7 @@ namespace GameAssembly.WorldSystem
 
             if (!Mathf.Approximately(progress, 1f))
                 return;
-            
+
             GenerateDifficultyIslands();
             IsLoaded.Value = true;
         }
@@ -79,73 +78,58 @@ namespace GameAssembly.WorldSystem
             var center = new Vector2(WorldCenterXY, WorldCenterXY);
             var rng = new Random(Seed);
 
-            var totalCount =
-                rng.Next(_difficultyConfig.MinIslands, _difficultyConfig.MaxIslands + 1);
+            var threeLayerCount = rng.Next(_difficultyConfig.Min3LayerIslands, _difficultyConfig.Max3LayerIslands + 1);
+            var twoLayerCount = rng.Next(_difficultyConfig.Min2LayerIslands, _difficultyConfig.Max2LayerIslands + 1);
 
-            var redCount = Mathf.CeilToInt(totalCount * _difficultyConfig.RedChance);
-            var yellowCount = totalCount - redCount;
+            GenerateIslandsWithGuaranteedCount(
+                threeLayerCount,
+                minDist01: _difficultyConfig.ThreeBiomeMin01,
+                maxDist01: _difficultyConfig.OuterLimit01,
+                allowRed: true);
 
-            var guard = 0;
-
-            for (var i = 0; i < redCount; i++)
-            {
-                if (guard++ > 5000) break;
-
-                var island = CreateIsland(
-                    i,
-                    minDist01: _difficultyConfig.ThreeBiomeMin01,
-                    maxDist01: _difficultyConfig.OuterLimit01,
-                    allowRed: true
-                );
-
-                if (_difficultyIslands.Any(x => IsIntersects(x, island)))
-                {
-                    i--;
-                    continue;
-                }
-
-                _difficultyIslands.Add(island);
-            }
-
-            guard = 0;
-
-            for (var i = 0; i < yellowCount; i++)
-            {
-                if (guard++ > 5000) break;
-
-                var island = CreateIsland(
-                    i + 1000,
-                    minDist01: _difficultyConfig.InnerDeadZone01,
-                    maxDist01: _difficultyConfig.TwoBiomeMax01,
-                    allowRed: false
-                );
-
-                if (_difficultyIslands.Any(x => IsIntersects(x, island)))
-                {
-                    i--;
-                    continue;
-                }
-
-                _difficultyIslands.Add(island);
-            }
+            GenerateIslandsWithGuaranteedCount(
+                twoLayerCount,
+                minDist01: _difficultyConfig.InnerDeadZone01,
+                maxDist01: _difficultyConfig.TwoBiomeMax01,
+                allowRed: false);
 
             return;
 
+            void GenerateIslandsWithGuaranteedCount(int targetCount, float minDist01, float maxDist01, bool allowRed)
+            {
+                const int maxPlacementAttemptsPerIsland = 200;
+                for (var i = 0; i < targetCount; i++)
+                {
+                    var island = default(DifficultyIsland);
+                    var placed = false;
+
+                    for (var attempt = 0; attempt < maxPlacementAttemptsPerIsland; attempt++)
+                    {
+                        island = CreateIsland(minDist01, maxDist01, allowRed);
+
+                        if (_difficultyIslands.Any(x => IsIntersects(x, island)))
+                            continue;
+
+                        _difficultyIslands.Add(island);
+                        placed = true;
+                        break;
+                    }
+
+                    if (!placed)
+                    {
+                        // Fallback: if the map is too dense, we still add the island to guarantee count.
+                        _difficultyIslands.Add(island);
+                    }
+                }
+            }
+
             DifficultyIsland CreateIsland(
-                int index,
                 float minDist01,
                 float maxDist01,
-                bool allowRed) // TODO: Change that circles can spawn less then minimum value
+                bool allowRed)
             {
-                var si = index * 0.2f + Seed * 0.00001f;
-
-                var angle = Mathf.PerlinNoise(si, 0.2f) * Mathf.PI * 2f;
-
-                var dist01 = Mathf.Lerp(
-                    minDist01,
-                    maxDist01,
-                    Mathf.PerlinNoise(si, 3.3f)
-                );
+                var angle = (float)(rng.NextDouble() * Mathf.PI * 2f);
+                var dist01 = Mathf.Lerp(minDist01, maxDist01, (float)rng.NextDouble());
 
                 var dist = dist01 * MAX_BIOME_RADIUS * _difficultyConfig.IslandSpacingMultiplier;
 
@@ -154,23 +138,16 @@ namespace GameAssembly.WorldSystem
                     Mathf.Sin(angle)
                 ) * dist;
 
-                var yellow = Mathf.Lerp(
-                    _difficultyConfig.YellowMin,
-                    _difficultyConfig.YellowMax,
-                    Mathf.PerlinNoise(si, 10.1f)
-                );
-
-                var orange = Mathf.Lerp(
-                    _difficultyConfig.OrangeMin,
-                    _difficultyConfig.OrangeMax,
-                    Mathf.PerlinNoise(si, 20.2f)
-                );
+                var yellow = Mathf.Lerp(_difficultyConfig.YellowMin, _difficultyConfig.YellowMax,
+                    (float)rng.NextDouble());
+                var orange = Mathf.Lerp(_difficultyConfig.OrangeMin, _difficultyConfig.OrangeMax,
+                    (float)rng.NextDouble());
 
                 var red = allowRed
                     ? Mathf.Lerp(
                         _difficultyConfig.RedMin,
                         _difficultyConfig.RedMax,
-                        Mathf.PerlinNoise(si, 30.3f)
+                        (float)rng.NextDouble()
                     )
                     : 0f;
 

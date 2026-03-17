@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Stump
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.ItemDefinitionSO
   <NameTranslationKey>k__BackingField: 
-  <Icon>k__BackingField: {fileID: -657835198000094031, guid: dd2d9d2c9c8949e4992da1d09cc671ed, type: 3}
+  <Icon>k__BackingField: {fileID: 2824195752816409085, guid: 03681f810ddd6b8478f519c5e43a2cce, type: 3}
   <MaxCount>k__BackingField: 1
   id: 7d196a19ec6c491385aae88c81feb1ae

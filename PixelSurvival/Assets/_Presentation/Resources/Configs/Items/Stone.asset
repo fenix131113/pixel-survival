@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Stone
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.ItemDefinitionSO
   <NameTranslationKey>k__BackingField: 
-  <Icon>k__BackingField: {fileID: 2667589067915142571, guid: 183802a6d30587246b308e7f105492be, type: 3}
+  <Icon>k__BackingField: {fileID: 4582806900247545062, guid: e85b969e27da3394a9db4d581a0c52be, type: 3}
   <MaxCount>k__BackingField: 15
   id: 6f70107611994230a5481f8b0171fcbd

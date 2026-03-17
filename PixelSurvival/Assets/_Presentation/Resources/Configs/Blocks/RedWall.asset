@@ -15,7 +15,7 @@ MonoBehaviour:
   <BlockNameKey>k__BackingField: 
   <Type>k__BackingField: 2
   <Flags>k__BackingField: 255
-  <Tile>k__BackingField: {fileID: 11400000, guid: 118f7ac42a4cfcf4185053946901186f, type: 2}
+  <Tile>k__BackingField: {fileID: 11400000, guid: bd5b70be8bfc59b4da96482a8a3d00a9, type: 2}
   <DropItem>k__BackingField: {fileID: 11400000, guid: 1ba9ddeec6be5884682f046976235177, type: 2}
   <MinDropAmount>k__BackingField: 1
   <MaxDropAmount>k__BackingField: 3

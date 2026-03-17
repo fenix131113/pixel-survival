@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Workbecnh
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.PlaceableObjectItemDefinitionSO
   <NameTranslationKey>k__BackingField: object.workbench
-  <Icon>k__BackingField: {fileID: -950083742, guid: 18c521fd49cc856429d874f1a2d534cf, type: 3}
+  <Icon>k__BackingField: {fileID: 4723632452668497944, guid: 85a284eb89ea2ef40bd4cf4c4c1b955c, type: 3}
   <MaxCount>k__BackingField: 1
   id: 079aa58148a34197b9d3356505fb17a0
   <PlaceableDefinition>k__BackingField: {fileID: 11400000, guid: f8abdf7db66fe4b47ab4582b01c13f0f, type: 2}

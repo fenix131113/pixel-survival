@@ -87,12 +87,12 @@ SpriteRenderer:
   m_SortingLayerID: -1049979271
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -950083742, guid: 18c521fd49cc856429d874f1a2d534cf, type: 3}
+  m_Sprite: {fileID: 4723632452668497944, guid: 85a284eb89ea2ef40bd4cf4c4c1b955c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2, y: 1.25}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -168,9 +168,9 @@ BoxCollider2D:
   m_Offset: {x: 0.5, y: -0.042173743}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.25, y: 0.25}
-    oldSize: {x: 2, y: 2}
-    newSize: {x: 1, y: 1}
+    pivot: {x: 0.25, y: 0.4}
+    oldSize: {x: 2, y: 1.25}
+    newSize: {x: 2, y: 1.25}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -248,6 +248,7 @@ MonoBehaviour:
   syncInterval: 0
   inventorySize: 15
   healthObject: {fileID: -3069487792209887469}
+  chestRenderer: {fileID: 0}
 --- !u!1 &7565389612257122605
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,4 +340,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b9cdf65d4454e7e92658c48d30a2a59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveHandler
-  interactiveObject: {fileID: 5810992972837582191}
+  interactiveObject: {fileID: 2381922299779657205}

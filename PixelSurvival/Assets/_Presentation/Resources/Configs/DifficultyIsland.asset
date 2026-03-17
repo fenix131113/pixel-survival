@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 401b07543bff40f7be1d407291684b13, type: 3}
   m_Name: DifficultyIsland
   m_EditorClassIdentifier: GameAssembly::GameAssembly.WorldSystem.Data.DifficultyIslandConfig
-  <MinIslands>k__BackingField: 4
-  <MaxIslands>k__BackingField: 6
+  <Min2LayerIslands>k__BackingField: 2
+  <Max2LayerIslands>k__BackingField: 4
+  <Min3LayerIslands>k__BackingField: 2
+  <Max3LayerIslands>k__BackingField: 4
   <InnerDeadZone01>k__BackingField: 0.1
   <TwoBiomeMax01>k__BackingField: 1
   <ThreeBiomeMin01>k__BackingField: 0.4
