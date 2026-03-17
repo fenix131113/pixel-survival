@@ -4,6 +4,7 @@ using GameAssembly.Utils;
 using GameAssembly.WorldSystem;
 using Mirror;
 using UnityEngine.SceneManagement;
+// ReSharper disable Unity.PerformanceCriticalCodeInvocation
 
 namespace GameAssembly.Core.Network
 {
@@ -92,6 +93,9 @@ namespace GameAssembly.Core.Network
 
         public override void OnServerDisconnect(NetworkConnectionToClient conn)
         {
+            if (SceneManager.GetActiveScene().buildIndex == ScenesData.GAME_SCENE_INDEX)
+                GameInstaller.Resolve<WorldCreateManager>().Server_StopSendingWorldToConn(conn);
+            
             base.OnServerDisconnect(conn);
 
             if (SceneManager.GetActiveScene().buildIndex == ScenesData.MENU_SCENE_INDEX) // If in menu
