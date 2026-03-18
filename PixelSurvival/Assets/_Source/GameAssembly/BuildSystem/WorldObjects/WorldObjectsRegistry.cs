@@ -20,12 +20,25 @@ namespace GameAssembly.BuildSystem.WorldObjects
         public bool TryPlaceObject(PlaceableObjectDefinitionSO definition, Vector2Int originCell, LayerMask blockingMask,
             World world)
         {
+            return TryPlaceObjectInternal(definition, originCell, blockingMask, world, checkPhysics: true);
+        }
+
+        [Server]
+        public bool TryPlaceObjectForGeneration(PlaceableObjectDefinitionSO definition, Vector2Int originCell, World world)
+        {
+            return TryPlaceObjectInternal(definition, originCell, 0, world, checkPhysics: false);
+        }
+
+        [Server]
+        private bool TryPlaceObjectInternal(PlaceableObjectDefinitionSO definition, Vector2Int originCell,
+            LayerMask blockingMask, World world, bool checkPhysics)
+        {
             if (!definition || !definition.Prefab)
                 return false;
 
             var footprint = GetFootprint(originCell, definition.Size);
             
-            if (!CanPlace(definition, footprint, blockingMask, world))
+            if (!CanPlace(definition, footprint, blockingMask, world, checkPhysics))
                 return false;
             
             var worldPosition = originCell + new Vector2(0.5f, 0.5f);
@@ -75,15 +88,22 @@ namespace GameAssembly.BuildSystem.WorldObjects
                 _occupiedCells[t] = worldObject;
         }
 
-        private bool CanPlace(PlaceableObjectDefinitionSO definition, IReadOnlyList<Vector2Int> footprint, LayerMask blockingMask,
-            World world)
+        private bool CanPlace(PlaceableObjectDefinitionSO definition, IReadOnlyList<Vector2Int> footprint,
+            LayerMask blockingMask, World world, bool checkPhysics)
         {
             foreach (var cell in footprint)
             {
+                if (!World.IsWorldPositionInsideBounds(cell.x, cell.y))
+                    return false;
+
+                if (world.GetChunkByWorldPosition(cell.x, cell.y) == null)
+                    return false;
+
                 if (IsOccupied(cell))
                     return false;
 
-                if (Physics2D.OverlapBox(cell + new Vector2(0.5f, 0.5f), Vector2.one * 0.95f, 0f, blockingMask))
+                if (checkPhysics &&
+                    Physics2D.OverlapBox(cell + new Vector2(0.5f, 0.5f), Vector2.one * 0.95f, 0f, blockingMask))
                     return false;
 
                 var worldCell = world.GetCellByWorldPosition(cell.x, cell.y);

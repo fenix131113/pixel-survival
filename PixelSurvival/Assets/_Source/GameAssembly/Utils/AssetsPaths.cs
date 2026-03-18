@@ -7,5 +7,6 @@
         public const string RECIPES_CONFIGS_PATH = "Configs/Recipes";
         public const string BIOMES_CONFIGS_PATH = "Configs/Biomes";
         public const string DIFFICULTY_ISLANDS_CONFIGS_PATH = "Configs/DifficultyIsland";
+        public const string WORLD_OBJECTS_GENERATION_CONFIG_PATH = "Configs/WorldObjectsGenerationConfig";
     }
 }

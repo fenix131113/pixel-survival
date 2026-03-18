@@ -69,6 +69,8 @@ namespace GameAssembly.Core
 
             builder.Register<WorldObjectRegistry>(Lifetime.Scoped)
                 .AsSelf();
+            builder.Register<WorldObjectsGenerator>(Lifetime.Scoped)
+                .AsSelf();
             builder.RegisterComponentInHierarchy<ServerBuild>();
 
             #endregion

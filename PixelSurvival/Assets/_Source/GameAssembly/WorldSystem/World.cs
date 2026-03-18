@@ -200,8 +200,12 @@ namespace GameAssembly.WorldSystem
 
         #region World generation
 
-        public async Task GenerateWorldAsync()
+        public async Task GenerateWorldAsync(float startProgress = 0f, float endProgress = 1f,
+            bool markAsLoadedAtEnd = true)
         {
+            startProgress = Mathf.Clamp01(startProgress);
+            endProgress = Mathf.Clamp01(endProgress);
+
             const int total = WORLD_SIZE * WORLD_SIZE;
             var done = 0;
 
@@ -212,10 +216,11 @@ namespace GameAssembly.WorldSystem
                     GetOrCreateChunk(new ChunkCoord(i, j));
                     done++;
 
-                    var currentProgress = done / (float)total;
+                    var normalizedProgress = done / (float)total;
+                    var currentProgress = Mathf.Lerp(startProgress, endProgress, normalizedProgress);
                     ((IProgress<float>)Progress)?.Report(currentProgress);
 
-                    if (Mathf.Approximately(currentProgress, 1f))
+                    if (markAsLoadedAtEnd && Mathf.Approximately(normalizedProgress, 1f))
                         IsLoaded.Value = true;
 
                     await Task.Yield();
@@ -359,10 +364,16 @@ namespace GameAssembly.WorldSystem
         /// </summary>
         public static Vector2Int ConvertWorldToChunkSpace(int worldX, int worldY)
         {
-            var localX = Mathf.RoundToInt(worldX) % Chunk.CHUNK_SIZE;
-            var localY = Mathf.RoundToInt(worldY) % Chunk.CHUNK_SIZE;
+            var localX = ((worldX % Chunk.CHUNK_SIZE) + Chunk.CHUNK_SIZE) % Chunk.CHUNK_SIZE;
+            var localY = ((worldY % Chunk.CHUNK_SIZE) + Chunk.CHUNK_SIZE) % Chunk.CHUNK_SIZE;
 
             return new Vector2Int(localX, localY);
+        }
+
+        public static bool IsWorldPositionInsideBounds(int worldX, int worldY)
+        {
+            var worldMax = WORLD_SIZE * Chunk.CHUNK_SIZE;
+            return worldX >= 0 && worldY >= 0 && worldX < worldMax && worldY < worldMax;
         }
 
         #endregion
@@ -371,14 +382,20 @@ namespace GameAssembly.WorldSystem
 
         public Chunk GetChunkByWorldPosition(int worldX, int worldY)
         {
-            var chunkX = worldX / Chunk.CHUNK_SIZE;
-            var chunkY = worldY / Chunk.CHUNK_SIZE;
+            if (!IsWorldPositionInsideBounds(worldX, worldY))
+                return null;
+
+            var chunkX = Mathf.FloorToInt(worldX / (float)Chunk.CHUNK_SIZE);
+            var chunkY = Mathf.FloorToInt(worldY / (float)Chunk.CHUNK_SIZE);
 
             return GetChunk(new ChunkCoord(chunkX, chunkY));
         }
 
         public CellData GetCellByWorldPosition(int worldX, int worldY)
         {
+            if (!IsWorldPositionInsideBounds(worldX, worldY))
+                return CellData.Empty;
+
             var chunk = GetChunkByWorldPosition(worldX, worldY);
 
             return chunk?.GetCell(ConvertWorldToChunkSpace(worldX, worldY)) ?? CellData.Empty;

@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameAssembly.BuildSystem.WorldObjects;
 using GameAssembly.Core;
 using Mirror;
 using UnityEngine;
@@ -13,7 +14,8 @@ namespace GameAssembly.WorldSystem
         private const int INITIAL_CHUNK_RADIUS = 2;
         private const float CHUNK_SYNC_INTERVAL = 0.1f;
 
-        [SerializeField, Min(0.1f)] private float blockDamageResetDelay = 2.5f;
+        [SerializeField, Min(0.1f)] private float blockDamageResetDelay = 4f;
+        [SerializeField, Range(0.1f, 0.99f)] private float chunkGenerationProgressWeight = 0.85f;
 
         private readonly Dictionary<int, Coroutine> _syncCoroutines = new();
         private readonly Dictionary<int, HashSet<ChunkCoord>> _sentChunksByConnection = new();
@@ -21,6 +23,7 @@ namespace GameAssembly.WorldSystem
 
         [Inject] private World _world;
         [Inject] private ServerBlockDamageSystem _blockDamageSystem;
+        [Inject] private WorldObjectsGenerator _worldObjectsGenerator;
 
         public event Action<Vector2Int, float, int, int> ClientOnBlockDamageProgress;
         public event Action<Vector2Int> ClientOnBlockDamageCleared;
@@ -34,7 +37,19 @@ namespace GameAssembly.WorldSystem
                 if (!NetworkServer.active)
                     return;
 
-                await _world.GenerateWorldAsync();
+                var chunkStageEnd = Mathf.Clamp(chunkGenerationProgressWeight, 0.1f, 0.99f);
+
+                _world.IsLoaded.Value = false;
+                await _world.GenerateWorldAsync(0f, chunkStageEnd, markAsLoadedAtEnd: false);
+
+                _worldObjectsGenerator.Server_Generate(objectsProgress =>
+                {
+                    var globalProgress = Mathf.Lerp(chunkStageEnd, 1f, Mathf.Clamp01(objectsProgress));
+                    ((IProgress<float>)_world.Progress)?.Report(globalProgress);
+                });
+
+                ((IProgress<float>)_world.Progress)?.Report(1f);
+                _world.IsLoaded.Value = true;
             }
             catch (Exception e)
             {
@@ -258,3 +273,4 @@ namespace GameAssembly.WorldSystem
         }
     }
 }
+
