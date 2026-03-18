@@ -20,4 +20,6 @@ MonoBehaviour:
   <MinDropAmount>k__BackingField: 1
   <MaxDropAmount>k__BackingField: 3
   <Health>k__BackingField: 3
+  <EffectiveToolType>k__BackingField: 0
+  <RequireEffectiveToolToBreak>k__BackingField: 0
   id: 5af51ca72d164f6ebca140b89d69b50e

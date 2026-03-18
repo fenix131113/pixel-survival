@@ -16,11 +16,25 @@ namespace GameAssembly.WorldSystem.Data
         [field: SerializeField] public int MinDropAmount { get; private set; }
         [field: SerializeField] public int MaxDropAmount { get; private set; }
         [field: SerializeField] public int Health { get; private set; }
+        [field: SerializeField] public ToolType EffectiveToolType { get; private set; } = ToolType.UNKNOWN;
+        [field: SerializeField] public bool RequireEffectiveToolToBreak { get; private set; }
 
         [SerializeField] private string id;
         
         public string Id => id;
         
         public int RandomizeDropAmount() => Random.Range(MinDropAmount, MaxDropAmount + 1);
+
+        public bool IsEffectiveTool(ToolItemDefinitionSO toolDefinition)
+        {
+            return toolDefinition &&
+                   EffectiveToolType != ToolType.UNKNOWN &&
+                   toolDefinition.ToolType == EffectiveToolType;
+        }
+
+        public bool CanTakeDamageFrom(ToolItemDefinitionSO toolDefinition)
+        {
+            return !RequireEffectiveToolToBreak || IsEffectiveTool(toolDefinition);
+        }
     }
 }

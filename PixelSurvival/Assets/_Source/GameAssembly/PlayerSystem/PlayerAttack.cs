@@ -3,6 +3,7 @@ using GameAssembly.HealthSystem;
 using GameAssembly.HealthSystem.Data;
 using GameAssembly.InventorySystem;
 using GameAssembly.ItemsSystem;
+using GameAssembly.ItemsSystem.Data;
 using GameAssembly.ObjectsSystem;
 using GameAssembly.PlayerSystem.Data;
 using GameAssembly.Utils;
@@ -131,8 +132,10 @@ namespace GameAssembly.PlayerSystem
                 Mathf.Cos(currentRotationAngle * Mathf.Deg2Rad),
                 Mathf.Sin(currentRotationAngle * Mathf.Deg2Rad)
             );
-            var damage = overrideDamage > -1 ? overrideDamage : handDamage; // TODO: Make check for block and apply tool damage if tool matches the block's tool
+            var damage = overrideDamage > -1 ? overrideDamage : handDamage;
             var attackerNetId = netIdentity ? netIdentity.netId : 0u;
+            var selectedItem = _selector.IsSelectedItem ? _selector.GetSelectedItem() : null;
+            var selectedToolDefinition = selectedItem?.Definition as ToolItemDefinitionSO;
 
             for (var index = 0; index < _hits.Length; index++)
                 _hits[index] = default;
@@ -152,7 +155,7 @@ namespace GameAssembly.PlayerSystem
                 {
                     hasResolvedTarget = true;
                     health.ChangeHealth(-damage,
-                        new DamageContext(gameObject, _selector.GetSelectedItem(), HealthType.PLAYER));
+                        new DamageContext(gameObject, selectedItem, HealthType.PLAYER));
                     _blockDamageSystem.Server_ClearPlayerTarget(attackerNetId);
                 }
                 else if (h.collider.gameObject
@@ -171,12 +174,20 @@ namespace GameAssembly.PlayerSystem
 
                     if (cell.Block.type != BlockType.AIR && cell.Block.IsBreakable)
                     {
+                        var blockDamage = ResolveBlockMiningDamage(cell.Block.definition, selectedToolDefinition, damage);
+                        if (blockDamage <= 0)
+                        {
+                            _blockDamageSystem.Server_ClearPlayerTarget(attackerNetId);
+                            break;
+                        }
+
                         var blockWorldPos = new Vector2Int(
                             chunkVisual.Chunk.Coord.X * Chunk.CHUNK_SIZE + blockIndexes.x,
                             chunkVisual.Chunk.Coord.Y * Chunk.CHUNK_SIZE + blockIndexes.y);
 
                         var breakResult =
-                            _blockDamageSystem.Server_ApplyPlayerDamage(_world, attackerNetId, blockWorldPos, damage);
+                            _blockDamageSystem.Server_ApplyPlayerDamage(_world, attackerNetId, blockWorldPos,
+                                blockDamage);
 
                         if (breakResult.IsBlockBroken)
                         {
@@ -208,6 +219,18 @@ namespace GameAssembly.PlayerSystem
         }
 
         #endregion
+
+        private static int ResolveBlockMiningDamage(BlockDefinitionSO blockDefinition,
+            ToolItemDefinitionSO selectedToolDefinition, int baseDamage)
+        {
+            if (!blockDefinition || !blockDefinition.CanTakeDamageFrom(selectedToolDefinition))
+                return 0;
+
+            if (blockDefinition.IsEffectiveTool(selectedToolDefinition))
+                return Mathf.Max(1, selectedToolDefinition.MiningDamage);
+
+            return Mathf.Max(1, baseDamage);
+        }
 
         private void InitializeClientAndServer()
         {
