@@ -13,16 +13,24 @@ namespace GameAssembly.WorldSystem
         private const int INITIAL_CHUNK_RADIUS = 2;
         private const float CHUNK_SYNC_INTERVAL = 0.1f;
 
+        [SerializeField, Min(0.1f)] private float blockDamageResetDelay = 2.5f;
+
         private readonly Dictionary<int, Coroutine> _syncCoroutines = new();
         private readonly Dictionary<int, HashSet<ChunkCoord>> _sentChunksByConnection = new();
         private readonly HashSet<int> _seedSentConnections = new();
 
         [Inject] private World _world;
+        [Inject] private ServerBlockDamageSystem _blockDamageSystem;
+
+        public event Action<Vector2Int, float, int, int> ClientOnBlockDamageProgress;
+        public event Action<Vector2Int> ClientOnBlockDamageCleared;
 
         private async void Awake()
         {
             try
             {
+                _blockDamageSystem.ResetDelaySeconds = blockDamageResetDelay;
+
                 if (!NetworkServer.active)
                     return;
 
@@ -32,6 +40,36 @@ namespace GameAssembly.WorldSystem
             {
                 Debug.LogException(e);
             }
+        }
+
+        private void OnDestroy()
+        {
+            if (NetworkServer.active)
+                UnbindServerBlockDamage();
+
+            StopAllCoroutines();
+            ClientOnBlockDamageProgress = null;
+            ClientOnBlockDamageCleared = null;
+        }
+
+        private void Update()
+        {
+            if (!NetworkServer.active)
+                return;
+
+            _blockDamageSystem.Server_Tick();
+        }
+
+        public override void OnStartServer()
+        {
+            base.OnStartServer();
+            BindServerBlockDamage();
+        }
+
+        public override void OnStopServer()
+        {
+            UnbindServerBlockDamage();
+            base.OnStopServer();
         }
 
         [TargetRpc]
@@ -65,6 +103,18 @@ namespace GameAssembly.WorldSystem
             var currentChunk = world.GetChunk(chunkCoord);
 
             currentChunk?.SetCell(x, y, cell);
+        }
+
+        [ClientRpc]
+        private void Rpc_BlockDamageProgress(Vector2Int blockWorldPos, float progress01, int currentDamage, int maxHealth)
+        {
+            ClientOnBlockDamageProgress?.Invoke(blockWorldPos, progress01, currentDamage, maxHealth);
+        }
+
+        [ClientRpc]
+        private void Rpc_BlockDamageCleared(Vector2Int blockWorldPos)
+        {
+            ClientOnBlockDamageCleared?.Invoke(blockWorldPos);
         }
 
         [Server]
@@ -178,6 +228,33 @@ namespace GameAssembly.WorldSystem
                 Target_LoadChunk(conn, chunk);
                 sentChunks.Add(chunk.Coord);
             }
+        }
+
+        [Server]
+        private void BindServerBlockDamage()
+        {
+            _blockDamageSystem.OnBlockDamageChanged += Server_OnBlockDamageChanged;
+            _blockDamageSystem.OnBlockDamageCleared += Server_OnBlockDamageCleared;
+        }
+
+        [Server]
+        private void UnbindServerBlockDamage()
+        {
+            _blockDamageSystem.OnBlockDamageChanged -= Server_OnBlockDamageChanged;
+            _blockDamageSystem.OnBlockDamageCleared -= Server_OnBlockDamageCleared;
+        }
+
+        [Server]
+        private void Server_OnBlockDamageChanged(BlockDamageSnapshot snapshot)
+        {
+            Rpc_BlockDamageProgress(snapshot.BlockWorldPos, snapshot.Progress01, snapshot.CurrentDamage,
+                snapshot.MaxHealth);
+        }
+
+        [Server]
+        private void Server_OnBlockDamageCleared(Vector2Int blockWorldPos)
+        {
+            Rpc_BlockDamageCleared(blockWorldPos);
         }
     }
 }

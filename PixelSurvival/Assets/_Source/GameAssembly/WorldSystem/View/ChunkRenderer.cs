@@ -6,6 +6,8 @@ namespace GameAssembly.WorldSystem.View
 {
     public class ChunkRenderer : MonoBehaviour
     {
+        private static readonly Color _damagedTintColor = new(0.45f, 0.45f, 0.45f, 1f);
+
         [field: SerializeField] public Tilemap UpperTilemap { get; private set; }
         [field: SerializeField] public Tilemap FloorTilemap { get; private set; }
         [SerializeField] private TilemapCollider2D tilemapCollider;
@@ -47,10 +49,18 @@ namespace GameAssembly.WorldSystem.View
                     if (cell.Block.type != BlockType.AIR)
                     {
                         var def = cell.Block.definition;
-                        UpperTilemap.SetTile(new Vector3Int(x, y, 1), def.Tile ? def.Tile : null);
+                        var upperPos = new Vector3Int(x, y, 1);
+                        UpperTilemap.SetTile(upperPos, def.Tile ? def.Tile : null);
+                        UpperTilemap.SetTileFlags(upperPos, TileFlags.None);
+                        UpperTilemap.SetColor(upperPos, Color.white);
                     }
                     else
-                        UpperTilemap.SetTile(new Vector3Int(x, y, 1), null);
+                    {
+                        var upperPos = new Vector3Int(x, y, 1);
+                        UpperTilemap.SetTile(upperPos, null);
+                        UpperTilemap.SetTileFlags(upperPos, TileFlags.None);
+                        UpperTilemap.SetColor(upperPos, Color.white);
+                    }
                 }
             }
 
@@ -65,6 +75,23 @@ namespace GameAssembly.WorldSystem.View
             tilemapCollider.enabled = false;
             tilemapCollider.enabled = true;
             Chunk.DirtyCollider = false;
+        }
+
+        public void SetBlockDamageTint(Vector2Int localIndexes, float progress01)
+        {
+            var tilePos = new Vector3Int(localIndexes.x, localIndexes.y, 1);
+            if (!UpperTilemap.GetTile(tilePos))
+                return;
+
+            UpperTilemap.SetTileFlags(tilePos, TileFlags.None);
+            UpperTilemap.SetColor(tilePos, Color.Lerp(Color.white, _damagedTintColor, Mathf.Clamp01(progress01)));
+        }
+
+        public void ClearBlockDamageTint(Vector2Int localIndexes)
+        {
+            var tilePos = new Vector3Int(localIndexes.x, localIndexes.y, 1);
+            UpperTilemap.SetTileFlags(tilePos, TileFlags.None);
+            UpperTilemap.SetColor(tilePos, Color.white);
         }
     }
 }

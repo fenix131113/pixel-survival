@@ -19,7 +19,7 @@ using VContainer;
 
 namespace GameAssembly.PlayerSystem
 {
-    public class PlayerAttack : NetworkBehaviour //TODO: make attack block when inventory or other panels opened
+    public class PlayerAttack : NetworkBehaviour
     {
         [SerializeField] private int handDamage = 1;
         [SerializeField] private float baseAttackDistance = 1.5f;
@@ -28,6 +28,8 @@ namespace GameAssembly.PlayerSystem
 
         [Inject] private InputSystem_Actions _input;
         [Inject] private IVariablesResolver<PlayerVariableBlockerType, Action, Action> _variables;
+        [Inject] private World _world;
+        [Inject] private ServerBlockDamageSystem _blockDamageSystem;
 
         private float _cooldown;
         private IInventory _inventory;
@@ -129,6 +131,8 @@ namespace GameAssembly.PlayerSystem
                 Mathf.Cos(currentRotationAngle * Mathf.Deg2Rad),
                 Mathf.Sin(currentRotationAngle * Mathf.Deg2Rad)
             );
+            var damage = overrideDamage > -1 ? overrideDamage : handDamage; // TODO: Make check for block and apply tool damage if tool matches the block's tool
+            var attackerNetId = netIdentity ? netIdentity.netId : 0u;
 
             for (var index = 0; index < _hits.Length; index++)
                 _hits[index] = default;
@@ -137,20 +141,19 @@ namespace GameAssembly.PlayerSystem
                 transform.position + new Vector3(_playerCollider.offset.x, _playerCollider.offset.y, 0), dir, _hits,
                 distance, layerMask);
 
+            var hasResolvedTarget = false;
+
             foreach (var h in _hits)
             {
-                if (h == default || !h.collider || h.collider.gameObject == gameObject)
+                if (h == false || !h.collider || h.collider.gameObject == gameObject)
                     continue;
 
                 if (h.collider.TryGetComponent<IHealth>(out var health)) // Attacking objects & mobs
                 {
-                    var damage = handDamage;
-
-                    if (overrideDamage > -1)
-                        damage = overrideDamage;
-
+                    hasResolvedTarget = true;
                     health.ChangeHealth(-damage,
                         new DamageContext(gameObject, _selector.GetSelectedItem(), HealthType.PLAYER));
+                    _blockDamageSystem.Server_ClearPlayerTarget(attackerNetId);
                 }
                 else if (h.collider.gameObject
                          .GetComponentInAnyParent<ChunkRenderer>(out var chunkVisual)) // Breaking world(chunk) blocks. TODO: maybe move break logic to another script
@@ -162,17 +165,46 @@ namespace GameAssembly.PlayerSystem
                         blockIndexes.y < 0 || blockIndexes.y >= Chunk.CHUNK_SIZE)
                         continue;
 
+                    hasResolvedTarget = true;
+
                     var cell = chunkVisual.Chunk.GetCell(blockIndexes.x, blockIndexes.y);
 
                     if (cell.Block.type != BlockType.AIR && cell.Block.IsBreakable)
                     {
-                        ServerItemSpawner.Server_SpawnItem(chunkVisual.UpperTilemap.GetCellCenterWorld(blockIndexes), cell.Block.definition.DropItem, cell.Block.definition.RandomizeDropAmount());
-                        chunkVisual.Chunk.SetBlock(blockIndexes.x, blockIndexes.y, false, BlockData.Air);
+                        var blockWorldPos = new Vector2Int(
+                            chunkVisual.Chunk.Coord.X * Chunk.CHUNK_SIZE + blockIndexes.x,
+                            chunkVisual.Chunk.Coord.Y * Chunk.CHUNK_SIZE + blockIndexes.y);
+
+                        var breakResult =
+                            _blockDamageSystem.Server_ApplyPlayerDamage(_world, attackerNetId, blockWorldPos, damage);
+
+                        if (breakResult.IsBlockBroken)
+                        {
+                            if (cell.Block.definition.DropItem)
+                            {
+                                ServerItemSpawner.Server_SpawnItem(
+                                    chunkVisual.UpperTilemap.GetCellCenterWorld(blockIndexes),
+                                    cell.Block.definition.DropItem,
+                                    cell.Block.definition.RandomizeDropAmount());
+                            }
+
+                            chunkVisual.Chunk.SetBlock(blockIndexes.x, blockIndexes.y, false, BlockData.Air);
+                        }
                     }
+                    else
+                        _blockDamageSystem.Server_ClearPlayerTarget(attackerNetId);
+                }
+                else
+                {
+                    hasResolvedTarget = true;
+                    _blockDamageSystem.Server_ClearPlayerTarget(attackerNetId);
                 }
 
                 break;
             }
+
+            if (!hasResolvedTarget)
+                _blockDamageSystem.Server_ClearPlayerTarget(attackerNetId);
         }
 
         #endregion

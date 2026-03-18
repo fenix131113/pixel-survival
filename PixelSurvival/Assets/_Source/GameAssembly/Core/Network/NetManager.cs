@@ -94,7 +94,12 @@ namespace GameAssembly.Core.Network
         public override void OnServerDisconnect(NetworkConnectionToClient conn)
         {
             if (SceneManager.GetActiveScene().buildIndex == ScenesData.GAME_SCENE_INDEX)
+            {
+                if (conn.identity)
+                    GameInstaller.Resolve<ServerBlockDamageSystem>()?.Server_ClearPlayerTarget(conn.identity.netId);
+
                 GameInstaller.Resolve<WorldCreateManager>().Server_StopSendingWorldToConn(conn);
+            }
             
             base.OnServerDisconnect(conn);
 

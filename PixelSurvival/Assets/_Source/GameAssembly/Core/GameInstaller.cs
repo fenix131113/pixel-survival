@@ -59,6 +59,8 @@ namespace GameAssembly.Core
 
             _world = new World();
             builder.RegisterInstance(_world);
+            builder.Register<ServerBlockDamageSystem>(Lifetime.Scoped)
+                .AsSelf();
             builder.RegisterComponentInHierarchy<WorldCreateManager>();
 
             #endregion
