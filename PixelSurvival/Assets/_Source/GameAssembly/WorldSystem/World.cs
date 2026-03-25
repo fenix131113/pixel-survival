@@ -128,28 +128,52 @@ namespace GameAssembly.WorldSystem
                 float maxDist01,
                 bool allowRed)
             {
-                var angle = (float)(rng.NextDouble() * Mathf.PI * 2f);
-                var dist01 = Mathf.Lerp(minDist01, maxDist01, (float)rng.NextDouble());
+                var yellowMin = allowRed
+                    ? _difficultyConfig.ThreeLayerYellowMin
+                    : _difficultyConfig.TwoLayerYellowMin;
+                var yellowMax = allowRed
+                    ? _difficultyConfig.ThreeLayerYellowMax
+                    : _difficultyConfig.TwoLayerYellowMax;
+                var yellow = Mathf.Lerp(
+                    Mathf.Min(yellowMin, yellowMax),
+                    Mathf.Max(yellowMin, yellowMax),
+                    (float)rng.NextDouble());
 
-                var dist = dist01 * MAX_BIOME_RADIUS * _difficultyConfig.IslandSpacingMultiplier;
+                var orangeMin = allowRed
+                    ? _difficultyConfig.ThreeLayerOrangeMin
+                    : _difficultyConfig.TwoLayerOrangeMin;
+                var orangeMax = allowRed
+                    ? _difficultyConfig.ThreeLayerOrangeMax
+                    : _difficultyConfig.TwoLayerOrangeMax;
+                var orange = Mathf.Lerp(
+                    Mathf.Min(orangeMin, orangeMax),
+                    Mathf.Max(orangeMin, orangeMax),
+                    (float)rng.NextDouble());
+
+                var red = allowRed
+                    ? Mathf.Lerp(
+                        Mathf.Min(_difficultyConfig.RedMin, _difficultyConfig.RedMax),
+                        Mathf.Max(_difficultyConfig.RedMin, _difficultyConfig.RedMax),
+                        (float)rng.NextDouble()
+                    )
+                    : 0f;
+
+                var outerRadius = Mathf.Max(yellow, orange, red);
+                var angle = (float)(rng.NextDouble() * Mathf.PI * 2f);
+                var distanceScale = MAX_BIOME_RADIUS * _difficultyConfig.IslandSpacingMultiplier;
+                var minCenterDist = minDist01 * distanceScale + outerRadius;
+                var maxCenterDist = maxDist01 * distanceScale;
+
+                // Keep dead zone guarantee even if config ranges conflict with current island radius.
+                if (maxCenterDist < minCenterDist)
+                    maxCenterDist = minCenterDist;
+
+                var dist = Mathf.Lerp(minCenterDist, maxCenterDist, (float)rng.NextDouble());
 
                 var pos = center + new Vector2(
                     Mathf.Cos(angle),
                     Mathf.Sin(angle)
                 ) * dist;
-
-                var yellow = Mathf.Lerp(_difficultyConfig.YellowMin, _difficultyConfig.YellowMax,
-                    (float)rng.NextDouble());
-                var orange = Mathf.Lerp(_difficultyConfig.OrangeMin, _difficultyConfig.OrangeMax,
-                    (float)rng.NextDouble());
-
-                var red = allowRed
-                    ? Mathf.Lerp(
-                        _difficultyConfig.RedMin,
-                        _difficultyConfig.RedMax,
-                        (float)rng.NextDouble()
-                    )
-                    : 0f;
 
                 return new DifficultyIsland
                 {

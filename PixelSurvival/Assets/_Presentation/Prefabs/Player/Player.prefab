@@ -257,7 +257,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  dropPrefab: {fileID: 9090697042307161094, guid: 3be4b7b7b0e727441b9259d6e5613423, type: 3}
 --- !u!114 &5733486683184924061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,7 +295,7 @@ MonoBehaviour:
   baseCooldown: 0.5
   meleeTriggerLayers:
     serializedVersion: 2
-    m_Bits: 63
+    m_Bits: 191
 --- !u!114 &-7355307408136034134
 MonoBehaviour:
   m_ObjectHideFlags: 0

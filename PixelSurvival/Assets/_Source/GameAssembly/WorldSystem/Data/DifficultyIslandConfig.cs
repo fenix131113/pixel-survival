@@ -36,17 +36,29 @@ namespace GameAssembly.WorldSystem.Data
         [field: SerializeField]
         public float IslandSpacingMultiplier { get; private set; } = 1.4f;
 
-        [Header("Yellow Radius")]
+        [Header("2-Layer Yellow Radius")]
         [field: SerializeField]
-        public float YellowMin { get; private set; } = 30f;
+        public float TwoLayerYellowMin { get; private set; } = 30f;
 
-        [field: SerializeField] public float YellowMax { get; private set; } = 70f;
+        [field: SerializeField] public float TwoLayerYellowMax { get; private set; } = 70f;
 
-        [Header("Orange Radius")]
+        [Header("2-Layer Orange Radius")]
         [field: SerializeField]
-        public float OrangeMin { get; private set; } = 18f;
+        public float TwoLayerOrangeMin { get; private set; } = 18f;
 
-        [field: SerializeField] public float OrangeMax { get; private set; } = 45f;
+        [field: SerializeField] public float TwoLayerOrangeMax { get; private set; } = 45f;
+
+        [Header("3-Layer Yellow Radius")]
+        [field: SerializeField]
+        public float ThreeLayerYellowMin { get; private set; } = 30f;
+
+        [field: SerializeField] public float ThreeLayerYellowMax { get; private set; } = 70f;
+
+        [Header("3-Layer Orange Radius")]
+        [field: SerializeField]
+        public float ThreeLayerOrangeMin { get; private set; } = 18f;
+
+        [field: SerializeField] public float ThreeLayerOrangeMax { get; private set; } = 45f;
 
         [Header("Red Radius")]
         [field: SerializeField]

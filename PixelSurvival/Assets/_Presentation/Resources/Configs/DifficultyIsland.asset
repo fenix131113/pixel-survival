@@ -12,19 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 401b07543bff40f7be1d407291684b13, type: 3}
   m_Name: DifficultyIsland
   m_EditorClassIdentifier: GameAssembly::GameAssembly.WorldSystem.Data.DifficultyIslandConfig
-  <Min2LayerIslands>k__BackingField: 2
-  <Max2LayerIslands>k__BackingField: 4
-  <Min3LayerIslands>k__BackingField: 2
+  <Min2LayerIslands>k__BackingField: 3
+  <Max2LayerIslands>k__BackingField: 7
+  <Min3LayerIslands>k__BackingField: 3
   <Max3LayerIslands>k__BackingField: 4
   <InnerDeadZone01>k__BackingField: 0.1
   <TwoBiomeMax01>k__BackingField: 1
   <ThreeBiomeMin01>k__BackingField: 0.4
   <OuterLimit01>k__BackingField: 0.6
-  <IslandSpacingMultiplier>k__BackingField: 1.2
-  <YellowMin>k__BackingField: 50
-  <YellowMax>k__BackingField: 75
-  <OrangeMin>k__BackingField: 25
-  <OrangeMax>k__BackingField: 45
+  <IslandSpacingMultiplier>k__BackingField: 1.4
+  <TwoLayerYellowMin>k__BackingField: 25
+  <TwoLayerYellowMax>k__BackingField: 35
+  <TwoLayerOrangeMin>k__BackingField: 15
+  <TwoLayerOrangeMax>k__BackingField: 20
+  <ThreeLayerYellowMin>k__BackingField: 40
+  <ThreeLayerYellowMax>k__BackingField: 50
+  <ThreeLayerOrangeMin>k__BackingField: 25
+  <ThreeLayerOrangeMax>k__BackingField: 35
   <RedMin>k__BackingField: 8
   <RedMax>k__BackingField: 15
   <RedChance>k__BackingField: 0.5

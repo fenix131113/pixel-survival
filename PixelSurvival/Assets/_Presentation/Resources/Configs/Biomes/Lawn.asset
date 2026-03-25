@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8b2ab1f32114aa6a283351b8833564c, type: 3}
-  m_Name: PurpleBiome
+  m_Name: Lawn
   m_EditorClassIdentifier: GameAssembly::GameAssembly.WorldSystem.Data.BiomeDefinition
   <NameKey>k__BackingField: 
-  <DefaultFloor>k__BackingField: {fileID: 11400000, guid: 9d4bd761a8a70c542ab3cce5218c4a9d, type: 2}
-  <DefaultWall>k__BackingField: {fileID: 11400000, guid: a2c81f9a41b840f4dac2c072a251e83c, type: 2}
-  <NaturalSpawn>k__BackingField: 0
-  <Min>k__BackingField: 0
-  <Max>k__BackingField: 0.8
-  <WallDensity>k__BackingField: 0.75
-  MinDistance: 0.5
-  MaxDistance: 1
+  <DefaultFloor>k__BackingField: {fileID: 11400000, guid: 7e358825b07d0934180adf59b75b1b0a, type: 2}
+  <DefaultWall>k__BackingField: {fileID: 11400000, guid: f21cdbf19849af0498490be035c9009e, type: 2}
+  <NaturalSpawn>k__BackingField: 1
+  <Min>k__BackingField: 0.33
+  <Max>k__BackingField: 0.66
+  <WallDensity>k__BackingField: 0.15

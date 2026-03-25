@@ -15,13 +15,138 @@ MonoBehaviour:
   <SeedOffset>k__BackingField: 100003
   <GlobalDensityMultiplier>k__BackingField: 1
   <BiomeRules>k__BackingField:
-  - <Biome>k__BackingField: {fileID: 11400000, guid: 56e3adcdeb8b78f49b8a18ea49622440, type: 2}
-    <SpawnChancePerCell>k__BackingField: 0.004
+  - <Biome>k__BackingField: {fileID: 11400000, guid: 61813ac419d33a84785925053889a1bb, type: 2}
+    <SpawnChancePerCell>k__BackingField: 0.035
     <Entries>k__BackingField:
-    - <Definition>k__BackingField: {fileID: 11400000, guid: ebcfc29f82fc2ee48bbf21e9f2dc2e01, type: 2}
+    - <Definition>k__BackingField: {fileID: 11400000, guid: 62062d82d8759774b8eb145a7571f480, type: 2}
+      <Weight>k__BackingField: 4
+      <SpawnMode>k__BackingField: 1
+      <MinClusterObjects>k__BackingField: 3
+      <MaxClusterObjects>k__BackingField: 5
+      <MinClusterRadius>k__BackingField: 2
+      <MaxClusterRadius>k__BackingField: 4
+    - <Definition>k__BackingField: {fileID: 11400000, guid: 991f7e4101c19fe49a0c5cae2e7fb89e, type: 2}
+      <Weight>k__BackingField: 5
+      <SpawnMode>k__BackingField: 1
+      <MinClusterObjects>k__BackingField: 3
+      <MaxClusterObjects>k__BackingField: 5
+      <MinClusterRadius>k__BackingField: 2
+      <MaxClusterRadius>k__BackingField: 4
+    - <Definition>k__BackingField: {fileID: 11400000, guid: bda20329d3cb5fa4296b091e0944b7b0, type: 2}
       <Weight>k__BackingField: 1
       <SpawnMode>k__BackingField: 0
       <MinClusterObjects>k__BackingField: 2
       <MaxClusterObjects>k__BackingField: 4
+      <MinClusterRadius>k__BackingField: 2
+      <MaxClusterRadius>k__BackingField: 4
+    - <Definition>k__BackingField: {fileID: 11400000, guid: 8405448467e271f4498d52c4ab498a8c, type: 2}
+      <Weight>k__BackingField: 2
+      <SpawnMode>k__BackingField: 0
+      <MinClusterObjects>k__BackingField: 2
+      <MaxClusterObjects>k__BackingField: 4
+      <MinClusterRadius>k__BackingField: 2
+      <MaxClusterRadius>k__BackingField: 4
+    - <Definition>k__BackingField: {fileID: 11400000, guid: 8369a171a91744b4d941a1230eeb5ffb, type: 2}
+      <Weight>k__BackingField: 2
+      <SpawnMode>k__BackingField: 0
+      <MinClusterObjects>k__BackingField: 2
+      <MaxClusterObjects>k__BackingField: 4
+      <MinClusterRadius>k__BackingField: 2
+      <MaxClusterRadius>k__BackingField: 4
+  - <Biome>k__BackingField: {fileID: 11400000, guid: c9faa4622b0e9a64da1439f7cf0f9e60, type: 2}
+    <SpawnChancePerCell>k__BackingField: 0.045
+    <Entries>k__BackingField:
+    - <Definition>k__BackingField: {fileID: 11400000, guid: 8405448467e271f4498d52c4ab498a8c, type: 2}
+      <Weight>k__BackingField: 7
+      <SpawnMode>k__BackingField: 0
+      <MinClusterObjects>k__BackingField: 3
+      <MaxClusterObjects>k__BackingField: 5
+      <MinClusterRadius>k__BackingField: 2
+      <MaxClusterRadius>k__BackingField: 4
+    - <Definition>k__BackingField: {fileID: 11400000, guid: bda20329d3cb5fa4296b091e0944b7b0, type: 2}
+      <Weight>k__BackingField: 4
+      <SpawnMode>k__BackingField: 0
+      <MinClusterObjects>k__BackingField: 3
+      <MaxClusterObjects>k__BackingField: 5
+      <MinClusterRadius>k__BackingField: 2
+      <MaxClusterRadius>k__BackingField: 4
+    - <Definition>k__BackingField: {fileID: 11400000, guid: 7d636b96042cf444a97b18a323b5a6e2, type: 2}
+      <Weight>k__BackingField: 3
+      <SpawnMode>k__BackingField: 0
+      <MinClusterObjects>k__BackingField: 3
+      <MaxClusterObjects>k__BackingField: 5
+      <MinClusterRadius>k__BackingField: 2
+      <MaxClusterRadius>k__BackingField: 4
+    - <Definition>k__BackingField: {fileID: 11400000, guid: 773d2ee328c7b0246b099935703b92bb, type: 2}
+      <Weight>k__BackingField: 2
+      <SpawnMode>k__BackingField: 0
+      <MinClusterObjects>k__BackingField: 3
+      <MaxClusterObjects>k__BackingField: 5
+      <MinClusterRadius>k__BackingField: 2
+      <MaxClusterRadius>k__BackingField: 4
+    - <Definition>k__BackingField: {fileID: 11400000, guid: 929ab0382a1df9a459dee3ffc9492493, type: 2}
+      <Weight>k__BackingField: 2
+      <SpawnMode>k__BackingField: 0
+      <MinClusterObjects>k__BackingField: 3
+      <MaxClusterObjects>k__BackingField: 5
+      <MinClusterRadius>k__BackingField: 2
+      <MaxClusterRadius>k__BackingField: 4
+    - <Definition>k__BackingField: {fileID: 11400000, guid: ebcfc29f82fc2ee48bbf21e9f2dc2e01, type: 2}
+      <Weight>k__BackingField: 1
+      <SpawnMode>k__BackingField: 0
+      <MinClusterObjects>k__BackingField: 3
+      <MaxClusterObjects>k__BackingField: 5
+      <MinClusterRadius>k__BackingField: 2
+      <MaxClusterRadius>k__BackingField: 4
+    - <Definition>k__BackingField: {fileID: 11400000, guid: 991f7e4101c19fe49a0c5cae2e7fb89e, type: 2}
+      <Weight>k__BackingField: 4
+      <SpawnMode>k__BackingField: 0
+      <MinClusterObjects>k__BackingField: 3
+      <MaxClusterObjects>k__BackingField: 5
+      <MinClusterRadius>k__BackingField: 2
+      <MaxClusterRadius>k__BackingField: 4
+    - <Definition>k__BackingField: {fileID: 11400000, guid: 62062d82d8759774b8eb145a7571f480, type: 2}
+      <Weight>k__BackingField: 4
+      <SpawnMode>k__BackingField: 0
+      <MinClusterObjects>k__BackingField: 3
+      <MaxClusterObjects>k__BackingField: 5
+      <MinClusterRadius>k__BackingField: 2
+      <MaxClusterRadius>k__BackingField: 4
+  - <Biome>k__BackingField: {fileID: 11400000, guid: 56e3adcdeb8b78f49b8a18ea49622440, type: 2}
+    <SpawnChancePerCell>k__BackingField: 0.09
+    <Entries>k__BackingField:
+    - <Definition>k__BackingField: {fileID: 11400000, guid: ef80312260d6c7744b5439e6814d7435, type: 2}
+      <Weight>k__BackingField: 6
+      <SpawnMode>k__BackingField: 0
+      <MinClusterObjects>k__BackingField: 3
+      <MaxClusterObjects>k__BackingField: 5
+      <MinClusterRadius>k__BackingField: 2
+      <MaxClusterRadius>k__BackingField: 4
+    - <Definition>k__BackingField: {fileID: 11400000, guid: e3a4cda19104cfd48a31ff8608c5df0d, type: 2}
+      <Weight>k__BackingField: 6
+      <SpawnMode>k__BackingField: 0
+      <MinClusterObjects>k__BackingField: 3
+      <MaxClusterObjects>k__BackingField: 5
+      <MinClusterRadius>k__BackingField: 2
+      <MaxClusterRadius>k__BackingField: 4
+    - <Definition>k__BackingField: {fileID: 11400000, guid: 8369a171a91744b4d941a1230eeb5ffb, type: 2}
+      <Weight>k__BackingField: 4
+      <SpawnMode>k__BackingField: 0
+      <MinClusterObjects>k__BackingField: 3
+      <MaxClusterObjects>k__BackingField: 5
+      <MinClusterRadius>k__BackingField: 2
+      <MaxClusterRadius>k__BackingField: 4
+    - <Definition>k__BackingField: {fileID: 11400000, guid: 8405448467e271f4498d52c4ab498a8c, type: 2}
+      <Weight>k__BackingField: 2
+      <SpawnMode>k__BackingField: 0
+      <MinClusterObjects>k__BackingField: 3
+      <MaxClusterObjects>k__BackingField: 5
+      <MinClusterRadius>k__BackingField: 2
+      <MaxClusterRadius>k__BackingField: 4
+    - <Definition>k__BackingField: {fileID: 11400000, guid: 991f7e4101c19fe49a0c5cae2e7fb89e, type: 2}
+      <Weight>k__BackingField: 3
+      <SpawnMode>k__BackingField: 0
+      <MinClusterObjects>k__BackingField: 3
+      <MaxClusterObjects>k__BackingField: 5
       <MinClusterRadius>k__BackingField: 2
       <MaxClusterRadius>k__BackingField: 4

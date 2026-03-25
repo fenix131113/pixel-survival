@@ -15,6 +15,8 @@ namespace GameAssembly.HealthSystem
             {
                 if (ctx.DamageItem is not { Definition: ToolItemDefinitionSO so } || so.ToolType != needType)
                     return;
+
+                value = -so.MiningDamage;
             }
 
             base.ChangeHealth(value, ctx);

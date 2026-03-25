@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Stick
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.ItemDefinitionSO
   <NameTranslationKey>k__BackingField: 
-  <Icon>k__BackingField: {fileID: 7321586379003993781, guid: 6a63ff22d9ce97d47b8257f3191b0c46, type: 3}
+  <Icon>k__BackingField: {fileID: 7902498848012025133, guid: 21975e5be794cb34e8054fd9524b64f2, type: 3}
   <MaxCount>k__BackingField: 15
   id: 0ff7ee05becf487d893de55e193cd1d4
