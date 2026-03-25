@@ -208,9 +208,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 95
+        y: 93
         width: 16
-        height: 11
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -230,9 +230,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 16
-        y: 95
+        y: 93
         width: 16
-        height: 9
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -251,9 +251,9 @@ TextureImporter:
       name: Stone3_2
       rect:
         serializedVersion: 2
-        x: 38
+        x: 32
         y: 95
-        width: 21
+        width: 32
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -276,9 +276,9 @@ TextureImporter:
         x: 64
         y: 95
         width: 32
-        height: 28
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 32
+      alignment: 9
+      pivot: {x: 0.25, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -295,12 +295,12 @@ TextureImporter:
       name: Stone3_4
       rect:
         serializedVersion: 2
-        x: 95
-        y: 95
-        width: 17
-        height: 25
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 96
+        y: 96
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -317,12 +317,12 @@ TextureImporter:
       name: Stone3_5
       rect:
         serializedVersion: 2
-        x: 117
-        y: 95
-        width: 25
-        height: 28
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 112
+        y: 96
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.25, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -339,12 +339,12 @@ TextureImporter:
       name: Stone3_6
       rect:
         serializedVersion: 2
-        x: 144
-        y: 95
-        width: 33
-        height: 45
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 145
+        y: 96
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.25, y: 0.16666667}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []

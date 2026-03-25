@@ -18,7 +18,7 @@ MonoBehaviour:
   - <Biome>k__BackingField: {fileID: 11400000, guid: 56e3adcdeb8b78f49b8a18ea49622440, type: 2}
     <SpawnChancePerCell>k__BackingField: 0.004
     <Entries>k__BackingField:
-    - <Definition>k__BackingField: {fileID: 11400000, guid: f8abdf7db66fe4b47ab4582b01c13f0f, type: 2}
+    - <Definition>k__BackingField: {fileID: 11400000, guid: ebcfc29f82fc2ee48bbf21e9f2dc2e01, type: 2}
       <Weight>k__BackingField: 1
       <SpawnMode>k__BackingField: 0
       <MinClusterObjects>k__BackingField: 2

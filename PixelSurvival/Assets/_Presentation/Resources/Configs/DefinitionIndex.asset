@@ -31,6 +31,8 @@ MonoBehaviour:
     definition: {fileID: 11400000, guid: 9d4bd761a8a70c542ab3cce5218c4a9d, type: 2}
   - id: 6f70107611994230a5481f8b0171fcbd
     definition: {fileID: 11400000, guid: 47994d9212e42d04e80b7e239f46a806, type: 2}
+  - id: 6fa4b0eb6a5943538168776f5727eeba
+    definition: {fileID: 11400000, guid: f8abdf7db66fe4b47ab4582b01c13f0f, type: 2}
   - id: 7ba37b520ae545be99b01364755c0953
     definition: {fileID: 11400000, guid: 29abe697d09798a45a5596829aae56cd, type: 2}
   - id: 7d196a19ec6c491385aae88c81feb1ae
@@ -39,6 +41,8 @@ MonoBehaviour:
     definition: {fileID: 11400000, guid: 04bc08f64196afa49be89b35aff16edb, type: 2}
   - id: 87e59887e6e24ff39ca63aadd54ad423
     definition: {fileID: 11400000, guid: a2c81f9a41b840f4dac2c072a251e83c, type: 2}
+  - id: 9b65da03480e4eb780a88e5863036ab1
+    definition: {fileID: 11400000, guid: ebcfc29f82fc2ee48bbf21e9f2dc2e01, type: 2}
   - id: 9ca4020f8fa44d0b960c953b5c652456
     definition: {fileID: 11400000, guid: eaf8544fd0f006142840412c361b7e3d, type: 2}
   - id: adcaf8d73a474feeb66fd0de3b5bc894
