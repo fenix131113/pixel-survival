@@ -51,6 +51,12 @@ namespace GameAssembly.WorldSystem.View
             foreach (var pair in _world.Chunks)
                 if (!_chunksRenderers.ContainsKey(pair.Key))
                     SpawnChunk(pair.Value);
+
+            if (!Mathf.Approximately(e, 1f))
+                return;
+            
+            foreach (var keyValuePair in _chunksRenderers)
+                keyValuePair.Value.RebuildVisual();
         }
 
         public void SpawnChunk(Chunk chunk)
@@ -62,7 +68,7 @@ namespace GameAssembly.WorldSystem.View
             _chunksRenderers.Add(chunk.Coord, rend);
             rend.Construct(chunk);
 
-            rend.RebuildVisual();
+            //rend.RebuildVisual();
             rend.RebuildCollider();
             ApplyDamageTintForChunk(chunk.Coord, rend);
         }

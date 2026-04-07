@@ -65,6 +65,8 @@ namespace GameAssembly.WorldSystem.View
             }
 
             Chunk.DirtyVisual = false;
+            UpperTilemap.RefreshAllTiles();
+            FloorTilemap.RefreshAllTiles();
         }
 
         public void RebuildCollider()

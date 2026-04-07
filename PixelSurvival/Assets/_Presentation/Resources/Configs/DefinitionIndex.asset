@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: DefinitionIndex
   m_EditorClassIdentifier: GameAssembly.Editor::Editor.Definitions.DefinitionIndexSO
   entries:
+  - id: 02a81ac71cf2409ab9303440b888feda
+    definition: {fileID: 11400000, guid: e3a4cda19104cfd48a31ff8608c5df0d, type: 2}
   - id: 079aa58148a34197b9d3356505fb17a0
     definition: {fileID: 11400000, guid: 1ba9ddeec6be5884682f046976235177, type: 2}
   - id: 0ff7ee05becf487d893de55e193cd1d4
@@ -33,6 +35,8 @@ MonoBehaviour:
     definition: {fileID: 11400000, guid: 82eda54d2653ae24a960d98a5a3c5784, type: 2}
   - id: 5af51ca72d164f6ebca140b89d69b50e
     definition: {fileID: 11400000, guid: 9d4bd761a8a70c542ab3cce5218c4a9d, type: 2}
+  - id: 641f23af8edf4730b1f84f316bd0765c
+    definition: {fileID: 11400000, guid: f9858e57574de3749ada176b06d1fb2f, type: 2}
   - id: 67ce17a40cbb41c6b877c71403162181
     definition: {fileID: 11400000, guid: bda20329d3cb5fa4296b091e0944b7b0, type: 2}
   - id: 6f70107611994230a5481f8b0171fcbd
@@ -41,10 +45,14 @@ MonoBehaviour:
     definition: {fileID: 11400000, guid: f8abdf7db66fe4b47ab4582b01c13f0f, type: 2}
   - id: 7285d6ab85684582a2c662225a74866c
     definition: {fileID: 11400000, guid: 7d636b96042cf444a97b18a323b5a6e2, type: 2}
+  - id: 72eecb0656e24ab4a39e0be965a5dd88
+    definition: {fileID: 11400000, guid: ef80312260d6c7744b5439e6814d7435, type: 2}
   - id: 7ba37b520ae545be99b01364755c0953
     definition: {fileID: 11400000, guid: 29abe697d09798a45a5596829aae56cd, type: 2}
   - id: 7d196a19ec6c491385aae88c81feb1ae
     definition: {fileID: 11400000, guid: 58d7dd8ba35b2134382f96857b929d93, type: 2}
+  - id: 8019d50b07b040f5b7b336ddb52f1b5a
+    definition: {fileID: 11400000, guid: 6ce463c8eacafb04d9ea54a87c243f3f, type: 2}
   - id: 870000baeb47475596466632fa8d2003
     definition: {fileID: 11400000, guid: 04bc08f64196afa49be89b35aff16edb, type: 2}
   - id: 87e59887e6e24ff39ca63aadd54ad423
@@ -55,6 +63,8 @@ MonoBehaviour:
     definition: {fileID: 11400000, guid: ebcfc29f82fc2ee48bbf21e9f2dc2e01, type: 2}
   - id: 9ca4020f8fa44d0b960c953b5c652456
     definition: {fileID: 11400000, guid: eaf8544fd0f006142840412c361b7e3d, type: 2}
+  - id: aa0e7e74a16a4ccf89134d5833988cf1
+    definition: {fileID: 11400000, guid: 32e99a64601925041974a85005f0a334, type: 2}
   - id: adcaf8d73a474feeb66fd0de3b5bc894
     definition: {fileID: 11400000, guid: 3282d7c58ac46fe43bcde0c98fd1929b, type: 2}
   - id: af2ad981bd394506af8aa512146a0782
@@ -73,6 +83,8 @@ MonoBehaviour:
     definition: {fileID: 11400000, guid: 34ebff2e4a367f1438e3d99d6c706c7f, type: 2}
   - id: eb4e0643eca148f186cd7700015ddcca
     definition: {fileID: 11400000, guid: aad9e1ed92d7c354b94fa398d38ce7d3, type: 2}
+  - id: ebbd1189cac5493a9ea0977572f7e9bf
+    definition: {fileID: 11400000, guid: 288cf935cb07f4b45b1a28cfa5f23d08, type: 2}
   - id: f475833385e74df7b2214a45e68834e8
     definition: {fileID: 11400000, guid: 8720d303d3d3ec640aa2f9fbdde6ada5, type: 2}
   - id: f9228262695c4c27aca29686635a70a9
