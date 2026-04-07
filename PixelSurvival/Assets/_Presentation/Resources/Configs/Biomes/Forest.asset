@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::GameAssembly.WorldSystem.Data.BiomeDefinition
   <NameKey>k__BackingField: 
   <DefaultFloor>k__BackingField: {fileID: 11400000, guid: 7e358825b07d0934180adf59b75b1b0a, type: 2}
+  <PathFloor>k__BackingField: {fileID: 11400000, guid: 73b1ae58337f87b4488f2617d9967b67, type: 2}
+  <PathNoiseScale>k__BackingField: 0.025
+  <PathWidth>k__BackingField: 0.03
   <DefaultWall>k__BackingField: {fileID: 11400000, guid: f21cdbf19849af0498490be035c9009e, type: 2}
   <NaturalSpawn>k__BackingField: 1
   <Min>k__BackingField: 0

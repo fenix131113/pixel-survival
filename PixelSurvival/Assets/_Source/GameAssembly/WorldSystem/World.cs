@@ -19,6 +19,9 @@ namespace GameAssembly.WorldSystem
 
         private const float BLOCKS_NOISE_STRENGTH = 0.08f;
         private const float BIOMES_NOISE_STRENGTH = 0.02f;
+        private const float PATH_NOISE_SEED_FACTOR_X = 0.000173f;
+        private const float PATH_NOISE_SEED_FACTOR_Y = 0.000257f;
+        private const float PATH_SECOND_OCTAVE_MULTIPLIER = 2.13f;
 
         private const float MAX_BIOME_RADIUS = WORLD_SIZE * Chunk.CHUNK_SIZE * 0.5f;
 
@@ -278,7 +281,7 @@ namespace GameAssembly.WorldSystem
                         ?? GetBiomeByBlockPosition(worldX, worldY);
 
                     chunk.Cells[x, y].Floor =
-                        BlockData.CreateBlock(biome.DefaultFloor);
+                        BlockData.CreateBlock(ResolveFloorDefinition(biome, worldX, worldY));
 
                     var nx = worldX * BLOCKS_NOISE_STRENGTH + Seed * 0.00001f;
                     var ny = worldY * BLOCKS_NOISE_STRENGTH + Seed * 0.00001f;
@@ -295,6 +298,28 @@ namespace GameAssembly.WorldSystem
             chunk.DirtyVisual = true;
             chunk.DirtyCollider = true;
             return chunk;
+        }
+
+        private BlockDefinitionSO ResolveFloorDefinition(BiomeDefinition biome, int worldX, int worldY)
+        {
+            if (!biome || !biome.DefaultFloor)
+                return biome ? biome.DefaultFloor : null;
+
+            if (!biome.PathFloor || biome.PathNoiseScale <= 0f || biome.PathWidth <= 0f)
+                return biome.DefaultFloor;
+
+            var noiseX = worldX * biome.PathNoiseScale + Seed * PATH_NOISE_SEED_FACTOR_X + 500f;
+            var noiseY = worldY * biome.PathNoiseScale + Seed * PATH_NOISE_SEED_FACTOR_Y + 500f;
+
+            var primaryNoise = Mathf.PerlinNoise(noiseX, noiseY);
+            var secondaryNoise = Mathf.PerlinNoise(
+                noiseX * PATH_SECOND_OCTAVE_MULTIPLIER,
+                noiseY * PATH_SECOND_OCTAVE_MULTIPLIER);
+            var combinedNoise = primaryNoise * 0.7f + secondaryNoise * 0.3f;
+
+            return Mathf.Abs(combinedNoise - 0.5f) <= biome.PathWidth
+                ? biome.PathFloor
+                : biome.DefaultFloor;
         }
 
         #endregion
