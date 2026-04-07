@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12209283b1ab46ea9e7a7fb80228d6a7, type: 3}
-  m_Name: WoodenBlock
+  m_Name: WoodenLogBlock
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.BlockItemDefinitionSO
   <NameTranslationKey>k__BackingField: 
-  <Icon>k__BackingField: {fileID: 1821137228, guid: 8cca760de3a7d324cb0952806ba7513a, type: 3}
+  <Icon>k__BackingField: {fileID: 143177442, guid: b9086d581d522354a8e7a062a6e22377, type: 3}
   <MaxCount>k__BackingField: 64
   id: 641f23af8edf4730b1f84f316bd0765c
   <IsFloorBlock>k__BackingField: 0

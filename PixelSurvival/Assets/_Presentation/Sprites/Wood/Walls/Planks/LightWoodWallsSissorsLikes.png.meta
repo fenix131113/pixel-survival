@@ -1,0 +1,586 @@
+fileFormatVersion: 2
+guid: 2136772c0782896438b5aa694a7e99ef
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -508449700363480652
+    second: LightWoodWallsSissorsLikes_0
+  - first:
+      213: -516318509815393297
+    second: LightWoodWallsSissorsLikes_1
+  - first:
+      213: -2060354824863513552
+    second: LightWoodWallsSissorsLikes_2
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: LightWoodWallsSissorsLikes_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 96
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -8, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 0}
+        - {x: -8, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b15eaff0bf91f8f0800000000000000
+      internalID: -508449700363480652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightWoodWallsSissorsLikes_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 96
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -8, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 0}
+        - {x: -8, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe39e770d0ba5d8f0800000000000000
+      internalID: -516318509815393297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightWoodWallsSissorsLikes_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 96
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -8, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 0}
+        - {x: -8, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0348fb8f3362863e0800000000000000
+      internalID: -2060354824863513552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightWoodWallsSissorsLikes_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 96
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -8, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 0}
+        - {x: -8, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19c69f26ac9401c41ab832045d980107
+      internalID: 570641239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightWoodWallsSissorsLikes_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -8, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 0}
+        - {x: -8, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1703ef1485eb2c489a36fb2ca1d226f
+      internalID: 975880439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightWoodWallsSissorsLikes_5
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 64
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -8, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 0}
+        - {x: -8, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: c81f30ce551c6bc43a52f30e5a99b1c5
+      internalID: -1272310725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightWoodWallsSissorsLikes_6
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -8, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 0}
+        - {x: -8, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18a49a71a9730d44681931336b2e66ec
+      internalID: -555051777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightWoodWallsSissorsLikes_7
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 64
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -8, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 0}
+        - {x: -8, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf84029c881cdd948972e82bde54a33a
+      internalID: -1322559215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightWoodWallsSissorsLikes_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -8, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 0}
+        - {x: -8, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ccdc3b8459706845917014485559602
+      internalID: -281481144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightWoodWallsSissorsLikes_9
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -8, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 0}
+        - {x: -8, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5cbe82e6a6df5de409ac79c007f84d2a
+      internalID: -129031933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightWoodWallsSissorsLikes_10
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -8, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 0}
+        - {x: -8, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: b03e3fda6417aa9499af57dfb03a417a
+      internalID: 367867319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightWoodWallsSissorsLikes_11
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -8, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 0}
+        - {x: -8, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98b0b584a81fcf5458e9ffdaf7618aab
+      internalID: 613677569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightWoodWallsSissorsLikes_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -8, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 0}
+        - {x: -8, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32ec2a1ed620b7248b3c4d09972719b7
+      internalID: 881115307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightWoodWallsSissorsLikes_13
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -8, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 0}
+        - {x: -8, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3199e4d9c2b9278419b4e12027322043
+      internalID: -263052732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightWoodWallsSissorsLikes_14
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -8, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 0}
+        - {x: -8, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5a53a83514913947b85f44b053db234
+      internalID: 621982561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightWoodWallsSissorsLikes_15
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -8, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 0}
+        - {x: -8, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2817ec630ed7484c913e5b70dfc750d
+      internalID: 1434905261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: e97431a5da5a6304295b647a6397d6fd
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":16.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.25},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":1,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      LightWoodWallsSissorsLikes_0: -508449700363480652
+      LightWoodWallsSissorsLikes_1: -516318509815393297
+      LightWoodWallsSissorsLikes_10: 367867319
+      LightWoodWallsSissorsLikes_11: 613677569
+      LightWoodWallsSissorsLikes_12: 881115307
+      LightWoodWallsSissorsLikes_13: -263052732
+      LightWoodWallsSissorsLikes_14: 621982561
+      LightWoodWallsSissorsLikes_15: 1434905261
+      LightWoodWallsSissorsLikes_2: -2060354824863513552
+      LightWoodWallsSissorsLikes_3: 570641239
+      LightWoodWallsSissorsLikes_4: 975880439
+      LightWoodWallsSissorsLikes_5: -1272310725
+      LightWoodWallsSissorsLikes_6: -555051777
+      LightWoodWallsSissorsLikes_7: -1322559215
+      LightWoodWallsSissorsLikes_8: -281481144
+      LightWoodWallsSissorsLikes_9: -129031933
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

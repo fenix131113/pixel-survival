@@ -18,7 +18,8 @@ namespace GameAssembly.Generated
         public static readonly ItemDefinitionSO Stick;
         public static readonly ItemDefinitionSO Stone;
         public static readonly ItemDefinitionSO Stump;
-        public static readonly ItemDefinitionSO WoodenBlock;
+        public static readonly ItemDefinitionSO WoodenLogBlock;
+        public static readonly ItemDefinitionSO WoodenPlanksBlock;
         public static readonly ItemDefinitionSO Workbecnh;
 
         static ItemDatabase()
@@ -33,7 +34,8 @@ namespace GameAssembly.Generated
             Stick = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Stick");
             Stone = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Stone");
             Stump = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Stump");
-            WoodenBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/WoodenBlock");
+            WoodenLogBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/WoodenLogBlock");
+            WoodenPlanksBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/WoodenPlanksBlock");
             Workbecnh = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Workbecnh");
         }
     }
