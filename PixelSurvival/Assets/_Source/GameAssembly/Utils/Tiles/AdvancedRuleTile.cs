@@ -17,6 +17,8 @@ namespace GameAssembly.Utils.Tiles
 
             public const int GROUP_B = 5;
             public const int NOT_GROUP_B = 6;
+
+            public const int NOT_GROUP_A_NOT_ME = 7;
         }
 
         public override bool RuleMatch(int neighbor, TileBase other)
@@ -29,6 +31,7 @@ namespace GameAssembly.Utils.Tiles
                 Neighbor.NOT_GROUP_A => !Contains(groupA, other),
                 Neighbor.GROUP_B => Contains(groupB, other),
                 Neighbor.NOT_GROUP_B => !Contains(groupB, other),
+                Neighbor.NOT_GROUP_A_NOT_ME => !Contains(groupA, other) && other != this,
                 _ => base.RuleMatch(neighbor, other)
             };
         }
