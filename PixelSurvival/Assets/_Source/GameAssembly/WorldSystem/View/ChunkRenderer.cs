@@ -13,60 +13,51 @@ namespace GameAssembly.WorldSystem.View
         [SerializeField] private TilemapCollider2D tilemapCollider;
         public Chunk Chunk { get; private set; }
 
+        private void Awake()
+        {
+            SetChunkTilemapRenderersEnabled(false);
+        }
+
+        private void OnDestroy()
+        {
+            if (Chunk != null)
+            {
+                Chunk.OnChunkCellChanged -= OnChunkCellChanged;
+            }
+        }
 
         public void Construct(Chunk chunk)
         {
             Chunk = chunk;
-            Chunk.OnChunkChanged += OnChunkChanged;
+            Chunk.OnChunkCellChanged += OnChunkCellChanged;
         }
 
-        private void OnChunkChanged(Chunk chunk)
+        private void OnChunkCellChanged(Chunk chunk, Vector2Int localIndexes)
         {
-            RebuildVisual();
+            UpdateVisualArea(localIndexes);
             RebuildCollider();
         }
 
         public void RebuildVisual()
         {
             UpperTilemap.ClearAllTiles();
+            var upperTiles = new TileBase[Chunk.CHUNK_SIZE * Chunk.CHUNK_SIZE];
 
             for (var x = 0; x < Chunk.CHUNK_SIZE; x++)
             {
                 for (var y = 0; y < Chunk.CHUNK_SIZE; y++)
                 {
                     var cell = Chunk.Cells[x, y];
-
-                    if (cell.Floor.type != BlockType.AIR)
-                    {
-                        var def = cell.Floor.definition;
-                        FloorTilemap.SetTile(new Vector3Int(x, y, 0), def.Tile ? def.Tile : null);
-                    }
-                    else
-                    {
-                        FloorTilemap.SetTile(new Vector3Int(x, y, 0), null);
-                    }
-
-                    if (cell.Block.type != BlockType.AIR)
-                    {
-                        var def = cell.Block.definition;
-                        var upperPos = new Vector3Int(x, y, 1);
-                        UpperTilemap.SetTile(upperPos, def.Tile ? def.Tile : null);
-                        UpperTilemap.SetTileFlags(upperPos, TileFlags.None);
-                        UpperTilemap.SetColor(upperPos, Color.white);
-                    }
-                    else
-                    {
-                        var upperPos = new Vector3Int(x, y, 1);
-                        UpperTilemap.SetTile(upperPos, null);
-                        UpperTilemap.SetTileFlags(upperPos, TileFlags.None);
-                        UpperTilemap.SetColor(upperPos, Color.white);
-                    }
+                    upperTiles[GetFlatTileIndex(x, y)] =
+                        cell.Block.type != BlockType.AIR && cell.Block.definition && cell.Block.definition.Tile
+                            ? cell.Block.definition.Tile
+                            : null;
                 }
             }
 
+            UpperTilemap.SetTilesBlock(new BoundsInt(0, 0, 1, Chunk.CHUNK_SIZE, Chunk.CHUNK_SIZE, 1), upperTiles);
             Chunk.DirtyVisual = false;
             UpperTilemap.RefreshAllTiles();
-            FloorTilemap.RefreshAllTiles();
         }
 
         public void RebuildCollider()
@@ -74,8 +65,7 @@ namespace GameAssembly.WorldSystem.View
             if (!Chunk.DirtyCollider)
                 return;
 
-            tilemapCollider.enabled = false;
-            tilemapCollider.enabled = true;
+            tilemapCollider.ProcessTilemapChanges();
             Chunk.DirtyCollider = false;
         }
 
@@ -94,6 +84,70 @@ namespace GameAssembly.WorldSystem.View
             var tilePos = new Vector3Int(localIndexes.x, localIndexes.y, 1);
             UpperTilemap.SetTileFlags(tilePos, TileFlags.None);
             UpperTilemap.SetColor(tilePos, Color.white);
+        }
+
+        private void SetChunkTilemapRenderersEnabled(bool enabled)
+        {
+            if (UpperTilemap && UpperTilemap.TryGetComponent<TilemapRenderer>(out var upperRenderer))
+            {
+                upperRenderer.mode = TilemapRenderer.Mode.Individual;
+                upperRenderer.enabled = enabled;
+            }
+
+            if (FloorTilemap && FloorTilemap.TryGetComponent<TilemapRenderer>(out var floorRenderer))
+                floorRenderer.enabled = enabled;
+        }
+
+        private void UpdateVisualArea(Vector2Int localIndexes)
+        {
+            for (var dx = -1; dx <= 1; dx++)
+            {
+                for (var dy = -1; dy <= 1; dy++)
+                {
+                    var x = localIndexes.x + dx;
+                    var y = localIndexes.y + dy;
+
+                    if (x < 0 || x >= Chunk.CHUNK_SIZE || y < 0 || y >= Chunk.CHUNK_SIZE)
+                        continue;
+
+                    var upperPos = new Vector3Int(x, y, 1);
+                    var cell = Chunk.Cells[x, y];
+
+                    if (cell.Block.type != BlockType.AIR)
+                    {
+                        var blockDef = cell.Block.definition;
+                        UpperTilemap.SetTile(upperPos, blockDef && blockDef.Tile ? blockDef.Tile : null);
+                    }
+                    else
+                    {
+                        UpperTilemap.SetTile(upperPos, null);
+                    }
+                }
+            }
+
+            RefreshArea(localIndexes);
+        }
+
+        private void RefreshArea(Vector2Int localIndexes)
+        {
+            for (var dx = -1; dx <= 1; dx++)
+            {
+                for (var dy = -1; dy <= 1; dy++)
+                {
+                    var x = localIndexes.x + dx;
+                    var y = localIndexes.y + dy;
+
+                    if (x < 0 || x >= Chunk.CHUNK_SIZE || y < 0 || y >= Chunk.CHUNK_SIZE)
+                        continue;
+
+                    UpperTilemap.RefreshTile(new Vector3Int(x, y, 1));
+                }
+            }
+        }
+
+        private static int GetFlatTileIndex(int x, int y)
+        {
+            return x + y * Chunk.CHUNK_SIZE;
         }
     }
 }

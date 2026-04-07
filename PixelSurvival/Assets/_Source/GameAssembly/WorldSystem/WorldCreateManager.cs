@@ -42,7 +42,7 @@ namespace GameAssembly.WorldSystem
                 _world.IsLoaded.Value = false;
                 await _world.GenerateWorldAsync(0f, chunkStageEnd, markAsLoadedAtEnd: false);
 
-                _worldObjectsGenerator.Server_Generate(objectsProgress =>
+                await _worldObjectsGenerator.Server_GenerateAsync(objectsProgress =>
                 {
                     var globalProgress = Mathf.Lerp(chunkStageEnd, 1f, Mathf.Clamp01(objectsProgress));
                     ((IProgress<float>)_world.Progress)?.Report(globalProgress);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using GameAssembly.BuildSystem.Data;
 using GameAssembly.Utils;
 using GameAssembly.WorldSystem;
@@ -11,11 +12,14 @@ namespace GameAssembly.BuildSystem.WorldObjects
 {
     public class WorldObjectsGenerator
     {
+        private const int RowsPerBatch = 4;
+
         private readonly World _world;
         private readonly WorldObjectRegistry _registry;
         private readonly WorldObjectsGenerationConfigSO _config;
 
         private bool _isGenerated;
+        private Task _generationTask;
 
         public WorldObjectsGenerator(World world, WorldObjectRegistry registry)
         {
@@ -26,7 +30,23 @@ namespace GameAssembly.BuildSystem.WorldObjects
         }
 
         [Server]
-        public void Server_Generate(Action<float> onProgress01 = null)
+        public Task Server_GenerateAsync(Action<float> onProgress01 = null)
+        {
+            if (_isGenerated)
+            {
+                onProgress01?.Invoke(1f);
+                return Task.CompletedTask;
+            }
+
+            if (_generationTask is { IsCompleted: false })
+                return _generationTask;
+
+            _generationTask = Server_GenerateInternalAsync(onProgress01);
+            return _generationTask;
+        }
+
+        [Server]
+        private async Task Server_GenerateInternalAsync(Action<float> onProgress01)
         {
             if (_isGenerated)
             {
@@ -88,6 +108,9 @@ namespace GameAssembly.BuildSystem.WorldObjects
 
                 processedCells += worldCellsSize;
                 onProgress01?.Invoke(Mathf.Clamp01(processedCells / (float)totalCells));
+
+                if ((worldX + 1) % RowsPerBatch == 0)
+                    await Task.Yield();
             }
 
             onProgress01?.Invoke(1f);

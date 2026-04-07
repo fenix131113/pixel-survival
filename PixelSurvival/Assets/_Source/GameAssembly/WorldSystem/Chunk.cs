@@ -16,6 +16,7 @@ namespace GameAssembly.WorldSystem
         public bool DirtyCollider { get; set; }
 
         public event Action<Chunk> OnChunkChanged;
+        public event Action<Chunk, Vector2Int> OnChunkCellChanged;
 
         public Chunk(ChunkCoord coord)
         {
@@ -54,6 +55,7 @@ namespace GameAssembly.WorldSystem
             DirtyVisual = true;
             DirtyCollider = true;
 
+            OnChunkCellChanged?.Invoke(this, new Vector2Int(x, y));
             OnChunkChanged?.Invoke(this);
 
             if (NetworkServer.active)
@@ -70,6 +72,7 @@ namespace GameAssembly.WorldSystem
             DirtyVisual = true;
             DirtyCollider = true;
 
+            OnChunkCellChanged?.Invoke(this, new Vector2Int(x, y));
             OnChunkChanged?.Invoke(this);
 
             if (NetworkServer.active)
