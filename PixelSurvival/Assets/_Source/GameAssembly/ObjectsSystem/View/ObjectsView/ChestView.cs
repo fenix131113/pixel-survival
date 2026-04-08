@@ -23,6 +23,7 @@ namespace GameAssembly.ObjectsSystem.View.ObjectsView
         [SerializeField] private Transform cellsParent;
         [SerializeField] private PlayerInventoryView playerInventoryView;
         [SerializeField] private MenuType menuType;
+        [SerializeField] private MenuType[] allowedMenuTypesOnTop = Array.Empty<MenuType>();
 
         [Inject] private IVariablesResolver<PlayerVariableBlockerType, Action, Action> _variables;
 
@@ -81,6 +82,8 @@ namespace GameAssembly.ObjectsSystem.View.ObjectsView
         public bool IsOpen() => chestMenu.activeSelf;
 
         public MenuType GetMenuType() => menuType;
+        
+        public IReadOnlyCollection<MenuType> GetAllowedMenuTypesOnTop() => allowedMenuTypesOnTop ?? Array.Empty<MenuType>();
 
         public IInventory GetInventory() => _currentInventory;
         public NetworkIdentity GetNetworkIdentity() => _currentInventory?.netIdentity;

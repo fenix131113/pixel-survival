@@ -47,7 +47,10 @@ namespace GameAssembly.UiSystem
 
         public void OpenRequest(IUiMenu menu)
         {
-            if (_openedMenus.Contains(menu))
+            if (menu == null || _openedMenus.Contains(menu))
+                return;
+
+            if (!CanOpenMenuOverOpenedMenus(menu))
                 return;
 
             menu.Open();
@@ -86,6 +89,18 @@ namespace GameAssembly.UiSystem
         }
 
         public bool IsMenuTypeOpened(MenuType menuType) => _openedMenus.Any(x => x.GetMenuType() == menuType);
+        
+        private bool CanOpenMenuOverOpenedMenus(IUiMenu menuToOpen)
+        {
+            var menuTypeToOpen = menuToOpen.GetMenuType();
+            return _openedMenus.All(openedMenu => IsMenuTypeAllowedOnTop(openedMenu, menuTypeToOpen));
+        }
+
+        private static bool IsMenuTypeAllowedOnTop(IUiMenu openedMenu, MenuType menuTypeToOpen)
+        {
+            var allowedMenuTypesOnTop = openedMenu.GetAllowedMenuTypesOnTop();
+            return allowedMenuTypesOnTop != null && allowedMenuTypesOnTop.Contains(menuTypeToOpen);
+        }
 
         /// <returns>Max 2 inventories</returns>
         public List<IUiInventory> GetOpenedInventoriesUi()

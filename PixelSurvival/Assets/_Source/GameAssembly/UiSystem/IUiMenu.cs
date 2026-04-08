@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GameAssembly.UiSystem.Data;
 
 namespace GameAssembly.UiSystem
@@ -11,5 +12,6 @@ namespace GameAssembly.UiSystem
         void Cancel();
         bool IsOpen();
         MenuType GetMenuType();
+        IReadOnlyCollection<MenuType> GetAllowedMenuTypesOnTop();
     }
 }

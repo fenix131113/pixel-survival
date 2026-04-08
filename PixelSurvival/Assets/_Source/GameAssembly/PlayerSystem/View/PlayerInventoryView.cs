@@ -23,6 +23,7 @@ namespace GameAssembly.PlayerSystem.View
         [SerializeField] private GameObject inventoryPanel;
         [SerializeField] private Transform cellsParent;
         [SerializeField] private Transform hotBarParent;
+        [SerializeField] private MenuType[] allowedMenuTypesOnTop = { MenuType.CHEST };
 
         [Inject] private MovingItem _movingItem;
         [Inject] private InputSystem_Actions _input;
@@ -112,6 +113,7 @@ namespace GameAssembly.PlayerSystem.View
 
         public bool IsOpen() => inventoryPanel.activeSelf;
         public MenuType GetMenuType() => MenuType.PLAYER_INVENTORY;
+        public IReadOnlyCollection<MenuType> GetAllowedMenuTypesOnTop() => allowedMenuTypesOnTop ?? Array.Empty<MenuType>();
 
         public IInventory GetInventory() => _inventory;
         public NetworkIdentity GetNetworkIdentity() => NetworkClient.localPlayer ? NetworkClient.localPlayer : null;

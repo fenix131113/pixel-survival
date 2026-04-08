@@ -20,8 +20,14 @@ namespace GameAssembly.Generated
         public static readonly ItemDefinitionSO Stick;
         public static readonly ItemDefinitionSO Stone;
         public static readonly ItemDefinitionSO Stump;
-        public static readonly ItemDefinitionSO Axe;
-        public static readonly ItemDefinitionSO Pickaxe;
+        public static readonly ItemDefinitionSO CopperAxe;
+        public static readonly ItemDefinitionSO CopperPickaxe;
+        public static readonly ItemDefinitionSO IronAxe;
+        public static readonly ItemDefinitionSO IronPickaxe;
+        public static readonly ItemDefinitionSO StoneAxe;
+        public static readonly ItemDefinitionSO StonePickaxe;
+        public static readonly ItemDefinitionSO WoodenAxe;
+        public static readonly ItemDefinitionSO WoodenPickaxe;
 
         static ItemDatabase()
         {
@@ -37,8 +43,14 @@ namespace GameAssembly.Generated
             Stick = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Stick");
             Stone = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Stone");
             Stump = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Stump");
-            Axe = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Axe");
-            Pickaxe = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Pickaxe");
+            CopperAxe = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/CopperAxe");
+            CopperPickaxe = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/CopperPickaxe");
+            IronAxe = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/IronAxe");
+            IronPickaxe = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/IronPickaxe");
+            StoneAxe = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/StoneAxe");
+            StonePickaxe = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/StonePickaxe");
+            WoodenAxe = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/WoodenAxe");
+            WoodenPickaxe = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/WoodenPickaxe");
         }
     }
 }

@@ -3052,6 +3052,7 @@ MonoBehaviour:
   inventoryPanel: {fileID: 65871136}
   cellsParent: {fileID: 65168520}
   hotBarParent: {fileID: 1867685548}
+  allowedMenuTypesOnTop: 03
 --- !u!114 &355121246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3095,6 +3096,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: GameAssembly::GameAssembly.CraftSystem.View.CraftPanelView
   craftPanel: {fileID: 519401855}
+  allowedMenuTypesOnTop: 
 --- !u!114 &355121249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3162,6 +3164,7 @@ MonoBehaviour:
   cellsParent: {fileID: 980221210}
   playerInventoryView: {fileID: 355121245}
   menuType: 3
+  allowedMenuTypesOnTop: 
 --- !u!114 &355121253
 MonoBehaviour:
   m_ObjectHideFlags: 0
