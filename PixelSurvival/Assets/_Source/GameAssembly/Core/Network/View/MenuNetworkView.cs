@@ -1,4 +1,5 @@
 ﻿using GameAssembly.Utils;
+using GameAssembly.MainMenuSystem;
 using Mirror;
 using TMPro;
 using UnityEngine;
@@ -16,10 +17,12 @@ namespace GameAssembly.Core.Network.View
         [SerializeField] private TMP_Text lobbyPlayersListLabel;
 
         private NetManager _netManager;
+        private MenuPanelAnimator _hostPanelAnimator;
 
         private void Start()
         {
             _netManager = NetworkManager.singleton as NetManager;
+            SetupPanels();
 #if !UNITY_SERVER
             BindClient();
 #endif
@@ -42,7 +45,7 @@ namespace GameAssembly.Core.Network.View
         {
             _netManager.RegisterLobbyMessages();
             _netManager.CreateHost();
-            hostPanel.SetActive(true);
+            ShowHostPanel();
             startHostButton.gameObject.SetActive(true);
         }
 
@@ -63,14 +66,50 @@ namespace GameAssembly.Core.Network.View
         private void Client_OnDisconnected()
         {
             startHostButton.gameObject.SetActive(false);
-            hostPanel.SetActive(false);
+            HideHostPanel();
             ClearPlayersList();
         }
 
         private void Client_OnConnected()
         {
-            hostPanel.SetActive(true);
+            ShowHostPanel();
             ClearPlayersList();
+        }
+
+        private void SetupPanels()
+        {
+            if (!hostPanel)
+                return;
+
+            _hostPanelAnimator = hostPanel.GetComponent<MenuPanelAnimator>();
+            if (!_hostPanelAnimator)
+                _hostPanelAnimator = hostPanel.AddComponent<MenuPanelAnimator>();
+
+            _hostPanelAnimator.SetVisibleImmediate(hostPanel.activeSelf);
+        }
+
+        private void ShowHostPanel()
+        {
+            if (_hostPanelAnimator)
+            {
+                _hostPanelAnimator.Show();
+                return;
+            }
+
+            if (hostPanel)
+                hostPanel.SetActive(true);
+        }
+
+        private void HideHostPanel()
+        {
+            if (_hostPanelAnimator)
+            {
+                _hostPanelAnimator.Hide();
+                return;
+            }
+
+            if (hostPanel)
+                hostPanel.SetActive(false);
         }
 
         private void UpdatePlayersList(NetManager.LobbyPlayerChangedMessage msg)

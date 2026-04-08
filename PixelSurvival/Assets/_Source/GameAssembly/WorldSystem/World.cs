@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using GameAssembly.Utils;
 using GameAssembly.Utils.Extensions;
@@ -228,7 +229,7 @@ namespace GameAssembly.WorldSystem
         #region World generation
 
         public async Task GenerateWorldAsync(float startProgress = 0f, float endProgress = 1f,
-            bool markAsLoadedAtEnd = true)
+            bool markAsLoadedAtEnd = true, CancellationToken cancellationToken = default)
         {
             startProgress = Mathf.Clamp01(startProgress);
             endProgress = Mathf.Clamp01(endProgress);
@@ -240,6 +241,7 @@ namespace GameAssembly.WorldSystem
             {
                 for (var j = 0; j < WORLD_SIZE; j++)
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
                     GetOrCreateChunk(new ChunkCoord(i, j));
                     done++;
 

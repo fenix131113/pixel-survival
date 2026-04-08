@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using GameAssembly.BuildSystem.WorldObjects;
 using GameAssembly.Core;
 using Mirror;
@@ -20,6 +21,7 @@ namespace GameAssembly.WorldSystem
         private readonly Dictionary<int, Coroutine> _syncCoroutines = new();
         private readonly Dictionary<int, HashSet<ChunkCoord>> _sentChunksByConnection = new();
         private readonly HashSet<int> _seedSentConnections = new();
+        private CancellationTokenSource _generationCancellation;
 
         [Inject] private World _world;
         [Inject] private ServerBlockDamageSystem _blockDamageSystem;
@@ -37,19 +39,32 @@ namespace GameAssembly.WorldSystem
                 if (!NetworkServer.active)
                     return;
 
+                CancelGeneration();
+                _generationCancellation = new CancellationTokenSource();
+                var generationToken = _generationCancellation.Token;
+
                 var chunkStageEnd = Mathf.Clamp(chunkGenerationProgressWeight, 0.1f, 0.99f);
 
                 _world.IsLoaded.Value = false;
-                await _world.GenerateWorldAsync(0f, chunkStageEnd, markAsLoadedAtEnd: false);
+                await _world.GenerateWorldAsync(0f, chunkStageEnd, markAsLoadedAtEnd: false,
+                    cancellationToken: generationToken);
+                if (!CanContinueGeneration(generationToken))
+                    return;
 
                 await _worldObjectsGenerator.Server_GenerateAsync(objectsProgress =>
                 {
                     var globalProgress = Mathf.Lerp(chunkStageEnd, 1f, Mathf.Clamp01(objectsProgress));
                     ((IProgress<float>)_world.Progress)?.Report(globalProgress);
-                });
+                }, generationToken);
+                if (!CanContinueGeneration(generationToken))
+                    return;
 
                 ((IProgress<float>)_world.Progress)?.Report(1f);
                 _world.IsLoaded.Value = true;
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected when host/server stops during async world generation.
             }
             catch (Exception e)
             {
@@ -57,8 +72,27 @@ namespace GameAssembly.WorldSystem
             }
         }
 
+        private bool CanContinueGeneration(CancellationToken generationToken)
+        {
+            return !generationToken.IsCancellationRequested && this && isActiveAndEnabled && NetworkServer.active;
+        }
+
+        private void CancelGeneration()
+        {
+            if (_generationCancellation == null)
+                return;
+
+            if (!_generationCancellation.IsCancellationRequested)
+                _generationCancellation.Cancel();
+
+            _generationCancellation.Dispose();
+            _generationCancellation = null;
+        }
+
         private void OnDestroy()
         {
+            CancelGeneration();
+
             if (NetworkServer.active)
                 UnbindServerBlockDamage();
 
@@ -83,6 +117,7 @@ namespace GameAssembly.WorldSystem
 
         public override void OnStopServer()
         {
+            CancelGeneration();
             UnbindServerBlockDamage();
             base.OnStopServer();
         }

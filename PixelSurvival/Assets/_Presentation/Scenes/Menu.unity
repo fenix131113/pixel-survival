@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: GameAssembly::GameAssembly.Core.Network.View.MenuNetworkView
   joinButton: {fileID: 748381682}
-  selectHostButton: {fileID: 1493638801}
+  selectHostButton: {fileID: 1563328379}
   startHostButton: {fileID: 1737526409}
   leaveHostButton: {fileID: 278881204}
   hostPanel: {fileID: 1919864453}

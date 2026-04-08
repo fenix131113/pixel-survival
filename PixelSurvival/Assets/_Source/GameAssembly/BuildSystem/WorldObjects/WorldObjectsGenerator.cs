@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using GameAssembly.BuildSystem.Data;
 using GameAssembly.Utils;
@@ -29,9 +30,15 @@ namespace GameAssembly.BuildSystem.WorldObjects
             _config = Resources.Load<WorldObjectsGenerationConfigSO>(AssetsPaths.WORLD_OBJECTS_GENERATION_CONFIG_PATH);
         }
 
-        [Server]
-        public Task Server_GenerateAsync(Action<float> onProgress01 = null)
+        public Task Server_GenerateAsync(Action<float> onProgress01 = null,
+            CancellationToken cancellationToken = default)
         {
+            if (!NetworkServer.active || cancellationToken.IsCancellationRequested)
+            {
+                onProgress01?.Invoke(1f);
+                return Task.CompletedTask;
+            }
+
             if (_isGenerated)
             {
                 onProgress01?.Invoke(1f);
@@ -41,13 +48,19 @@ namespace GameAssembly.BuildSystem.WorldObjects
             if (_generationTask is { IsCompleted: false })
                 return _generationTask;
 
-            _generationTask = Server_GenerateInternalAsync(onProgress01);
+            _generationTask = Server_GenerateInternalAsync(onProgress01, cancellationToken);
             return _generationTask;
         }
 
-        [Server]
-        private async Task Server_GenerateInternalAsync(Action<float> onProgress01)
+        private async Task Server_GenerateInternalAsync(Action<float> onProgress01,
+            CancellationToken cancellationToken)
         {
+            if (!NetworkServer.active || cancellationToken.IsCancellationRequested)
+            {
+                onProgress01?.Invoke(1f);
+                return;
+            }
+
             if (_isGenerated)
             {
                 onProgress01?.Invoke(1f);
@@ -55,65 +68,85 @@ namespace GameAssembly.BuildSystem.WorldObjects
             }
 
             _isGenerated = true;
-            onProgress01?.Invoke(0f);
 
-            if (!_config)
+            try
             {
-                Debug.LogWarning(
-                    $"[{nameof(WorldObjectsGenerator)}] Missing config at Resources/{AssetsPaths.WORLD_OBJECTS_GENERATION_CONFIG_PATH}. Object generation skipped.");
-                onProgress01?.Invoke(1f);
-                return;
-            }
+                onProgress01?.Invoke(0f);
 
-            var rulesByBiome = BuildRulesByBiome();
-            if (rulesByBiome.Count == 0)
-            {
-                Debug.LogWarning($"[{nameof(WorldObjectsGenerator)}] No valid biome rules found. Object generation skipped.");
-                onProgress01?.Invoke(1f);
-                return;
-            }
-
-            var worldCellsSize = World.WORLD_SIZE * Chunk.CHUNK_SIZE;
-            var totalCells = worldCellsSize * worldCellsSize;
-            var processedCells = 0;
-            var seeded = _world.Seed + _config.SeedOffset;
-            var densityMultiplier = Mathf.Max(0f, _config.GlobalDensityMultiplier);
-
-            for (var worldX = 0; worldX < worldCellsSize; worldX++)
-            {
-                for (var worldY = 0; worldY < worldCellsSize; worldY++)
+                if (!_config)
                 {
-                    var biome = _world.GetBiomeByBlockPosition(worldX, worldY);
-                    if (!biome || !rulesByBiome.TryGetValue(biome, out var rule))
-                        continue;
-
-                    var spawnChance = Mathf.Clamp01(rule.SpawnChancePerCell * densityMultiplier);
-                    if (spawnChance <= 0f)
-                        continue;
-
-                    if (Hash01(seeded, worldX, worldY, 0) > spawnChance)
-                        continue;
-
-                    var entry = PickEntry(rule, seeded, worldX, worldY);
-                    if (!entry.IsValid)
-                        continue;
-
-                    var origin = new Vector2Int(worldX, worldY);
-
-                    if (entry.SpawnMode == WorldObjectSpawnMode.Cluster)
-                        TrySpawnCluster(entry, origin, seeded);
-                    else
-                        _registry.TryPlaceObjectForGeneration(entry.Definition, origin, _world);
+                    Debug.LogWarning(
+                        $"[{nameof(WorldObjectsGenerator)}] Missing config at Resources/{AssetsPaths.WORLD_OBJECTS_GENERATION_CONFIG_PATH}. Object generation skipped.");
+                    onProgress01?.Invoke(1f);
+                    return;
                 }
 
-                processedCells += worldCellsSize;
-                onProgress01?.Invoke(Mathf.Clamp01(processedCells / (float)totalCells));
+                var rulesByBiome = BuildRulesByBiome();
+                if (rulesByBiome.Count == 0)
+                {
+                    Debug.LogWarning(
+                        $"[{nameof(WorldObjectsGenerator)}] No valid biome rules found. Object generation skipped.");
+                    onProgress01?.Invoke(1f);
+                    return;
+                }
 
-                if ((worldX + 1) % RowsPerBatch == 0)
-                    await Task.Yield();
+                var worldCellsSize = World.WORLD_SIZE * Chunk.CHUNK_SIZE;
+                var totalCells = worldCellsSize * worldCellsSize;
+                var processedCells = 0;
+                var seeded = _world.Seed + _config.SeedOffset;
+                var densityMultiplier = Mathf.Max(0f, _config.GlobalDensityMultiplier);
+
+                for (var worldX = 0; worldX < worldCellsSize; worldX++)
+                {
+                    if (!NetworkServer.active)
+                        throw new OperationCanceledException();
+
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    for (var worldY = 0; worldY < worldCellsSize; worldY++)
+                    {
+                        if (!NetworkServer.active)
+                            throw new OperationCanceledException();
+
+                        cancellationToken.ThrowIfCancellationRequested();
+
+                        var biome = _world.GetBiomeByBlockPosition(worldX, worldY);
+                        if (!biome || !rulesByBiome.TryGetValue(biome, out var rule))
+                            continue;
+
+                        var spawnChance = Mathf.Clamp01(rule.SpawnChancePerCell * densityMultiplier);
+                        if (spawnChance <= 0f)
+                            continue;
+
+                        if (Hash01(seeded, worldX, worldY, 0) > spawnChance)
+                            continue;
+
+                        var entry = PickEntry(rule, seeded, worldX, worldY);
+                        if (!entry.IsValid)
+                            continue;
+
+                        var origin = new Vector2Int(worldX, worldY);
+
+                        if (entry.SpawnMode == WorldObjectSpawnMode.Cluster)
+                            TrySpawnCluster(entry, origin, seeded);
+                        else
+                            _registry.TryPlaceObjectForGeneration(entry.Definition, origin, _world);
+                    }
+
+                    processedCells += worldCellsSize;
+                    onProgress01?.Invoke(Mathf.Clamp01(processedCells / (float)totalCells));
+
+                    if ((worldX + 1) % RowsPerBatch == 0)
+                        await Task.Yield();
+                }
+
+                onProgress01?.Invoke(1f);
             }
-
-            onProgress01?.Invoke(1f);
+            catch
+            {
+                _isGenerated = false;
+                throw;
+            }
         }
 
         private Dictionary<BiomeDefinition, BiomeRuntimeRule> BuildRulesByBiome()
