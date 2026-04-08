@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df7e96586de47ba9337ceb8f5f11fd9, type: 3}
+  m_Name: HugeSapphireRock
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.BuildSystem.Data.PlaceableObjectDefinitionSO
+  <Size>k__BackingField: {x: 2, y: 2}
+  <RequireEmptyWallLayer>k__BackingField: 1
+  <RequireFloor>k__BackingField: 1
+  <Prefab>k__BackingField: {fileID: 72619600098819921, guid: ef8c2aa197e1b6b44ae7513d181cb733, type: 3}
+  id: f3a654c80f3e49ad934d63d0adab26d5

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df7e96586de47ba9337ceb8f5f11fd9, type: 3}
+  m_Name: SmallCopperRock
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.BuildSystem.Data.PlaceableObjectDefinitionSO
+  <Size>k__BackingField: {x: 1, y: 1}
+  <RequireEmptyWallLayer>k__BackingField: 1
+  <RequireFloor>k__BackingField: 1
+  <Prefab>k__BackingField: {fileID: 3184211378857243449, guid: b3fc683b8ab41514dbff3e975ecf8366, type: 3}
+  id: 5a26a35254e2474ebf8c4d80c81f73a8

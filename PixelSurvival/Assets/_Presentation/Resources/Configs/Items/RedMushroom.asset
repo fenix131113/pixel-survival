@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: RedMushroom
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.ItemDefinitionSO
   <NameTranslationKey>k__BackingField: 
-  <Icon>k__BackingField: {fileID: -3373613091113208570, guid: dd2d9d2c9c8949e4992da1d09cc671ed, type: 3}
-  <MaxCount>k__BackingField: 10
+  <Icon>k__BackingField: {fileID: 7577993369951664085, guid: 21975e5be794cb34e8054fd9524b64f2, type: 3}
+  <MaxCount>k__BackingField: 99
   id: 273d3f7bf1b1496d8c7b154ed6e53656
