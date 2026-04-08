@@ -23,10 +23,18 @@ namespace Mirror
             // => OfTypeAll so disabled objects are included too
             // => Unity 2019 returns prefabs here too, so filter them out.
             IEnumerable<NetworkIdentity> identities = Resources.FindObjectsOfTypeAll<NetworkIdentity>()
-                .Where(identity => identity.gameObject.hideFlags != HideFlags.NotEditable &&
-                                   identity.gameObject.hideFlags != HideFlags.HideAndDontSave &&
-                                   identity.gameObject.scene.name != "DontDestroyOnLoad" &&
-                                   !Utils.IsPrefab(identity.gameObject));
+                .Where(identity =>
+                {
+                    if (identity == null || identity.gameObject == null)
+                        return false;
+
+                    string scenePath = identity.gameObject.scene.path ?? string.Empty;
+                    return identity.gameObject.hideFlags != HideFlags.NotEditable &&
+                           identity.gameObject.hideFlags != HideFlags.HideAndDontSave &&
+                           identity.gameObject.scene.name != "DontDestroyOnLoad" &&
+                           !scenePath.EndsWith(".prefab") &&
+                           !Utils.IsPrefab(identity.gameObject);
+                });
 
             foreach (NetworkIdentity identity in identities)
             {
@@ -71,6 +79,11 @@ namespace Mirror
                         // if an unopened scene needs resaving
                         else
                         {
+                            if (path.EndsWith(".prefab"))
+                            {
+                                Debug.LogWarning($"{identity.name} was found in prefab stage {path} while Mirror post-processed scenes. Skipping sceneId validation for this prefab asset.");
+                                continue;
+                            }
 
                             // nothing good will happen when trying to launch with invalid sceneIds.
                             // show an error and stop playing immediately.

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8704883101890392816}
   - component: {fileID: 7005045293633360059}
   - component: {fileID: 2160365976251295125}
+  - component: {fileID: 8080808080808080808}
   - component: {fileID: 1282568804178077417}
   m_Layer: 7
   m_Name: BigGrass
@@ -62,7 +63,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 5b024cd9e8254af3911842da4d827e46, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -162,6 +163,20 @@ MonoBehaviour:
   healthType: 3
   maxHealth: 1
   immediatelyDestroy: 1
+--- !u!114 &8080808080808080808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7445690377910649911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f780b5f8b254b19b3dba8121aa7a91f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.ObjectsSystem.View.GrassReactiveMarker
+  <TargetRenderer>k__BackingField: {fileID: 3100794317592583274}
+  <InteractionCollider>k__BackingField: {fileID: 1282568804178077417}
 --- !u!70 &1282568804178077417
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
