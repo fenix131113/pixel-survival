@@ -7,5 +7,6 @@
         ESC_MENU = 2,
         CHEST = 3,
         CRAFT_MENU = 4,
+        FURNACE = 5,
     }
 }

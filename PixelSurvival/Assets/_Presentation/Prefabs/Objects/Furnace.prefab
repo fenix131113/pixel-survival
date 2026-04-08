@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 3476281998782698412}
   - component: {fileID: 3995247018955813512}
   - component: {fileID: 4274821609346124079}
-  - component: {fileID: 8632161548263763378}
   - component: {fileID: 5386631496411931784}
   - component: {fileID: 4916094998661938898}
   - component: {fileID: 1050879053316094352}
+  - component: {fileID: -6581738924367848551}
   m_Layer: 0
   m_Name: Furnace
   m_TagString: Untagged
@@ -177,25 +177,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.7632122}
   m_EdgeRadius: 0
---- !u!114 &8632161548263763378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6792662769193115439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fd35baea7bd4326a7f185ac40187c47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: GameAssembly::GameAssembly.HealthSystem.ToolHealthObject
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  healthType: 4
-  maxHealth: 3
-  immediatelyDestroy: 1
-  needType: 2
 --- !u!114 &5386631496411931784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,7 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c572cc84e7c84fa4af845448476a4bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ObjectsSystem.View.BreakableObjectView
-  healthObject: {fileID: 8632161548263763378}
+  healthObject: {fileID: -6581738924367848551}
   shakeDuration: 0.1
   shakeStrength: 0.2
   shakeVibrato: 10
@@ -227,7 +208,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  healthObject: {fileID: 8632161548263763378}
+  healthObject: {fileID: -6581738924367848551}
   droppingObject: {fileID: 9090697042307161094, guid: 3be4b7b7b0e727441b9259d6e5613423, type: 3}
   itemDefinition: {fileID: 11400000, guid: 50ef167b976760b4e82ad6b8b651411b, type: 2}
   minCount: 1
@@ -241,15 +222,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 6792662769193115439}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcec6c04eef04403bee918fd86b720f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b7f9f4a5f234a9fbad0c3f4d2e17a11, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: GameAssembly::GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects.Chest
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects.Furnace
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  inventorySize: 15
-  healthObject: {fileID: 8632161548263763378}
-  chestRenderer: {fileID: 2057283158724410171}
+  inventorySize: 2
+  healthObject: {fileID: -6581738924367848551}
+  furnaceRenderer: {fileID: 2057283158724410171}
+  furnaceTier: 0
+--- !u!114 &-6581738924367848551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6792662769193115439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99b8825e494f4b1690ecfdc0ddac5309, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.HealthSystem.BaseHealthObject
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  healthType: 4
+  maxHealth: 2
+  immediatelyDestroy: 1
 --- !u!1 &7866016381853904992
 GameObject:
   m_ObjectHideFlags: 0

@@ -60,7 +60,7 @@ namespace Mirror
         }
 
         GUIContent title;
-        Styles styles = new Styles();
+        Styles styles;
 
         public override GUIContent GetPreviewTitle()
         {
@@ -95,8 +95,8 @@ namespace Mirror
             if (identity == null)
                 return;
 
-            if (styles == null)
-                styles = new Styles();
+            if (!EnsureStyles())
+                return;
 
 
             // padding
@@ -302,6 +302,19 @@ namespace Mirror
                 name = new GUIContent(name),
                 value = new GUIContent((value ? "Yes" : "No"))
             };
+        }
+
+        bool EnsureStyles()
+        {
+            if (styles != null)
+                return true;
+
+            // During editor teardown style singletons can already be disposed.
+            if (EditorStyles.label == null || EditorStyles.boldLabel == null || EditorStyles.miniLabel == null)
+                return false;
+
+            styles = new Styles();
+            return true;
         }
     }
 }

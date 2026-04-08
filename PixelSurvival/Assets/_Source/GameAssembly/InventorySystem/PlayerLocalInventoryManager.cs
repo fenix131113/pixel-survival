@@ -46,23 +46,55 @@ namespace GameAssembly.InventorySystem
         {
             var inv1 = firstInvIdentity.GetComponent<IInventory>();
             var inv2 = secondInvIdentity.GetComponent<IInventory>();
+            
+            if (inv1 == null || inv2 == null)
+                return;
+            
             var item1 = inv1.GetItemByIndex(firstIndex);
             var item2 = inv2.GetItemByIndex(secondIndex);
 
             if (item1 == null)
                 return;
 
-            if (item2 == null || item1.Definition != item2.Definition) // Change place between two of given
+            if (item2 == null) // Move item to empty cell
             {
+                if (!inv2.TryAddItemInIndexFromInstance(item1.Copy(), secondIndex, true))
+                    return;
+
+                inv1.TryRemoveItemByIndex(firstIndex, false);
+
+                OnCombiningCellsReplace?.Invoke(firstInvIdentity, firstIndex, secondInvIdentity, secondIndex);
+                Target_InvokeOnCombiningCellsReplace(connectionToClient, firstInvIdentity, firstIndex,
+                    secondInvIdentity, secondIndex);
+            }
+            else if (item1.Definition != item2.Definition) // Swap
+            {
+                var item1Copy = item1.Copy();
+                var item2Copy = item2.Copy();
+
                 if (!inv2.TryRemoveItemByIndex(secondIndex, false))
                     return;
 
-                inv2.TryAddItemInIndexFromInstance(item1.Copy(), secondIndex,
-                    true); // Used Copy() for prevent disposing original item1. If you don't - that will be disposed in another cell
-                inv1.TryRemoveItemByIndex(firstIndex, false);
+                if (!inv2.TryAddItemInIndexFromInstance(item1Copy.Copy(), secondIndex, true))
+                {
+                    TryRestoreItem(inv2, item2Copy, secondIndex);
+                    return;
+                }
 
-                if (item2 != null)
-                    inv1.TryAddItemInIndexFromInstance(item2, firstIndex, true);
+                if (!inv1.TryRemoveItemByIndex(firstIndex, false))
+                {
+                    inv2.TryRemoveItemByIndex(secondIndex, false);
+                    TryRestoreItem(inv2, item2Copy.Copy(), secondIndex);
+                    return;
+                }
+
+                if (!inv1.TryAddItemInIndexFromInstance(item2Copy.Copy(), firstIndex, true))
+                {
+                    TryRestoreItem(inv1, item1Copy.Copy(), firstIndex);
+                    inv2.TryRemoveItemByIndex(secondIndex, false);
+                    TryRestoreItem(inv2, item2Copy.Copy(), secondIndex);
+                    return;
+                }
 
                 OnCombiningCellsReplace?.Invoke(firstInvIdentity, firstIndex, secondInvIdentity, secondIndex);
                 Target_InvokeOnCombiningCellsReplace(connectionToClient, firstInvIdentity, firstIndex,
@@ -123,6 +155,10 @@ namespace GameAssembly.InventorySystem
         {
             var inv1 = firstInvIdentity.GetComponent<IInventory>();
             var inv2 = secondInvIdentity.GetComponent<IInventory>();
+            
+            if (inv1 == null || inv2 == null)
+                return;
+            
             var item1 = inv1.GetItemByIndex(firstIndex);
             var item2 = inv2.GetItemByIndex(secondIndex);
 
@@ -131,8 +167,9 @@ namespace GameAssembly.InventorySystem
 
             if (item2 == null) // Place first item in empty second cell
             {
-                inv2.TryAddItemInIndexFromInstance(item1.Copy(), secondIndex,
-                    true); // Used Copy() for prevent disposing original item1. If you don't - that will be disposed in another cell
+                if (!inv2.TryAddItemInIndexFromInstance(item1.Copy(), secondIndex, true))
+                    return;
+
                 inv1.TryRemoveItemByIndex(firstIndex, false);
             }
             else if (item2.Definition == item1.Definition && item2.Count < item2.Definition.MaxCount) // Add count
@@ -206,6 +243,17 @@ namespace GameAssembly.InventorySystem
                 return;
 
             OnCombiningCellsChangeAmount?.Invoke(firstInvIdentity, firstIndex, secondInvIdentity, secondIndex);
+        }
+        
+        private static bool TryRestoreItem(IInventory inventory, ItemInstance item, int preferredIndex)
+        {
+            if (inventory == null || item == null)
+                return false;
+
+            if (inventory.TryAddItemInIndexFromInstance(item.Copy(), preferredIndex, true))
+                return true;
+
+            return inventory.TryAddItemFromInstance(item, true, true);
         }
     }
 }

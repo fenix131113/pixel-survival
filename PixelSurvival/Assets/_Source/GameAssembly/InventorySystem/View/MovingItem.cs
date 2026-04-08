@@ -70,7 +70,7 @@ namespace GameAssembly.InventorySystem.View
             movingRect.gameObject.SetActive(false);
             _isMoving = false;
             
-            if(cellIndex == CurrentCellIndex)
+            if(inventoryIdentity == CurrentInventoryIdentity && cellIndex == CurrentCellIndex)
                 return;
 
             _playerLocalInventoryManager.Cmd_CombineCells(CurrentInventoryIdentity, CurrentCellIndex, inventoryIdentity,

@@ -302,7 +302,7 @@ namespace GameAssembly.InventorySystem
         }
 
         [Server]
-        public bool TryAddItemInIndexFromInstance(ItemInstance item, int index, bool fullInsert)
+        public virtual bool TryAddItemInIndexFromInstance(ItemInstance item, int index, bool fullInsert)
         {
             if (item == null)
                 return false;
@@ -347,7 +347,7 @@ namespace GameAssembly.InventorySystem
             return _items.Where(x => x != null && x.Definition == item).Sum(x => x.Count) >= count;
         }
 
-        public bool CanAddNewItem(ItemDefinitionSO definition, int count = 1)
+        public virtual bool CanAddNewItem(ItemDefinitionSO definition, int count = 1)
         {
             var exactItemsIndexes = new List<int>();
             var emptyItemsIndexes = new List<int>();

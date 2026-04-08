@@ -23,7 +23,7 @@ namespace GameAssembly.PlayerSystem.View
         [SerializeField] private GameObject inventoryPanel;
         [SerializeField] private Transform cellsParent;
         [SerializeField] private Transform hotBarParent;
-        [SerializeField] private MenuType[] allowedMenuTypesOnTop = { MenuType.CHEST };
+        [SerializeField] private MenuType[] allowedMenuTypesOnTop = { MenuType.CHEST, MenuType.FURNACE };
 
         [Inject] private MovingItem _movingItem;
         [Inject] private InputSystem_Actions _input;
@@ -113,7 +113,11 @@ namespace GameAssembly.PlayerSystem.View
 
         public bool IsOpen() => inventoryPanel.activeSelf;
         public MenuType GetMenuType() => MenuType.PLAYER_INVENTORY;
-        public IReadOnlyCollection<MenuType> GetAllowedMenuTypesOnTop() => allowedMenuTypesOnTop ?? Array.Empty<MenuType>();
+        public IReadOnlyCollection<MenuType> GetAllowedMenuTypesOnTop()
+        {
+            EnsureRequiredOverlayMenusAllowed();
+            return allowedMenuTypesOnTop;
+        }
 
         public IInventory GetInventory() => _inventory;
         public NetworkIdentity GetNetworkIdentity() => NetworkClient.localPlayer ? NetworkClient.localPlayer : null;
@@ -131,6 +135,39 @@ namespace GameAssembly.PlayerSystem.View
             _playerSelector = NetworkClient.localPlayer.GetComponent<PlayerSelector>();
 
             SpawnCells();
+        }
+
+        private void EnsureRequiredOverlayMenusAllowed()
+        {
+            if (allowedMenuTypesOnTop == null || allowedMenuTypesOnTop.Length == 0)
+            {
+                allowedMenuTypesOnTop = new[] { MenuType.CHEST, MenuType.FURNACE };
+                return;
+            }
+
+            var hasChest = false;
+            var hasFurnace = false;
+
+            foreach (var menuType in allowedMenuTypesOnTop)
+            {
+                hasChest |= menuType == MenuType.CHEST;
+                hasFurnace |= menuType == MenuType.FURNACE;
+            }
+
+            if (hasChest && hasFurnace)
+                return;
+
+            var missingCount = (hasChest ? 0 : 1) + (hasFurnace ? 0 : 1);
+            var result = new MenuType[allowedMenuTypesOnTop.Length + missingCount];
+            allowedMenuTypesOnTop.CopyTo(result, 0);
+
+            var index = allowedMenuTypesOnTop.Length;
+            if (!hasChest)
+                result[index++] = MenuType.CHEST;
+            if (!hasFurnace)
+                result[index] = MenuType.FURNACE;
+
+            allowedMenuTypesOnTop = result;
         }
     }
 }
