@@ -138,6 +138,8 @@ GameObject:
   - component: {fileID: 5380170667326270308}
   - component: {fileID: 5765003504016066890}
   - component: {fileID: 9217038876141930847}
+  - component: {fileID: 1122334455667788990}
+  - component: {fileID: 6655443322110099887}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -485,3 +487,63 @@ MonoBehaviour:
   syncInterval: 0
   clientAuthority: 1
   animator: {fileID: 2453291549200391075}
+--- !u!114 &1122334455667788990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7138410634727892820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cc9e28d96174b31898d6fd4f30b0e13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.PlayerSystem.View.GrassProximityManager
+  playerBody: {fileID: 7482978751402099095}
+  interactionZone: {fileID: 6655443322110099887}
+  grassLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  movementThreshold: 1
+  impactScale: 1
+  maxImpactForce: 0.3
+  stiffness: 100
+  damping: 10
+  overlapBufferSize: 24
+--- !u!70 &6655443322110099887
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7138410634727892820}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -0.16}
+  m_Size: {x: 0.82, y: 0.9}
+  m_Direction: 0
