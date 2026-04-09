@@ -6,7 +6,7 @@ Shader "GameAssembly/Sprites/Grass Sprite Sway"
         [HideInInspector] _Color ("Tint", Color) = (1, 1, 1, 1)
         [HideInInspector] _RendererColor ("RendererColor", Color) = (1, 1, 1, 1)
         _SwaySpeed ("Sway Speed", Float) = 1.5
-        _SwayAmount ("Sway Amount", Float) = 0.03
+        _SwayAmount ("Sway Amount", Float) = 0.05
         _BendStart ("Bend Start", Float) = 0.0
         _BendEnd ("Bend End", Float) = 0.5
         [PerRendererData] _ImpactForce ("Impact Force", Float) = 0
@@ -22,7 +22,7 @@ Shader "GameAssembly/Sprites/Grass Sprite Sway"
             "CanUseSpriteAtlas" = "True"
         }
 
-        Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
+        Blend SrcAlpha OneMinusSrcAlpha
         Cull Off
         ZWrite Off
 
@@ -38,7 +38,6 @@ Shader "GameAssembly/Sprites/Grass Sprite Sway"
             #pragma multi_compile_instancing
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/Core2D.hlsl"
 
             struct Attributes
             {
@@ -78,19 +77,26 @@ Shader "GameAssembly/Sprites/Grass Sprite Sway"
                 UNITY_SETUP_INSTANCE_ID(input);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
-                SetUpSpriteInstanceProperties();
-                input.positionOS = UnityFlipSprite(input.positionOS, unity_SpriteProps.xy);
+                // Расчет маски: возводим в квадрат, чтобы корень (внизу) был максимально неподвижен
+                float mask = smoothstep(_BendStart, _BendEnd, input.positionOS.y);
+                float anchorMask = mask * mask; 
 
-                float anchorMask = smoothstep(_BendStart, _BendEnd, input.positionOS.y);
-                float phase = (_Time.y * _SwaySpeed) + dot(unity_ObjectToWorld._m03_m13, float2(0.31, 0.17));
+                // Получаем мировые координаты объекта для создания уникальной фазы
+                float3 worldPos = GetObjectToWorldMatrix()._m03_m13_m23;
+                
+                // Усиливаем разброс фазы. Числа 1.37 и 0.89 создают эффект псевдо-рандома.
+                float noise = (worldPos.x * 1.37 + worldPos.y * 0.89);
+                float phase = (_Time.y * _SwaySpeed) + noise;
+                
                 float swayOffset = sin(phase) * _SwayAmount;
                 float impactOffset = UNITY_ACCESS_INSTANCED_PROP(GrassProps, _ImpactForce);
 
+                // Применяем смещение только к X
                 input.positionOS.x += (swayOffset + impactOffset) * anchorMask;
 
                 output.positionCS = TransformObjectToHClip(input.positionOS);
                 output.uv = input.uv;
-                output.color = input.color * _Color * _RendererColor * unity_SpriteColor;
+                output.color = input.color * _Color * _RendererColor;
                 return output;
             }
 

@@ -13,10 +13,19 @@ namespace GameAssembly.PlayerSystem.View
         [SerializeField] private Rigidbody2D playerBody;
         [SerializeField] private Collider2D interactionZone;
         [SerializeField] private LayerMask grassLayers;
+        
+        [Header("Настройки пружины")]
+        [Tooltip("Минимальная скорость игрока для срабатывания")]
         [SerializeField] private float movementThreshold = 0.15f;
-        [SerializeField] private float impactScale = 0.03f;
-        [SerializeField] private float maxImpactForce = 0.14f;
-        [SerializeField] private float returnSpeed = 3.5f;
+        [Tooltip("Насколько сильно скорость игрока влияет на толчок")]
+        [SerializeField] private float impactScale = 0.5f; 
+        [Tooltip("Максимальный наклон травы")]
+        [SerializeField] private float maxImpactForce = 0.2f;
+        [Tooltip("Жесткость возврата (чем выше, тем резче возврат)")]
+        [SerializeField] private float stiffness = 100f;
+        [Tooltip("Затухание (чем выше, тем быстрее трава успокоится)")]
+        [SerializeField] private float damping = 10f;
+
         [SerializeField] private int overlapBufferSize = 24;
 
         private readonly Dictionary<GrassReactiveMarker, GrassState> _activeGrass = new();
@@ -29,23 +38,22 @@ namespace GameAssembly.PlayerSystem.View
         private sealed class GrassState
         {
             public float CurrentImpact;
+            public float Velocity; // Добавили скорость для физики пружины
             public SpriteRenderer TargetRenderer;
             public bool IsTouching;
         }
 
         private void Awake()
         {
-            if (!playerBody)
-                playerBody = GetComponent<Rigidbody2D>();
+            if (!playerBody) playerBody = GetComponent<Rigidbody2D>();
 
+            // (Твой код поиска interactionZone остается прежним...)
             if (!interactionZone)
             {
                 var colliders = GetComponents<Collider2D>();
                 foreach (var candidate in colliders)
                 {
-                    if (!candidate || !candidate.isTrigger)
-                        continue;
-
+                    if (!candidate || !candidate.isTrigger) continue;
                     interactionZone = candidate;
                     break;
                 }
@@ -62,10 +70,7 @@ namespace GameAssembly.PlayerSystem.View
             };
         }
 
-        private void OnDisable()
-        {
-            ResetAllGrass();
-        }
+        private void OnDisable() => ResetAllGrass();
 
         private void Update()
         {
@@ -82,33 +87,28 @@ namespace GameAssembly.PlayerSystem.View
             for (var i = 0; i < overlapCount; i++)
             {
                 var other = _overlapResults[i];
-                if (!other)
-                    continue;
+                if (!other) continue;
 
                 var marker = ResolveMarker(other);
-                if (!marker || !marker.TargetRenderer)
-                    continue;
+                if (!marker || !marker.TargetRenderer) continue;
 
                 if (!_activeGrass.TryGetValue(marker, out var state))
                 {
-                    state = new GrassState
-                    {
-                        TargetRenderer = marker.TargetRenderer
-                    };
+                    state = new GrassState { TargetRenderer = marker.TargetRenderer };
                     _activeGrass.Add(marker, state);
                 }
 
                 var speed = playerBody.linearVelocity.magnitude;
+                
+                // Вместо мгновенного приравнивания значения, добавляем ВЕЛОСИТИ (импульс)
                 if (!state.IsTouching && speed >= movementThreshold)
                 {
                     var direction = Mathf.Abs(playerBody.linearVelocity.x) > 0.01f
                         ? Mathf.Sign(playerBody.linearVelocity.x)
                         : Mathf.Sign(state.TargetRenderer.transform.position.x - transform.position.x);
 
-                    if (Mathf.Approximately(direction, 0f))
-                        direction = 1f;
-
-                    state.CurrentImpact = direction * Mathf.Min(speed * impactScale, maxImpactForce);
+                    // Даем толчок. Мы не меняем ImpactForce напрямую, а "толкаем" скорость.
+                    state.Velocity += direction * speed * impactScale;
                 }
 
                 state.IsTouching = true;
@@ -118,21 +118,36 @@ namespace GameAssembly.PlayerSystem.View
         private void UpdateActiveGrass()
         {
             _toRemove.Clear();
+            float dt = Time.deltaTime;
 
             foreach (var pair in _activeGrass)
             {
                 var marker = pair.Key;
                 var state = pair.Value;
+
                 if (!state.TargetRenderer)
                 {
                     _toRemove.Add(marker);
                     continue;
                 }
 
-                state.CurrentImpact = Mathf.MoveTowards(state.CurrentImpact, 0f, Time.deltaTime * returnSpeed);
+                // --- ФИЗИКА ПРУЖИНЫ ---
+                // Сила возврата (зависит от текущего отклонения)
+                float force = -stiffness * state.CurrentImpact;
+                // Затухание (сопротивление воздуха/внутреннее трение)
+                force -= damping * state.Velocity;
+
+                // Обновляем скорость и позицию (наклон)
+                state.Velocity += force * dt;
+                state.CurrentImpact += state.Velocity * dt;
+
+                // Ограничиваем наклон, чтобы трава не ложилась на землю слишком сильно
+                state.CurrentImpact = Mathf.Clamp(state.CurrentImpact, -maxImpactForce, maxImpactForce);
+
                 ApplyImpact(state.TargetRenderer, state.CurrentImpact);
 
-                if (!state.IsTouching && Mathf.Approximately(state.CurrentImpact, 0f))
+                // Если пружина почти замерла и игрок не касается, удаляем из активных
+                if (!state.IsTouching && Mathf.Abs(state.CurrentImpact) < 0.001f && Mathf.Abs(state.Velocity) < 0.001f)
                     _toRemove.Add(marker);
                 else
                     state.IsTouching = false;
@@ -140,22 +155,15 @@ namespace GameAssembly.PlayerSystem.View
 
             foreach (var marker in _toRemove)
             {
-                if (!_activeGrass.TryGetValue(marker, out var state))
-                    continue;
-
-                ClearImpact(state.TargetRenderer);
-                _activeGrass.Remove(marker);
+                if (_activeGrass.TryGetValue(marker, out var state))
+                {
+                    ClearImpact(state.TargetRenderer);
+                    _activeGrass.Remove(marker);
+                }
             }
         }
 
-        private static GrassReactiveMarker ResolveMarker(Collider2D other)
-        {
-            if (!other)
-                return null;
-
-            return other.GetComponent<GrassReactiveMarker>() ? other.GetComponent<GrassReactiveMarker>() : other.GetComponentInParent<GrassReactiveMarker>();
-        }
-
+        // Остальные методы (ApplyImpact, ClearImpact, ResolveMarker) без изменений...
         private void ApplyImpact(SpriteRenderer targetRenderer, float impactForce)
         {
             targetRenderer.GetPropertyBlock(_propertyBlock);
@@ -165,22 +173,19 @@ namespace GameAssembly.PlayerSystem.View
 
         private void ClearImpact(SpriteRenderer targetRenderer)
         {
-            if (!targetRenderer)
-                return;
-
+            if (!targetRenderer) return;
             targetRenderer.GetPropertyBlock(_propertyBlock);
             _propertyBlock.SetFloat(ImpactForceId, 0f);
             targetRenderer.SetPropertyBlock(_propertyBlock);
         }
 
+        private static GrassReactiveMarker ResolveMarker(Collider2D other) =>
+            other.GetComponent<GrassReactiveMarker>() ?? other.GetComponentInParent<GrassReactiveMarker>();
+
         private void ResetAllGrass()
         {
-            if (_propertyBlock == null)
-                return;
-
-            foreach (var pair in _activeGrass)
-                ClearImpact(pair.Value.TargetRenderer);
-
+            if (_propertyBlock == null) return;
+            foreach (var pair in _activeGrass) ClearImpact(pair.Value.TargetRenderer);
             _activeGrass.Clear();
             _toRemove.Clear();
         }

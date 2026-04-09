@@ -505,9 +505,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   movementThreshold: 1
-  impactScale: 0.5
+  impactScale: 1
   maxImpactForce: 0.3
-  returnSpeed: 1.25
+  stiffness: 100
+  damping: 10
   overlapBufferSize: 24
 --- !u!70 &6655443322110099887
 CapsuleCollider2D:
