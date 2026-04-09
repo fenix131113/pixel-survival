@@ -14,16 +14,16 @@ namespace GameAssembly.PlayerSystem.View
         [SerializeField] private Collider2D interactionZone;
         [SerializeField] private LayerMask grassLayers;
         
-        [Header("Настройки пружины")]
-        [Tooltip("Минимальная скорость игрока для срабатывания")]
+        [Header("Spring Setting")]
+        [Tooltip("Min Player Speed")]
         [SerializeField] private float movementThreshold = 0.15f;
-        [Tooltip("Насколько сильно скорость игрока влияет на толчок")]
+        [Tooltip("Sensitivity")]
         [SerializeField] private float impactScale = 0.5f; 
-        [Tooltip("Максимальный наклон травы")]
+        [Tooltip("Max Slant")]
         [SerializeField] private float maxImpactForce = 0.2f;
-        [Tooltip("Жесткость возврата (чем выше, тем резче возврат)")]
+        [Tooltip("The power of return")]
         [SerializeField] private float stiffness = 100f;
-        [Tooltip("Затухание (чем выше, тем быстрее трава успокоится)")]
+        [Tooltip("Fade out")]
         [SerializeField] private float damping = 10f;
 
         [SerializeField] private int overlapBufferSize = 24;
