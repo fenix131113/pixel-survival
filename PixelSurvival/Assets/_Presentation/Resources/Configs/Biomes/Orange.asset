@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Orange
   m_EditorClassIdentifier: GameAssembly::GameAssembly.WorldSystem.Data.BiomeDefinition
   <NameKey>k__BackingField: 
-  <DefaultFloor>k__BackingField: {fileID: 11400000, guid: 8720d303d3d3ec640aa2f9fbdde6ada5, type: 2}
-  <DefaultWall>k__BackingField: {fileID: 11400000, guid: eaf8544fd0f006142840412c361b7e3d, type: 2}
+  <DefaultFloor>k__BackingField: {fileID: 11400000, guid: fa20059c60a3daa479a44fb6dcd313c6, type: 2}
+  <PathFloor>k__BackingField: {fileID: 11400000, guid: c76c13ce4e8caeb4aa06526350007df9, type: 2}
+  <PathNoiseScale>k__BackingField: 0.025
+  <PathWidth>k__BackingField: 0.045
+  <DefaultWall>k__BackingField: {fileID: 0}
   <NaturalSpawn>k__BackingField: 0
   <Min>k__BackingField: 0.75
   <Max>k__BackingField: 1
   <WallDensity>k__BackingField: 0.4
-  MinDistance: 0
-  MaxDistance: 1

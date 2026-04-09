@@ -10,6 +10,7 @@ namespace GameAssembly.Generated
     {
         public static readonly ItemDefinitionSO Apple;
         public static readonly ItemDefinitionSO Dirt;
+        public static readonly ItemDefinitionSO StoneBlock;
         public static readonly ItemDefinitionSO WoodenLogBlock;
         public static readonly ItemDefinitionSO WoodenPlanksBlock;
         public static readonly ItemDefinitionSO Chest;
@@ -33,6 +34,7 @@ namespace GameAssembly.Generated
         {
             Apple = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Apple");
             Dirt = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Dirt");
+            StoneBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/StoneBlock");
             WoodenLogBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/WoodenLogBlock");
             WoodenPlanksBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/WoodenPlanksBlock");
             Chest = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Chest");

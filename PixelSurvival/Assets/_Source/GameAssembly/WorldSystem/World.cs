@@ -290,10 +290,13 @@ namespace GameAssembly.WorldSystem
 
                     var noise = Mathf.Clamp01(Mathf.PerlinNoise(nx, ny));
 
-                    chunk.Cells[x, y].Block =
-                        noise <= biome.WallDensity
-                            ? BlockData.CreateBlock(biome.DefaultWall)
-                            : BlockData.Air;
+                    if (biome.DefaultWall)
+                        chunk.Cells[x, y].Block =
+                            noise <= biome.WallDensity
+                                ? BlockData.CreateBlock(biome.DefaultWall)
+                                : BlockData.Air;
+                    else
+                        chunk.Cells[x, y].Block = BlockData.Air;
                 }
             }
 

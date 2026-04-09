@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f7a9ef6b4c242eaa1dad5e3d146bfe6, type: 3}
-  m_Name: Grass
+  m_Name: BlueGrass
   m_EditorClassIdentifier: GameAssembly::GameAssembly.WorldSystem.Data.BlockDefinition
   <BlockNameKey>k__BackingField: 
   <Type>k__BackingField: 3
   <Flags>k__BackingField: 0
-  <Tile>k__BackingField: {fileID: 11400000, guid: edd4578c9b87e98438d3edd3c5da8dd6, type: 2}
+  <Tile>k__BackingField: {fileID: 11400000, guid: 8063374b6bc6b0c4f9f88ffd279b2131, type: 2}
   <DropItem>k__BackingField: {fileID: 0}
   <MinDropAmount>k__BackingField: 1
   <MaxDropAmount>k__BackingField: 3
-  <Health>k__BackingField: 3
+  <Health>k__BackingField: 1
   <EffectiveToolType>k__BackingField: 3
   <RequireEffectiveToolToBreak>k__BackingField: 1
-  id: f9228262695c4c27aca29686635a70a9
+  id: 772f364046ad4fbf843657c655440c23

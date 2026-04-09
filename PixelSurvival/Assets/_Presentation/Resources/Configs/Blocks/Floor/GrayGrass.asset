@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f7a9ef6b4c242eaa1dad5e3d146bfe6, type: 3}
-  m_Name: GrassPath
+  m_Name: GrayGrass
   m_EditorClassIdentifier: GameAssembly::GameAssembly.WorldSystem.Data.BlockDefinition
   <BlockNameKey>k__BackingField: 
   <Type>k__BackingField: 3
   <Flags>k__BackingField: 0
-  <Tile>k__BackingField: {fileID: 11400000, guid: 43aa8b29a6cecc842859f40a682e40d0, type: 2}
+  <Tile>k__BackingField: {fileID: 11400000, guid: 6212ef1a688a9e645a2a489eac8eb798, type: 2}
   <DropItem>k__BackingField: {fileID: 0}
   <MinDropAmount>k__BackingField: 1
-  <MaxDropAmount>k__BackingField: 1
-  <Health>k__BackingField: 22
+  <MaxDropAmount>k__BackingField: 3
+  <Health>k__BackingField: 1
   <EffectiveToolType>k__BackingField: 3
   <RequireEffectiveToolToBreak>k__BackingField: 1
-  id: 608ed76fa37946d5b7084ccc11205c7d
+  id: 793df5978bd541d0b62b69d3f7889239

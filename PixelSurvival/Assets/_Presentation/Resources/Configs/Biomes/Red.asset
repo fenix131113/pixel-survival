@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Red
   m_EditorClassIdentifier: GameAssembly::GameAssembly.WorldSystem.Data.BiomeDefinition
   <NameKey>k__BackingField: 
-  <DefaultFloor>k__BackingField: {fileID: 11400000, guid: 29abe697d09798a45a5596829aae56cd, type: 2}
-  <DefaultWall>k__BackingField: {fileID: 11400000, guid: 168f365779a483d40b8801ae8dfe2dd9, type: 2}
+  <DefaultFloor>k__BackingField: {fileID: 11400000, guid: 558740b749061e44aa553632a049c072, type: 2}
+  <PathFloor>k__BackingField: {fileID: 11400000, guid: 5d1284bb6dfa72643928a6d220bcf67a, type: 2}
+  <PathNoiseScale>k__BackingField: 0.025
+  <PathWidth>k__BackingField: 0.045
+  <DefaultWall>k__BackingField: {fileID: 0}
   <NaturalSpawn>k__BackingField: 0
   <Min>k__BackingField: 0.75
   <Max>k__BackingField: 1
   <WallDensity>k__BackingField: 0.4
-  MinDistance: 0
-  MaxDistance: 1
