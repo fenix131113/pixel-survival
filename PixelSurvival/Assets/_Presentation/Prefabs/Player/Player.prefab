@@ -505,9 +505,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   movementThreshold: 1
-  impactScale: 1
-  maxImpactForce: 0.3
-  stiffness: 100
+  impactScale: 0.1
+  maxImpactForce: 0.35
+  stiffness: 150
   damping: 10
   overlapBufferSize: 24
 --- !u!70 &6655443322110099887
