@@ -16,7 +16,7 @@ MonoBehaviour:
   <Type>k__BackingField: 3
   <Flags>k__BackingField: 0
   <Tile>k__BackingField: {fileID: 11400000, guid: edd4578c9b87e98438d3edd3c5da8dd6, type: 2}
-  <DropItem>k__BackingField: {fileID: 0}
+  <DropItem>k__BackingField: {fileID: 11400000, guid: 44e693f4de66417f8b5bacf6367c061f, type: 2}
   <MinDropAmount>k__BackingField: 1
   <MaxDropAmount>k__BackingField: 3
   <Health>k__BackingField: 1

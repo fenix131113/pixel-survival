@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d5e6c4a83f745f6b8aa90d3ee7712c4, type: 3}
   m_Name: Iron
   m_EditorClassIdentifier: GameAssembly::GameAssembly.FurnaceSystem.Data.SmeltRecipeSO
-  <InputItem>k__BackingField: {fileID: 11400000, guid: 47994d9212e42d04e80b7e239f46a806, type: 2}
+  <InputItem>k__BackingField: {fileID: 11400000, guid: 3acd72c3ea9f49d4959c19bb9fb3dfe9, type: 2}
   <InputCount>k__BackingField: 1
-  <ResultItem>k__BackingField: {fileID: 11400000, guid: 34a740c9fff5e1348b482173047305c0, type: 2}
+  <ResultItem>k__BackingField: {fileID: 11400000, guid: 98877bb4f99f435a9a79c370447e182c, type: 2}
   <ResultCount>k__BackingField: 1
   <SmeltTimeSeconds>k__BackingField: 1
   <RequiredFurnaceTier>k__BackingField: 0

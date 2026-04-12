@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2160365976251295125}
   - component: {fileID: 8080808080808080808}
   - component: {fileID: 1282568804178077417}
+  - component: {fileID: 8008008008008008008}
   m_Layer: 7
   m_Name: BigGrass
   m_TagString: Untagged
@@ -214,3 +215,28 @@ CapsuleCollider2D:
   m_Offset: {x: 0.0064048767, y: 0.06181228}
   m_Size: {x: 0.41467285, y: 1.1386049}
   m_Direction: 0
+
+--- !u!114 &8008008008008008008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7445690377910649911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64f2628413654e39ba2804896925e022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.ObjectsSystem.BaseDropObject
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  healthObject: {fileID: 4653703192025969514}
+  droppingObject: {fileID: 9090697042307161094, guid: 3be4b7b7b0e727441b9259d6e5613423, type: 3}
+  itemDefinition: {fileID: 11400000, guid: 8c1ddf9a282e4057864b9e2d75588e71, type: 2}
+  minCount: 2
+  maxCount: 3
+  drops:
+  - itemDefinition: {fileID: 11400000, guid: 8c1ddf9a282e4057864b9e2d75588e71, type: 2}
+    minCount: 2
+    maxCount: 3

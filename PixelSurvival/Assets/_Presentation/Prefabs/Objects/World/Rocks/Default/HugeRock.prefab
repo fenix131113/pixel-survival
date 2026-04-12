@@ -165,6 +165,10 @@ MonoBehaviour:
   itemDefinition: {fileID: 11400000, guid: 47994d9212e42d04e80b7e239f46a806, type: 2}
   minCount: 3
   maxCount: 7
+  drops:
+  - itemDefinition: {fileID: 11400000, guid: 47994d9212e42d04e80b7e239f46a806, type: 2}
+    minCount: 3
+    maxCount: 7
 --- !u!70 &2041181459846727945
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

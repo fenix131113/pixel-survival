@@ -218,6 +218,10 @@ MonoBehaviour:
   syncInterval: 0
   healthObject: {fileID: 789233983959304205}
   droppingObject: {fileID: 9090697042307161094, guid: 3be4b7b7b0e727441b9259d6e5613423, type: 3}
-  itemDefinition: {fileID: 11400000, guid: b859d97518225804c90e415b16b98b89, type: 2}
+  itemDefinition: {fileID: 11400000, guid: c96e8e0e9efd4a35a35c5ad9d74f9d9f, type: 2}
   minCount: 5
   maxCount: 10
+  drops:
+  - itemDefinition: {fileID: 11400000, guid: c96e8e0e9efd4a35a35c5ad9d74f9d9f, type: 2}
+    minCount: 5
+    maxCount: 10

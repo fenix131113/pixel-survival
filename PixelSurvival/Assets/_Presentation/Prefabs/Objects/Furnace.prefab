@@ -213,6 +213,10 @@ MonoBehaviour:
   itemDefinition: {fileID: 11400000, guid: 50ef167b976760b4e82ad6b8b651411b, type: 2}
   minCount: 1
   maxCount: 1
+  drops:
+  - itemDefinition: {fileID: 11400000, guid: 50ef167b976760b4e82ad6b8b651411b, type: 2}
+    minCount: 1
+    maxCount: 1
 --- !u!114 &1050879053316094352
 MonoBehaviour:
   m_ObjectHideFlags: 0

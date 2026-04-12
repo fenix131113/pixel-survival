@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df7e96586de47ba9337ceb8f5f11fd9, type: 3}
+  m_Name: BigViridiumRock
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.BuildSystem.Data.PlaceableObjectDefinitionSO
+  <Size>k__BackingField: {x: 2, y: 1}
+  <RequireEmptyWallLayer>k__BackingField: 1
+  <RequireFloor>k__BackingField: 1
+  <Prefab>k__BackingField: {fileID: 6363501836473382734, guid: 4a031fff1b656f042be88d6c7425a9c5, type: 3}
+  id: c43700ba00fd4c2f92cf00108ea36a63
