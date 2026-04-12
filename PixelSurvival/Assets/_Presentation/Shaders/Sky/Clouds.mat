@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Clouds
+  m_Shader: {fileID: 4800000, guid: b912f6a4c1331ad47b4155992a2fb9a9, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _CloudDensity: 0.388
+    - _CloudScale: 16.05
+    - _CloudSoftness: 0
+    - _GlobalOpacity: 0.25
+    - _PixelDensity: 16
+    - _PixelTextureDensity: 1
+    - _PosterizeSteps: 1.85
+    - _TextureStrength: 0
+    - _TileSize: 1
+    - _WarpScale: 2
+    - _WarpStrength: 0.12
+    - _ZoneDensity: 0.526
+    - _ZoneScale: 14
+    - _ZoneSoftness: 0.03
+    m_Colors:
+    - _CloudSpeed: {r: -0.05, g: 0, b: 0, a: 0}
+    - _LightColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
+    - _TileOffset: {r: 0, g: 0.6, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
