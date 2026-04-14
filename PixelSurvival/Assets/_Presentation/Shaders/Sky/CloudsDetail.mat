@@ -49,7 +49,7 @@ Material:
     - _ZWrite: 0
     - _ZoneDensity: 0.526
     - _ZoneScale: 14
-    - _ZoneSoftness: 0.001
+    - _ZoneSoftness: 0.004
     m_Colors:
     - _CloudSpeed: {r: -0.02, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
