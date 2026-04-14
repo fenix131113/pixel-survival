@@ -2407,7 +2407,7 @@ MonoBehaviour:
   syncInterval: 0
   blockBuildingLayers:
     serializedVersion: 2
-    m_Bits: 63
+    m_Bits: 4294967295
 --- !u!114 &355121252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11644,7 +11644,7 @@ Transform:
   m_GameObject: {fileID: 1558013944}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: -0, z: -0, w: 0.92387956}
-  m_LocalPosition: {x: 240, y: 240, z: 0}
+  m_LocalPosition: {x: 240, y: 240, z: 529}
   m_LocalScale: {x: 500.93, y: 700, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18729,8 +18729,8 @@ Transform:
   m_GameObject: {fileID: 1687212014}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 240, y: 240, z: 0}
-  m_LocalScale: {x: 500.93, y: 700, z: 1}
+  m_LocalPosition: {x: 240, y: 240, z: 529}
+  m_LocalScale: {x: 527.6419, y: 737.76184, z: 2.0694}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

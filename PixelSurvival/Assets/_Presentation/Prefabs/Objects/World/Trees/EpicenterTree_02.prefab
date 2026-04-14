@@ -63,7 +63,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: afe4221e62f906840bef2f296795fc7f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Mirror::Mirror.NetworkIdentity
   sceneId: 0
-  _assetId: 0
+  _assetId: 1753254163
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
@@ -218,9 +218,6 @@ MonoBehaviour:
   syncInterval: 0
   healthObject: {fileID: 927208169007659173}
   droppingObject: {fileID: 9090697042307161094, guid: 3be4b7b7b0e727441b9259d6e5613423, type: 3}
-  itemDefinition: {fileID: 11400000, guid: a5b8cf26f70e4f14ad746b86f6b33517, type: 2}
-  minCount: 5
-  maxCount: 10
   drops:
   - itemDefinition: {fileID: 11400000, guid: a5b8cf26f70e4f14ad746b86f6b33517, type: 2}
     minCount: 5

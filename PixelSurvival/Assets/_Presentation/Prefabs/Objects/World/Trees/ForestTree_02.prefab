@@ -63,7 +63,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 587ec44c0c31e1f4ca89e7ab3cf2d6b0, type: 2}
+  - {fileID: 2100000, guid: afe4221e62f906840bef2f296795fc7f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -218,9 +218,6 @@ MonoBehaviour:
   syncInterval: 0
   healthObject: {fileID: 777626743438004099}
   droppingObject: {fileID: 9090697042307161094, guid: 3be4b7b7b0e727441b9259d6e5613423, type: 3}
-  itemDefinition: {fileID: 11400000, guid: b859d97518225804c90e415b16b98b89, type: 2}
-  minCount: 5
-  maxCount: 10
   drops:
   - itemDefinition: {fileID: 11400000, guid: b859d97518225804c90e415b16b98b89, type: 2}
     minCount: 5
