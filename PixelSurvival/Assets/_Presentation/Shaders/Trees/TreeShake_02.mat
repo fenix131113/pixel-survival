@@ -30,8 +30,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _BendEnd: 1
-    - _BendStart: 0
-    - _SwayAmount: 0.04
+    - _BendStart: 0.1
+    - _SwayAmount: 3.13
     - _SwaySpeed: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}

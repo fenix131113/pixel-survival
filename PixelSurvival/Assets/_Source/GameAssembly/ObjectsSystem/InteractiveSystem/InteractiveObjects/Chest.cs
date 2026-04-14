@@ -12,14 +12,14 @@ namespace GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects
 {
     public class Chest : BaseInventory, IInteractiveObject
     {
-        [SerializeField] private AHealthObject healthObject;
-        [SerializeField] private SpriteRenderer chestRenderer;
+        [SerializeField] protected AHealthObject healthObject;
+        [SerializeField] protected SpriteRenderer chestRenderer;
         
         [Inject] private ChestView _view;
-        [Inject] private PlayerInventoryView _playerInventoryView;
-        [Inject] private ServerInventoryManager _serverInventoryManager;
+        [Inject] protected PlayerInventoryView playerInventoryView;
+        [Inject] protected ServerInventoryManager serverInventoryManager;
         
-        private void Start()
+        protected virtual void Start()
         {
             if(NetworkClient.active)
                 ObjectInjector.Inject(this);
@@ -28,42 +28,52 @@ namespace GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects
                 Server_Bind();
         }
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             if(NetworkServer.active)
                 Server_Expose();
         }
 
-        public void Interact()
+        public virtual void Interact()
         {
+            if (_view == null || playerInventoryView == null || UiManager.Instance == null)
+                return;
+
             _view.Initialize(this);
-            
-            UiManager.Instance.OpenRequest(_playerInventoryView);
-            UiManager.Instance.OpenRequest(_view);
+            OpenInventoryView(_view);
         }
 
         public Renderer GetRendererTarget() => chestRenderer;
 
+        protected void OpenInventoryView(IUiInventory inventoryView)
+        {
+            if (UiManager.Instance == null || playerInventoryView == null || inventoryView == null)
+                return;
+
+            UiManager.Instance.OpenRequest(playerInventoryView);
+            UiManager.Instance.OpenRequest(inventoryView);
+        }
+
         [Server]
-        private void DropEverythingFromChest()
+        protected virtual void DropEverythingFromChest()
         {
             for (var index = 0; index < _items.Length; index++)
             {
                 var itemInstance = _items[index];
 
                 if (itemInstance != null)
-                    _serverInventoryManager.Server_DropItemFromInventory(netIdentity, index, transform.position);
+                    serverInventoryManager.Server_DropItemFromInventory(netIdentity, index, transform.position);
             }
         }
 
         [Server]
-        private void Server_Bind()
+        protected virtual void Server_Bind()
         {
             healthObject.OnZeroHealth += DropEverythingFromChest;
         }
 
         [Server]
-        private void Server_Expose()
+        protected virtual void Server_Expose()
         {
             healthObject.OnZeroHealth -= DropEverythingFromChest;
         }

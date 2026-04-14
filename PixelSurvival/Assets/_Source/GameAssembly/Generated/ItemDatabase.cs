@@ -30,6 +30,7 @@ namespace GameAssembly.Generated
         public static readonly ItemDefinitionSO YellowBlock;
         public static readonly ItemDefinitionSO YellowFloor;
         public static readonly ItemDefinitionSO Chest;
+        public static readonly ItemDefinitionSO EndGameChest;
         public static readonly ItemDefinitionSO Furnace;
         public static readonly ItemDefinitionSO Workbecnh;
         public static readonly ItemDefinitionSO Pie;
@@ -91,6 +92,7 @@ namespace GameAssembly.Generated
             YellowBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/YellowBlock");
             YellowFloor = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/YellowFloor");
             Chest = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Chest");
+            EndGameChest = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/EndGameChest");
             Furnace = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Furnace");
             Workbecnh = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Workbecnh");
             Pie = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Pie");
