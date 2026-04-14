@@ -237,9 +237,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7138410634727892820}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ba79d67cb0c4eceb940d6dadb079260, type: 3}
+  m_Script: {fileID: 11500000, guid: 9f2f20c7d5c54ca6b9a2c1828eb5a001, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: GameAssembly::GameAssembly.InventorySystem.BaseInventory
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.InventorySystem.PlayerInventory
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
