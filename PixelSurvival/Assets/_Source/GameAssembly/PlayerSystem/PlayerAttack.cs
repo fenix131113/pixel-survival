@@ -17,6 +17,7 @@ using PlayerSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using VContainer;
+// ReSharper disable Unity.PerformanceCriticalCodeInvocation
 
 namespace GameAssembly.PlayerSystem
 {
@@ -33,6 +34,7 @@ namespace GameAssembly.PlayerSystem
         [Inject] private ServerBlockDamageSystem _blockDamageSystem;
 
         private float _cooldown;
+        private bool _isAttackHeld;
         private IInventory _inventory;
         private PlayerSelector _selector;
         private PlayerAim _aim;
@@ -69,6 +71,17 @@ namespace GameAssembly.PlayerSystem
         {
             if (_cooldown > 0)
                 _cooldown -= Time.deltaTime;
+
+            if (!isLocalPlayer || !_isAttackHeld || _cooldown > 0)
+                return;
+
+            if (!_input.Player.Attack.IsPressed())
+            {
+                _isAttackHeld = false;
+                return;
+            }
+
+            TryMeleeAttackFromInput();
         }
 
         #region Client
@@ -245,20 +258,42 @@ namespace GameAssembly.PlayerSystem
                 behaviour.OnAttack(new ItemContext(_selector.GetSelectedItem(), _inventory, netIdentity));
         }
 
-        private void OnAttackInput(InputAction.CallbackContext callbackContext)
+        private void OnAttackStarted(InputAction.CallbackContext callbackContext)
         {
-            if (!_variables.IsVariableBlocked(PlayerVariableBlockerType.ATTACK))
-                MeleeAttack();
+            _isAttackHeld = true;
+        }
+
+        private void OnAttackPerformed(InputAction.CallbackContext callbackContext)
+        {
+            TryMeleeAttackFromInput();
+        }
+
+        private void OnAttackCanceled(InputAction.CallbackContext callbackContext)
+        {
+            _isAttackHeld = false;
+        }
+
+        private void TryMeleeAttackFromInput()
+        {
+            if (!_input.Player.enabled || _variables.IsVariableBlocked(PlayerVariableBlockerType.ATTACK))
+                return;
+
+            MeleeAttack();
         }
 
         private void Bind()
         {
-            _input.Player.Attack.performed += OnAttackInput;
+            _input.Player.Attack.started += OnAttackStarted;
+            _input.Player.Attack.performed += OnAttackPerformed;
+            _input.Player.Attack.canceled += OnAttackCanceled;
         }
 
         private void Expose()
         {
-            _input.Player.Attack.performed -= OnAttackInput;
+            _input.Player.Attack.started -= OnAttackStarted;
+            _input.Player.Attack.performed -= OnAttackPerformed;
+            _input.Player.Attack.canceled -= OnAttackCanceled;
+            _isAttackHeld = false;
         }
     }
 }
