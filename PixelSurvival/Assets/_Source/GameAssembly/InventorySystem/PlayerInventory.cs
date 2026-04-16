@@ -39,7 +39,24 @@ namespace GameAssembly.InventorySystem
             if (freeCountSpace < instance.Count && fullInsert) // Not enough space for given count
                 return false;
 
-            TryAddItemToExactSlots(instance, hotBarExactItemsIndexes);
+            var prioritizeInventoryStacks =
+                HasNotFullExactStack(inventoryExactItemsIndexes, instance.Definition.MaxCount);
+
+            if (prioritizeInventoryStacks)
+                TryAddItemToExactSlots(instance, inventoryExactItemsIndexes);
+            else
+                TryAddItemToExactSlots(instance, hotBarExactItemsIndexes);
+
+            if (instance.Count <= 0)
+            {
+                SetDirty();
+                return true;
+            }
+
+            if (prioritizeInventoryStacks)
+                TryAddItemToExactSlots(instance, hotBarExactItemsIndexes);
+            else
+                TryAddItemToExactSlots(instance, inventoryExactItemsIndexes);
 
             if (instance.Count <= 0)
             {
@@ -48,14 +65,6 @@ namespace GameAssembly.InventorySystem
             }
 
             TryAddItemToEmptySlots(instance, hotBarEmptyItemsIndexes);
-
-            if (instance.Count <= 0)
-            {
-                SetDirty();
-                return true;
-            }
-
-            TryAddItemToExactSlots(instance, inventoryExactItemsIndexes);
 
             if (instance.Count <= 0)
             {
@@ -89,7 +98,23 @@ namespace GameAssembly.InventorySystem
             if (freeCountSpace < count) // Not enough space for given count
                 return false;
 
-            TryAddCountToExactSlots(definition, hotBarExactItemsIndexes, ref count);
+            var prioritizeInventoryStacks = HasNotFullExactStack(inventoryExactItemsIndexes, definition.MaxCount);
+
+            if (prioritizeInventoryStacks)
+                TryAddCountToExactSlots(definition, inventoryExactItemsIndexes, ref count);
+            else
+                TryAddCountToExactSlots(definition, hotBarExactItemsIndexes, ref count);
+
+            if (count <= 0)
+            {
+                SetDirty();
+                return true;
+            }
+
+            if (prioritizeInventoryStacks)
+                TryAddCountToExactSlots(definition, hotBarExactItemsIndexes, ref count);
+            else
+                TryAddCountToExactSlots(definition, inventoryExactItemsIndexes, ref count);
 
             if (count <= 0)
             {
@@ -98,14 +123,6 @@ namespace GameAssembly.InventorySystem
             }
 
             TryAddCountToEmptySlots(definition, hotBarEmptyItemsIndexes, ref count);
-
-            if (count <= 0)
-            {
-                SetDirty();
-                return true;
-            }
-
-            TryAddCountToExactSlots(definition, inventoryExactItemsIndexes, ref count);
 
             if (count <= 0)
             {
@@ -160,6 +177,19 @@ namespace GameAssembly.InventorySystem
 
             if (exactMatcher(item))
                 exactItemsIndexes.Add(index);
+        }
+
+        private bool HasNotFullExactStack(IEnumerable<int> indexes, int maxCount)
+        {
+            foreach (var index in indexes)
+            {
+                var item = _items[index];
+
+                if (item != null && item.Count > 0 && item.Count < maxCount)
+                    return true;
+            }
+
+            return false;
         }
 
         private void TryAddItemToExactSlots(ItemInstance instance, IEnumerable<int> indexes)
