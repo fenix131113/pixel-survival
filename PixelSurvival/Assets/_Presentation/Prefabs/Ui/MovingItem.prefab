@@ -92,6 +92,13 @@ MonoBehaviour:
   movingRect: {fileID: 3211865435112746442}
   itemIcon: {fileID: 6094499104559025024}
   itemCountLabel: {fileID: 2390884558268085742}
+  followSmooth: 26
+  maxTiltAngle: 13
+  tiltSensitivity: 0.05
+  tiltSmoothTime: 0.06
+  idleTiltAmplitude: 2
+  idleBobAmplitude: 3
+  idleFrequency: 2.5
 --- !u!1 &8754261371381958577
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,8 +173,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4279308561
-  m_fontColor: {r: 0.066037714, g: 0.066037714, b: 0.066037714, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
