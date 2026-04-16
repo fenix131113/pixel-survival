@@ -51,6 +51,7 @@ namespace GameAssembly.PlayerSystem.View
                 return;
 
             ObjectInjector.Inject(this);
+            _movingItem?.Prewarm();
             Bind();
         }
 

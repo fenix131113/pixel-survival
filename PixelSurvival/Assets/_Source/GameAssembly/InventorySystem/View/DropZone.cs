@@ -22,8 +22,21 @@ namespace GameAssembly.InventorySystem.View
 
         public void OnDrop(PointerEventData eventData)
         {
-            _playerLocalInventoryManager?.DropItemFromInventory(_movingItem.CurrentInventoryIdentity,
-                _movingItem.CurrentCellIndex, NetworkClient.localPlayer.transform.position);
+            if (_movingItem == null || !_movingItem.IsMoving || !_playerLocalInventoryManager || !NetworkClient.localPlayer)
+                return;
+
+            var sourceInventoryIdentity = _movingItem.CurrentInventoryIdentity;
+            var sourceCellIndex = _movingItem.CurrentCellIndex;
+
+            if (!sourceInventoryIdentity || sourceCellIndex < 0)
+            {
+                _movingItem.ForceClose();
+                return;
+            }
+
+            _playerLocalInventoryManager.DropItemFromInventory(sourceInventoryIdentity,
+                sourceCellIndex, NetworkClient.localPlayer.transform.position);
+            _movingItem.ForceClose();
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -40,8 +53,11 @@ namespace GameAssembly.InventorySystem.View
 
         private IEnumerator WaitForPlayer()
         {
-            while (!NetworkClient.localPlayer)
+            while (isActiveAndEnabled && !NetworkClient.localPlayer)
                 yield return null;
+
+            if (!isActiveAndEnabled || !NetworkClient.localPlayer)
+                yield break;
 
             _playerLocalInventoryManager = NetworkClient.localPlayer.GetComponent<PlayerLocalInventoryManager>();
         }
