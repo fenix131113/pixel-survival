@@ -160,9 +160,27 @@ MonoBehaviour:
   despawnTime: 180
   spriteRenderer: {fileID: 8700024626687278863}
   counter: {fileID: 1871278897349403197}
+  triggerCollider: {fileID: 6719919776595659839}
   triggerLayers:
     serializedVersion: 2
     m_Bits: 4294967295
+  spawnAnimationDuration: 0.35
+  spawnStartHeight: 0.4
+  spawnHorizontalSpread: 0.2
+  spawnStartScale: 0.65
+  spawnSettleAmplitude: 0.08
+  spawnSettleBounces: 2.5
+  idleBobAmplitude: 0.06
+  idleBobFrequency: 1.7
+  idleScaleAmplitude: 0.03
+  idleScaleFrequency: 2.2
+  idleSwayAngle: 3.5
+  idleSwayFrequency: 1.25
+  pickupFlyDuration: 0.32
+  pickupArcHeight: 0.5
+  pickupEndScale: 0.35
+  pickupSpinAngle: 24
+  pickupDestroyDelayPadding: 0.06
 --- !u!114 &5575973136867922209
 MonoBehaviour:
   m_ObjectHideFlags: 0
