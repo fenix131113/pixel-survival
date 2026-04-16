@@ -15,6 +15,7 @@ MonoBehaviour:
   <NameTranslationKey>k__BackingField: tool.stone_pickaxe
   <Icon>k__BackingField: {fileID: 2860006914309871096, guid: 7973c1129c637d94d84aa3aa8d00a1d8, type: 3}
   <MaxCount>k__BackingField: 1
+  <InHandAttackAnimationKey>k__BackingField: Hit
   id: 896ff5e3b7c747c99c32969dfbeb29df
   <ToolType>k__BackingField: 1
   <MiningDamage>k__BackingField: 2

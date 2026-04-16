@@ -69,7 +69,7 @@ namespace GameAssembly.PlayerSystem.View
 
         private void OnMeleeAttack(float _, string animationKey)
         {
-            if (!heldItemAnimator || heldItemAnimator.runtimeAnimatorController == null)
+            if (!heldItemAnimator || !heldItemAnimator.runtimeAnimatorController)
                 return;
 
             if (string.IsNullOrWhiteSpace(animationKey))

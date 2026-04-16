@@ -15,6 +15,7 @@ MonoBehaviour:
   <NameTranslationKey>k__BackingField: tool.copper_pickaxe
   <Icon>k__BackingField: {fileID: -2376758258213490438, guid: 7973c1129c637d94d84aa3aa8d00a1d8, type: 3}
   <MaxCount>k__BackingField: 1
+  <InHandAttackAnimationKey>k__BackingField: Hit
   id: c45868590e984905baef36098f6307a8
   <ToolType>k__BackingField: 1
   <MiningDamage>k__BackingField: 2

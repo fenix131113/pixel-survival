@@ -6,6 +6,7 @@ using GameAssembly.ItemsSystem;
 using GameAssembly.ItemsSystem.Data;
 using GameAssembly.ObjectsSystem;
 using GameAssembly.PlayerSystem.Data;
+using GameAssembly.PlayerSystem.Variables;
 using GameAssembly.Utils;
 using GameAssembly.Utils.Extensions;
 using GameAssembly.Utils.VariablesSystem;
@@ -23,10 +24,14 @@ namespace GameAssembly.PlayerSystem
 {
     public class PlayerAttack : NetworkBehaviour
     {
+        private const string DEFAULT_ATTACK_TRIGGER_NAME = "Attack";
+
         [SerializeField] private int handDamage = 1;
         [SerializeField] private float baseAttackDistance = 1.5f;
         [SerializeField] private float baseCooldown = 0.5f;
+        [SerializeField] private float stopMovementCooldown = 0.3f;
         [SerializeField] private LayerMask meleeTriggerLayers;
+        [SerializeField] private string attackTriggerName = DEFAULT_ATTACK_TRIGGER_NAME;
 
         [Inject] private InputSystem_Actions _input;
         [Inject] private IVariablesResolver<PlayerVariableBlockerType, Action, Action> _variables;
@@ -39,6 +44,10 @@ namespace GameAssembly.PlayerSystem
         private PlayerSelector _selector;
         private PlayerAim _aim;
         private Collider2D _playerCollider;
+        private Rigidbody2D _playerRigidbody;
+        private NetworkAnimator _networkAnimator;
+        private PlayerVariableBlocker _attackMovementBlocker;
+        private float _attackMovementBlockerTimer;
 
         private readonly RaycastHit2D[] _hits = new RaycastHit2D[4];
 
@@ -51,6 +60,8 @@ namespace GameAssembly.PlayerSystem
 
         private void OnDestroy()
         {
+            ReleaseAttackMovementBlock();
+
             if (isLocalPlayer)
                 Expose(); // Client expose
         }
@@ -72,6 +83,8 @@ namespace GameAssembly.PlayerSystem
         {
             if (_cooldown > 0)
                 _cooldown -= Time.deltaTime;
+
+            UpdateAttackMovementBlockTimer();
 
             if (!isLocalPlayer || !_isAttackHeld || _cooldown > 0)
                 return;
@@ -103,7 +116,9 @@ namespace GameAssembly.PlayerSystem
             if (_cooldown > 0)
                 return;
 
+            ApplyAttackMovementBlock();
             CheckForBehaviour();
+            TriggerAttackAnimation();
 
             var animationKey = _selector.IsSelectedItem
                 ? _selector.GetSelectedItem()?.Definition?.InHandAttackAnimationKey
@@ -138,6 +153,7 @@ namespace GameAssembly.PlayerSystem
             if (isServerOnly)
             {
                 CheckForBehaviour();
+                TriggerAttackAnimation();
                 OnMeleeAttack?.Invoke(lookDegrees, animationKey);
             }
 
@@ -258,6 +274,20 @@ namespace GameAssembly.PlayerSystem
         {
             _selector = GetComponent<PlayerSelector>();
             _inventory = GetComponent<IInventory>();
+            _networkAnimator = GetComponent<NetworkAnimator>();
+            _playerRigidbody = GetComponent<Rigidbody2D>();
+        }
+
+        private void TriggerAttackAnimation()
+        {
+            if (!_networkAnimator)
+                return;
+
+            var triggerName = string.IsNullOrWhiteSpace(attackTriggerName)
+                ? DEFAULT_ATTACK_TRIGGER_NAME
+                : attackTriggerName;
+
+            _networkAnimator.SetTrigger(triggerName);
         }
 
         private void CheckForBehaviour()
@@ -303,6 +333,45 @@ namespace GameAssembly.PlayerSystem
             _input.Player.Attack.performed -= OnAttackPerformed;
             _input.Player.Attack.canceled -= OnAttackCanceled;
             _isAttackHeld = false;
+            ReleaseAttackMovementBlock();
+        }
+
+        private void ApplyAttackMovementBlock()
+        {
+            if (!isLocalPlayer)
+                return;
+
+            _attackMovementBlockerTimer = stopMovementCooldown;
+
+            if (_attackMovementBlocker == null)
+            {
+                _attackMovementBlocker = new PlayerVariableBlocker(PlayerVariableBlockerType.MOVEMENT);
+                _variables.RegisterBlocker(_attackMovementBlocker);
+            }
+
+            if (_playerRigidbody)
+                _playerRigidbody.linearVelocity = Vector2.zero;
+        }
+
+        private void UpdateAttackMovementBlockTimer()
+        {
+            if (!isLocalPlayer || _attackMovementBlocker == null)
+                return;
+
+            _attackMovementBlockerTimer -= Time.deltaTime;
+
+            if (_attackMovementBlockerTimer <= 0)
+                ReleaseAttackMovementBlock();
+        }
+
+        private void ReleaseAttackMovementBlock()
+        {
+            if (_attackMovementBlocker == null)
+                return;
+
+            _attackMovementBlocker.Dispose();
+            _attackMovementBlocker = null;
+            _attackMovementBlockerTimer = 0;
         }
     }
 }

@@ -117,12 +117,12 @@ namespace GameAssembly.PlayerSystem
                 _rendererStates[i] = _cachedRenderers[i] && _cachedRenderers[i].enabled;
         }
 
-        private void SetRenderersEnabled(bool enabled)
+        private void SetRenderersEnabled(bool on)
         {
             foreach (var cachedRenderer in _cachedRenderers)
             {
                 if (cachedRenderer)
-                    cachedRenderer.enabled = enabled;
+                    cachedRenderer.enabled = on;
             }
         }
 

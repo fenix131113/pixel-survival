@@ -133,7 +133,7 @@ Animator:
   m_GameObject: {fileID: 301001001001001003}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ca7a229cb5bf66243be094224b19889d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -455,9 +455,11 @@ MonoBehaviour:
   handDamage: 1
   baseAttackDistance: 1.5
   baseCooldown: 0.5
+  stopMovementCooldown: 0.2
   meleeTriggerLayers:
     serializedVersion: 2
     m_Bits: 191
+  attackTriggerName: Attack
 --- !u!114 &301001001001001007
 MonoBehaviour:
   m_ObjectHideFlags: 0
