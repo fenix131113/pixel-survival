@@ -44,9 +44,10 @@ namespace GameAssembly.PlayerSystem
 
         /// <summary>
         /// Called on the server and current client. On current client first<br/>
-        /// <b>Float</b> - current rotation in degrees
+        /// <b>Float</b> - current rotation in degrees<br/>
+        /// <b>String</b> - held item attack animation key
         /// </summary>
-        public event Action<float> OnMeleeAttack;
+        public event Action<float, string> OnMeleeAttack;
 
         private void OnDestroy()
         {
@@ -104,18 +105,22 @@ namespace GameAssembly.PlayerSystem
 
             CheckForBehaviour();
 
-            OnMeleeAttack?.Invoke(_aim.LookDegrees);
+            var animationKey = _selector.IsSelectedItem
+                ? _selector.GetSelectedItem()?.Definition?.InHandAttackAnimationKey
+                : null;
+
+            OnMeleeAttack?.Invoke(_aim.LookDegrees, animationKey);
             Cmd_MeleeAttack(_aim.LookDegrees);
 
             if (isClientOnly)
                 _cooldown = baseCooldown;
         }
 
-        // [ClientRpc(includeOwner = false)]
-        // private void Rpc_InvokeOnMeleeAttack(float currentRotationAngle)
-        // {
-        //     OnMeleeAttack?.Invoke(currentRotationAngle);
-        // }
+        [ClientRpc(includeOwner = false)]
+        private void Rpc_InvokeOnMeleeAttack(float currentRotationAngle, string animationKey)
+        {
+            OnMeleeAttack?.Invoke(currentRotationAngle, animationKey);
+        }
 
         #endregion
 
@@ -127,12 +132,16 @@ namespace GameAssembly.PlayerSystem
             if (_cooldown > 0)
                 return;
 
+            var selectedItem = _selector.IsSelectedItem ? _selector.GetSelectedItem() : null;
+            var animationKey = selectedItem?.Definition?.InHandAttackAnimationKey;
+
             if (isServerOnly)
             {
                 CheckForBehaviour();
-                OnMeleeAttack?.Invoke(lookDegrees);
+                OnMeleeAttack?.Invoke(lookDegrees, animationKey);
             }
 
+            Rpc_InvokeOnMeleeAttack(lookDegrees, animationKey);
             Server_CheckForMeleeAttack(lookDegrees, baseAttackDistance, meleeTriggerLayers);
             _cooldown = baseCooldown;
         }
