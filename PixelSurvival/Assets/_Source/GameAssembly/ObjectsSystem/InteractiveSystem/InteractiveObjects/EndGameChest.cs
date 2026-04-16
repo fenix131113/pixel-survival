@@ -32,7 +32,7 @@ namespace GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects
 
         public override void Interact()
         {
-            if (_endGameChestView == null)
+            if (!_endGameChestView)
                 return;
 
             _endGameChestView.Initialize(this);
@@ -206,13 +206,7 @@ namespace GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects
             if (!definition || requiredItems == null)
                 return false;
 
-            for (var index = 0; index < requiredItems.Length; index++)
-            {
-                if (requiredItems[index] == definition)
-                    return true;
-            }
-
-            return false;
+            return requiredItems.Any(t => t == definition);
         }
 
         private int GetFirstEmptySlotIndex()
@@ -234,14 +228,7 @@ namespace GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects
             if (!definition || _items == null)
                 return false;
 
-            for (var index = 0; index < _items.Length; index++)
-            {
-                var slotItem = _items[index];
-                if (slotItem != null && slotItem.Definition == definition && slotItem.Count > 0)
-                    return true;
-            }
-
-            return false;
+            return _items.Any(slotItem => slotItem != null && slotItem.Definition == definition && slotItem.Count > 0);
         }
     }
 }

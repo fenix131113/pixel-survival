@@ -65,8 +65,8 @@ namespace GameAssembly.Generated
         public static readonly ItemDefinitionSO IronPickaxe;
         public static readonly ItemDefinitionSO StoneAxe;
         public static readonly ItemDefinitionSO StonePickaxe;
-        public static readonly ItemDefinitionSO WoodenAxe;
-        public static readonly ItemDefinitionSO WoodenPickaxe;
+        public static readonly ItemDefinitionSO ViridiumAxe;
+        public static readonly ItemDefinitionSO ViridiumPickaxe;
 
         static ItemDatabase()
         {
@@ -127,8 +127,8 @@ namespace GameAssembly.Generated
             IronPickaxe = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/IronPickaxe");
             StoneAxe = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/StoneAxe");
             StonePickaxe = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/StonePickaxe");
-            WoodenAxe = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/WoodenAxe");
-            WoodenPickaxe = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/WoodenPickaxe");
+            ViridiumAxe = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/ViridiumAxe");
+            ViridiumPickaxe = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/ViridiumPickaxe");
         }
     }
 }

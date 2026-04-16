@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75bb2e3d603e42c4bdd8b1ec757d68fd, type: 3}
-  m_Name: WoodenPickaxe
+  m_Name: ViridiumPickaxe
   m_EditorClassIdentifier: GameAssembly::GameAssembly.CraftSystem.Data.CraftRecipeSO
   craftGroups:
   - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: b859d97518225804c90e415b16b98b89, type: 2}
     <Count>k__BackingField: 5
   - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: a003f13d72884127aa546e22be0f73d7, type: 2}
     <Count>k__BackingField: 2
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 8453fc58ca4c47c8a23c3c6fa5ceaf0b, type: 2}
+    <Count>k__BackingField: 1
   <ResultItem>k__BackingField: {fileID: 11400000, guid: 8020ab57802ff7146a1786bccedefa24, type: 2}
   <ResultCount>k__BackingField: 1
   id: ea18efd508e94c25b579a4b7bb4d9437

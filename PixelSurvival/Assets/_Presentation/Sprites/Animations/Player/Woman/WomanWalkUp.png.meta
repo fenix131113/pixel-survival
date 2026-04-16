@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 11dcf4c0dc9acb0479acd356487c652e
+guid: 2254e368fc38a4540b750cecd7f151e0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2256783542622956225
-    second: GGWomanWalkDown_0
+      213: -6669518059888096511
+    second: GGWomanWalkUp_0
   - first:
-      213: -763894313094622135
-    second: GGWomanWalkDown_1
+      213: 4124917857819967762
+    second: GGWomanWalkUp_1
   - first:
-      213: 3197659234019447156
-    second: GGWomanWalkDown_2
+      213: -3468199140630909574
+    second: GGWomanWalkUp_2
   - first:
-      213: -3693518078362557163
-    second: GGWomanWalkDown_3
+      213: -5286026058017178033
+    second: GGWomanWalkUp_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -135,89 +135,177 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: GGWomanWalkDown_0
+      name: WomanWalkUp_0
       rect:
         serializedVersion: 2
-        x: 15
-        y: 15
-        width: 18
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.24}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f35d20f235b4ea0e0800000000000000
-      internalID: -2256783542622956225
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GGWomanWalkDown_1
-      rect:
-        serializedVersion: 2
-        x: 61
-        y: 15
+        x: 0
+        y: 0
         width: 22
-        height: 32
+        height: 26
       alignment: 9
-      pivot: {x: 0.5, y: 0.24}
+      pivot: {x: 0.5, y: 0.21428572}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 944dd066b2a1665f0800000000000000
-      internalID: -763894313094622135
+      spriteID: c54ad96a3a93e6346883f02f1a8d6e3a
+      internalID: -1133592800
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GGWomanWalkDown_2
+      name: WomanWalkUp_1
       rect:
         serializedVersion: 2
-        x: 111
-        y: 15
-        width: 18
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.24}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4711a74a12e506c20800000000000000
-      internalID: 3197659234019447156
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GGWomanWalkDown_3
-      rect:
-        serializedVersion: 2
-        x: 157
-        y: 15
+        x: 22
+        y: 0
         width: 22
-        height: 32
+        height: 26
       alignment: 9
-      pivot: {x: 0.5, y: 0.24}
+      pivot: {x: 0.5, y: 0.21428572}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 51567b770ecfdbcc0800000000000000
-      internalID: -3693518078362557163
+      spriteID: 5d2549ddec04cf94dad64ae5ce77729b
+      internalID: -1043391286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WomanWalkUp_2
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 0
+        width: 22
+        height: 26
+      alignment: 9
+      pivot: {x: 0.5, y: 0.21428572}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3c99f65db1920548b832410103336ea
+      internalID: 1638046334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WomanWalkUp_3
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 0
+        width: 22
+        height: 26
+      alignment: 9
+      pivot: {x: 0.5, y: 0.21428572}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 011406949bba75142ad19d0cae1882ae
+      internalID: 1447786593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WomanWalkUp_4
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 0
+        width: 22
+        height: 26
+      alignment: 9
+      pivot: {x: 0.5, y: 0.21428572}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ab051d6abfff004db516670cf503568
+      internalID: -1232385082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WomanWalkUp_5
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 0
+        width: 22
+        height: 26
+      alignment: 9
+      pivot: {x: 0.5, y: 0.21428572}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 839329a81abde9b4f996c367a8b73d8a
+      internalID: -545007496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WomanWalkUp_6
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 0
+        width: 22
+        height: 26
+      alignment: 9
+      pivot: {x: 0.5, y: 0.21428572}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 455a2a919000ddf408103e04b104ad66
+      internalID: -468870066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WomanWalkUp_7
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 0
+        width: 22
+        height: 26
+      alignment: 9
+      pivot: {x: 0.5, y: 0.21428572}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72dc11a367e09f148ad1baaebf616b09
+      internalID: 1630673142
       vertices: []
       indices: 
       edges: []
@@ -226,7 +314,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 1491711e09347844a81bb89947c7ebba
+    spriteID: cfa33b278ad3c3d4385575636909e643
     internalID: 0
     vertices: []
     indices: 
@@ -234,12 +322,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":8.0,"y":1.0},"gridSpriteSize":{"x":22.0,"y":26.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.2142857164144516},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":1,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      GGWomanWalkDown_0: -2256783542622956225
-      GGWomanWalkDown_1: -763894313094622135
-      GGWomanWalkDown_2: 3197659234019447156
-      GGWomanWalkDown_3: -3693518078362557163
+      WomanWalkUp_0: -1133592800
+      WomanWalkUp_1: -1043391286
+      WomanWalkUp_2: 1638046334
+      WomanWalkUp_3: 1447786593
+      WomanWalkUp_4: -1232385082
+      WomanWalkUp_5: -545007496
+      WomanWalkUp_6: -468870066
+      WomanWalkUp_7: 1630673142
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

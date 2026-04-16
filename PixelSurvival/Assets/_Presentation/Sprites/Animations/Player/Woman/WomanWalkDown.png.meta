@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 043f12491147f3e4e86631e2884c6fe4
+guid: 11dcf4c0dc9acb0479acd356487c652e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7648466593993086385
-    second: GGWomanWalkLeft_0
+      213: -2256783542622956225
+    second: GGWomanWalkDown_0
   - first:
-      213: 1932584753016441269
-    second: GGWomanWalkLeft_1
+      213: -763894313094622135
+    second: GGWomanWalkDown_1
   - first:
-      213: 34082386097259343
-    second: GGWomanWalkLeft_2
+      213: 3197659234019447156
+    second: GGWomanWalkDown_2
   - first:
-      213: -5726108732180425217
-    second: GGWomanWalkLeft_3
+      213: -3693518078362557163
+    second: GGWomanWalkDown_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -135,89 +135,177 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: GGWomanWalkLeft_0
+      name: WomanWalkDown_0
       rect:
         serializedVersion: 2
-        x: 17
-        y: 15
-        width: 16
-        height: 32
+        x: 0
+        y: 0
+        width: 18
+        height: 29
       alignment: 9
-      pivot: {x: 0.5, y: 0.24}
+      pivot: {x: 0.5, y: 0.20689656}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f4aa994f7203bd590800000000000000
-      internalID: -7648466593993086385
+      spriteID: b56e42a5fcb63d04baf906930fe14eff
+      internalID: 907369103
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GGWomanWalkLeft_1
+      name: WomanWalkDown_1
       rect:
         serializedVersion: 2
-        x: 65
-        y: 15
-        width: 16
-        height: 32
+        x: 18
+        y: 0
+        width: 18
+        height: 29
       alignment: 9
-      pivot: {x: 0.5, y: 0.24}
+      pivot: {x: 0.5, y: 0.20689656}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 5b981e5f79be1da10800000000000000
-      internalID: 1932584753016441269
+      spriteID: 5b28e3f56845c7c428759dbcbe8d8f61
+      internalID: 1073980254
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GGWomanWalkLeft_2
+      name: WomanWalkDown_2
       rect:
         serializedVersion: 2
-        x: 113
-        y: 15
-        width: 16
-        height: 32
+        x: 36
+        y: 0
+        width: 18
+        height: 29
       alignment: 9
-      pivot: {x: 0.5, y: 0.24}
+      pivot: {x: 0.5, y: 0.20689656}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f43cc64efb5197000800000000000000
-      internalID: 34082386097259343
+      spriteID: c376daa72dbe37b4aa6a26e7b5666e6c
+      internalID: -1647475545
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GGWomanWalkLeft_3
+      name: WomanWalkDown_3
       rect:
         serializedVersion: 2
-        x: 161
-        y: 15
-        width: 16
-        height: 32
+        x: 54
+        y: 0
+        width: 18
+        height: 29
       alignment: 9
-      pivot: {x: 0.5, y: 0.24}
+      pivot: {x: 0.5, y: 0.20689656}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ff59f114276c880b0800000000000000
-      internalID: -5726108732180425217
+      spriteID: a7a04657359396a41aba3d9dedf5f00c
+      internalID: -433594238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WomanWalkDown_4
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 0
+        width: 18
+        height: 29
+      alignment: 9
+      pivot: {x: 0.5, y: 0.20689656}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0391e3638e74bd4daf3119b93611430
+      internalID: -1586872016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WomanWalkDown_5
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 0
+        width: 18
+        height: 29
+      alignment: 9
+      pivot: {x: 0.5, y: 0.20689656}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53e53409dcf24ab4aac41802b2534283
+      internalID: -1425137147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WomanWalkDown_6
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 0
+        width: 18
+        height: 29
+      alignment: 9
+      pivot: {x: 0.5, y: 0.20689656}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f98f42f6016571d49bbf21fd360ed276
+      internalID: 1719348581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WomanWalkDown_7
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 0
+        width: 18
+        height: 29
+      alignment: 9
+      pivot: {x: 0.5, y: 0.20689656}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 850af8c43e843394db23dfe1387e2e76
+      internalID: -1214464007
       vertices: []
       indices: 
       edges: []
@@ -226,7 +314,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 213aed2a5e4e38c4ab85dd05ffe8b3bd
+    spriteID: 1491711e09347844a81bb89947c7ebba
     internalID: 0
     vertices: []
     indices: 
@@ -234,12 +322,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":8.0,"y":1.0},"gridSpriteSize":{"x":18.0,"y":29.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      GGWomanWalkLeft_0: -7648466593993086385
-      GGWomanWalkLeft_1: 1932584753016441269
-      GGWomanWalkLeft_2: 34082386097259343
-      GGWomanWalkLeft_3: -5726108732180425217
+      WomanWalkDown_0: 907369103
+      WomanWalkDown_1: 1073980254
+      WomanWalkDown_2: -1647475545
+      WomanWalkDown_3: -433594238
+      WomanWalkDown_4: -1586872016
+      WomanWalkDown_5: -1425137147
+      WomanWalkDown_6: 1719348581
+      WomanWalkDown_7: -1214464007
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
