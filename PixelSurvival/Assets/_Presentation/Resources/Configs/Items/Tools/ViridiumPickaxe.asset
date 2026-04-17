@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.ToolItemDefinitionSO
   <NameTranslationKey>k__BackingField: tool.viridium_pickaxe
   <Icon>k__BackingField: {fileID: 1666225654822289539, guid: 7973c1129c637d94d84aa3aa8d00a1d8, type: 3}
+  <InventoryIcon>k__BackingField: {fileID: 0}
   <MaxCount>k__BackingField: 1
   <InHandAttackAnimationKey>k__BackingField: Hit
   id: 40a9c3d4737646ebbf37a487b9be0c11
   <ToolType>k__BackingField: 1
-  <MiningDamage>k__BackingField: 2
+  <MiningDamage>k__BackingField: 5

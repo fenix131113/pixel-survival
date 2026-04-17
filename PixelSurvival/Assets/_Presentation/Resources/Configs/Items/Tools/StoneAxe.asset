@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.ToolItemDefinitionSO
   <NameTranslationKey>k__BackingField: tool.stone_axe
   <Icon>k__BackingField: {fileID: 6232742816020895870, guid: 7973c1129c637d94d84aa3aa8d00a1d8, type: 3}
+  <InventoryIcon>k__BackingField: {fileID: 0}
   <MaxCount>k__BackingField: 1
   <InHandAttackAnimationKey>k__BackingField: Hit
   id: 7fc16efa01d04d8b9277db21a3ef9fc5

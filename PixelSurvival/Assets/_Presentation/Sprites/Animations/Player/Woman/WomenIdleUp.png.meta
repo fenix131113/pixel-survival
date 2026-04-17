@@ -1,19 +1,22 @@
 fileFormatVersion: 2
-guid: e475f7932c22e4f4885a587fc8b78926
+guid: 3872cbbe3794f344390ce84718f85ca8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6345438566845527057
-    second: GGWomanIdleDown_0
+      213: 5430074501643560300
+    second: WomenIdleUp_0
   - first:
-      213: -2919334893640378539
-    second: GGWomanIdleDown_1
+      213: 2861516557283912315
+    second: WomenIdleUp_1
   - first:
-      213: -7642184141719066874
-    second: GGWomanIdleDown_2
+      213: -3672004892794960966
+    second: WomenIdleUp_2
   - first:
-      213: -5331083486106556799
-    second: GGWomanIdleDown_3
+      213: 8384856270621436361
+    second: WomenIdleUp_3
+  - first:
+      213: -417658941411120521
+    second: WomenIdleUp_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -135,177 +138,177 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WomanIdleDown_0
+      name: WomenIdleUp_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 17
-        height: 27
+        width: 15
+        height: 25
       alignment: 9
-      pivot: {x: 0.4117647, y: 0.18518518}
+      pivot: {x: 0.53333336, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 2943f124f3783a24faf321413d027577
-      internalID: -245659979
+      spriteID: c65ee5e4dff7b5b40800000000000000
+      internalID: 5430074501643560300
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WomanIdleDown_1
+      name: WomenIdleUp_1
       rect:
         serializedVersion: 2
-        x: 17
+        x: 15
         y: 0
-        width: 17
-        height: 27
+        width: 15
+        height: 25
       alignment: 9
-      pivot: {x: 0.4117647, y: 0.18518518}
+      pivot: {x: 0.53333336, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 31ad6e3475a9cb941a208b3ee44f5f6e
-      internalID: -852322877
+      spriteID: b7a6ecbd52626b720800000000000000
+      internalID: 2861516557283912315
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WomanIdleDown_2
+      name: WomenIdleUp_2
       rect:
         serializedVersion: 2
-        x: 34
+        x: 30
         y: 0
-        width: 17
-        height: 27
+        width: 15
+        height: 25
       alignment: 9
-      pivot: {x: 0.4117647, y: 0.18518518}
+      pivot: {x: 0.53333336, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 28fd7f086c973024489932f6a27b652c
-      internalID: 1879788322
+      spriteID: ab3c57f410b6a0dc0800000000000000
+      internalID: -3672004892794960966
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WomanIdleDown_3
+      name: WomenIdleUp_3
       rect:
         serializedVersion: 2
-        x: 51
+        x: 45
         y: 0
-        width: 17
-        height: 27
+        width: 15
+        height: 25
       alignment: 9
-      pivot: {x: 0.4117647, y: 0.18518518}
+      pivot: {x: 0.53333336, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 6bf09e54757594341a483e31b512d374
-      internalID: -1712393537
+      spriteID: 9c9e81f6a5efc5470800000000000000
+      internalID: 8384856270621436361
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WomanIdleDown_4
+      name: WomenIdleUp_4
       rect:
         serializedVersion: 2
-        x: 68
+        x: 60
         y: 0
-        width: 17
-        height: 27
+        width: 15
+        height: 25
       alignment: 9
-      pivot: {x: 0.4117647, y: 0.18518518}
+      pivot: {x: 0.53333336, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 666c5f68dfba4a4438b51643909f486f
-      internalID: -4111059
+      spriteID: 77aace7d76d243af0800000000000000
+      internalID: -417658941411120521
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WomanIdleDown_5
+      name: WomenIdleUp_5
       rect:
         serializedVersion: 2
-        x: 85
+        x: 75
         y: 0
-        width: 17
-        height: 27
+        width: 15
+        height: 25
       alignment: 9
-      pivot: {x: 0.4117647, y: 0.18518518}
+      pivot: {x: 0.53333336, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 219e6832d7fb4124fbfb534bbe8c4b10
-      internalID: -13777041
+      spriteID: 88e313ebabe64b7449f5484263926efa
+      internalID: 2084546960
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WomanIdleDown_6
+      name: WomenIdleUp_6
       rect:
         serializedVersion: 2
-        x: 102
+        x: 90
         y: 0
-        width: 17
-        height: 27
+        width: 15
+        height: 25
       alignment: 9
-      pivot: {x: 0.4117647, y: 0.18518518}
+      pivot: {x: 0.53333336, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 052d883151189d1428fa82ad13b25ced
-      internalID: -314598442
+      spriteID: dc1fb9d9ba65af2439c09eb0fbe2f87e
+      internalID: 2058134282
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WomanIdleDown_7
+      name: WomenIdleUp_7
       rect:
         serializedVersion: 2
-        x: 119
+        x: 105
         y: 0
-        width: 17
-        height: 27
+        width: 15
+        height: 25
       alignment: 9
-      pivot: {x: 0.4117647, y: 0.18518518}
+      pivot: {x: 0.53333336, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0b01c15cb9bc6a94da8ef3be83b325e4
-      internalID: -343488158
+      spriteID: 969ca4efee39064429fd798e21c65605
+      internalID: 613733275
       vertices: []
       indices: 
       edges: []
@@ -314,7 +317,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: f17f707eb34abfb43b88f345286c22d4
+    spriteID: b19db0bce0a29b64aacb218a58787dd9
     internalID: 0
     vertices: []
     indices: 
@@ -324,16 +327,16 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":8.0,"y":1.0},"gridSpriteSize":{"x":17.0,"y":27.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.4117647111415863,"y":0.18518517911434174},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":1,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":8.0,"y":1.0},"gridSpriteSize":{"x":15.0,"y":25.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5333333611488342,"y":0.20000000298023225},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":1,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      WomanIdleDown_0: -245659979
-      WomanIdleDown_1: -852322877
-      WomanIdleDown_2: 1879788322
-      WomanIdleDown_3: -1712393537
-      WomanIdleDown_4: -4111059
-      WomanIdleDown_5: -13777041
-      WomanIdleDown_6: -314598442
-      WomanIdleDown_7: -343488158
+      WomenIdleUp_0: 5430074501643560300
+      WomenIdleUp_1: 2861516557283912315
+      WomenIdleUp_2: -3672004892794960966
+      WomenIdleUp_3: 8384856270621436361
+      WomenIdleUp_4: -417658941411120521
+      WomenIdleUp_5: 2084546960
+      WomenIdleUp_6: 2058134282
+      WomenIdleUp_7: 613733275
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

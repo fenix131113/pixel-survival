@@ -162,12 +162,9 @@ MonoBehaviour:
   syncInterval: 0
   healthObject: {fileID: -3649391216717381906}
   droppingObject: {fileID: 9090697042307161094, guid: 3be4b7b7b0e727441b9259d6e5613423, type: 3}
-  itemDefinition: {fileID: 11400000, guid: 47994d9212e42d04e80b7e239f46a806, type: 2}
-  minCount: 2
-  maxCount: 5
   drops:
   - itemDefinition: {fileID: 11400000, guid: 47994d9212e42d04e80b7e239f46a806, type: 2}
-    minCount: 2
+    minCount: 3
     maxCount: 5
 --- !u!70 &2728553351568385448
 CapsuleCollider2D:

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameAssembly.PlayerSystem.Data;
+using GameAssembly.PlayerSystem.Variables;
 using GameAssembly.UiSystem;
 using GameAssembly.UiSystem.Data;
+using GameAssembly.Utils.VariablesSystem;
 using PlayerSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,6 +18,11 @@ namespace GameAssembly.CraftSystem.View
         [SerializeField] private MenuType[] allowedMenuTypesOnTop = Array.Empty<MenuType>();
 
         [Inject] private InputSystem_Actions _input;
+        [Inject] private IVariablesResolver<PlayerVariableBlockerType, Action, Action> _variablesResolver;
+        
+        private readonly IVariableBlocker<PlayerVariableBlockerType> _craftBlocker =
+            new PlayerVariableBlocker(PlayerVariableBlockerType.MOVEMENT, PlayerVariableBlockerType.BUILD,
+                PlayerVariableBlockerType.ATTACK, PlayerVariableBlockerType.INTERACT, PlayerVariableBlockerType.LOOK);
 
         public event Action OnMenuCanceled;
 
@@ -33,9 +41,19 @@ namespace GameAssembly.CraftSystem.View
         private void Bind() => _input.Player.CraftMenu.performed += OnCraftMenuClicked;
 
         private void Expose() => _input.Player.CraftMenu.performed -= OnCraftMenuClicked;
-        public void Open() => craftPanel.SetActive(true);
+        public void Open()
+        {
+            craftPanel.SetActive(true);
+            
+            _variablesResolver.RegisterBlocker(_craftBlocker);
+        }
 
-        public void Close() => craftPanel.SetActive(false);
+        public void Close()
+        {
+            craftPanel.SetActive(false);
+            
+            _craftBlocker.Dispose();
+        }
 
         public void Cancel() => Close();
 

@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.ToolItemDefinitionSO
   <NameTranslationKey>k__BackingField: tool.iron_pickaxe
   <Icon>k__BackingField: {fileID: 3379066624450153177, guid: 7973c1129c637d94d84aa3aa8d00a1d8, type: 3}
+  <InventoryIcon>k__BackingField: {fileID: 0}
   <MaxCount>k__BackingField: 1
   <InHandAttackAnimationKey>k__BackingField: Hit
   id: 50a8ea6d86964b5f826c5f7bb7e1010a
   <ToolType>k__BackingField: 1
-  <MiningDamage>k__BackingField: 2
+  <MiningDamage>k__BackingField: 4

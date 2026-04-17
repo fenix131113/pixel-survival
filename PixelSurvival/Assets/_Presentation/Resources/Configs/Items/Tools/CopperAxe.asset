@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.ToolItemDefinitionSO
   <NameTranslationKey>k__BackingField: tool.copper_axe
   <Icon>k__BackingField: {fileID: -3569232777630780389, guid: 7973c1129c637d94d84aa3aa8d00a1d8, type: 3}
+  <InventoryIcon>k__BackingField: {fileID: 0}
   <MaxCount>k__BackingField: 1
   <InHandAttackAnimationKey>k__BackingField: Hit
   id: 61b743c174f24aa3b2270d8609766139
   <ToolType>k__BackingField: 2
-  <MiningDamage>k__BackingField: 2
+  <MiningDamage>k__BackingField: 3

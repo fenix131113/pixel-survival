@@ -16,5 +16,5 @@ MonoBehaviour:
   <InputCount>k__BackingField: 1
   <ResultItem>k__BackingField: {fileID: 11400000, guid: 98877bb4f99f435a9a79c370447e182c, type: 2}
   <ResultCount>k__BackingField: 1
-  <SmeltTimeSeconds>k__BackingField: 1
+  <SmeltTimeSeconds>k__BackingField: 2
   <RequiredFurnaceTier>k__BackingField: 0

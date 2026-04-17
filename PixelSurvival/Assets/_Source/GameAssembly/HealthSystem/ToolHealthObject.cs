@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GameAssembly.HealthSystem
 {
-    public class ToolHealthObject : BaseHealthObject
+    public class ToolHealthObject : BaseHealthObject //TODO: Make that some objects that need to be broken with pickaxe require MINIMUM XXX level of pickaxe
     {
         [SerializeField] private ToolType needType;
 
