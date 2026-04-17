@@ -30,7 +30,7 @@ namespace GameAssembly.CraftSystem.View
 
         private void Draw()
         {
-            icon.sprite = recipe.ResultItem.Icon;
+            icon.sprite = recipe.ResultItem.InventoryIcon ? recipe.ResultItem.InventoryIcon : recipe.ResultItem.Icon;
         }
 
         public void OnPointerClick(PointerEventData eventData)

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WoodLogsBlock
   m_EditorClassIdentifier: GameAssembly::GameAssembly.CraftSystem.Data.CraftRecipeSO
   craftGroups:
-  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: b859d97518225804c90e415b16b98b89, type: 2}
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: a003f13d72884127aa546e22be0f73d7, type: 2}
     <Count>k__BackingField: 1
   <ResultItem>k__BackingField: {fileID: 11400000, guid: f9858e57574de3749ada176b06d1fb2f, type: 2}
   <ResultCount>k__BackingField: 1

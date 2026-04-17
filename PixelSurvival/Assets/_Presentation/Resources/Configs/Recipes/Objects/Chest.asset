@@ -13,10 +13,8 @@ MonoBehaviour:
   m_Name: Chest
   m_EditorClassIdentifier: GameAssembly::GameAssembly.CraftSystem.Data.CraftRecipeSO
   craftGroups:
-  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: b859d97518225804c90e415b16b98b89, type: 2}
-    <Count>k__BackingField: 2
-  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 47994d9212e42d04e80b7e239f46a806, type: 2}
-    <Count>k__BackingField: 2
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: a003f13d72884127aa546e22be0f73d7, type: 2}
+    <Count>k__BackingField: 5
   <ResultItem>k__BackingField: {fileID: 11400000, guid: 288cf935cb07f4b45b1a28cfa5f23d08, type: 2}
   <ResultCount>k__BackingField: 1
   id: 148c408354dc4a3d92b7dad5bdf721b0

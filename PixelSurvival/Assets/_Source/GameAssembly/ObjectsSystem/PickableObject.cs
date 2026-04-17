@@ -164,10 +164,10 @@ namespace GameAssembly.ObjectsSystem
 
         private void Draw()
         {
-            if (!spriteRenderer || Item == null || Item.Definition == null)
+            if (!spriteRenderer || Item == null || !Item.Definition)
                 return;
 
-            spriteRenderer.sprite = Item.Definition.Icon;
+            spriteRenderer.sprite = Item.Definition.InventoryIcon ? Item.Definition.InventoryIcon : Item.Definition.Icon;
             if (counter)
                 counter.text = Item.Count.ToString();
         }

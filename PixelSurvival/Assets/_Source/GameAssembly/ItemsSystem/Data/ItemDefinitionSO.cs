@@ -10,6 +10,7 @@ namespace GameAssembly.ItemsSystem.Data
     {
         [field: SerializeField] public string NameTranslationKey { get; protected set; }
         [field: SerializeField] public Sprite Icon { get; protected set; }
+        [field: SerializeField] public Sprite InventoryIcon { get; protected set; }
         [field: SerializeField] public int MaxCount { get; protected set; }
         [field: Tooltip("Animator state name for held item icon. Played on melee attack.")]
         [field: SerializeField] public string InHandAttackAnimationKey { get; protected set; }

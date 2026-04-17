@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: WoodPlank
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.ItemDefinitionSO
   <NameTranslationKey>k__BackingField: 
-  <Icon>k__BackingField: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  <Icon>k__BackingField: {fileID: 21300000, guid: 06db25139d48038498df28d0a5426790, type: 3}
+  <InventoryIcon>k__BackingField: {fileID: 21300000, guid: 06db25139d48038498df28d0a5426790, type: 3}
   <MaxCount>k__BackingField: 99
+  <InHandAttackAnimationKey>k__BackingField: 
   id: 0fd49692a3ab44c7a4210e1d53fb57f3

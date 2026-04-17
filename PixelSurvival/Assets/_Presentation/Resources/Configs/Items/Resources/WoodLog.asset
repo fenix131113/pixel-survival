@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: WoodLog
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.ItemDefinitionSO
   <NameTranslationKey>k__BackingField: 
-  <Icon>k__BackingField: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  <Icon>k__BackingField: {fileID: 21300000, guid: a51343a4d7939c74f9a6113fbe395a87, type: 3}
+  <InventoryIcon>k__BackingField: {fileID: 21300000, guid: a51343a4d7939c74f9a6113fbe395a87, type: 3}
   <MaxCount>k__BackingField: 99
+  <InHandAttackAnimationKey>k__BackingField: 
   id: 41c033bfee454527b39d290775939463

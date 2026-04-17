@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.BlockItemDefinitionSO
   <NameTranslationKey>k__BackingField: 
   <Icon>k__BackingField: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  <InventoryIcon>k__BackingField: {fileID: 0}
   <MaxCount>k__BackingField: 99
+  <InHandAttackAnimationKey>k__BackingField: 
   id: ac2c35dfe2e94f55a995a44c422c36ad
   <IsFloorBlock>k__BackingField: 1
   <BlockDefinition>k__BackingField: {fileID: 11400000, guid: c76c13ce4e8caeb4aa06526350007df9, type: 2}

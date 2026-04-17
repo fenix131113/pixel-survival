@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: ViridiumPlate
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.ItemDefinitionSO
   <NameTranslationKey>k__BackingField: 
-  <Icon>k__BackingField: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  <Icon>k__BackingField: {fileID: -8439866776918605826, guid: f90bbf936440e5947b7b95b222297f14, type: 3}
+  <InventoryIcon>k__BackingField: {fileID: -8439866776918605826, guid: f90bbf936440e5947b7b95b222297f14, type: 3}
   <MaxCount>k__BackingField: 99
+  <InHandAttackAnimationKey>k__BackingField: 
   id: 1ff90b098ffd4bd98f0d2e19e7ee0ce5

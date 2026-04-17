@@ -146,7 +146,7 @@ TextureImporter:
         width: 20
         height: 24
       alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+      pivot: {x: 0.5, y: 0.29166666}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -168,7 +168,7 @@ TextureImporter:
         width: 20
         height: 24
       alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+      pivot: {x: 0.5, y: 0.29166666}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -190,7 +190,7 @@ TextureImporter:
         width: 20
         height: 24
       alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+      pivot: {x: 0.5, y: 0.29166666}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -212,7 +212,7 @@ TextureImporter:
         width: 20
         height: 24
       alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+      pivot: {x: 0.5, y: 0.29166666}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -234,7 +234,7 @@ TextureImporter:
         width: 20
         height: 24
       alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+      pivot: {x: 0.5, y: 0.29166666}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -261,7 +261,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":1.0},"gridSpriteSize":{"x":20.0,"y":24.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.3333333432674408},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":1,"spriteAlignment":9,"pivotUnitMode":1,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":1.0},"gridSpriteSize":{"x":20.0,"y":24.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.2916666567325592},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":1,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       WomanInteractionRight_0: -6346124930351885768
       WomanInteractionRight_1: 2348123367997055644

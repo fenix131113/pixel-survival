@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: StoneBlock
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.BlockItemDefinitionSO
   <NameTranslationKey>k__BackingField: block.stone
-  <Icon>k__BackingField: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  <Icon>k__BackingField: {fileID: -277014291, guid: ac650ec66e35eba42a1c94cadf29267d, type: 3}
+  <InventoryIcon>k__BackingField: {fileID: -277014291, guid: ac650ec66e35eba42a1c94cadf29267d, type: 3}
   <MaxCount>k__BackingField: 99
+  <InHandAttackAnimationKey>k__BackingField: 
   id: 7f9acdbb2af74beab895c1dbea076ea6
   <IsFloorBlock>k__BackingField: 0
   <BlockDefinition>k__BackingField: {fileID: 11400000, guid: a1fc6c840b60ff7438404c0a4dc37501, type: 2}

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: IronIngot
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.ItemDefinitionSO
   <NameTranslationKey>k__BackingField: 
-  <Icon>k__BackingField: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  <Icon>k__BackingField: {fileID: 1414478694623257066, guid: f90bbf936440e5947b7b95b222297f14, type: 3}
+  <InventoryIcon>k__BackingField: {fileID: 1414478694623257066, guid: f90bbf936440e5947b7b95b222297f14, type: 3}
   <MaxCount>k__BackingField: 99
+  <InHandAttackAnimationKey>k__BackingField: 
   id: 6d6f021de0864017865045111c429c4b

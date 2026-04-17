@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::GameAssembly.CraftSystem.Data.CraftRecipeSO
   craftGroups:
   - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 47994d9212e42d04e80b7e239f46a806, type: 2}
-    <Count>k__BackingField: 2
+    <Count>k__BackingField: 4
   <ResultItem>k__BackingField: {fileID: 11400000, guid: 2c3aeb4d1f0f44ddaa4dabc2ef30fded, type: 2}
   <ResultCount>k__BackingField: 1
   id: 68650ea4859d4d52ad2572f90cc0dbf9

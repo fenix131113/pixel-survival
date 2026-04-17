@@ -94,7 +94,7 @@ namespace GameAssembly.PlayerSystem.View
                 return;
 
             var selectedItem = GetSelectedItem();
-            var icon = selectedItem?.Definition ? selectedItem.Definition.Icon : null;
+            var icon = selectedItem?.Definition ? selectedItem.Definition?.InventoryIcon ? selectedItem.Definition.InventoryIcon : selectedItem.Definition?.Icon : null;
 
             heldItemRenderer.sprite = icon;
             heldItemRenderer.enabled = icon;
@@ -197,7 +197,7 @@ namespace GameAssembly.PlayerSystem.View
             playerAttack ??= GetComponent<PlayerAttack>();
             _inventory ??= GetComponent<IInventory>();
 
-            if (bodyAnimator == null)
+            if (!bodyAnimator)
             {
                 var animators = GetComponentsInChildren<Animator>(true);
 
@@ -206,7 +206,7 @@ namespace GameAssembly.PlayerSystem.View
                     if (!animator || animator == heldItemAnimator)
                         continue;
 
-                    if (animator.runtimeAnimatorController != null)
+                    if (animator.runtimeAnimatorController)
                     {
                         bodyAnimator = animator;
                         break;

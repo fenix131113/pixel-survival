@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.BlockItemDefinitionSO
   <NameTranslationKey>k__BackingField: block.dirt
   <Icon>k__BackingField: {fileID: 2132992657, guid: 35a7a2b2958eddc45bd3fca823ac9118, type: 3}
-  <MaxCount>k__BackingField: 5
+  <InventoryIcon>k__BackingField: {fileID: 271547813, guid: ac650ec66e35eba42a1c94cadf29267d, type: 3}
+  <MaxCount>k__BackingField: 99
+  <InHandAttackAnimationKey>k__BackingField: 
   id: c2936216af3948f589e5bb162ab9ae30
   <IsFloorBlock>k__BackingField: 0
   <BlockDefinition>k__BackingField: {fileID: 11400000, guid: f21cdbf19849af0498490be035c9009e, type: 2}

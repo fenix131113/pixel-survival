@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: MystriumPlate
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.ItemDefinitionSO
   <NameTranslationKey>k__BackingField: 
-  <Icon>k__BackingField: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  <Icon>k__BackingField: {fileID: 4557551196534018064, guid: f90bbf936440e5947b7b95b222297f14, type: 3}
+  <InventoryIcon>k__BackingField: {fileID: 4557551196534018064, guid: f90bbf936440e5947b7b95b222297f14, type: 3}
   <MaxCount>k__BackingField: 99
+  <InHandAttackAnimationKey>k__BackingField: 
   id: b15c48899ef94845aaaf22a4289f3812

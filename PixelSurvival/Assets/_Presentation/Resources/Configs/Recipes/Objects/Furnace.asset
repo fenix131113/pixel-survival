@@ -13,10 +13,8 @@ MonoBehaviour:
   m_Name: Furnace
   m_EditorClassIdentifier: GameAssembly::GameAssembly.CraftSystem.Data.CraftRecipeSO
   craftGroups:
-  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: b859d97518225804c90e415b16b98b89, type: 2}
-    <Count>k__BackingField: 2
-  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 47994d9212e42d04e80b7e239f46a806, type: 2}
-    <Count>k__BackingField: 2
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 2c3aeb4d1f0f44ddaa4dabc2ef30fded, type: 2}
+    <Count>k__BackingField: 5
   <ResultItem>k__BackingField: {fileID: 11400000, guid: 50ef167b976760b4e82ad6b8b651411b, type: 2}
   <ResultCount>k__BackingField: 1
   id: 60b2c54da5f6405d9358fcf8e4fb8b55

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.PlaceableObjectItemDefinitionSO
   <NameTranslationKey>k__BackingField: object.workbench
   <Icon>k__BackingField: {fileID: 4723632452668497944, guid: 85a284eb89ea2ef40bd4cf4c4c1b955c, type: 3}
+  <InventoryIcon>k__BackingField: {fileID: 276281608, guid: 0cf4f92b88e264542978695fad1fd9aa, type: 3}
   <MaxCount>k__BackingField: 1
+  <InHandAttackAnimationKey>k__BackingField: 
   id: 079aa58148a34197b9d3356505fb17a0
   <PlaceableDefinition>k__BackingField: {fileID: 11400000, guid: f8abdf7db66fe4b47ab4582b01c13f0f, type: 2}

@@ -77,7 +77,7 @@ namespace GameAssembly.InventorySystem.View
                 return;
             }
 
-            icon.sprite = _lastItem.Definition.Icon;
+            icon.sprite = _lastItem.Definition.InventoryIcon ? _lastItem.Definition.InventoryIcon : _lastItem.Definition.Icon;
             counter.text = _lastItem.Count.ToString();
         }
 

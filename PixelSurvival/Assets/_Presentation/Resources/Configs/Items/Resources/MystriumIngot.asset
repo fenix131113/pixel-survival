@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: MystriumIngot
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.ItemDefinitionSO
   <NameTranslationKey>k__BackingField: 
-  <Icon>k__BackingField: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  <Icon>k__BackingField: {fileID: -8937251575758773851, guid: f90bbf936440e5947b7b95b222297f14, type: 3}
+  <InventoryIcon>k__BackingField: {fileID: -8937251575758773851, guid: f90bbf936440e5947b7b95b222297f14, type: 3}
   <MaxCount>k__BackingField: 99
+  <InHandAttackAnimationKey>k__BackingField: 
   id: c1d4ae785d8f4d7eb9d984c4d7a2b368

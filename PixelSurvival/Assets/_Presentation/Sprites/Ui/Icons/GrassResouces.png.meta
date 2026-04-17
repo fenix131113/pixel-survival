@@ -1,22 +1,13 @@
 fileFormatVersion: 2
-guid: f49074b60952b374085a3307b6f4381d
+guid: d383589cbeaecf74199c3420a5229490
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5681180972650037822
-    second: WomanInteractionDown_0
+      213: -358432193666645810
+    second: GrassResouces_0
   - first:
-      213: -528615280267847561
-    second: WomanInteractionDown_1
-  - first:
-      213: -2333689157321035551
-    second: WomanInteractionDown_2
-  - first:
-      213: 2991256748187566394
-    second: WomanInteractionDown_3
-  - first:
-      213: 4142874250641615175
-    second: WomanInteractionDown_4
+      213: 3873563287768506616
+    second: GrassResouces_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -138,111 +129,45 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WomanInteractionDown_0
+      name: GrassResouces_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 16
-        height: 25
-      alignment: 9
-      pivot: {x: 0.4375, y: 0.28}
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e3283839efb97de40800000000000000
-      internalID: 5681180972650037822
+      spriteID: ec08f64a1d7960bf0800000000000000
+      internalID: -358432193666645810
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WomanInteractionDown_1
+      name: GrassResouces_1
       rect:
         serializedVersion: 2
         x: 16
         y: 0
         width: 16
-        height: 25
-      alignment: 9
-      pivot: {x: 0.4375, y: 0.28}
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7789acc043bf9a8f0800000000000000
-      internalID: -528615280267847561
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WomanInteractionDown_2
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 16
-        height: 25
-      alignment: 9
-      pivot: {x: 0.4375, y: 0.28}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1e0f2b963121d9fd0800000000000000
-      internalID: -2333689157321035551
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WomanInteractionDown_3
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 16
-        height: 25
-      alignment: 9
-      pivot: {x: 0.4375, y: 0.28}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a31c5b30a24138920800000000000000
-      internalID: 2991256748187566394
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WomanInteractionDown_4
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 16
-        height: 25
-      alignment: 9
-      pivot: {x: 0.4375, y: 0.28}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7492b9a5e227e7930800000000000000
-      internalID: 4142874250641615175
+      spriteID: 8f0af668949a1c530800000000000000
+      internalID: 3873563287768506616
       vertices: []
       indices: 
       edges: []
@@ -251,7 +176,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: ff13b8a261a18614ea09b25b9e7cc88c
+    spriteID: 169ba23795d7e7f47baf7bdfa2e1caf0
     internalID: 0
     vertices: []
     indices: 
@@ -259,15 +184,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":1.0},"gridSpriteSize":{"x":16.0,"y":25.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.4375,"y":0.2800000011920929},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":1,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      WomanInteractionDown_0: 5681180972650037822
-      WomanInteractionDown_1: -528615280267847561
-      WomanInteractionDown_2: -2333689157321035551
-      WomanInteractionDown_3: 2991256748187566394
-      WomanInteractionDown_4: 4142874250641615175
+      GrassResouces_0: -358432193666645810
+      GrassResouces_1: 3873563287768506616
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
