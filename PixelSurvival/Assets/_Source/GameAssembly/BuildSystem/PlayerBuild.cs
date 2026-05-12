@@ -14,6 +14,8 @@ namespace GameAssembly.BuildSystem
 {
     public class PlayerBuild : NetworkBehaviour
     {
+        [SerializeField] private GameObject buildIndicator;
+        
         [Inject] private IVariablesResolver<PlayerVariableBlockerType, Action, Action> _playerVariables;
         [Inject] private InputSystem_Actions _input;
         [Inject] private ServerBuild _serverBuild;
@@ -36,6 +38,14 @@ namespace GameAssembly.BuildSystem
 
             _selector = NetworkClient.localPlayer.GetComponent<PlayerSelector>();
             Bind();
+        }
+
+        private void Update()
+        {
+            if (_isInBuildMode)
+                buildIndicator.transform.position = GetCurrentMouseBlockWorldCoords() + new Vector2(0.5f, 0.5f);
+            
+            buildIndicator.SetActive(_isInBuildMode);
         }
 
         private void OnDestroy()
@@ -72,11 +82,14 @@ namespace GameAssembly.BuildSystem
         {
             if (!_isInBuildMode || _playerVariables.IsVariableBlocked(PlayerVariableBlockerType.BUILD))
                 return;
+            
+            Cmd_PlaceBlock(GetCurrentMouseBlockWorldCoords());
+        }
 
+        private static Vector2Int GetCurrentMouseBlockWorldCoords()
+        {
             var worldPos = Camera.main!.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-            var coords = new Vector2Int(Mathf.FloorToInt(worldPos.x), Mathf.FloorToInt(worldPos.y));
-
-            Cmd_PlaceBlock(coords);
+            return new Vector2Int(Mathf.FloorToInt(worldPos.x), Mathf.FloorToInt(worldPos.y));
         }
 
         [Command]
