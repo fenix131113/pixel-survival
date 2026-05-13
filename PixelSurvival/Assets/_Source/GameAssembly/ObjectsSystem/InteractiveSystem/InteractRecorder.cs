@@ -16,6 +16,8 @@ namespace GameAssembly.ObjectsSystem.InteractiveSystem
     {
         [SerializeField] private LayerMask interactiveLayers;
         [SerializeField] private Material outlineMaterial;
+        [SerializeField] private GameObject clickHelp;
+        [SerializeField] private Vector2 offset;
 
         private const float MAX_INTERACT_DISTANCE = 2.5f;
 
@@ -34,7 +36,7 @@ namespace GameAssembly.ObjectsSystem.InteractiveSystem
             _camera = Camera.main;
             Bind();
         }
-        
+
         private void Update()
         {
             if (!_camera || Mouse.current == null || !NetworkClient.active)
@@ -52,13 +54,17 @@ namespace GameAssembly.ObjectsSystem.InteractiveSystem
 
         private void CheckForOutline()
         {
-            if(!outlineMaterial)
+            if (!NetworkClient.localPlayer)
+            {
+                clickHelp.SetActive(false);
                 return;
-            
+            }
+
             var worldPos = _camera!.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-            
+
             if (Vector2.Distance(worldPos, NetworkClient.localPlayer.transform.position) > MAX_INTERACT_DISTANCE)
             {
+                clickHelp.SetActive(false);
                 DisposeLastRenderer();
                 return;
             }
@@ -67,21 +73,27 @@ namespace GameAssembly.ObjectsSystem.InteractiveSystem
 
             if (!result || !result.collider.TryGetComponent(out IInteractiveObject interactive))
             {
+                clickHelp.SetActive(false);
                 DisposeLastRenderer();
                 return;
             }
-            
+
             DisposeLastRenderer();
             _lastRenderer = interactive.GetRendererTarget();
             _lastMaterial = interactive.GetRendererTarget().material;
-            interactive.GetRendererTarget().material = outlineMaterial;
+
+            if (outlineMaterial)
+                interactive.GetRendererTarget().material = outlineMaterial;
+
+            clickHelp.SetActive(true);
+            clickHelp.transform.position = (Vector2)worldPos + offset;
         }
 
         private void DisposeLastRenderer()
         {
             if (!_lastRenderer)
                 return;
-            
+
             _lastRenderer.material = _lastMaterial;
             _lastMaterial = null;
             _lastRenderer = null;
