@@ -33,14 +33,15 @@ namespace GameAssembly.PlayerSystem
             _cachedRenderers = GetComponentsInChildren<Renderer>(true);
             _rendererStates = new bool[_cachedRenderers.Length];
 
-            if (!isLocalPlayer)
+            _rb = GetComponent<Rigidbody2D>();
+
+            // Keep physics body on server objects (including remote players in host mode),
+            // otherwise server-side triggers like item pickup will never fire for them.
+            if (!isLocalPlayer && !isServer && _rb)
             {
-                _rb = GetComponent<Rigidbody2D>();
-                if (_rb)
-                    Destroy(_rb);
+                Destroy(_rb);
+                _rb = null;
             }
-            else
-                _rb = GetComponent<Rigidbody2D>();
 
             SetupVisualBuildGate();
         }
