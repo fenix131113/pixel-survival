@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 899672492850108219}
   - component: {fileID: -3069487792209887469}
   - component: {fileID: -715283782718032616}
-  - component: {fileID: 9187888200265844107}
+  - component: {fileID: 7590385115631858762}
   m_Layer: 0
   m_Name: Workbench
   m_TagString: Untagged
@@ -209,7 +209,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   healthType: 4
-  maxHealth: 1
+  maxHealth: 3
   immediatelyDestroy: 1
 --- !u!114 &-715283782718032616
 MonoBehaviour:
@@ -228,14 +228,11 @@ MonoBehaviour:
   syncInterval: 0
   healthObject: {fileID: -3069487792209887469}
   droppingObject: {fileID: 9090697042307161094, guid: 3be4b7b7b0e727441b9259d6e5613423, type: 3}
-  itemDefinition: {fileID: 11400000, guid: 1ba9ddeec6be5884682f046976235177, type: 2}
-  minCount: 1
-  maxCount: 1
   drops:
   - itemDefinition: {fileID: 11400000, guid: 1ba9ddeec6be5884682f046976235177, type: 2}
     minCount: 1
     maxCount: 1
---- !u!114 &9187888200265844107
+--- !u!114 &7590385115631858762
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -244,15 +241,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5810992972837582191}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcec6c04eef04403bee918fd86b720f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 35328480f3284c128bc420f9aa1ae4b8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: GameAssembly::GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects.Chest
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects.Workbench
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  inventorySize: 15
-  healthObject: {fileID: -3069487792209887469}
-  chestRenderer: {fileID: 0}
+  tier: 0
+  workbenchRenderer: {fileID: 2381922299779657205}
 --- !u!1 &7565389612257122605
 GameObject:
   m_ObjectHideFlags: 0

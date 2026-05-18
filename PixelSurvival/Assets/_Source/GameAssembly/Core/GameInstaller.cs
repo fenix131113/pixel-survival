@@ -52,6 +52,7 @@ namespace GameAssembly.Core
             builder.RegisterComponentInHierarchy<PlayerInventoryView>();
             builder.RegisterComponentInHierarchy<MovingItem>();
             builder.RegisterComponentInHierarchy<ChestView>();
+            builder.RegisterComponentInHierarchy<WorkbenchView>();
             builder.RegisterComponentInHierarchy<EndGameChestView>();
             builder.RegisterComponentInHierarchy<FurnaceView>();
 

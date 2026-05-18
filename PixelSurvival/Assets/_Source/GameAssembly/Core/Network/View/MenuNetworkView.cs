@@ -9,7 +9,9 @@ namespace GameAssembly.Core.Network.View
 {
     public class MenuNetworkView : MonoBehaviour
     {
+        [Header("Join")]
         [SerializeField] private Button joinButton;
+        [SerializeField] private TMP_InputField joinCodeInput;
         [Header("Host")] [SerializeField] private Button selectHostButton;
         [SerializeField] private Button startHostButton;
         [SerializeField] private Button leaveHostButton;
@@ -18,11 +20,17 @@ namespace GameAssembly.Core.Network.View
 
         private NetManager _netManager;
         private MenuPanelAnimator _hostPanelAnimator;
+        private string _lobbyCode;
 
         private void Start()
         {
             _netManager = NetworkManager.singleton as NetManager;
             SetupPanels();
+
+            if (joinButton)
+            {
+                joinButton.interactable = true;
+            }
 #if !UNITY_SERVER
             BindClient();
 #endif
@@ -44,27 +52,32 @@ namespace GameAssembly.Core.Network.View
         private void OnSelectHostButtonClicked()
         {
             _netManager.RegisterLobbyMessages();
-            _netManager.CreateHost();
+            _netManager.CreateHost(ReadJoinCodeInput());
             ShowHostPanel();
             startHostButton.gameObject.SetActive(true);
         }
 
         private void OnJoinButtonClicked()
         {
+            var joinCode = ReadJoinCodeInput();
+            if (string.IsNullOrWhiteSpace(joinCode))
+            {
+                OnLobbyOperationFailed("Enter join code before connecting.");
+                return;
+            }
+
             _netManager.RegisterLobbyMessages();
-            _netManager.JoinRoom("kcp://localhost:7777");
+            _netManager.JoinRoomByCode(joinCode);
         }
 
         private void OnLeaveButtonClicked()
         {
-            if (NetworkServer.active && NetworkClient.active)
-                _netManager.StopHost();
-            else if (NetworkClient.active)
-                NetworkClient.Disconnect();
+            _netManager.LeaveRoom();
         }
 
         private void Client_OnDisconnected()
         {
+            _lobbyCode = string.Empty;
             startHostButton.gameObject.SetActive(false);
             HideHostPanel();
             ClearPlayersList();
@@ -72,8 +85,26 @@ namespace GameAssembly.Core.Network.View
 
         private void Client_OnConnected()
         {
+            _lobbyCode = _netManager.CurrentLobbyCode;
             ShowHostPanel();
             ClearPlayersList();
+        }
+
+        private void OnLobbyCodeReady(string lobbyCode)
+        {
+            _lobbyCode = lobbyCode;
+
+            if (joinCodeInput)
+            {
+                joinCodeInput.text = lobbyCode;
+            }
+
+            ClearPlayersList();
+        }
+
+        private void OnLobbyOperationFailed(string errorMessage)
+        {
+            lobbyPlayersListLabel.text = errorMessage;
         }
 
         private void SetupPanels()
@@ -119,12 +150,18 @@ namespace GameAssembly.Core.Network.View
             if (!NetworkClient.active)
                 return;
 
-            lobbyPlayersListLabel.text = msg.PlayersList;
+            var codeText = string.IsNullOrWhiteSpace(_lobbyCode) ? string.Empty : $"Code: {_lobbyCode}\n";
+            lobbyPlayersListLabel.text = codeText + msg.PlayersList;
         }
 
         private void ClearPlayersList()
         {
-            lobbyPlayersListLabel.text = string.Empty;
+            lobbyPlayersListLabel.text = string.IsNullOrWhiteSpace(_lobbyCode) ? string.Empty : $"Code: {_lobbyCode}";
+        }
+
+        private string ReadJoinCodeInput()
+        {
+            return joinCodeInput ? joinCodeInput.text : string.Empty;
         }
 
         private void BindClient()
@@ -138,6 +175,8 @@ namespace GameAssembly.Core.Network.View
             _netManager.ClientOnChangedLobbyPlayer += UpdatePlayersList;
             _netManager.ClientOnDisconnected += Client_OnDisconnected;
             _netManager.ClientOnConnected += Client_OnConnected;
+            _netManager.LobbyCodeReady += OnLobbyCodeReady;
+            _netManager.LobbyOperationFailed += OnLobbyOperationFailed;
         }
 
         private void Expose()
@@ -146,6 +185,15 @@ namespace GameAssembly.Core.Network.View
             startHostButton.onClick.RemoveAllListeners();
             joinButton.onClick.RemoveAllListeners();
             leaveHostButton.onClick.RemoveAllListeners();
+
+            if (_netManager == null)
+                return;
+
+            _netManager.ClientOnChangedLobbyPlayer -= UpdatePlayersList;
+            _netManager.ClientOnDisconnected -= Client_OnDisconnected;
+            _netManager.ClientOnConnected -= Client_OnConnected;
+            _netManager.LobbyCodeReady -= OnLobbyCodeReady;
+            _netManager.LobbyOperationFailed -= OnLobbyOperationFailed;
         }
     }
 }

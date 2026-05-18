@@ -1,21 +1,37 @@
-﻿using System;
+using System;
 using System.Linq;
+using Epic.OnlineServices;
+using Epic.OnlineServices.Lobby;
+using EpicTransport;
 using GameAssembly.Utils;
 using GameAssembly.WorldSystem;
 using Mirror;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using LobbyAttribute = Epic.OnlineServices.Lobby.Attribute;
 // ReSharper disable Unity.PerformanceCriticalCodeInvocation
 
 namespace GameAssembly.Core.Network
 {
     public class NetManager : NetworkManager
     {
+        public const string LobbyCodeAttributeKey = "join_code";
+        private const string JoinCodeAlphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
         public event Action<NetworkConnectionToClient> ServerOnClientConnected;
         public event Action<NetworkConnectionToClient> ServerOnClientDisconnected;
         public event Action<NetworkConnectionToClient> ServerOnServerReadyInGame;
         public event Action<LobbyPlayerChangedMessage> ClientOnChangedLobbyPlayer;
         public event Action ClientOnDisconnected;
         public event Action ClientOnConnected;
+        public event Action<string> LobbyCodeReady;
+        public event Action<string> LobbyOperationFailed;
+
+        public string CurrentLobbyCode { get; private set; } = string.Empty;
+
+        private EOSLobby _eosLobby;
+        private bool _isCreatingLobby;
+        private bool _isJoiningLobby;
 
         #region Menu
 
@@ -32,14 +48,183 @@ namespace GameAssembly.Core.Network
             }
         }
 
-        public void CreateHost()
+        public void CreateHost(string joinCode = null)
         {
-            StartHost();
+            if (NetworkServer.active || NetworkClient.active)
+            {
+                NotifyLobbyFailure("Cannot create lobby while network is already active.");
+                return;
+            }
+
+            if (_isCreatingLobby)
+            {
+                return;
+            }
+
+            var lobby = EnsureLobby();
+            if (lobby == null)
+            {
+                NotifyLobbyFailure("EOS lobby component is unavailable.");
+                return;
+            }
+
+            var normalizedCode = NormalizeJoinCode(joinCode);
+            if (string.IsNullOrWhiteSpace(normalizedCode))
+            {
+                normalizedCode = CreateRandomJoinCode();
+            }
+
+            _isCreatingLobby = true;
+
+            void Cleanup()
+            {
+                lobby.CreateLobbySucceeded -= OnCreateLobbySucceeded;
+                lobby.CreateLobbyFailed -= OnCreateLobbyFailed;
+                _isCreatingLobby = false;
+            }
+
+            void OnCreateLobbySucceeded(System.Collections.Generic.List<LobbyAttribute> _)
+            {
+                Cleanup();
+
+                CurrentLobbyCode = normalizedCode;
+                LobbyCodeReady?.Invoke(CurrentLobbyCode);
+                StartHost();
+            }
+
+            void OnCreateLobbyFailed(string errorMessage)
+            {
+                Cleanup();
+                NotifyLobbyFailure(errorMessage);
+            }
+
+            lobby.CreateLobbySucceeded += OnCreateLobbySucceeded;
+            lobby.CreateLobbyFailed += OnCreateLobbyFailed;
+            lobby.CreateLobby(
+                (uint)maxConnections,
+                LobbyPermissionLevel.Publicadvertised,
+                false,
+                new[] { new AttributeData { Key = LobbyCodeAttributeKey, Value = normalizedCode } });
         }
 
         public void JoinRoom(string address)
         {
             StartClient(new Uri(address));
+        }
+
+        public void JoinRoomByCode(string joinCode)
+        {
+            if (NetworkServer.active || NetworkClient.active)
+            {
+                NotifyLobbyFailure("Cannot join lobby while network is already active.");
+                return;
+            }
+
+            if (_isJoiningLobby)
+            {
+                return;
+            }
+
+            var normalizedCode = NormalizeJoinCode(joinCode);
+            if (string.IsNullOrWhiteSpace(normalizedCode))
+            {
+                NotifyLobbyFailure("Join code is empty.");
+                return;
+            }
+
+            var lobby = EnsureLobby();
+            if (lobby == null)
+            {
+                NotifyLobbyFailure("EOS lobby component is unavailable.");
+                return;
+            }
+
+            _isJoiningLobby = true;
+
+            void Cleanup()
+            {
+                lobby.FindLobbiesSucceeded -= OnFindLobbiesSucceeded;
+                lobby.FindLobbiesFailed -= OnFindLobbiesFailed;
+                lobby.JoinLobbySucceeded -= OnJoinLobbySucceeded;
+                lobby.JoinLobbyFailed -= OnJoinLobbyFailed;
+                _isJoiningLobby = false;
+            }
+
+            void OnFindLobbiesSucceeded(System.Collections.Generic.List<LobbyDetails> foundLobbies)
+            {
+                if (foundLobbies == null || foundLobbies.Count == 0)
+                {
+                    Cleanup();
+                    NotifyLobbyFailure($"Lobby with code \"{normalizedCode}\" was not found.");
+                    return;
+                }
+
+                lobby.JoinLobby(foundLobbies[0], new[] { LobbyCodeAttributeKey });
+            }
+
+            void OnFindLobbiesFailed(string errorMessage)
+            {
+                Cleanup();
+                NotifyLobbyFailure(errorMessage);
+            }
+
+            void OnJoinLobbySucceeded(System.Collections.Generic.List<LobbyAttribute> attributes)
+            {
+                Cleanup();
+
+                var hostAddressAttribute = attributes.Find(x => x.Data.HasValue && x.Data.Value.Key == EOSLobby.hostAddressKey);
+                if (!hostAddressAttribute.Data.HasValue)
+                {
+                    NotifyLobbyFailure("Host address not found in joined lobby attributes.");
+                    return;
+                }
+
+                CurrentLobbyCode = normalizedCode;
+                networkAddress = hostAddressAttribute.Data.Value.Value.AsUtf8;
+                StartClient();
+            }
+
+            void OnJoinLobbyFailed(string errorMessage)
+            {
+                Cleanup();
+                NotifyLobbyFailure(errorMessage);
+            }
+
+            lobby.FindLobbiesSucceeded += OnFindLobbiesSucceeded;
+            lobby.FindLobbiesFailed += OnFindLobbiesFailed;
+            lobby.JoinLobbySucceeded += OnJoinLobbySucceeded;
+            lobby.JoinLobbyFailed += OnJoinLobbyFailed;
+
+            var searchOption = new LobbySearchSetParameterOptions
+            {
+                ComparisonOp = ComparisonOp.Equal,
+                Parameter = new AttributeData
+                {
+                    Key = LobbyCodeAttributeKey,
+                    Value = normalizedCode
+                }
+            };
+
+            lobby.FindLobbies(1, new[] { searchOption });
+        }
+
+        public void LeaveRoom()
+        {
+            if (_eosLobby != null && _eosLobby.ConnectedToLobby)
+            {
+                _eosLobby.LeaveLobby();
+            }
+
+            CurrentLobbyCode = string.Empty;
+
+            if (NetworkServer.active && NetworkClient.active)
+            {
+                StopHost();
+            }
+            else if (NetworkClient.active)
+            {
+                StopClient();
+            }
         }
 
         public void RegisterLobbyMessages()
@@ -75,6 +260,7 @@ namespace GameAssembly.Core.Network
             if (SceneManager.GetActiveScene().buildIndex != ScenesData.MENU_SCENE_INDEX)
                 SceneManager.LoadScene(ScenesData.MENU_SCENE_INDEX);
 
+            CurrentLobbyCode = string.Empty;
             ClientOnDisconnected?.Invoke();
         }
 
@@ -100,7 +286,7 @@ namespace GameAssembly.Core.Network
 
                 GameInstaller.Resolve<WorldCreateManager>().Server_StopSendingWorldToConn(conn);
             }
-            
+
             base.OnServerDisconnect(conn);
 
             if (SceneManager.GetActiveScene().buildIndex == ScenesData.MENU_SCENE_INDEX) // If in menu
@@ -154,6 +340,47 @@ namespace GameAssembly.Core.Network
         {
             ServerOnClientConnected = null;
             ServerOnClientDisconnected = null;
+        }
+
+        private EOSLobby EnsureLobby()
+        {
+            if (_eosLobby == null)
+            {
+                _eosLobby = GetComponent<EOSLobby>();
+            }
+
+            if (_eosLobby == null)
+            {
+                _eosLobby = gameObject.AddComponent<EOSLobby>();
+            }
+
+            return _eosLobby;
+        }
+
+        private static string NormalizeJoinCode(string joinCode)
+        {
+            return string.IsNullOrWhiteSpace(joinCode)
+                ? string.Empty
+                : joinCode.Trim().ToUpperInvariant();
+        }
+
+        private static string CreateRandomJoinCode(int length = 4)
+        {
+            var codeBuffer = new char[length];
+
+            for (var i = 0; i < codeBuffer.Length; i++)
+            {
+                codeBuffer[i] = JoinCodeAlphabet[UnityEngine.Random.Range(0, JoinCodeAlphabet.Length)];
+            }
+
+            return new string(codeBuffer);
+        }
+
+        private void NotifyLobbyFailure(string errorMessage)
+        {
+            var message = string.IsNullOrWhiteSpace(errorMessage) ? "Unknown EOS lobby error." : errorMessage;
+            Debug.LogError(message);
+            LobbyOperationFailed?.Invoke(message);
         }
     }
 }
