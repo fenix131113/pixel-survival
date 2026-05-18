@@ -3,6 +3,7 @@ using Epic.OnlineServices.Logging;
 using Epic.OnlineServices.Platform;
 
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
 
 using UnityEngine;
@@ -148,6 +149,14 @@ namespace EpicTransport {
         }
 
         public static void Tick() {
+            if (instance == null || !instance || !instance.isActiveAndEnabled) {
+                return;
+            }
+
+            if (instance.EOS == null) {
+                return;
+            }
+
             instance.platformTickTimer -= Time.deltaTime;
             instance.EOS.Tick();
         }
@@ -245,11 +254,26 @@ namespace EpicTransport {
             DontDestroyOnLoad(instance);
 
 #if UNITY_EDITOR
-            var libraryPath = "Assets/_Support/Plugins/Mirror/Transports/EOSTransport/EOSSDK/" + Epic.OnlineServices.Common.LIBRARY_NAME;
+            var libraryName = Epic.OnlineServices.Common.LIBRARY_NAME;
+            var primaryLibraryPath = Path.GetFullPath(Path.Combine(
+                Application.dataPath,
+                "_Support/Plugins/Mirror/Transports/EOSTransport/EOSSDK",
+                libraryName));
+            var fallbackLibraryPath = Path.GetFullPath(Path.Combine(
+                Application.dataPath,
+                "Mirror/Transports/EOSTransport/EOSSDK",
+                libraryName));
 
-            libraryPointer = LoadLibrary(libraryPath);
+            libraryPointer = LoadLibrary(primaryLibraryPath);
             if (libraryPointer == IntPtr.Zero) {
-                throw new Exception("Failed to load library: " + libraryPath);
+                libraryPointer = LoadLibrary(fallbackLibraryPath);
+            }
+
+            if (libraryPointer == IntPtr.Zero) {
+                enabled = false;
+                Debug.LogError(
+                    $"Failed to load EOS SDK library. Checked paths:\n- {primaryLibraryPath}\n- {fallbackLibraryPath}");
+                return;
             }
 
             Bindings.Hook(libraryPointer, GetProcAddress);

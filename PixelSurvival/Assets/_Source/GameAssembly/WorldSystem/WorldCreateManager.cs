@@ -12,8 +12,8 @@ namespace GameAssembly.WorldSystem
 {
     public class WorldCreateManager : NetworkBehaviour
     {
-        private const int INITIAL_CHUNK_RADIUS = 2;
         private const float CHUNK_SYNC_INTERVAL = 0.1f;
+        private const int MAX_CHUNKS_TO_SEND_PER_SYNC = 16;
 
         [SerializeField, Min(0.1f)] private float blockDamageResetDelay = 4f;
         [SerializeField, Range(0.1f, 0.99f)] private float chunkGenerationProgressWeight = 0.85f;
@@ -221,7 +221,7 @@ namespace GameAssembly.WorldSystem
                     _seedSentConnections.Add(connectionId);
                 }
 
-                SendMissingNearbyChunks(conn, world, connectionId);
+                SendMissingChunks(conn, world, connectionId);
 
                 yield return wait;
             }
@@ -231,7 +231,7 @@ namespace GameAssembly.WorldSystem
         }
 
         [Server]
-        private void SendMissingNearbyChunks(NetworkConnectionToClient conn, World world, int connectionId)
+        private void SendMissingChunks(NetworkConnectionToClient conn, World world, int connectionId)
         {
             if (!_sentChunksByConnection.TryGetValue(connectionId, out var sentChunks))
             {
@@ -245,23 +245,16 @@ namespace GameAssembly.WorldSystem
                 Mathf.FloorToInt(playerPosition.y / Chunk.CHUNK_SIZE));
 
             var chunksToSend = new List<Chunk>();
-
-            for (var x = centerChunk.X - INITIAL_CHUNK_RADIUS; x <= centerChunk.X + INITIAL_CHUNK_RADIUS; x++)
+            foreach (var pair in world.Chunks)
             {
-                for (var y = centerChunk.Y - INITIAL_CHUNK_RADIUS; y <= centerChunk.Y + INITIAL_CHUNK_RADIUS; y++)
-                {
-                    var coord = new ChunkCoord(x, y);
+                if (sentChunks.Contains(pair.Key))
+                    continue;
 
-                    if (sentChunks.Contains(coord))
-                        continue;
-
-                    var chunk = world.GetChunk(coord);
-                    if (chunk == null)
-                        continue;
-
-                    chunksToSend.Add(chunk);
-                }
+                chunksToSend.Add(pair.Value);
             }
+
+            if (chunksToSend.Count == 0)
+                return;
 
             chunksToSend.Sort((left, right) =>
             {
@@ -273,8 +266,11 @@ namespace GameAssembly.WorldSystem
                 return (leftDx * leftDx + leftDy * leftDy).CompareTo(rightDx * rightDx + rightDy * rightDy);
             });
 
-            foreach (var chunk in chunksToSend)
+            var chunksToSendNow = Mathf.Min(MAX_CHUNKS_TO_SEND_PER_SYNC, chunksToSend.Count);
+
+            for (var i = 0; i < chunksToSendNow; i++)
             {
+                var chunk = chunksToSend[i];
                 Target_LoadChunk(conn, chunk);
                 sentChunks.Add(chunk.Coord);
             }
