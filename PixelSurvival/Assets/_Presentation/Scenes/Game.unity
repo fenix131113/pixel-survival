@@ -177,6 +177,7 @@ MonoBehaviour:
   icon: {fileID: 689520328}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &964510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2347,6 +2348,7 @@ MonoBehaviour:
   icon: {fileID: 20268829}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &103171385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2916,6 +2918,7 @@ MonoBehaviour:
   icon: {fileID: 1711637937}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &141796040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3490,6 +3493,7 @@ MonoBehaviour:
   icon: {fileID: 569071771}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &180787979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4487,6 +4491,7 @@ MonoBehaviour:
   icon: {fileID: 190594070}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &268355839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6708,6 +6713,7 @@ MonoBehaviour:
   icon: {fileID: 1049318840}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &360175016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9614,6 +9620,7 @@ MonoBehaviour:
   icon: {fileID: 1389063824}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &461657322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9784,6 +9791,7 @@ MonoBehaviour:
   icon: {fileID: 945662798}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &493446483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12369,6 +12377,7 @@ MonoBehaviour:
   icon: {fileID: 526456532}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &655967954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12884,6 +12893,7 @@ MonoBehaviour:
   icon: {fileID: 1405268749}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &704788650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12978,6 +12988,7 @@ MonoBehaviour:
   icon: {fileID: 1073735661}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &705634142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13150,6 +13161,7 @@ MonoBehaviour:
   icon: {fileID: 28341245}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &741001325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14286,6 +14298,7 @@ MonoBehaviour:
   icon: {fileID: 300329032}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &827543685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14380,6 +14393,7 @@ MonoBehaviour:
   icon: {fileID: 1732983743}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &828281316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14629,6 +14643,7 @@ MonoBehaviour:
   icon: {fileID: 1565093843}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &846937650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15859,6 +15874,7 @@ MonoBehaviour:
   icon: {fileID: 57632663}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &940814434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17290,6 +17306,7 @@ MonoBehaviour:
   icon: {fileID: 1627605285}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &970834365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18725,6 +18742,7 @@ MonoBehaviour:
   icon: {fileID: 88820533}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &1079968741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19828,6 +19846,7 @@ MonoBehaviour:
   icon: {fileID: 1405171255}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &1155640124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21747,6 +21766,7 @@ MonoBehaviour:
   icon: {fileID: 403338892}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &1252874010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24268,6 +24288,7 @@ MonoBehaviour:
   icon: {fileID: 16494720}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &1338622374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33027,6 +33048,7 @@ MonoBehaviour:
   icon: {fileID: 1743320818}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &1595894793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45558,6 +45580,7 @@ MonoBehaviour:
   icon: {fileID: 308195704}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &1911685290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49316,6 +49339,7 @@ MonoBehaviour:
   icon: {fileID: 1353464759}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!114 &2075761179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50078,6 +50102,7 @@ MonoBehaviour:
   icon: {fileID: 3000000010}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1 &3000000029
 GameObject:
   m_ObjectHideFlags: 0
@@ -50383,6 +50408,7 @@ MonoBehaviour:
   icon: {fileID: 3000000035}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1 &3000000046
 GameObject:
   m_ObjectHideFlags: 0
@@ -50840,6 +50866,7 @@ MonoBehaviour:
   icon: {fileID: 3000000060}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1 &3000000075
 GameObject:
   m_ObjectHideFlags: 0
@@ -51221,6 +51248,7 @@ MonoBehaviour:
   icon: {fileID: 3000000085}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1 &3000000100
 GameObject:
   m_ObjectHideFlags: 0
@@ -51739,6 +51767,7 @@ MonoBehaviour:
   icon: {fileID: 3000000110}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1 &3000000121
 GameObject:
   m_ObjectHideFlags: 0
@@ -52196,6 +52225,7 @@ MonoBehaviour:
   icon: {fileID: 3000000135}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1 &3000000150
 GameObject:
   m_ObjectHideFlags: 0
@@ -52577,6 +52607,7 @@ MonoBehaviour:
   icon: {fileID: 3000000160}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1 &3000000175
 GameObject:
   m_ObjectHideFlags: 0
@@ -53095,6 +53126,7 @@ MonoBehaviour:
   icon: {fileID: 3000000185}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1 &3000000196
 GameObject:
   m_ObjectHideFlags: 0
@@ -53552,6 +53584,7 @@ MonoBehaviour:
   icon: {fileID: 3000000210}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1 &3000000225
 GameObject:
   m_ObjectHideFlags: 0
@@ -53933,6 +53966,7 @@ MonoBehaviour:
   icon: {fileID: 3000000235}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1 &3000000250
 GameObject:
   m_ObjectHideFlags: 0
@@ -54314,6 +54348,7 @@ MonoBehaviour:
   icon: {fileID: 3000000260}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1 &3000000275
 GameObject:
   m_ObjectHideFlags: 0
@@ -54695,6 +54730,7 @@ MonoBehaviour:
   icon: {fileID: 3000000285}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1 &3000000300
 GameObject:
   m_ObjectHideFlags: 0
@@ -55213,6 +55249,7 @@ MonoBehaviour:
   icon: {fileID: 3000000310}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1 &3000000321
 GameObject:
   m_ObjectHideFlags: 0
@@ -55671,6 +55708,7 @@ MonoBehaviour:
   icon: {fileID: 3000000335}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1 &3000000350
 GameObject:
   m_ObjectHideFlags: 0
@@ -56190,6 +56228,7 @@ MonoBehaviour:
   icon: {fileID: 3000000360}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1 &3000000371
 GameObject:
   m_ObjectHideFlags: 0
@@ -56437,6 +56476,7 @@ MonoBehaviour:
   icon: {fileID: 3000000385}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1 &3000000408
 GameObject:
   m_ObjectHideFlags: 0
@@ -56608,6 +56648,7 @@ MonoBehaviour:
   icon: {fileID: 3000000410}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1 &3000000433
 GameObject:
   m_ObjectHideFlags: 0
@@ -56779,6 +56820,7 @@ MonoBehaviour:
   icon: {fileID: 3000000435}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1 &3000000458
 GameObject:
   m_ObjectHideFlags: 0
@@ -56950,6 +56992,7 @@ MonoBehaviour:
   icon: {fileID: 3000000460}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1 &3000000483
 GameObject:
   m_ObjectHideFlags: 0
@@ -57121,6 +57164,7 @@ MonoBehaviour:
   icon: {fileID: 3000000485}
   effectMultiplier: 0.8
   effectDuration: 0.2
+  lockedIconAlpha: 0.35
 --- !u!1001 &3390056258951067334
 PrefabInstance:
   m_ObjectHideFlags: 0

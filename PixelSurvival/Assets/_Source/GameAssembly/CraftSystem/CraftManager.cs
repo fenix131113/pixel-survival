@@ -2,6 +2,7 @@
 using System.Linq;
 using GameAssembly.CraftSystem.Data;
 using GameAssembly.InventorySystem;
+using GameAssembly.WorldSystem;
 using Mirror;
 
 namespace GameAssembly.CraftSystem
@@ -40,20 +41,41 @@ namespace GameAssembly.CraftSystem
         [Server]
         public void Server_TryCraftItem(CraftRecipeSO recipe, int amount = 1)
         {
-            if(!CanCraft(recipe, amount))
+            if (recipe == null || amount <= 0 || _inventory == null)
+                return;
+
+            var worldCreateManager = WorldCreateManager.Instance;
+            if (!worldCreateManager || !worldCreateManager.Server_IsRecipeUnlocked(recipe))
+                return;
+
+            if (!CanCraft(recipe, amount))
                 return;
 
             foreach (var group in recipe.CraftGroups)
-                _inventory.TryRemoveItem(group.ItemDefinition, group.Count);
+                _inventory.TryRemoveItem(group.ItemDefinition, group.Count * amount);
 
-            _inventory.TryAddNewItem(recipe.ResultItem, recipe.ResultCount);
+            _inventory.TryAddNewItem(recipe.ResultItem, recipe.ResultCount * amount);
+            worldCreateManager.Server_RegisterCraftCompleted(recipe);
         }
 
         public bool CanCraft(CraftRecipeSO recipe, int amount = 1)
         {
+            if (recipe == null || amount <= 0 || _inventory == null)
+                return false;
+
+            var worldCreateManager = WorldCreateManager.Instance;
+            if (worldCreateManager)
+            {
+                if (!isServer && !worldCreateManager.HasCraftStateSnapshot)
+                    return false;
+
+                if (!worldCreateManager.IsRecipeUnlocked(recipe))
+                    return false;
+            }
+
             var canCraft = recipe.CraftGroups.All(group => _inventory.HasItem(group.ItemDefinition, group.Count * amount));
             
-            return canCraft && _inventory.CanAddNewItem(recipe.ResultItem, recipe.ResultCount);
+            return canCraft && _inventory.CanAddNewItem(recipe.ResultItem, recipe.ResultCount * amount);
         }
 
         #endregion
