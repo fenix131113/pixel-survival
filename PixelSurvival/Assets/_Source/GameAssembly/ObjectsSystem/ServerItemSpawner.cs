@@ -24,7 +24,7 @@ namespace GameAssembly.ObjectsSystem
             Instance.Server_SpawnItem_Internal(worldPosition, item);
 
         [Server]
-        public PickableObject Server_SpawnItem_Internal(Vector3 worldPosition, ItemDefinitionSO itemDefinition,
+        private PickableObject Server_SpawnItem_Internal(Vector3 worldPosition, ItemDefinitionSO itemDefinition,
             int itemCount, Dictionary<string, string> meta = null)
         {
             var itemInstance = new ItemInstance(itemDefinition, meta, itemCount);
@@ -35,7 +35,7 @@ namespace GameAssembly.ObjectsSystem
         }
         
         [Server]
-        public PickableObject Server_SpawnItem_Internal(Vector3 worldPosition, ItemInstance item)
+        private PickableObject Server_SpawnItem_Internal(Vector3 worldPosition, ItemInstance item)
         {
             var spawned = Instantiate(pickablePrefab, worldPosition, Quaternion.identity);
             spawned.Initialize(item);

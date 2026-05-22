@@ -282,8 +282,9 @@ namespace GameAssembly.WorldSystem
                         GetDifficultyBiome(worldX, worldY)
                         ?? GetBiomeByBlockPosition(worldX, worldY);
 
-                    chunk.Cells[x, y].Floor =
-                        BlockData.CreateBlock(ResolveFloorDefinition(biome, worldX, worldY));
+                    var generatedFloor = BlockData.CreateBlock(ResolveFloorDefinition(biome, worldX, worldY));
+                    chunk.Cells[x, y].BaseFloor = generatedFloor;
+                    chunk.Cells[x, y].Floor = generatedFloor;
 
                     var nx = worldX * BLOCKS_NOISE_STRENGTH + Seed * 0.00001f;
                     var ny = worldY * BLOCKS_NOISE_STRENGTH + Seed * 0.00001f;

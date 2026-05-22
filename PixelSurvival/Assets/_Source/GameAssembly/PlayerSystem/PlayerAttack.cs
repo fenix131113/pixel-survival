@@ -170,6 +170,7 @@ namespace GameAssembly.PlayerSystem
                 Mathf.Cos(currentRotationAngle * Mathf.Deg2Rad),
                 Mathf.Sin(currentRotationAngle * Mathf.Deg2Rad)
             );
+            var attackOrigin = transform.position + new Vector3(_playerCollider.offset.x, _playerCollider.offset.y, 0);
             var damage = overrideDamage > -1 ? overrideDamage : handDamage;
             var attackerNetId = netIdentity ? netIdentity.netId : 0u;
             var selectedItem = _selector.IsSelectedItem ? _selector.GetSelectedItem() : null;
@@ -178,9 +179,7 @@ namespace GameAssembly.PlayerSystem
             for (var index = 0; index < _hits.Length; index++)
                 _hits[index] = default;
 
-            Physics2D.RaycastNonAlloc(
-                transform.position + new Vector3(_playerCollider.offset.x, _playerCollider.offset.y, 0), dir, _hits,
-                distance, layerMask);
+            Physics2D.RaycastNonAlloc(attackOrigin, dir, _hits, distance, layerMask);
 
             var hasResolvedTarget = false;
 
@@ -196,9 +195,8 @@ namespace GameAssembly.PlayerSystem
                         new DamageContext(gameObject, selectedItem, HealthType.PLAYER));
                     _blockDamageSystem.Server_ClearPlayerTarget(attackerNetId);
                 }
-                else if (h.collider.gameObject
-                         .GetComponentInAnyParent<ChunkRenderer>(out var chunkVisual)) // Breaking world(chunk) blocks. TODO: maybe move break logic to another script
-                {// TODO: Add placed floor breaking and separate it's logic
+                else if (h.collider.gameObject.GetComponentInAnyParent<ChunkRenderer>(out var chunkVisual))
+                {
                     var hitPoint = h.point + dir * 0.01f;
                     var blockIndexes = chunkVisual.UpperTilemap.WorldToCell(hitPoint);
 
@@ -241,7 +239,11 @@ namespace GameAssembly.PlayerSystem
                         }
                     }
                     else
+                    {
+                        TryBreakPlacedFloor(chunkVisual.Chunk, new Vector2Int(blockIndexes.x, blockIndexes.y),
+                            selectedToolDefinition, damage);
                         _blockDamageSystem.Server_ClearPlayerTarget(attackerNetId);
+                    }
                 }
                 else
                 {
@@ -252,8 +254,11 @@ namespace GameAssembly.PlayerSystem
                 break;
             }
 
-            if (!hasResolvedTarget)
-                _blockDamageSystem.Server_ClearPlayerTarget(attackerNetId);
+            if (hasResolvedTarget)
+                return;
+
+            TryBreakPlacedFloorAtRayEnd(attackOrigin, dir, distance, selectedToolDefinition, damage);
+            _blockDamageSystem.Server_ClearPlayerTarget(attackerNetId);
         }
 
         #endregion
@@ -268,6 +273,69 @@ namespace GameAssembly.PlayerSystem
                 return Mathf.Max(1, selectedToolDefinition.MiningDamage);
 
             return Mathf.Max(1, baseDamage);
+        }
+
+        [Server]
+        private bool TryBreakPlacedFloorAtRayEnd(Vector3 attackOrigin, Vector2 direction, float attackDistance,
+            ToolItemDefinitionSO selectedToolDefinition, int baseDamage)
+        {
+            if (!CanBreakPlacedFloor(selectedToolDefinition))
+                return false;
+
+            var targetPos = attackOrigin + (Vector3)(direction * attackDistance);
+            var targetWorldPos = new Vector2Int(Mathf.FloorToInt(targetPos.x), Mathf.FloorToInt(targetPos.y));
+
+            if (!World.IsWorldPositionInsideBounds(targetWorldPos.x, targetWorldPos.y))
+                return false;
+
+            var chunk = _world.GetChunkByWorldPosition(targetWorldPos.x, targetWorldPos.y);
+            if (chunk == null)
+                return false;
+
+            var localIndexes = World.ConvertWorldToChunkSpace(targetWorldPos.x, targetWorldPos.y);
+            return TryBreakPlacedFloor(chunk, localIndexes, selectedToolDefinition, baseDamage);
+        }
+
+        [Server]
+        private bool TryBreakPlacedFloor(Chunk chunk, Vector2Int localIndexes, ToolItemDefinitionSO selectedToolDefinition,
+            int baseDamage)
+        {
+            if (chunk == null || !CanBreakPlacedFloor(selectedToolDefinition))
+                return false;
+
+            if (localIndexes.x < 0 || localIndexes.x >= Chunk.CHUNK_SIZE ||
+                localIndexes.y < 0 || localIndexes.y >= Chunk.CHUNK_SIZE)
+                return false;
+
+            var cell = chunk.GetCell(localIndexes.x, localIndexes.y);
+            if (cell.Block.type != BlockType.AIR || cell.Floor.Equals(cell.BaseFloor))
+                return false;
+
+            var floor = cell.Floor;
+            if (floor.type == BlockType.AIR || !floor.IsBreakable || !floor.definition)
+                return false;
+
+            var floorDamage = ResolveBlockMiningDamage(floor.definition, selectedToolDefinition, baseDamage);
+            if (floorDamage <= 0)
+                return false;
+
+            if (floor.definition.DropItem)
+            {
+                var floorCenter = new Vector3(
+                    chunk.Coord.X * Chunk.CHUNK_SIZE + localIndexes.x + 0.5f,
+                    chunk.Coord.Y * Chunk.CHUNK_SIZE + localIndexes.y + 0.5f,
+                    0f);
+                ServerItemSpawner.Server_SpawnItem(floorCenter, floor.definition.DropItem,
+                    floor.definition.RandomizeDropAmount());
+            }
+
+            chunk.SetBlock(localIndexes.x, localIndexes.y, true, cell.BaseFloor);
+            return true;
+        }
+
+        private static bool CanBreakPlacedFloor(ToolItemDefinitionSO selectedToolDefinition)
+        {
+            return selectedToolDefinition && selectedToolDefinition.ToolType == ToolType.SHOVEL;
         }
 
         private void InitializeClientAndServer()

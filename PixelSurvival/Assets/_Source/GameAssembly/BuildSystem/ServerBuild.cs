@@ -43,19 +43,21 @@ namespace GameAssembly.BuildSystem
                 return;
 
             var chunk = _world.GetChunkByWorldPosition(blockWorldPos.x, blockWorldPos.y);
-            var coords = World.ConvertWorldToChunkSpace(blockWorldPos.x, blockWorldPos.y);
+            if (chunk == null)
+                return;
 
-            var isBlockPlaced = blockItem.IsFloorBlock
-                ? !chunk.GetCell(coords.x, coords.y).Floor
-                    .Equals(BlockData
-                        .Air) // TODO: Make check for base ground block (instead of Air) to give an ability to place floor over the base biome block
-                : !chunk.GetCell(coords.x, coords.y).Block.Equals(BlockData.Air);
+            var coords = World.ConvertWorldToChunkSpace(blockWorldPos.x, blockWorldPos.y);
+            var cell = chunk.GetCell(coords.x, coords.y);
+            var blockToPlace = BlockData.CreateBlock(blockItem.BlockDefinition);
+
+            var isBlockPlaced = !cell.Block.Equals(BlockData.Air);
+            if (blockItem.IsFloorBlock)
+                isBlockPlaced = isBlockPlaced || !cell.Floor.Equals(cell.BaseFloor) || cell.Floor.Equals(blockToPlace);
 
             if (isBlockPlaced || !selector.GetSelectedItem().TryRemoveCount(1))
                 return;
 
-            chunk.SetBlock(coords.x, coords.y, blockItem.IsFloorBlock,
-                BlockData.CreateBlock(blockItem.BlockDefinition));
+            chunk.SetBlock(coords.x, coords.y, blockItem.IsFloorBlock, blockToPlace);
         }
 
         [Server]
