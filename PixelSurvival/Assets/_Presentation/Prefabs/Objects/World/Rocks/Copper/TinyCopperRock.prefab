@@ -225,3 +225,5 @@ MonoBehaviour:
   maxHealth: 5
   immediatelyDestroy: 1
   needType: 1
+  levelRequirementMode: 0
+  minimumRequiredTool: {fileID: 0}

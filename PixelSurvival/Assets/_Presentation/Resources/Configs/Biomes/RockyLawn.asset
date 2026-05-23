@@ -17,7 +17,7 @@ MonoBehaviour:
   <PathFloor>k__BackingField: {fileID: 11400000, guid: 7e358825b07d0934180adf59b75b1b0a, type: 2}
   <PathNoiseScale>k__BackingField: 0.02
   <PathWidth>k__BackingField: 0.07
-  <DefaultWall>k__BackingField: {fileID: 11400000, guid: f21cdbf19849af0498490be035c9009e, type: 2}
+  <DefaultWall>k__BackingField: {fileID: 11400000, guid: a1fc6c840b60ff7438404c0a4dc37501, type: 2}
   <NaturalSpawn>k__BackingField: 1
   <Min>k__BackingField: 0.65
   <Max>k__BackingField: 0.8

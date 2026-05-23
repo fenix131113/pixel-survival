@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f7a9ef6b4c242eaa1dad5e3d146bfe6, type: 3}
+  m_Name: DeadWallBlock
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.WorldSystem.Data.BlockDefinition
+  <BlockNameKey>k__BackingField: block.dead_wall
+  <Type>k__BackingField: 2
+  <Flags>k__BackingField: 255
+  <Tile>k__BackingField: {fileID: 11400000, guid: 9fd83075e29c9a5429f10c7afaae128a, type: 2}
+  <DropItem>k__BackingField: {fileID: 11400000, guid: fb80923eb0fd43841bc53cd5dd635077, type: 2}
+  <MinDropAmount>k__BackingField: 1
+  <MaxDropAmount>k__BackingField: 1
+  <Health>k__BackingField: 5
+  <EffectiveToolType>k__BackingField: 1
+  <RequireEffectiveToolToBreak>k__BackingField: 1
+  id: 97aa595b385a47c18153db50eb5a66df

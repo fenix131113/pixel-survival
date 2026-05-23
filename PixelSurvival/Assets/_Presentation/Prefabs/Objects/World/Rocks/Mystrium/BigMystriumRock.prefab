@@ -225,3 +225,5 @@ MonoBehaviour:
   maxHealth: 18
   immediatelyDestroy: 1
   needType: 1
+  levelRequirementMode: 0
+  minimumRequiredTool: {fileID: 11400000, guid: aa765316515c32a478980bb1a51a0ea6, type: 2}

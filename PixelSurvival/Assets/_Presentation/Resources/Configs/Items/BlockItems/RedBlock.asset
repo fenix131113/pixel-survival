@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: RedBlock
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.BlockItemDefinitionSO
   <NameTranslationKey>k__BackingField: 
-  <Icon>k__BackingField: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  <Icon>k__BackingField: {fileID: -2100261076420295944, guid: a934aad93faec814bb2df1e7ea271f1e, type: 3}
   <InventoryIcon>k__BackingField: {fileID: 0}
   <MaxCount>k__BackingField: 99
   <InHandAttackAnimationKey>k__BackingField: 
-  id: 9376b9b9e5544541a8495d62077b8fa0
+  id: ded81aabdcfa4634b929f9cf41e6e861
   <IsFloorBlock>k__BackingField: 0
   <BlockDefinition>k__BackingField: {fileID: 11400000, guid: 168f365779a483d40b8801ae8dfe2dd9, type: 2}

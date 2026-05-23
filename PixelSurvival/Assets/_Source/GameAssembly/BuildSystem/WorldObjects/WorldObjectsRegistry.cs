@@ -15,6 +15,7 @@ namespace GameAssembly.BuildSystem.WorldObjects
         private readonly Dictionary<PlacedWorldObject, PlaceableObjectRecord> _records = new();
 
         public IReadOnlyDictionary<PlacedWorldObject, PlaceableObjectRecord> Records => _records;
+        public event Action<Vector2Int, PlacedWorldObject> CellObjectChanged;
 
         [Server]
         public bool TryPlaceObject(PlaceableObjectDefinitionSO definition, Vector2Int originCell, LayerMask blockingMask,
@@ -64,7 +65,10 @@ namespace GameAssembly.BuildSystem.WorldObjects
                 return;
 
             foreach (var cell in record.Footprint)
+            {
                 _occupiedCells.Remove(cell);
+                CellObjectChanged?.Invoke(cell, null);
+            }
         }
 
         public bool IsOccupied(Vector2Int cell)
@@ -76,6 +80,16 @@ namespace GameAssembly.BuildSystem.WorldObjects
             return false;
 
         }
+        
+        public bool TryGetObjectAtCell(Vector2Int cell, out PlacedWorldObject worldObject)
+        {
+            if (NetworkServer.active)
+                return _occupiedCells.TryGetValue(cell, out worldObject);
+            
+            worldObject = null;
+            Debug.LogWarning($"[{nameof(WorldObjectRegistry)}] TryGetObjectAtCell called on non-server side for cell {cell}. Registry is server-authoritative.");
+            return false;
+        }
 
         [Server]
         private void Register(PlacedWorldObject worldObject, PlaceableObjectDefinitionSO definition, Vector2Int originCell,
@@ -84,8 +98,11 @@ namespace GameAssembly.BuildSystem.WorldObjects
             var record = new PlaceableObjectRecord(definition.name, originCell, footprint.ToArray());
             _records[worldObject] = record;
 
-            foreach (var t in footprint)
-                _occupiedCells[t] = worldObject;
+            foreach (var cell in footprint)
+            {
+                _occupiedCells[cell] = worldObject;
+                CellObjectChanged?.Invoke(cell, worldObject);
+            }
         }
 
         private bool CanPlace(PlaceableObjectDefinitionSO definition, IReadOnlyList<Vector2Int> footprint,

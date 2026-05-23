@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12209283b1ab46ea9e7a7fb80228d6a7, type: 3}
+  m_Name: RedWallBlock
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.BlockItemDefinitionSO
+  <NameTranslationKey>k__BackingField: item.block.red_wall
+  <Icon>k__BackingField: {fileID: -2100261076420295944, guid: a934aad93faec814bb2df1e7ea271f1e, type: 3}
+  <InventoryIcon>k__BackingField: {fileID: 0}
+  <MaxCount>k__BackingField: 99
+  <InHandAttackAnimationKey>k__BackingField: 
+  id: 66bf39bae29f4ae1939bd733b8256a76
+  <IsFloorBlock>k__BackingField: 0
+  <BlockDefinition>k__BackingField: {fileID: 11400000, guid: e8b76f836156b7249aad0ea922075cfb, type: 2}

@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::LocalizationSystem.LocalizationLanguagePreset
   languageCode: ru
   languageName: Russian
-  entries: []
+  entries:
+  - key: object.spaceship.controller
+    value: "\u041A\u043E\u043D\u0442\u0440\u043E\u043B\u043B\u0435\u0440 \u043A\u043E\u0441\u043C\u0438\u0447\u0435\u0441\u043A\u043E\u0433\u043E
+      \u043A\u043E\u0440\u0430\u0431\u043B\u044F"

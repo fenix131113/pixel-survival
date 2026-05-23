@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::LocalizationSystem.LocalizationLanguagePreset
   languageCode: en
   languageName: English
-  entries: []
+  entries:
+  - key: object.spaceship.controller
+    value: Spaceship Controller

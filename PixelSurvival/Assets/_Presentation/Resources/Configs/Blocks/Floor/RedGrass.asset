@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f7a9ef6b4c242eaa1dad5e3d146bfe6, type: 3}
   m_Name: RedGrass
   m_EditorClassIdentifier: GameAssembly::GameAssembly.WorldSystem.Data.BlockDefinition
-  <BlockNameKey>k__BackingField: 
+  <BlockNameKey>k__BackingField: block.floor.
   <Type>k__BackingField: 3
-  <Flags>k__BackingField: 0
+  <Flags>k__BackingField: 2
   <Tile>k__BackingField: {fileID: 11400000, guid: a5d66d6a70d3fc04692418fd65beb14e, type: 2}
   <DropItem>k__BackingField: {fileID: 11400000, guid: 543a71a38c0f47f1a7ad71f01dd710b9, type: 2}
   <MinDropAmount>k__BackingField: 1

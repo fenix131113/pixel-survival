@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f7a9ef6b4c242eaa1dad5e3d146bfe6, type: 3}
   m_Name: GrayGrassPath
   m_EditorClassIdentifier: GameAssembly::GameAssembly.WorldSystem.Data.BlockDefinition
-  <BlockNameKey>k__BackingField: 
+  <BlockNameKey>k__BackingField: block.floor.
   <Type>k__BackingField: 3
-  <Flags>k__BackingField: 0
+  <Flags>k__BackingField: 2
   <Tile>k__BackingField: {fileID: 11400000, guid: 0d7fc7f2b19d16948b383a1a18ff9a40, type: 2}
   <DropItem>k__BackingField: {fileID: 11400000, guid: 356203113b0b42eba41180e7d4106744, type: 2}
   <MinDropAmount>k__BackingField: 1

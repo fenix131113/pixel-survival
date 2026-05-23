@@ -11,6 +11,8 @@ namespace GameAssembly.Generated
         public static readonly ItemDefinitionSO Apple;
         public static readonly ItemDefinitionSO BlueGrass;
         public static readonly ItemDefinitionSO BlueGrassPath;
+        public static readonly ItemDefinitionSO BlueWallBlock;
+        public static readonly ItemDefinitionSO DeadWallBlock;
         public static readonly ItemDefinitionSO Dirt;
         public static readonly ItemDefinitionSO Grass;
         public static readonly ItemDefinitionSO GrassPath;
@@ -24,6 +26,7 @@ namespace GameAssembly.Generated
         public static readonly ItemDefinitionSO RedFloor;
         public static readonly ItemDefinitionSO RedGrass;
         public static readonly ItemDefinitionSO RedGrassPath;
+        public static readonly ItemDefinitionSO RedWallBlock;
         public static readonly ItemDefinitionSO StoneBlock;
         public static readonly ItemDefinitionSO WoodenLogBlock;
         public static readonly ItemDefinitionSO WoodenPlanksBlock;
@@ -32,6 +35,7 @@ namespace GameAssembly.Generated
         public static readonly ItemDefinitionSO Chest;
         public static readonly ItemDefinitionSO EndGameChest;
         public static readonly ItemDefinitionSO Furnace;
+        public static readonly ItemDefinitionSO SpaceshipControllerItem;
         public static readonly ItemDefinitionSO Workbecnh;
         public static readonly ItemDefinitionSO Pie;
         public static readonly ItemDefinitionSO RedMushroom;
@@ -73,6 +77,8 @@ namespace GameAssembly.Generated
             Apple = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Apple");
             BlueGrass = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/BlueGrass");
             BlueGrassPath = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/BlueGrassPath");
+            BlueWallBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/BlueWallBlock");
+            DeadWallBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/DeadWallBlock");
             Dirt = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Dirt");
             Grass = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Grass");
             GrassPath = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/GrassPath");
@@ -86,6 +92,7 @@ namespace GameAssembly.Generated
             RedFloor = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/RedFloor");
             RedGrass = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/RedGrass");
             RedGrassPath = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/RedGrassPath");
+            RedWallBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/RedWallBlock");
             StoneBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/StoneBlock");
             WoodenLogBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/WoodenLogBlock");
             WoodenPlanksBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/WoodenPlanksBlock");
@@ -94,6 +101,7 @@ namespace GameAssembly.Generated
             Chest = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Chest");
             EndGameChest = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/EndGameChest");
             Furnace = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Furnace");
+            SpaceshipControllerItem = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/SpaceshipControllerItem");
             Workbecnh = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Workbecnh");
             Pie = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Pie");
             RedMushroom = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/RedMushroom");
