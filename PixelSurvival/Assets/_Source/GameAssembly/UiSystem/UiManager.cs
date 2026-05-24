@@ -18,6 +18,7 @@ namespace GameAssembly.UiSystem
         public static UiManager Instance;
 
         [SerializeField] private GameObject inventoriesPanel;
+        [SerializeField] private EscMenuView escMenuView;
 
         [Inject] private InputSystem_Actions _input;
 
@@ -218,7 +219,8 @@ namespace GameAssembly.UiSystem
                 return;
             }
 
-            //TODO: add open esc menu
+            if (escMenuView)
+                OpenRequest(escMenuView);
         }
 
         private void Bind()

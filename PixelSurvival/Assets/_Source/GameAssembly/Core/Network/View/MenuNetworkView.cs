@@ -1,4 +1,6 @@
 ﻿using GameAssembly.Utils;
+using System.Collections;
+using EpicTransport;
 using GameAssembly.MainMenuSystem;
 using Mirror;
 using TMPro;
@@ -17,15 +19,18 @@ namespace GameAssembly.Core.Network.View
         [SerializeField] private Button leaveHostButton;
         [SerializeField] private GameObject hostPanel;
         [SerializeField] private TMP_Text lobbyPlayersListLabel;
+        [Header("Other")] [SerializeField] private GameObject blocker;
 
         private NetManager _netManager;
         private MenuPanelAnimator _hostPanelAnimator;
         private string _lobbyCode;
+        private Coroutine _waitForEosInitializationRoutine;
 
         private void Start()
         {
             _netManager = NetworkManager.singleton as NetManager;
             SetupPanels();
+            SetupBlocker();
 
             if (joinButton)
             {
@@ -38,6 +43,9 @@ namespace GameAssembly.Core.Network.View
 
         private void OnDestroy()
         {
+            if (_waitForEosInitializationRoutine != null)
+                StopCoroutine(_waitForEosInitializationRoutine);
+
 #if !UNITY_SERVER
             Expose();
 #endif
@@ -51,9 +59,9 @@ namespace GameAssembly.Core.Network.View
 
         private void OnSelectHostButtonClicked()
         {
+            blocker.gameObject.SetActive(true);
             _netManager.RegisterLobbyMessages();
             _netManager.CreateHost(ReadJoinCodeInput());
-            ShowHostPanel();
             startHostButton.gameObject.SetActive(true);
         }
 
@@ -99,12 +107,15 @@ namespace GameAssembly.Core.Network.View
                 joinCodeInput.text = lobbyCode;
             }
 
+            blocker.gameObject.SetActive(false);
+            ShowHostPanel();
             ClearPlayersList();
         }
 
         private void OnLobbyOperationFailed(string errorMessage)
         {
-            lobbyPlayersListLabel.text = errorMessage;
+            Debug.LogError($"Error while lobby creation: {errorMessage}");
+            blocker.gameObject.SetActive(false);
         }
 
         private void SetupPanels()
@@ -162,6 +173,39 @@ namespace GameAssembly.Core.Network.View
         private string ReadJoinCodeInput()
         {
             return joinCodeInput ? joinCodeInput.text : string.Empty;
+        }
+
+        private void SetupBlocker()
+        {
+            if (!blocker)
+                return;
+
+            var eosSdkComponent = FindFirstObjectByType<EOSSDKComponent>();
+            if (eosSdkComponent != null && EOSSDKComponent.Initialized)
+            {
+                blocker.SetActive(false);
+                return;
+            }
+
+            blocker.SetActive(true);
+            _waitForEosInitializationRoutine = StartCoroutine(WaitForEosInitialization());
+        }
+
+        private IEnumerator WaitForEosInitialization()
+        {
+            while (true)
+            {
+                var eosSdkComponent = FindFirstObjectByType<EOSSDKComponent>();
+                if (eosSdkComponent != null && EOSSDKComponent.Initialized)
+                    break;
+
+                yield return null;
+            }
+
+            if (blocker)
+                blocker.SetActive(false);
+
+            _waitForEosInitializationRoutine = null;
         }
 
         private void BindClient()

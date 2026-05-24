@@ -1,14 +1,16 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Epic.OnlineServices;
 using Epic.OnlineServices.Lobby;
-using EpicTransport;
 using GameAssembly.Utils;
 using GameAssembly.WorldSystem;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using LobbyAttribute = Epic.OnlineServices.Lobby.Attribute;
+using Random = UnityEngine.Random;
+
 // ReSharper disable Unity.PerformanceCriticalCodeInvocation
 
 namespace GameAssembly.Core.Network
@@ -83,7 +85,7 @@ namespace GameAssembly.Core.Network
                 _isCreatingLobby = false;
             }
 
-            void OnCreateLobbySucceeded(System.Collections.Generic.List<LobbyAttribute> _)
+            void OnCreateLobbySucceeded(List<LobbyAttribute> _)
             {
                 Cleanup();
 
@@ -150,7 +152,7 @@ namespace GameAssembly.Core.Network
                 _isJoiningLobby = false;
             }
 
-            void OnFindLobbiesSucceeded(System.Collections.Generic.List<LobbyDetails> foundLobbies)
+            void OnFindLobbiesSucceeded(List<LobbyDetails> foundLobbies)
             {
                 if (foundLobbies == null || foundLobbies.Count == 0)
                 {
@@ -168,7 +170,7 @@ namespace GameAssembly.Core.Network
                 NotifyLobbyFailure(errorMessage);
             }
 
-            void OnJoinLobbySucceeded(System.Collections.Generic.List<LobbyAttribute> attributes)
+            void OnJoinLobbySucceeded(List<LobbyAttribute> attributes)
             {
                 Cleanup();
 
@@ -210,7 +212,7 @@ namespace GameAssembly.Core.Network
 
         public void LeaveRoom()
         {
-            if (_eosLobby != null && _eosLobby.ConnectedToLobby)
+            if (_eosLobby && _eosLobby.ConnectedToLobby)
             {
                 _eosLobby.LeaveLobby();
             }
@@ -370,7 +372,7 @@ namespace GameAssembly.Core.Network
 
             for (var i = 0; i < codeBuffer.Length; i++)
             {
-                codeBuffer[i] = JoinCodeAlphabet[UnityEngine.Random.Range(0, JoinCodeAlphabet.Length)];
+                codeBuffer[i] = JoinCodeAlphabet[Random.Range(0, JoinCodeAlphabet.Length)];
             }
 
             return new string(codeBuffer);
