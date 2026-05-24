@@ -14,6 +14,7 @@ namespace GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects
     {
         [SerializeField] protected AHealthObject healthObject;
         [SerializeField] protected SpriteRenderer chestRenderer;
+        [SerializeField, Min(0f)] private float dropScatterRadius = 0.65f;
         
         [Inject] private ChestView _view;
         [Inject] protected PlayerInventoryView playerInventoryView;
@@ -61,8 +62,11 @@ namespace GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects
             {
                 var itemInstance = _items[index];
 
+                var randomOffset = Random.insideUnitCircle * dropScatterRadius;
+                var dropPosition = (Vector2)transform.position + randomOffset;
+                
                 if (itemInstance != null)
-                    serverInventoryManager.Server_DropItemFromInventory(netIdentity, index, transform.position);
+                    serverInventoryManager.Server_DropItemFromInventory(netIdentity, index, dropPosition);
             }
         }
 

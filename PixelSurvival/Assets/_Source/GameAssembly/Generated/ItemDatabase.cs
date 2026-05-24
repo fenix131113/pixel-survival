@@ -12,12 +12,15 @@ namespace GameAssembly.Generated
         public static readonly ItemDefinitionSO BlueGrass;
         public static readonly ItemDefinitionSO BlueGrassPath;
         public static readonly ItemDefinitionSO BlueWallBlock;
+        public static readonly ItemDefinitionSO BricksBlock;
+        public static readonly ItemDefinitionSO BricksFloor;
         public static readonly ItemDefinitionSO DeadWallBlock;
         public static readonly ItemDefinitionSO Dirt;
         public static readonly ItemDefinitionSO Grass;
         public static readonly ItemDefinitionSO GrassPath;
         public static readonly ItemDefinitionSO GrayGrass;
         public static readonly ItemDefinitionSO GrayGrassPath;
+        public static readonly ItemDefinitionSO LightPlanksFloor;
         public static readonly ItemDefinitionSO OrangeBlock;
         public static readonly ItemDefinitionSO OrangeFloor;
         public static readonly ItemDefinitionSO PurpleBlock;
@@ -27,6 +30,7 @@ namespace GameAssembly.Generated
         public static readonly ItemDefinitionSO RedGrass;
         public static readonly ItemDefinitionSO RedGrassPath;
         public static readonly ItemDefinitionSO RedWallBlock;
+        public static readonly ItemDefinitionSO RocksBlock;
         public static readonly ItemDefinitionSO StoneBlock;
         public static readonly ItemDefinitionSO WoodenLogBlock;
         public static readonly ItemDefinitionSO WoodenPlanksBlock;
@@ -78,12 +82,15 @@ namespace GameAssembly.Generated
             BlueGrass = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/BlueGrass");
             BlueGrassPath = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/BlueGrassPath");
             BlueWallBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/BlueWallBlock");
+            BricksBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/BricksBlock");
+            BricksFloor = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/BricksFloor");
             DeadWallBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/DeadWallBlock");
             Dirt = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Dirt");
             Grass = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Grass");
             GrassPath = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/GrassPath");
             GrayGrass = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/GrayGrass");
             GrayGrassPath = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/GrayGrassPath");
+            LightPlanksFloor = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/LightPlanksFloor");
             OrangeBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/OrangeBlock");
             OrangeFloor = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/OrangeFloor");
             PurpleBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/PurpleBlock");
@@ -93,6 +100,7 @@ namespace GameAssembly.Generated
             RedGrass = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/RedGrass");
             RedGrassPath = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/RedGrassPath");
             RedWallBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/RedWallBlock");
+            RocksBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/RocksBlock");
             StoneBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/StoneBlock");
             WoodenLogBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/WoodenLogBlock");
             WoodenPlanksBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/WoodenPlanksBlock");

@@ -5023,7 +5023,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &326526017
 Transform:
   m_ObjectHideFlags: 0
@@ -5469,6 +5469,8 @@ GameObject:
   - component: {fileID: 355121255}
   - component: {fileID: 355121256}
   - component: {fileID: 355121253}
+  - component: {fileID: 355121257}
+  - component: {fileID: 355121258}
   m_Layer: 0
   m_Name: PlayerNetworkSystems
   m_TagString: Untagged
@@ -5604,7 +5606,7 @@ MonoBehaviour:
   syncInterval: 0
   blockBuildingLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 447
 --- !u!114 &355121252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5693,6 +5695,64 @@ MonoBehaviour:
   - {fileID: 1541489726}
   menuType: 6
   allowedMenusOnTop: 
+--- !u!114 &355121257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355121243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e9c0fd13b6e4d50b2f2a1941ad2dd72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.EnemySystem.ServerAstarWorldSync
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  rescanAfterWorldLoaded: 1
+  waitForAstarPath: 1
+  maxWaitForAstarPathSeconds: 15
+  waitForWorldColliderBuild: 1
+  maxWaitForWorldColliderBuildSeconds: 15
+  graphUpdateInterval: 0.12
+  graphCellPadding: 0.1
+  applyWorldWalkabilityOverlay: 1
+  includePlacedObjectsInWalkability: 1
+  flushGraphUpdatesImmediately: 0
+  obstacleLayersMask:
+    serializedVersion: 2
+    m_Bits: 4294967251
+--- !u!114 &355121258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355121243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1f5e9d8c32d4eb8b7b6b8d21b8db5ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.EnemySystem.ServerEnemyDirector
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  enemyPrefab: {fileID: 7001000000000000009, guid: c9cacf9ef477fc24cbd5a142498c49ac, type: 3}
+  globalMaxEnemies: 40
+  spawnIntervalMin: 30
+  spawnIntervalMax: 60
+  spawnCountMin: 1
+  spawnCountMax: 4
+  minSpawnDistanceFromPlayers: 15
+  maxSpawnDistanceFromPlayer: 30
+  spawnAttemptsPerEnemy: 25
+  spawnCheckRadius: 0.35
+  spawnBlockingLayers:
+    serializedVersion: 2
+    m_Bits: 119
+  despawnDistanceFromPlayers: 48
+  serverTickInterval: 0.5
 --- !u!1 &360175013
 GameObject:
   m_ObjectHideFlags: 0
@@ -12285,6 +12345,7 @@ Transform:
   - {fileID: 906161364}
   - {fileID: 1018615975}
   - {fileID: 1282567379}
+  - {fileID: 1882432328}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &766049871
@@ -35830,6 +35891,93 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1880123418}
   m_CullTransparentMesh: 1
+--- !u!1 &1882432326
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1882432328}
+  - component: {fileID: 1882432327}
+  m_Layer: 0
+  m_Name: Navigation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1882432327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882432326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78396926cbbfc4ac3b48fc5fc34a87d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AstarPathfindingProject::AstarPath
+  version: 1
+  data:
+    dataString: UEsDBBQAAAgIAAAYIeyeU24sawIAACMFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFlVE1z2jAU/CuMzg1jHEygt9YQ0kMSJrSTiy9CesYaZMkjyQGS4b/3SbaxS0+IfV+7qyd/EaFsBcxpszaCP2sO5PuI+DP5NuqDT3Cie6224hO6nHfBXeGTaMh5o05oxCe+zOoSnBHsh9pLnxwhWCuRa1Ou+B5SbZ1FOKfSAoaMdr5aIfQ1Iif8uVv4kjOe4gd/+sTTIhpd8MhAOTB9anyfjBeLaRLHXUUSjWdtTVNSKyZpWQH3/PvKWdQNwVNIVKitzfE6mJZS2JYYcecqCE9pZWuUhQlcUBQa2ERjP78AsS+cJzEsf81zC671wdDzUhh0rOlLfurGxpLaQ8Ptg8raT5olgVTT8/m/8N0khHOjy6du7CRIcoVghzd6ZtS6gc1DeNkznwSHjlQe6E7CewHqRa+NrhXHoDO1L60txMv+71VZWgA79HhD9Qasq97yzvDuTr2GSxB/SqUod8HIaQNspQ6Gh1UAg1fzCwmHRbFtC0Q9iz8WftP9cKPawKMw1mGoVak8vZ2ujU8lq+CZV1O7VBsFAW5JV6CodOcNtnG3N3gTG4y9iTxS/3ba4W2sexI3JQHu86PoJrTRx+tl2UIfn8EWr7WTQkFP2gde0KdUK9Us2NCTrmxbm5yyQdm+Fvzf1SLz+x2wxXSeJLspZXxyF0/4Qz5L5ruIs/t4PiNh94RCnVRuGqKtPXhrqm+ucM+6T8pobWgVlp0belyLz1IPCQqV6y0zAOq1aXFlDgan4LvkKy7QoS04J1S4cPKVEanZAXh2nZkFqauTMzTru2SkEh/aeSQjafiIZMTD12XeGPgQcPTDu2YXcvkLUEsDBBQAAAgIAAAYIeww+o94bQAAAHgAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz0jM011FQSi9KLMgoBooYgjilmSkgdrSShXFSarKliYWpaZJJYnKKoa6RYYp5mpmpRZJBSrKxkYWZUixQfUllQapfYm4qRE9AYklGWmZeSmZeup57UWaKO8hopdhaAFBLAQItABQAAAgIAAAYIeyeU24sawIAACMFAAALACQAAAAAAAAAAAAAAAAAAABncmFwaDAuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLAQItABQAAAgIAAAYIeww+o94bQAAAHgAAAAJACQAAAAAAAAAAAAAALgCAABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwUGAAAAAAIAAgC4AAAAcAMAAAAA
+    upgradeData: 
+    file_cachedStartup: {fileID: 0}
+    data_cachedStartup: 
+    cacheStartup: 0
+  showNavGraphs: 1
+  showUnwalkableNodes: 1
+  debugMode: 0
+  debugFloor: 0
+  debugRoof: 1
+  manualDebugFloorRoof: 0
+  showSearchTree: 0
+  unwalkableNodeDebugSize: 0.3
+  logPathResults: 0
+  maxNearestNodeDistance: 100
+  scanOnStartup: 0
+  fullGetNearestSearch: 0
+  prioritizeGraphs: 0
+  prioritizeGraphsLimit: 1
+  colorSettings:
+    _SolidColor: {r: 0.11764706, g: 0.4, b: 0.7882353, a: 0.9}
+    _UnwalkableNode: {r: 1, g: 0, b: 0, a: 0.5}
+    _BoundsHandles: {r: 0.29, g: 0.454, b: 0.741, a: 0.9}
+    _ConnectionLowLerp: {r: 0, g: 1, b: 0, a: 0.5}
+    _ConnectionHighLerp: {r: 1, g: 0, b: 0, a: 0.5}
+    _MeshEdgeColor: {r: 0, g: 0, b: 0, a: 0.5}
+    _AreaColors:
+    - {r: 0, g: 0, b: 0, a: 0}
+  tagNames: []
+  heuristic: 2
+  heuristicScale: 1
+  threadCount: 1
+  maxFrameTime: 10
+  batchGraphUpdates: 0
+  graphUpdateBatchingInterval: 0.2
+  euclideanEmbedding:
+    mode: 0
+    seed: 0
+    pivotPointRoot: {fileID: 0}
+    spreadOutCount: 1
+  showGraphs: 1
+--- !u!4 &1882432328
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882432326}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 766049870}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1894107322
 GameObject:
   m_ObjectHideFlags: 0

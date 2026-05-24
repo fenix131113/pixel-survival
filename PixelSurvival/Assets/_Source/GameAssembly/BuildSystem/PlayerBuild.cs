@@ -14,8 +14,9 @@ namespace GameAssembly.BuildSystem
 {
     public class PlayerBuild : NetworkBehaviour
     {
-        [SerializeField] private GameObject buildIndicator;
-        
+        [SerializeField] private SpriteRenderer buildIndicator;
+        [SerializeField] private SpriteRenderer previewRenderer;
+
         [Inject] private IVariablesResolver<PlayerVariableBlockerType, Action, Action> _playerVariables;
         [Inject] private InputSystem_Actions _input;
         [Inject] private ServerBuild _serverBuild;
@@ -26,7 +27,7 @@ namespace GameAssembly.BuildSystem
         private void Start()
         {
             ObjectInjector.Inject(this);
-            
+
             if (!NetworkClient.active)
                 return;
 
@@ -44,8 +45,8 @@ namespace GameAssembly.BuildSystem
         {
             if (_isInBuildMode)
                 buildIndicator.transform.position = GetCurrentMouseBlockWorldCoords() + new Vector2(0.5f, 0.5f);
-            
-            buildIndicator.SetActive(_isInBuildMode);
+
+            buildIndicator.gameObject.SetActive(_isInBuildMode);
         }
 
         private void OnDestroy()
@@ -58,14 +59,26 @@ namespace GameAssembly.BuildSystem
 
         private void CheckCurrentItem()
         {
+            buildIndicator.enabled = true;
+            previewRenderer.gameObject.SetActive(false);
+
             if (!_selector.IsSelectedItem || (_selector.GetSelectedItem().Definition is not BlockItemDefinitionSO &&
-                _selector.GetSelectedItem().Definition is not PlaceableObjectItemDefinitionSO))
+                                              _selector.GetSelectedItem().Definition is not
+                                                  PlaceableObjectItemDefinitionSO))
             {
                 DeactivateBuildMode();
                 return;
             }
 
             ActivateBuildMode();
+
+            if (_selector.GetSelectedItem().Definition is not PlaceableObjectItemDefinitionSO def ||
+                !def.PlaceableDefinition.Prefab.TryGetComponent<SpriteRenderer>(out var rend))
+                return;
+
+            buildIndicator.enabled = false;
+            previewRenderer.sprite = rend.sprite;
+            previewRenderer.gameObject.SetActive(true);
         }
 
         private void ActivateBuildMode()
@@ -82,7 +95,7 @@ namespace GameAssembly.BuildSystem
         {
             if (!_isInBuildMode || _playerVariables.IsVariableBlocked(PlayerVariableBlockerType.BUILD))
                 return;
-            
+
             Cmd_PlaceBlock(GetCurrentMouseBlockWorldCoords());
         }
 

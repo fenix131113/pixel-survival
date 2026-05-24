@@ -10,7 +10,8 @@
         "Mirror.Transports",
         "Unity.Cinemachine",
         "Mirror.Components",
-        "Unity.2D.Tilemap.Extras"
+        "Unity.2D.Tilemap.Extras",
+        "AstarPathfindingProject"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

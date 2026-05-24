@@ -89,6 +89,26 @@ namespace GameAssembly.UiSystem
         }
 
         public bool IsMenuTypeOpened(MenuType menuType) => _openedMenus.Any(x => x.GetMenuType() == menuType);
+
+        public void Client_CloseAllOpenedMenus(bool includeEscMenu = false)
+        {
+            if (_openedMenus.Count == 0)
+                return;
+
+            while (true)
+            {
+                var menuToClose = _openedMenus.LastOrDefault(menu =>
+                    includeEscMenu || menu.GetMenuType() != MenuType.ESC_MENU);
+
+                if (menuToClose == null)
+                    break;
+
+                CancelRequest(menuToClose);
+            }
+
+            if (!_openedMenus.Any(x => x is IUiInventory))
+                inventoriesPanel.SetActive(false);
+        }
         
         private bool CanOpenMenuOverOpenedMenus(IUiMenu menuToOpen)
         {
