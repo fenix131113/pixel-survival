@@ -12,6 +12,7 @@ namespace GameAssembly.WorldSystem.View
         [field: SerializeField] public Tilemap FloorTilemap { get; private set; }
         [SerializeField] private TilemapCollider2D tilemapCollider;
         public Chunk Chunk { get; private set; }
+        private World _world;
 
         private void Awake()
         {
@@ -26,9 +27,10 @@ namespace GameAssembly.WorldSystem.View
             }
         }
 
-        public void Construct(Chunk chunk)
+        public void Construct(Chunk chunk, World world)
         {
             Chunk = chunk;
+            _world = world;
             Chunk.OnChunkCellChanged += OnChunkCellChanged;
         }
 
@@ -48,10 +50,7 @@ namespace GameAssembly.WorldSystem.View
                 for (var y = 0; y < Chunk.CHUNK_SIZE; y++)
                 {
                     var cell = Chunk.Cells[x, y];
-                    upperTiles[GetFlatTileIndex(x, y)] =
-                        cell.Block.type != BlockType.AIR && cell.Block.definition && cell.Block.definition.Tile
-                            ? cell.Block.definition.Tile
-                            : null;
+                    upperTiles[GetFlatTileIndex(x, y)] = ResolveUpperTile(x, y, cell.Block);
                 }
             }
 
@@ -115,8 +114,7 @@ namespace GameAssembly.WorldSystem.View
 
                     if (cell.Block.type != BlockType.AIR)
                     {
-                        var blockDef = cell.Block.definition;
-                        UpperTilemap.SetTile(upperPos, blockDef && blockDef.Tile ? blockDef.Tile : null);
+                        UpperTilemap.SetTile(upperPos, ResolveUpperTile(x, y, cell.Block));
                     }
                     else
                     {
@@ -148,6 +146,20 @@ namespace GameAssembly.WorldSystem.View
         private static int GetFlatTileIndex(int x, int y)
         {
             return x + y * Chunk.CHUNK_SIZE;
+        }
+
+        private TileBase ResolveUpperTile(int localX, int localY, BlockData block)
+        {
+            if (_world != null && Chunk != null)
+            {
+                var worldX = Chunk.Coord.X * Chunk.CHUNK_SIZE + localX;
+                var worldY = Chunk.Coord.Y * Chunk.CHUNK_SIZE + localY;
+                if (_world.TryGetBorderWallTileOverride(worldX, worldY, out var borderTile))
+                    return borderTile;
+            }
+
+            var blockDef = block.definition;
+            return blockDef && blockDef.Tile ? blockDef.Tile : null;
         }
     }
 }

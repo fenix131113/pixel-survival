@@ -144,6 +144,9 @@ namespace GameAssembly.WorldSystem
             if (world == null || damage <= 0)
                 return BlockDamageApplyResult._none;
 
+            if (world.IsBorderWallCell(blockWorldPos.x, blockWorldPos.y))
+                return BlockDamageApplyResult._none;
+
             if (_damageStates.TryGetValue(blockWorldPos, out var oldState) && IsExpired(oldState, now))
                 ClearState(blockWorldPos, true);
 

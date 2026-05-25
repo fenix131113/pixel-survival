@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SpaceshipTruster
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.PlaceableObjectItemDefinitionSO
   <NameTranslationKey>k__BackingField: object.spaceship.truster
-  <Icon>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: 21300000, guid: cc84456bfcaff0d428c405a70bb216ef, type: 3}
   <InventoryIcon>k__BackingField: {fileID: 0}
   <MaxCount>k__BackingField: 99
   <InHandAttackAnimationKey>k__BackingField: 

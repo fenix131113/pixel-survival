@@ -69,6 +69,8 @@ MonoBehaviour:
     definition: {fileID: 11400000, guid: 6f13541ab2ee4344aa1a5cdf90933ca8, type: 2}
   - id: 2b4800e84451434b90191a9c5c032b35
     definition: {fileID: 11400000, guid: 81ffde411e5acb34980ea5313a216022, type: 2}
+  - id: 2b81792b312f41cb8a9ea58dab3b6bc5
+    definition: {fileID: 11400000, guid: 6a462e67ad8e46740a08af89face353c, type: 2}
   - id: 2d90ac23a5c34d48bc92da9aac982159
     definition: {fileID: 11400000, guid: 981320a62f14a4045a73608d045ee19b, type: 2}
   - id: 2e3cc88723af4c92b26df258a8b7c467

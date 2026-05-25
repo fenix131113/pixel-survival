@@ -8,6 +8,7 @@ using GameAssembly.Utils.Extensions;
 using GameAssembly.WorldSystem.Data;
 using R3;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using Random = System.Random;
 
 namespace GameAssembly.WorldSystem
@@ -37,6 +38,9 @@ namespace GameAssembly.WorldSystem
             Resources.Load<DifficultyIslandConfig>(AssetsPaths.DIFFICULTY_ISLANDS_CONFIGS_PATH);
 
         private readonly List<DifficultyIsland> _difficultyIslands = new();
+        private int _borderWallLayers;
+        private BlockDefinitionSO _borderWallDefinition;
+        private TileBase _borderWallTileOverride;
 
         public IReadOnlyDictionary<ChunkCoord, Chunk> Chunks => _chunks;
 
@@ -49,6 +53,46 @@ namespace GameAssembly.WorldSystem
         }
 
         public void SetupSeed(int seed) => Seed = seed;
+
+        public void ConfigureBorderWalls(BlockDefinitionSO borderWallDefinition, TileBase borderWallTileOverride,
+            int borderWallLayers)
+        {
+            var maxAllowedLayers = Mathf.Max(0, WORLD_SIZE * Chunk.CHUNK_SIZE / 2);
+            _borderWallLayers = Mathf.Clamp(borderWallLayers, 0, maxAllowedLayers);
+            _borderWallDefinition = borderWallDefinition;
+            _borderWallTileOverride = borderWallTileOverride;
+
+            if (_borderWallLayers > 0 && !_borderWallDefinition)
+            {
+                Debug.LogWarning(
+                    $"[{nameof(World)}] Border wall layers are configured, but wall definition is not assigned. Border walls generation is disabled.");
+                _borderWallLayers = 0;
+            }
+        }
+
+        public bool IsBorderWallCell(int worldX, int worldY)
+        {
+            if (_borderWallLayers <= 0 || !IsWorldPositionInsideBounds(worldX, worldY))
+                return false;
+
+            var worldMax = WORLD_SIZE * Chunk.CHUNK_SIZE;
+            var edgeDistance = Mathf.Min(
+                Mathf.Min(worldX, worldMax - 1 - worldX),
+                Mathf.Min(worldY, worldMax - 1 - worldY));
+
+            return edgeDistance < _borderWallLayers;
+        }
+
+        public bool TryGetBorderWallTileOverride(int worldX, int worldY, out TileBase tile)
+        {
+            tile = null;
+
+            if (!_borderWallTileOverride || !IsBorderWallCell(worldX, worldY))
+                return false;
+
+            tile = _borderWallTileOverride;
+            return true;
+        }
 
         public void SetupChunk(Chunk chunk)
         {
@@ -298,6 +342,9 @@ namespace GameAssembly.WorldSystem
                                 : BlockData.Air;
                     else
                         chunk.Cells[x, y].Block = BlockData.Air;
+
+                    if (IsBorderWallCell(worldX, worldY) && _borderWallDefinition)
+                        chunk.Cells[x, y].Block = BlockData.CreateBlock(_borderWallDefinition);
                 }
             }
 

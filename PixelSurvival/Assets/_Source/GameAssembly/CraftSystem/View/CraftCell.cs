@@ -71,7 +71,7 @@ namespace GameAssembly.CraftSystem.View
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (_craftManager == null || !recipe)
+            if (!_craftManager || !recipe)
                 return;
 
             RefreshUnlockVisualState();

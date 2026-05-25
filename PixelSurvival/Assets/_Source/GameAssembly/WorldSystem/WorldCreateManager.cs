@@ -7,8 +7,10 @@ using GameAssembly.BuildSystem.WorldObjects;
 using GameAssembly.CraftSystem.Data;
 using GameAssembly.Core;
 using GameAssembly.Utils;
+using GameAssembly.WorldSystem.Data;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using VContainer;
 
 namespace GameAssembly.WorldSystem
@@ -24,6 +26,9 @@ namespace GameAssembly.WorldSystem
 
         [SerializeField, Min(0.1f)] private float blockDamageResetDelay = 4f;
         [SerializeField, Range(0.1f, 0.99f)] private float chunkGenerationProgressWeight = 0.85f;
+        [SerializeField, Min(0)] private int borderWallLayers = 4;
+        [SerializeField] private BlockDefinitionSO borderWallDefinition;
+        [SerializeField] private TileBase borderWallTileOverride;
 
         private readonly Dictionary<int, Coroutine> _syncCoroutines = new();
         private readonly Dictionary<int, HashSet<ChunkCoord>> _sentChunksByConnection = new();
@@ -149,6 +154,7 @@ namespace GameAssembly.WorldSystem
 
             try
             {
+                _world.ConfigureBorderWalls(borderWallDefinition, borderWallTileOverride, borderWallLayers);
                 _blockDamageSystem.ResetDelaySeconds = blockDamageResetDelay;
 
                 if (!NetworkServer.active)

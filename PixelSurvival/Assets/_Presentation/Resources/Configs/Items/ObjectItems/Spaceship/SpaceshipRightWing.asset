@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SpaceshipRightWing
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.PlaceableObjectItemDefinitionSO
   <NameTranslationKey>k__BackingField: object.spaceship.right_wing
-  <Icon>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: 7704922798121378426, guid: 5ebdaa823d5c00f4f8167135eb314efe, type: 3}
   <InventoryIcon>k__BackingField: {fileID: 0}
   <MaxCount>k__BackingField: 99
   <InHandAttackAnimationKey>k__BackingField: 

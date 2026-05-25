@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using GameAssembly.BuildSystem.Data;
 using GameAssembly.BuildSystem.WorldObjects;
 using GameAssembly.Core;
+using GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects;
 using Mirror;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace GameAssembly.ObjectsSystem.Spaceship
     public class SpaceshipController : NetworkBehaviour
     {
         [SerializeField] private RequiredObjectSlot[] requiredObjects = Array.Empty<RequiredObjectSlot>();
+        [SerializeField] private bool logWhenAssemblyBecomesValid;
         [SerializeField] private bool logWhenAssemblyBecomesInvalid = true;
         [SerializeField] private bool logRequirementDetailsOnInitialization = true;
 
@@ -175,20 +177,27 @@ namespace GameAssembly.ObjectsSystem.Spaceship
 
             IsAssemblyCompleted = isCompletedNow;
 
-            if (isCompletedNow)
+            if (IsAssemblyCompleted)
+            {
+                var endGame = FindFirstObjectByType<EndGame.EndGame>();
+                if (!endGame.IsGameEnded() && GetComponent<EndGameChest>().IsCompleted)
+                    endGame.Server_EndGame();
+            }
+
+            if (isCompletedNow && logWhenAssemblyBecomesValid)
             {
                 Debug.Log($"[{nameof(SpaceshipController)}] Spaceship build is completed.", this);
                 return;
             }
 
-            if (logWhenAssemblyBecomesInvalid)
+            if (!isCompletedNow && logWhenAssemblyBecomesInvalid)
                 Debug.Log($"[{nameof(SpaceshipController)}] Spaceship build is no longer completed.", this);
         }
 
         [Server]
         private Vector2Int GetControllerCell()
         {
-            if (_selfPlacedWorldObject != null && _selfPlacedWorldObject.IsInitialized)
+            if (_selfPlacedWorldObject && _selfPlacedWorldObject.IsInitialized)
                 return _selfPlacedWorldObject.OriginCell;
 
             var position = transform.position;

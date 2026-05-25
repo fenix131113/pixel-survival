@@ -90,7 +90,7 @@ namespace GameAssembly.WorldSystem.View
             var rend = go.GetComponent<ChunkRenderer>();
             rend.transform.parent = transform;
             _chunksRenderers.Add(chunk.Coord, rend);
-            rend.Construct(chunk);
+            rend.Construct(chunk, _world);
             chunk.OnChunkCellChanged += OnChunkCellChanged;
 
             //rend.RebuildVisual();
@@ -119,8 +119,9 @@ namespace GameAssembly.WorldSystem.View
 
                     if (cell.Block.type != BlockType.AIR)
                     {
-                        var blockDef = cell.Block.definition;
-                        upperTiles[flatIndex] = blockDef && blockDef.Tile ? blockDef.Tile : null;
+                        var worldX = chunk.Coord.X * Chunk.CHUNK_SIZE + x;
+                        var worldY = chunk.Coord.Y * Chunk.CHUNK_SIZE + y;
+                        upperTiles[flatIndex] = ResolveBlockTile(worldX, worldY, cell.Block);
                     }
                 }
             }
@@ -364,8 +365,7 @@ namespace GameAssembly.WorldSystem.View
 
             if (cell.Block.type != BlockType.AIR)
             {
-                var blockDef = cell.Block.definition;
-                globalUpperVisualTilemap.SetTile(tilePos, blockDef && blockDef.Tile ? blockDef.Tile : null);
+                globalUpperVisualTilemap.SetTile(tilePos, ResolveBlockTile(worldPos.x, worldPos.y, cell.Block));
                 globalUpperVisualTilemap.SetTileFlags(tilePos, TileFlags.None);
                 globalUpperVisualTilemap.SetColor(tilePos, Color.white);
 
@@ -378,6 +378,15 @@ namespace GameAssembly.WorldSystem.View
                 globalUpperVisualTilemap.SetTileFlags(tilePos, TileFlags.None);
                 globalUpperVisualTilemap.SetColor(tilePos, Color.white);
             }
+        }
+
+        private TileBase ResolveBlockTile(int worldX, int worldY, BlockData block)
+        {
+            if (_world != null && _world.TryGetBorderWallTileOverride(worldX, worldY, out var borderTile))
+                return borderTile;
+
+            var blockDef = block.definition;
+            return blockDef && blockDef.Tile ? blockDef.Tile : null;
         }
 
         private void RefreshVisualArea(Vector2Int centerWorldPos)

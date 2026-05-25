@@ -4,6 +4,7 @@ using System.Linq;
 using GameAssembly.InventorySystem;
 using GameAssembly.ItemsSystem;
 using GameAssembly.ItemsSystem.Data;
+using GameAssembly.ObjectsSystem.Spaceship;
 using GameAssembly.ObjectsSystem.View.ObjectsView;
 using Mirror;
 using UnityEngine;
@@ -21,6 +22,7 @@ namespace GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects
 
         [field: SyncVar(hook = nameof(OnCompletionChanged))]
         public bool IsCompleted { get; private set; }
+
         public bool IsItemExtractionLocked => lockItemsInChestAfterComplete && IsCompleted;
 
         private bool _completionRaisedLocal;
@@ -160,6 +162,10 @@ namespace GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects
                 return;
 
             IsCompleted = isCompleteNow;
+
+            var endGame = FindFirstObjectByType<EndGame.EndGame>();
+            if (!endGame.IsGameEnded() && TryGetComponent<SpaceshipController>(out var c) && c.IsAssemblyCompleted)
+                endGame.Server_EndGame();
 
             if (isCompleteNow)
                 RaiseCompletionEndpointOnce();
