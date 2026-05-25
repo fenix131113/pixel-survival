@@ -13,6 +13,7 @@ namespace GameAssembly.ObjectsSystem.Spaceship
     {
         [SerializeField] private RequiredObjectSlot[] requiredObjects = Array.Empty<RequiredObjectSlot>();
         [SerializeField] private bool logWhenAssemblyBecomesInvalid = true;
+        [SerializeField] private bool logRequirementDetailsOnInitialization = true;
 
         [field: SerializeField] public bool IsAssemblyCompleted { get; private set; }
 
@@ -22,10 +23,12 @@ namespace GameAssembly.ObjectsSystem.Spaceship
         private Coroutine _initCoroutine;
         private WorldObjectRegistry _registry;
         private int _satisfiedRequirementsCount;
+        private PlacedWorldObject _selfPlacedWorldObject;
 
         public override void OnStartServer()
         {
             base.OnStartServer();
+            _selfPlacedWorldObject = GetComponent<PlacedWorldObject>();
             _initCoroutine = StartCoroutine(Server_InitializeWhenRegistryReady());
         }
 
@@ -127,6 +130,9 @@ namespace GameAssembly.ObjectsSystem.Spaceship
             }
 
             Server_UpdateAssemblyState();
+
+            if (!IsAssemblyCompleted && logRequirementDetailsOnInitialization)
+                Server_LogUnsatisfiedRequirements();
         }
 
         [Server]
@@ -179,10 +185,40 @@ namespace GameAssembly.ObjectsSystem.Spaceship
                 Debug.Log($"[{nameof(SpaceshipController)}] Spaceship build is no longer completed.", this);
         }
 
+        [Server]
         private Vector2Int GetControllerCell()
         {
+            if (_selfPlacedWorldObject != null && _selfPlacedWorldObject.IsInitialized)
+                return _selfPlacedWorldObject.OriginCell;
+
             var position = transform.position;
             return new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y));
+        }
+
+        [Server]
+        private void Server_LogUnsatisfiedRequirements()
+        {
+            for (var i = 0; i < _requirements.Count; i++)
+            {
+                var requirement = _requirements[i];
+                if (requirement.IsSatisfied)
+                    continue;
+
+                if (_registry != null && _registry.TryGetObjectAtCell(requirement.WorldCell, out var placedObject) && placedObject != null)
+                {
+                    var currentDefinitionName = placedObject.Definition ? placedObject.Definition.name : "null";
+                    Debug.Log(
+                        $"[{nameof(SpaceshipController)}] Requirement #{i} is NOT satisfied at cell {requirement.WorldCell}. " +
+                        $"Expected '{requirement.RequiredDefinition.name}', found '{currentDefinitionName}'.",
+                        this);
+                    continue;
+                }
+
+                Debug.Log(
+                    $"[{nameof(SpaceshipController)}] Requirement #{i} is NOT satisfied at cell {requirement.WorldCell}. " +
+                    $"Expected '{requirement.RequiredDefinition.name}', found empty cell.",
+                    this);
+            }
         }
 
         [Server]

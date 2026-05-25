@@ -55,13 +55,22 @@ namespace GameAssembly.InventorySystem
 
             if (item1 == null)
                 return;
+            
+            if (IsItemExtractionLocked(inv1))
+                return;
 
             if (item2 == null) // Move item to empty cell
             {
-                if (!inv2.TryAddItemInIndexFromInstance(item1.Copy(), secondIndex, true))
+                var item1Copy = item1.Copy();
+
+                if (!inv1.TryRemoveItemByIndex(firstIndex, false))
                     return;
 
-                inv1.TryRemoveItemByIndex(firstIndex, false);
+                if (!inv2.TryAddItemInIndexFromInstance(item1Copy.Copy(), secondIndex, true))
+                {
+                    TryRestoreItem(inv1, item1Copy, firstIndex);
+                    return;
+                }
 
                 OnCombiningCellsReplace?.Invoke(firstInvIdentity, firstIndex, secondInvIdentity, secondIndex);
                 Target_InvokeOnCombiningCellsReplace(connectionToClient, firstInvIdentity, firstIndex,
@@ -138,6 +147,9 @@ namespace GameAssembly.InventorySystem
 
             if (item == null || inv2 == null)
                 return;
+            
+            if (IsItemExtractionLocked(inv))
+                return;
 
             inv2.TryAddItemFromInstance(item, false);
         }
@@ -164,13 +176,19 @@ namespace GameAssembly.InventorySystem
 
             if (item1 == null)
                 return;
+            
+            if (IsItemExtractionLocked(inv1))
+                return;
 
             if (item2 == null) // Place first item in empty second cell
             {
-                if (!inv2.TryAddItemInIndexFromInstance(item1.Copy(), secondIndex, true))
+                var item1Copy = item1.Copy();
+
+                if (!inv1.TryRemoveItemByIndex(firstIndex, false))
                     return;
 
-                inv1.TryRemoveItemByIndex(firstIndex, false);
+                if (!inv2.TryAddItemInIndexFromInstance(item1Copy.Copy(), secondIndex, true))
+                    TryRestoreItem(inv1, item1Copy, firstIndex);
             }
             else if (item2.Definition == item1.Definition && item2.Count < item2.Definition.MaxCount) // Add count
             {
@@ -255,5 +273,8 @@ namespace GameAssembly.InventorySystem
 
             return inventory.TryAddItemFromInstance(item, true, true);
         }
+        
+        private static bool IsItemExtractionLocked(IInventory inventory) =>
+            inventory is IInventoryExtractionLock { IsItemExtractionLocked: true };
     }
 }

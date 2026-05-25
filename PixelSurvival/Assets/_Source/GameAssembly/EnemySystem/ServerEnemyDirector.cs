@@ -30,7 +30,7 @@ namespace GameAssembly.EnemySystem
         [SerializeField, Min(1f)] private float maxSpawnDistanceFromPlayer = 20f;
         [SerializeField, Min(1)] private int spawnAttemptsPerEnemy = 12;
         [SerializeField, Min(0.05f)] private float spawnCheckRadius = 0.35f;
-        [SerializeField] private LayerMask spawnBlockingLayers = ~0;
+        [SerializeField] private LayerMask spawnBlockingLayers;
 
         [Header("Despawn")]
         [SerializeField, Min(5f)] private float despawnDistanceFromPlayers = 48f;

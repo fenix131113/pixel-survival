@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GameAssembly.InventorySystem;
 using GameAssembly.ItemsSystem;
 using GameAssembly.ItemsSystem.Data;
 using GameAssembly.ObjectsSystem.View.ObjectsView;
@@ -10,15 +11,17 @@ using VContainer;
 
 namespace GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects
 {
-    public class EndGameChest : Chest
+    public class EndGameChest : Chest, IInventoryExtractionLock
     {
         [SerializeField] private ItemDefinitionSO[] requiredItems = new ItemDefinitionSO[4];
         [SerializeField] private bool lockInsertAfterCompletion = true;
+        [SerializeField] private bool lockItemsInChestAfterComplete = true;
 
         [Inject] private EndGameChestView _endGameChestView;
 
         [field: SyncVar(hook = nameof(OnCompletionChanged))]
         public bool IsCompleted { get; private set; }
+        public bool IsItemExtractionLocked => lockItemsInChestAfterComplete && IsCompleted;
 
         private bool _completionRaisedLocal;
 
@@ -38,6 +41,12 @@ namespace GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects
             _endGameChestView.Initialize(this);
             OpenInventoryView(_endGameChestView);
         }
+
+        public override bool TryRemoveItem(ItemDefinitionSO definition, int count) =>
+            !IsItemExtractionLocked && base.TryRemoveItem(definition, count);
+
+        public override bool TryRemoveItemByIndex(int index, bool countRemove) =>
+            !IsItemExtractionLocked && base.TryRemoveItemByIndex(index, countRemove);
 
         [Server]
         public override bool TryAddItemFromInstance(ItemInstance instance, bool fullInsert, bool ignoreMeta = false)

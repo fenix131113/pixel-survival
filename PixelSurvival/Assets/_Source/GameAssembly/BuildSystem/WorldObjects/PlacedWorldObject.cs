@@ -9,6 +9,7 @@ namespace GameAssembly.BuildSystem.WorldObjects
         [field: SerializeField] public PlaceableObjectDefinitionSO Definition { get; private set; }
 
         public Vector2Int OriginCell { get; private set; }
+        public bool IsInitialized { get; private set; }
         
         private WorldObjectRegistry _registry;
 
@@ -18,6 +19,7 @@ namespace GameAssembly.BuildSystem.WorldObjects
             OriginCell = originCell;
             Definition = definition;
             _registry = registry;
+            IsInitialized = true;
         }
         
         public override void OnStopServer()

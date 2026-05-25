@@ -5799,7 +5799,7 @@ MonoBehaviour:
   inventoryPanel: {fileID: 65871136}
   cellsParent: {fileID: 65168520}
   hotBarParent: {fileID: 1867685548}
-  allowedMenuTypesOnTop: 03
+  allowedMenuTypesOnTop: 0305
 --- !u!114 &355121246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6009,7 +6009,7 @@ MonoBehaviour:
   flushGraphUpdatesImmediately: 0
   obstacleLayersMask:
     serializedVersion: 2
-    m_Bits: 4294967251
+    m_Bits: 4294966867
 --- !u!114 &355121258
 MonoBehaviour:
   m_ObjectHideFlags: 0

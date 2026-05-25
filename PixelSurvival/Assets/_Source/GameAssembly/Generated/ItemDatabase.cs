@@ -39,7 +39,11 @@ namespace GameAssembly.Generated
         public static readonly ItemDefinitionSO Chest;
         public static readonly ItemDefinitionSO EndGameChest;
         public static readonly ItemDefinitionSO Furnace;
+        public static readonly ItemDefinitionSO SpaceshipBody;
         public static readonly ItemDefinitionSO SpaceshipControllerItem;
+        public static readonly ItemDefinitionSO SpaceshipLeftWing;
+        public static readonly ItemDefinitionSO SpaceshipRightWing;
+        public static readonly ItemDefinitionSO SpaceshipTruster;
         public static readonly ItemDefinitionSO Workbecnh;
         public static readonly ItemDefinitionSO Pie;
         public static readonly ItemDefinitionSO RedMushroom;
@@ -57,6 +61,10 @@ namespace GameAssembly.Generated
         public static readonly ItemDefinitionSO MystriumIngot;
         public static readonly ItemDefinitionSO MystriumPlate;
         public static readonly ItemDefinitionSO Rope;
+        public static readonly ItemDefinitionSO Compressor;
+        public static readonly ItemDefinitionSO Overheater;
+        public static readonly ItemDefinitionSO Radiator;
+        public static readonly ItemDefinitionSO Turbine;
         public static readonly ItemDefinitionSO Stick;
         public static readonly ItemDefinitionSO Stone;
         public static readonly ItemDefinitionSO Viridium;
@@ -109,7 +117,11 @@ namespace GameAssembly.Generated
             Chest = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Chest");
             EndGameChest = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/EndGameChest");
             Furnace = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Furnace");
+            SpaceshipBody = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/SpaceshipBody");
             SpaceshipControllerItem = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/SpaceshipControllerItem");
+            SpaceshipLeftWing = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/SpaceshipLeftWing");
+            SpaceshipRightWing = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/SpaceshipRightWing");
+            SpaceshipTruster = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/SpaceshipTruster");
             Workbecnh = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Workbecnh");
             Pie = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Pie");
             RedMushroom = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/RedMushroom");
@@ -127,6 +139,10 @@ namespace GameAssembly.Generated
             MystriumIngot = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/MystriumIngot");
             MystriumPlate = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/MystriumPlate");
             Rope = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Rope");
+            Compressor = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Compressor");
+            Overheater = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Overheater");
+            Radiator = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Radiator");
+            Turbine = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Turbine");
             Stick = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Stick");
             Stone = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Stone");
             Viridium = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Viridium");

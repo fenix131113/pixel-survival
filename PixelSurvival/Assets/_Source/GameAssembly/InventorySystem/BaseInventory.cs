@@ -283,7 +283,7 @@ namespace GameAssembly.InventorySystem
         }
 
         [Server]
-        public bool TryRemoveItemByIndex(int index, bool countRemove)
+        public virtual bool TryRemoveItemByIndex(int index, bool countRemove)
         {
             if (_items[index] == null)
                 return true;
