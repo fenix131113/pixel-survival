@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using GameAssembly.BuildSystem.WorldObjects;
-using GameAssembly.CraftSystem.Data;
 using GameAssembly.Core;
+using GameAssembly.CraftSystem.Data;
 using GameAssembly.Utils;
 using GameAssembly.WorldSystem.Data;
 using Mirror;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using VContainer;
 
 namespace GameAssembly.WorldSystem
@@ -28,7 +27,6 @@ namespace GameAssembly.WorldSystem
         [SerializeField, Range(0.1f, 0.99f)] private float chunkGenerationProgressWeight = 0.85f;
         [SerializeField, Min(0)] private int borderWallLayers = 4;
         [SerializeField] private BlockDefinitionSO borderWallDefinition;
-        [SerializeField] private TileBase borderWallTileOverride;
 
         private readonly Dictionary<int, Coroutine> _syncCoroutines = new();
         private readonly Dictionary<int, HashSet<ChunkCoord>> _sentChunksByConnection = new();
@@ -148,13 +146,14 @@ namespace GameAssembly.WorldSystem
         private async void Awake()
         {
             if (Instance && Instance != this)
-                Debug.LogWarning($"[{nameof(WorldCreateManager)}] Multiple instances detected. Replacing previous instance.");
+                Debug.LogWarning(
+                    $"[{nameof(WorldCreateManager)}] Multiple instances detected. Replacing previous instance.");
 
             Instance = this;
 
             try
             {
-                _world.ConfigureBorderWalls(borderWallDefinition, borderWallTileOverride, borderWallLayers);
+                _world.ConfigureBorderWalls(borderWallDefinition, borderWallLayers);
                 _blockDamageSystem.ResetDelaySeconds = blockDamageResetDelay;
 
                 if (!NetworkServer.active)
@@ -256,7 +255,7 @@ namespace GameAssembly.WorldSystem
         {
             if (NetworkServer.active)
                 return;
-            
+
             _chunkAssemblyStates.Clear();
             _world.SetupSeed(seed);
         }
@@ -343,7 +342,8 @@ namespace GameAssembly.WorldSystem
         }
 
         [ClientRpc]
-        private void Rpc_BlockDamageProgress(Vector2Int blockWorldPos, float progress01, int currentDamage, int maxHealth)
+        private void Rpc_BlockDamageProgress(Vector2Int blockWorldPos, float progress01, int currentDamage,
+            int maxHealth)
         {
             ClientOnBlockDamageProgress?.Invoke(blockWorldPos, progress01, currentDamage, maxHealth);
         }
@@ -638,7 +638,8 @@ namespace GameAssembly.WorldSystem
             if (state == 1)
             {
                 var cyclePath = stack.Reverse().Concat(new[] { recipeId });
-                Debug.LogWarning($"[{nameof(WorldCreateManager)}] Craft unlock dependency cycle detected: {string.Join(" -> ", cyclePath)}");
+                Debug.LogWarning(
+                    $"[{nameof(WorldCreateManager)}] Craft unlock dependency cycle detected: {string.Join(" -> ", cyclePath)}");
                 return true;
             }
 
@@ -694,4 +695,3 @@ namespace GameAssembly.WorldSystem
         }
     }
 }
-

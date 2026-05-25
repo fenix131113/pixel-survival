@@ -40,7 +40,6 @@ namespace GameAssembly.WorldSystem
         private readonly List<DifficultyIsland> _difficultyIslands = new();
         private int _borderWallLayers;
         private BlockDefinitionSO _borderWallDefinition;
-        private TileBase _borderWallTileOverride;
 
         public IReadOnlyDictionary<ChunkCoord, Chunk> Chunks => _chunks;
 
@@ -54,13 +53,11 @@ namespace GameAssembly.WorldSystem
 
         public void SetupSeed(int seed) => Seed = seed;
 
-        public void ConfigureBorderWalls(BlockDefinitionSO borderWallDefinition, TileBase borderWallTileOverride,
-            int borderWallLayers)
+        public void ConfigureBorderWalls(BlockDefinitionSO borderWallDefinition, int borderWallLayers)
         {
             var maxAllowedLayers = Mathf.Max(0, WORLD_SIZE * Chunk.CHUNK_SIZE / 2);
             _borderWallLayers = Mathf.Clamp(borderWallLayers, 0, maxAllowedLayers);
             _borderWallDefinition = borderWallDefinition;
-            _borderWallTileOverride = borderWallTileOverride;
 
             if (_borderWallLayers > 0 && !_borderWallDefinition)
             {
@@ -87,10 +84,10 @@ namespace GameAssembly.WorldSystem
         {
             tile = null;
 
-            if (!_borderWallTileOverride || !IsBorderWallCell(worldX, worldY))
+            if (!_borderWallDefinition.Tile || !IsBorderWallCell(worldX, worldY))
                 return false;
 
-            tile = _borderWallTileOverride;
+            tile = _borderWallDefinition.Tile;
             return true;
         }
 
