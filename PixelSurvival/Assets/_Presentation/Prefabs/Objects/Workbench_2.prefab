@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: -715283782718032616}
   - component: {fileID: 7590385115631858762}
   m_Layer: 0
-  m_Name: Workbench
+  m_Name: Workbench_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ SpriteRenderer:
   m_SortingLayerID: -1049979271
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 5474467218093569299, guid: 85a284eb89ea2ef40bd4cf4c4c1b955c, type: 3}
+  m_Sprite: {fileID: -3387698042658800793, guid: 85a284eb89ea2ef40bd4cf4c4c1b955c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Mirror::Mirror.NetworkIdentity
   sceneId: 0
-  _assetId: 4182172494
+  _assetId: 3932641416
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
@@ -130,7 +130,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  <Definition>k__BackingField: {fileID: 11400000, guid: f8abdf7db66fe4b47ab4582b01c13f0f, type: 2}
+  <Definition>k__BackingField: {fileID: 11400000, guid: 9921ed739680e984ea0db0470fcaefee, type: 2}
 --- !u!61 &6408317792899095201
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -234,7 +234,7 @@ MonoBehaviour:
   healthObject: {fileID: -3069487792209887469}
   droppingObject: {fileID: 9090697042307161094, guid: 3be4b7b7b0e727441b9259d6e5613423, type: 3}
   drops:
-  - itemDefinition: {fileID: 11400000, guid: 1ba9ddeec6be5884682f046976235177, type: 2}
+  - itemDefinition: {fileID: 11400000, guid: 5024046abc64cbe48a29645a9a419af6, type: 2}
     minCount: 1
     maxCount: 1
 --- !u!114 &7590385115631858762
@@ -252,7 +252,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  tier: 0
+  tier: 1
   workbenchRenderer: {fileID: 2381922299779657205}
 --- !u!1 &7565389612257122605
 GameObject:

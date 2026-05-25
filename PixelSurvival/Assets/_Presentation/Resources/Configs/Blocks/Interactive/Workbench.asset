@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1df7e96586de47ba9337ceb8f5f11fd9, type: 3}
   m_Name: Workbench
   m_EditorClassIdentifier: GameAssembly::GameAssembly.BuildSystem.Data.PlaceableObjectDefinitionSO
-  <Size>k__BackingField: {x: 2, y: 1}
+  <Size>k__BackingField: {x: 1, y: 1}
   <RequireEmptyWallLayer>k__BackingField: 1
   <RequireFloor>k__BackingField: 1
   <Prefab>k__BackingField: {fileID: 5810992972837582191, guid: 20240e5cf51c6d74188d3ac416952c70, type: 3}

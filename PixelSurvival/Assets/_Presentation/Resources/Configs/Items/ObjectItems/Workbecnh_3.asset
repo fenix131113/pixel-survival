@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7d3e3418bd74489b1d2e792ffbc4263, type: 3}
-  m_Name: SpaceshipLeftWing
+  m_Name: Workbecnh_3
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.PlaceableObjectItemDefinitionSO
-  <NameTranslationKey>k__BackingField: object.spaceship.left_wing
-  <Icon>k__BackingField: {fileID: 0}
+  <NameTranslationKey>k__BackingField: object.workbench_tier_3
+  <Icon>k__BackingField: {fileID: 276281608, guid: 0cf4f92b88e264542978695fad1fd9aa, type: 3}
   <InventoryIcon>k__BackingField: {fileID: 0}
-  <MaxCount>k__BackingField: 99
+  <MaxCount>k__BackingField: 1
   <InHandAttackAnimationKey>k__BackingField: 
-  id: 22d222b9f92e4b6d98b64d55660d0d7f
-  <PlaceableDefinition>k__BackingField: {fileID: 11400000, guid: 4ea9c93dba06ae04d8d8cf5e86f508cd, type: 2}
+  id: 
+  <PlaceableDefinition>k__BackingField: {fileID: 11400000, guid: d7b18becde61e6b4bb47c1510fb4d552, type: 2}
