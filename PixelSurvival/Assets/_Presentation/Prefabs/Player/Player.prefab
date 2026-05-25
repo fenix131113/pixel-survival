@@ -474,6 +474,7 @@ GameObject:
   - component: {fileID: -7355307408136034134}
   - component: {fileID: -3329573428407861186}
   - component: {fileID: 940379009787909008}
+  - component: {fileID: 614244200033262236}
   - component: {fileID: 3510546047238882582}
   - component: {fileID: 7482978751402099095}
   - component: {fileID: 5380170667326270308}
@@ -713,6 +714,27 @@ MonoBehaviour:
   healthType: 1
   maxHealth: 100
   immediatelyDestroy: 0
+--- !u!114 &614244200033262236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7138410634727892820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c572cc84e7c84fa4af845448476a4bea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.ObjectsSystem.View.BreakableObjectView
+  healthObject: {fileID: 940379009787909008}
+  shakeDuration: 0
+  shakeStrength: 0
+  shakeVibrato: 0
+  enableHitFlash: 1
+  targetRenderers:
+  - {fileID: 9210599103411227899}
+  hitFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  hitFlashDuration: 0.1
 --- !u!61 &3510546047238882582
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -5,7 +5,6 @@ using GameAssembly.HealthSystem.Data;
 using GameAssembly.WorldSystem;
 using GameAssembly.WorldSystem.Data;
 using Mirror;
-using Pathfinding;
 using UnityEngine;
 using VContainer;
 

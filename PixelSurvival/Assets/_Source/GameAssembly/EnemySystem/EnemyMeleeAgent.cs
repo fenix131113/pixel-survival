@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using GameAssembly.HealthSystem;
 using GameAssembly.HealthSystem.Data;
@@ -12,6 +13,7 @@ namespace GameAssembly.EnemySystem
     {
         [SerializeField] private AHealthObject healthObject;
         [SerializeField] private Rigidbody2D body;
+        [SerializeField] private Transform visualRoot;
 
         [Header("Targeting")]
         [SerializeField] private LayerMask playerLayerMask = 1 << 3;
@@ -29,6 +31,12 @@ namespace GameAssembly.EnemySystem
         [SerializeField, Min(1)] private int attackDamage = 6;
         [SerializeField, Min(0.05f)] private float attackCooldown = 1.1f;
 
+        [Header("Attack Visual")]
+        [SerializeField, Min(0f)] private float attackHopDistance = 0.22f;
+        [SerializeField, Min(0.01f)] private float attackHopOutDuration = 0.07f;
+        [SerializeField, Min(0.01f)] private float attackHopBackDuration = 0.11f;
+        [SerializeField] private bool attackHopUseUnscaledTime;
+
         private readonly Collider2D[] _targetBuffer = new Collider2D[16];
         private readonly List<Vector3> _pathPoints = new();
 
@@ -43,6 +51,9 @@ namespace GameAssembly.EnemySystem
         private float _targetLostDeadline;
         private uint _ignoredTargetNetId;
         private float _ignoredTargetUntilTime;
+        private Vector3 _visualDefaultLocalPosition;
+        private Coroutine _attackVisualRoutine;
+        private int _attackVisualNonce;
 
         private void Awake()
         {
@@ -62,15 +73,21 @@ namespace GameAssembly.EnemySystem
                 layerMask = playerLayerMask,
                 useTriggers = true
             };
+
+            if (!visualRoot && transform.childCount > 0)
+                visualRoot = transform.GetChild(0);
+
+            if (visualRoot)
+                _visualDefaultLocalPosition = visualRoot.localPosition;
         }
 
         private void Start()
         {
+            if (visualRoot)
+                _visualDefaultLocalPosition = visualRoot.localPosition;
+
             if (!isServer)
-            {
-                enabled = false;
                 return;
-            }
 
             _nextTargetSearchTime = Time.time + Random.Range(0f, targetSearchInterval);
             _nextPathRefreshTime = Time.time + Random.Range(0f, pathRefreshInterval);
@@ -79,6 +96,9 @@ namespace GameAssembly.EnemySystem
 
         private void Update()
         {
+            if (!isServer)
+                return;
+
             Server_UpdateTargeting();
             Server_UpdatePathing();
             Server_UpdateAttacks();
@@ -86,6 +106,9 @@ namespace GameAssembly.EnemySystem
 
         private void FixedUpdate()
         {
+            if (!isServer)
+                return;
+
             Server_MoveAlongPath();
         }
 
@@ -93,6 +116,9 @@ namespace GameAssembly.EnemySystem
         {
             if (body)
                 body.linearVelocity = Vector2.zero;
+
+            if (visualRoot)
+                visualRoot.localPosition = _visualDefaultLocalPosition;
         }
 
         [Server]
@@ -185,7 +211,9 @@ namespace GameAssembly.EnemySystem
             if (Vector2.Distance(transform.position, _target.transform.position) > attackDistance)
                 return;
 
+            var attackDirection = (Vector2)_target.transform.position - (Vector2)transform.position;
             _target.ChangeHealth(-attackDamage, new DamageContext(gameObject, null, HealthType.ENEMY));
+            Rpc_PlayAttackHop(attackDirection);
             _nextAttackTime = Time.time + Mathf.Max(0.01f, attackCooldown);
         }
 
@@ -301,6 +329,78 @@ namespace GameAssembly.EnemySystem
             _pathPoints.Clear();
             _pathPoints.AddRange(path.vectorPath);
             _currentPathIndex = 0;
+        }
+
+        [ClientRpc]
+        private void Rpc_PlayAttackHop(Vector2 attackDirection)
+        {
+            Client_PlayAttackHop(attackDirection);
+        }
+
+        private void Client_PlayAttackHop(Vector2 attackDirection)
+        {
+            if (!visualRoot || attackHopDistance <= 0f)
+                return;
+
+            _attackVisualNonce++;
+
+            if (_attackVisualRoutine != null)
+                StopCoroutine(_attackVisualRoutine);
+
+            _attackVisualRoutine = StartCoroutine(Client_AttackHopRoutine(attackDirection, _attackVisualNonce));
+        }
+
+        private IEnumerator Client_AttackHopRoutine(Vector2 attackDirection, int nonce)
+        {
+            if (!visualRoot)
+                yield break;
+
+            var directionWorld = new Vector3(attackDirection.x, attackDirection.y, 0f);
+            if (directionWorld.sqrMagnitude <= 0.0001f)
+                directionWorld = Vector3.right;
+            else
+                directionWorld.Normalize();
+
+            var parent = visualRoot.parent ? visualRoot.parent : transform;
+            var directionLocal = parent.InverseTransformDirection(directionWorld);
+            directionLocal.z = 0f;
+            if (directionLocal.sqrMagnitude <= 0.0001f)
+                directionLocal = Vector3.right;
+            else
+                directionLocal.Normalize();
+
+            var hopOffset = directionLocal * attackHopDistance;
+            var from = _visualDefaultLocalPosition;
+            var peak = from + hopOffset;
+            var outDuration = Mathf.Max(0.01f, attackHopOutDuration);
+            var backDuration = Mathf.Max(0.01f, attackHopBackDuration);
+
+            var t = 0f;
+            while (t < outDuration)
+            {
+                t += attackHopUseUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+                var alpha = Mathf.Clamp01(t / outDuration);
+                var eased = 1f - (1f - alpha) * (1f - alpha);
+                visualRoot.localPosition = Vector3.LerpUnclamped(from, peak, eased);
+                yield return null;
+            }
+
+            visualRoot.localPosition = peak;
+
+            t = 0f;
+            while (t < backDuration)
+            {
+                t += attackHopUseUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+                var alpha = Mathf.Clamp01(t / backDuration);
+                var eased = alpha * alpha * (3f - 2f * alpha);
+                visualRoot.localPosition = Vector3.LerpUnclamped(peak, from, eased);
+                yield return null;
+            }
+
+            visualRoot.localPosition = from;
+
+            if (_attackVisualNonce == nonce)
+                _attackVisualRoutine = null;
         }
 
 #if UNITY_EDITOR
