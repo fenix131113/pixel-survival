@@ -45,6 +45,8 @@ namespace GameAssembly.Generated
         public static readonly ItemDefinitionSO SpaceshipRightWing;
         public static readonly ItemDefinitionSO SpaceshipTruster;
         public static readonly ItemDefinitionSO Workbecnh;
+        public static readonly ItemDefinitionSO Workbecnh_2;
+        public static readonly ItemDefinitionSO Workbecnh_3;
         public static readonly ItemDefinitionSO Pie;
         public static readonly ItemDefinitionSO RedMushroom;
         public static readonly ItemDefinitionSO Brick;
@@ -61,6 +63,7 @@ namespace GameAssembly.Generated
         public static readonly ItemDefinitionSO MystriumIngot;
         public static readonly ItemDefinitionSO MystriumPlate;
         public static readonly ItemDefinitionSO Rope;
+        public static readonly ItemDefinitionSO SlimeBall;
         public static readonly ItemDefinitionSO Compressor;
         public static readonly ItemDefinitionSO Overheater;
         public static readonly ItemDefinitionSO Radiator;
@@ -123,6 +126,8 @@ namespace GameAssembly.Generated
             SpaceshipRightWing = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/SpaceshipRightWing");
             SpaceshipTruster = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/SpaceshipTruster");
             Workbecnh = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Workbecnh");
+            Workbecnh_2 = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Workbecnh_2");
+            Workbecnh_3 = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Workbecnh_3");
             Pie = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Pie");
             RedMushroom = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/RedMushroom");
             Brick = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Brick");
@@ -139,6 +144,7 @@ namespace GameAssembly.Generated
             MystriumIngot = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/MystriumIngot");
             MystriumPlate = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/MystriumPlate");
             Rope = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Rope");
+            SlimeBall = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/SlimeBall");
             Compressor = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Compressor");
             Overheater = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Overheater");
             Radiator = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Radiator");
