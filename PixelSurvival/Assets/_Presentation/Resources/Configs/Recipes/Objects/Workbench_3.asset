@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75bb2e3d603e42c4bdd8b1ec757d68fd, type: 3}
   m_Name: Workbench_3
   m_EditorClassIdentifier: GameAssembly::GameAssembly.CraftSystem.Data.CraftRecipeSO
-  craftGroups: []
+  craftGroups:
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 844d305cee0640f4be0c95160739a8f5, type: 2}
+    <Count>k__BackingField: 6
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 2c3aeb4d1f0f44ddaa4dabc2ef30fded, type: 2}
+    <Count>k__BackingField: 4
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 0a65d73f99d82e74d9209505f9c98f5d, type: 2}
+    <Count>k__BackingField: 3
   requiredCrafts: []
   <ResultItem>k__BackingField: {fileID: 11400000, guid: 981320a62f14a4045a73608d045ee19b, type: 2}
   <ResultCount>k__BackingField: 1
