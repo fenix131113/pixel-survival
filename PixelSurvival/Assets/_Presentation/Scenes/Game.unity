@@ -4326,6 +4326,7 @@ MonoBehaviour:
   chunkGenerationProgressWeight: 0.85
   borderWallLayers: 10
   borderWallDefinition: {fileID: 11400000, guid: 6a462e67ad8e46740a08af89face353c, type: 2}
+  guaranteedRedBiomeObjectDefinition: {fileID: 11400000, guid: 58131cac2a86518499bb424aace1fe57, type: 2}
 --- !u!114 &355121251
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -18,6 +18,7 @@ namespace GameAssembly.BuildSystem.WorldObjects
         private readonly World _world;
         private readonly WorldObjectRegistry _registry;
         private readonly WorldObjectsGenerationConfigSO _config;
+        private PlaceableObjectDefinitionSO _guaranteedRedBiomeObjectDefinition;
 
         private bool _isGenerated;
         private Task _generationTask;
@@ -52,6 +53,11 @@ namespace GameAssembly.BuildSystem.WorldObjects
             return _generationTask;
         }
 
+        public void ConfigureGuaranteedRedBiomeObject(PlaceableObjectDefinitionSO definition)
+        {
+            _guaranteedRedBiomeObjectDefinition = definition;
+        }
+
         private async Task Server_GenerateInternalAsync(Action<float> onProgress01,
             CancellationToken cancellationToken)
         {
@@ -81,20 +87,22 @@ namespace GameAssembly.BuildSystem.WorldObjects
                     return;
                 }
 
-                var rulesByBiome = BuildRulesByBiome();
-                if (rulesByBiome.Count == 0)
-                {
-                    Debug.LogWarning(
-                        $"[{nameof(WorldObjectsGenerator)}] No valid biome rules found. Object generation skipped.");
-                    onProgress01?.Invoke(1f);
-                    return;
-                }
-
                 var worldCellsSize = World.WORLD_SIZE * Chunk.CHUNK_SIZE;
                 var totalCells = worldCellsSize * worldCellsSize;
                 var processedCells = 0;
                 var seeded = _world.Seed + _config.SeedOffset;
                 var densityMultiplier = Mathf.Max(0f, _config.GlobalDensityMultiplier);
+
+                TrySpawnGuaranteedObjectInRedBiomes(seeded, worldCellsSize);
+
+                var rulesByBiome = BuildRulesByBiome();
+                if (rulesByBiome.Count == 0)
+                {
+                    Debug.LogWarning(
+                        $"[{nameof(WorldObjectsGenerator)}] No valid biome rules found. Random object generation skipped.");
+                    onProgress01?.Invoke(1f);
+                    return;
+                }
 
                 for (var worldX = 0; worldX < worldCellsSize; worldX++)
                 {
@@ -182,6 +190,196 @@ namespace GameAssembly.BuildSystem.WorldObjects
             return result;
         }
 
+        private void TrySpawnGuaranteedObjectInRedBiomes(int seed, int worldCellsSize)
+        {
+            if (!_guaranteedRedBiomeObjectDefinition)
+                return;
+
+            if (!_guaranteedRedBiomeObjectDefinition.Prefab)
+            {
+                Debug.LogError(
+                    $"[{nameof(WorldObjectsGenerator)}] Guaranteed red-biome object definition '{_guaranteedRedBiomeObjectDefinition.name}' has no prefab. Spawn skipped.");
+                return;
+            }
+
+            if (!_guaranteedRedBiomeObjectDefinition.Prefab.TryGetComponent<PlacedWorldObject>(out _))
+            {
+                Debug.LogError(
+                    $"[{nameof(WorldObjectsGenerator)}] Guaranteed red-biome object definition '{_guaranteedRedBiomeObjectDefinition.name}' prefab does not contain {nameof(PlacedWorldObject)}. Spawn skipped.");
+                return;
+            }
+
+            var redIslands = _world.GetRedDifficultyIslands();
+            if (redIslands.Count == 0)
+                return;
+
+            var footprintSize = NormalizeFootprintSize(_guaranteedRedBiomeObjectDefinition.Size);
+
+            for (var islandIndex = 0; islandIndex < redIslands.Count; islandIndex++)
+            {
+                if (TrySpawnGuaranteedObjectInRedIsland(
+                        _guaranteedRedBiomeObjectDefinition,
+                        redIslands[islandIndex],
+                        islandIndex,
+                        seed,
+                        worldCellsSize,
+                        footprintSize))
+                    continue;
+
+                Debug.LogWarning(
+                    $"[{nameof(WorldObjectsGenerator)}] Failed to spawn guaranteed red-biome object for island index {islandIndex}. Check object size and placement requirements.");
+            }
+        }
+
+        private bool TrySpawnGuaranteedObjectInRedIsland(
+            PlaceableObjectDefinitionSO definition,
+            World.RedDifficultyIsland island,
+            int islandIndex,
+            int seed,
+            int worldCellsSize,
+            Vector2Int footprintSize)
+        {
+            var candidates = BuildRedIslandCandidates(island, islandIndex, seed, worldCellsSize);
+            if (candidates.Count == 0)
+                return false;
+
+            var centerOffset = new Vector2Int(footprintSize.x / 2, footprintSize.y / 2);
+
+            foreach (var candidate in candidates)
+            {
+                var origin = candidate.Cell - centerOffset;
+                if (!CanPrepareGuaranteedPlacement(definition, origin, footprintSize))
+                    continue;
+
+                if (definition.RequireEmptyWallLayer)
+                    ClearWallLayerForFootprint(origin, footprintSize);
+
+                if (_registry.TryPlaceObjectForGeneration(definition, origin, _world))
+                {
+                    Debug.Log(
+                        $"[{nameof(WorldObjectsGenerator)}] Guaranteed red-biome object '{definition.name}' spawned at {origin} (island #{islandIndex}).");
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private List<RedIslandCandidate> BuildRedIslandCandidates(
+            World.RedDifficultyIsland island,
+            int islandIndex,
+            int seed,
+            int worldCellsSize)
+        {
+            var minX = Mathf.Max(0, Mathf.FloorToInt(island.Center.x - island.Radius));
+            var maxX = Mathf.Min(worldCellsSize - 1, Mathf.CeilToInt(island.Center.x + island.Radius));
+            var minY = Mathf.Max(0, Mathf.FloorToInt(island.Center.y - island.Radius));
+            var maxY = Mathf.Min(worldCellsSize - 1, Mathf.CeilToInt(island.Center.y + island.Radius));
+
+            var candidates = new List<RedIslandCandidate>(Mathf.Max(0, (maxX - minX + 1) * (maxY - minY + 1)));
+            var squaredRadius = island.Radius * island.Radius;
+
+            for (var x = minX; x <= maxX; x++)
+            {
+                for (var y = minY; y <= maxY; y++)
+                {
+                    var candidateCenter = new Vector2(x + 0.5f, y + 0.5f);
+                    var dx = candidateCenter.x - island.Center.x;
+                    var dy = candidateCenter.y - island.Center.y;
+                    if (dx * dx + dy * dy > squaredRadius)
+                        continue;
+
+                    if (!IsRedBiomeCell(x, y))
+                        continue;
+
+                    var priority = Hash01(seed + islandIndex * 7919, x, y, 4);
+                    candidates.Add(new RedIslandCandidate(new Vector2Int(x, y), dx * dx + dy * dy, priority));
+                }
+            }
+
+            candidates.Sort((left, right) =>
+            {
+                var distanceCompare = left.DistanceSq.CompareTo(right.DistanceSq);
+                if (distanceCompare != 0)
+                    return distanceCompare;
+
+                var priorityCompare = right.Priority.CompareTo(left.Priority);
+                if (priorityCompare != 0)
+                    return priorityCompare;
+
+                var xCompare = left.Cell.x.CompareTo(right.Cell.x);
+                return xCompare != 0 ? xCompare : left.Cell.y.CompareTo(right.Cell.y);
+            });
+
+            return candidates;
+        }
+
+        private bool IsRedBiomeCell(int worldX, int worldY)
+        {
+            var biome = _world.GetBiomeByBlockPosition(worldX, worldY);
+            return biome && string.Equals(biome.name, "Red", StringComparison.Ordinal);
+        }
+
+        private bool CanPrepareGuaranteedPlacement(
+            PlaceableObjectDefinitionSO definition,
+            Vector2Int origin,
+            Vector2Int footprintSize)
+        {
+            for (var x = 0; x < footprintSize.x; x++)
+            {
+                for (var y = 0; y < footprintSize.y; y++)
+                {
+                    var cell = origin + new Vector2Int(x, y);
+
+                    if (!World.IsWorldPositionInsideBounds(cell.x, cell.y))
+                        return false;
+
+                    if (_world.IsBorderWallCell(cell.x, cell.y))
+                        return false;
+
+                    if (_world.GetChunkByWorldPosition(cell.x, cell.y) == null)
+                        return false;
+
+                    if (_registry.IsOccupied(cell))
+                        return false;
+
+                    if (!definition.RequireFloor)
+                        continue;
+
+                    var worldCell = _world.GetCellByWorldPosition(cell.x, cell.y);
+                    if (worldCell.Floor.Equals(BlockData.Air))
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void ClearWallLayerForFootprint(Vector2Int origin, Vector2Int footprintSize)
+        {
+            for (var x = 0; x < footprintSize.x; x++)
+            {
+                for (var y = 0; y < footprintSize.y; y++)
+                {
+                    var worldX = origin.x + x;
+                    var worldY = origin.y + y;
+                    var chunk = _world.GetChunkByWorldPosition(worldX, worldY);
+                    if (chunk == null)
+                        continue;
+
+                    var localCell = World.ConvertWorldToChunkSpace(worldX, worldY);
+                    chunk.Cells[localCell.x, localCell.y].Block = BlockData.Air;
+                    chunk.DirtyVisual = true;
+                    chunk.DirtyCollider = true;
+                }
+            }
+        }
+
+        private static Vector2Int NormalizeFootprintSize(Vector2Int sourceSize)
+        {
+            return new Vector2Int(Mathf.Max(1, sourceSize.x), Mathf.Max(1, sourceSize.y));
+        }
+
         private void TrySpawnCluster(WeightedObjectEntry entry, Vector2Int origin, int seed)
         {
             var minCount = Mathf.Max(1, entry.MinClusterObjects);
@@ -258,6 +456,20 @@ namespace GameAssembly.BuildSystem.WorldObjects
             var max = Mathf.Max(minInclusive, maxInclusive);
             var t = Mathf.Min(Hash01(seed, x, y, salt), 0.999999f);
             return min + Mathf.FloorToInt(t * (max - min + 1));
+        }
+
+        private readonly struct RedIslandCandidate
+        {
+            public readonly Vector2Int Cell;
+            public readonly float DistanceSq;
+            public readonly float Priority;
+
+            public RedIslandCandidate(Vector2Int cell, float distanceSq, float priority)
+            {
+                Cell = cell;
+                DistanceSq = distanceSq;
+                Priority = priority;
+            }
         }
 
         private readonly struct BiomeRuntimeRule

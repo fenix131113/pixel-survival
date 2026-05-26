@@ -67,6 +67,8 @@ namespace GameAssembly.Generated
         public static readonly ItemDefinitionSO Compressor;
         public static readonly ItemDefinitionSO Overheater;
         public static readonly ItemDefinitionSO Radiator;
+        public static readonly ItemDefinitionSO SpaceshipBlueprint;
+        public static readonly ItemDefinitionSO SpaceshipBlueprintPart;
         public static readonly ItemDefinitionSO Turbine;
         public static readonly ItemDefinitionSO Stick;
         public static readonly ItemDefinitionSO Stone;
@@ -148,6 +150,8 @@ namespace GameAssembly.Generated
             Compressor = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Compressor");
             Overheater = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Overheater");
             Radiator = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Radiator");
+            SpaceshipBlueprint = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/SpaceshipBlueprint");
+            SpaceshipBlueprintPart = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/SpaceshipBlueprintPart");
             Turbine = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Turbine");
             Stick = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Stick");
             Stone = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Stone");

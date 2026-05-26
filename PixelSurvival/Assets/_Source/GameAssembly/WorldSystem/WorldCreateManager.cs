@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using GameAssembly.BuildSystem.Data;
 using GameAssembly.BuildSystem.WorldObjects;
 using GameAssembly.Core;
 using GameAssembly.CraftSystem.Data;
@@ -27,6 +28,7 @@ namespace GameAssembly.WorldSystem
         [SerializeField, Range(0.1f, 0.99f)] private float chunkGenerationProgressWeight = 0.85f;
         [SerializeField, Min(0)] private int borderWallLayers = 4;
         [SerializeField] private BlockDefinitionSO borderWallDefinition;
+        [SerializeField] private PlaceableObjectDefinitionSO guaranteedRedBiomeObjectDefinition;
 
         private readonly Dictionary<int, Coroutine> _syncCoroutines = new();
         private readonly Dictionary<int, HashSet<ChunkCoord>> _sentChunksByConnection = new();
@@ -155,6 +157,7 @@ namespace GameAssembly.WorldSystem
             {
                 _world.ConfigureBorderWalls(borderWallDefinition, borderWallLayers);
                 _blockDamageSystem.ResetDelaySeconds = blockDamageResetDelay;
+                _worldObjectsGenerator.ConfigureGuaranteedRedBiomeObject(guaranteedRedBiomeObjectDefinition);
 
                 if (!NetworkServer.active)
                     return;
@@ -232,6 +235,29 @@ namespace GameAssembly.WorldSystem
                 return;
 
             _blockDamageSystem.Server_Tick();
+        }
+
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+
+            if (!guaranteedRedBiomeObjectDefinition)
+                return;
+
+            if (!guaranteedRedBiomeObjectDefinition.Prefab)
+            {
+                Debug.LogError(
+                    $"[{nameof(WorldCreateManager)}] Guaranteed red biome object '{guaranteedRedBiomeObjectDefinition.name}' has no prefab assigned.",
+                    this);
+                return;
+            }
+
+            if (!guaranteedRedBiomeObjectDefinition.Prefab.TryGetComponent<PlacedWorldObject>(out _))
+            {
+                Debug.LogError(
+                    $"[{nameof(WorldCreateManager)}] Guaranteed red biome object '{guaranteedRedBiomeObjectDefinition.name}' prefab must contain {nameof(PlacedWorldObject)} component.",
+                    this);
+            }
         }
 
         public override void OnStartServer()

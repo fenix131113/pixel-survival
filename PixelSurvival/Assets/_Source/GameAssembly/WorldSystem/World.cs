@@ -45,13 +45,32 @@ namespace GameAssembly.WorldSystem
 
         public Progress<float> Progress { get; private set; } = new();
         public ReactiveProperty<bool> IsLoaded { get; private set; } = new();
+        
+        public readonly struct RedDifficultyIsland
+        {
+            public readonly Vector2 Center;
+            public readonly float Radius;
+
+            public RedDifficultyIsland(Vector2 center, float radius)
+            {
+                Center = center;
+                Radius = radius;
+            }
+        }
 
         public World()
         {
             GenerateDifficultyIslands();
         }
 
-        public void SetupSeed(int seed) => Seed = seed;
+        public void SetupSeed(int seed)
+        {
+            if (Seed == seed)
+                return;
+
+            Seed = seed;
+            GenerateDifficultyIslands();
+        }
 
         public void ConfigureBorderWalls(BlockDefinitionSO borderWallDefinition, int borderWallLayers)
         {
@@ -263,6 +282,23 @@ namespace GameAssembly.WorldSystem
             var rb = Mathf.Max(b.YellowRadius, b.OrangeRadius, b.RedRadius);
 
             return Vector2.Distance(a.Center, b.Center) < ra + rb;
+        }
+
+        public IReadOnlyList<RedDifficultyIsland> GetRedDifficultyIslands()
+        {
+            if (_difficultyIslands.Count == 0)
+                return Array.Empty<RedDifficultyIsland>();
+
+            var result = new List<RedDifficultyIsland>(_difficultyIslands.Count);
+            foreach (var island in _difficultyIslands)
+            {
+                if (island.RedRadius <= 0f)
+                    continue;
+
+                result.Add(new RedDifficultyIsland(island.Center, island.RedRadius));
+            }
+
+            return result;
         }
 
         #endregion
