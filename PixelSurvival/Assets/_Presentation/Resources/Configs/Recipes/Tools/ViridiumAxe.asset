@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: ViridiumAxe
   m_EditorClassIdentifier: GameAssembly::GameAssembly.CraftSystem.Data.CraftRecipeSO
   craftGroups:
-  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: b859d97518225804c90e415b16b98b89, type: 2}
-    <Count>k__BackingField: 5
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 5fee503810814b549da5b06d6ae3a85a, type: 2}
+    <Count>k__BackingField: 2
   - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 0a5aa8954bdc4a92bf6395959ff5d642, type: 2}
     <Count>k__BackingField: 3
-  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 8453fc58ca4c47c8a23c3c6fa5ceaf0b, type: 2}
-    <Count>k__BackingField: 1
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: dd540cd91821408ab90bcdb5b4356130, type: 2}
+    <Count>k__BackingField: 2
+  requiredCrafts:
+  - {fileID: 11400000, guid: a7fd49f7ef4147f9b326bcef0ccf6ce4, type: 2}
   <ResultItem>k__BackingField: {fileID: 11400000, guid: 82eda54d2653ae24a960d98a5a3c5784, type: 2}
   <ResultCount>k__BackingField: 1
   id: af2ad981bd394506af8aa512146a0782

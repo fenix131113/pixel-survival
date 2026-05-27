@@ -12,8 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75bb2e3d603e42c4bdd8b1ec757d68fd, type: 3}
   m_Name: Compressor
   m_EditorClassIdentifier: GameAssembly::GameAssembly.CraftSystem.Data.CraftRecipeSO
-  craftGroups: []
-  requiredCrafts: []
+  craftGroups:
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 59d9aee1d83f46a59e9ef16d7e07a1ad, type: 2}
+    <Count>k__BackingField: 2
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 5fee503810814b549da5b06d6ae3a85a, type: 2}
+    <Count>k__BackingField: 2
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 0a65d73f99d82e74d9209505f9c98f5d, type: 2}
+    <Count>k__BackingField: 2
+  requiredCrafts:
+  - {fileID: 11400000, guid: 40c5bacb5cf7fb54489a67a8d104d371, type: 2}
+  - {fileID: 11400000, guid: cd12dc366e0542b0a17a27076e18234d, type: 2}
   <ResultItem>k__BackingField: {fileID: 11400000, guid: 38a44e53a210e5c4db650ac2ff1b0f5c, type: 2}
   <ResultCount>k__BackingField: 1
   id: 1670036e3b1847f5acc7e61e27e414cc

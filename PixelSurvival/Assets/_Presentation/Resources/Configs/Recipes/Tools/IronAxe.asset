@@ -17,9 +17,10 @@ MonoBehaviour:
     <Count>k__BackingField: 5
   - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 98877bb4f99f435a9a79c370447e182c, type: 2}
     <Count>k__BackingField: 3
-  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 8453fc58ca4c47c8a23c3c6fa5ceaf0b, type: 2}
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: dd540cd91821408ab90bcdb5b4356130, type: 2}
     <Count>k__BackingField: 1
-  requiredCrafts: []
+  requiredCrafts:
+  - {fileID: 11400000, guid: 19a6639d4b2142de8aa5f19e59f4af0d, type: 2}
   <ResultItem>k__BackingField: {fileID: 11400000, guid: ca9beafdcfffc9549b963276e3c69151, type: 2}
   <ResultCount>k__BackingField: 1
   id: 226dc1f4db5c4f9587824cf58a2de4d3

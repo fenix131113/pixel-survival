@@ -12,8 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75bb2e3d603e42c4bdd8b1ec757d68fd, type: 3}
   m_Name: Overheater
   m_EditorClassIdentifier: GameAssembly::GameAssembly.CraftSystem.Data.CraftRecipeSO
-  craftGroups: []
-  requiredCrafts: []
+  craftGroups:
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 0a5aa8954bdc4a92bf6395959ff5d642, type: 2}
+    <Count>k__BackingField: 1
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 8f4054b4b3e9488c933de729e31d6704, type: 2}
+    <Count>k__BackingField: 1
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 0a65d73f99d82e74d9209505f9c98f5d, type: 2}
+    <Count>k__BackingField: 2
+  requiredCrafts:
+  - {fileID: 11400000, guid: 40c5bacb5cf7fb54489a67a8d104d371, type: 2}
+  - {fileID: 11400000, guid: 5a00f7ca8e1544c3b0bf955244ac4f59, type: 2}
   <ResultItem>k__BackingField: {fileID: 11400000, guid: f2d21a0f2f73bfc4287f5ce620848842, type: 2}
   <ResultCount>k__BackingField: 1
   id: d41a9ca38f854922a06f309f9bae53a5
