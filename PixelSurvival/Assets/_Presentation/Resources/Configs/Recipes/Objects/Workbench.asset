@@ -15,9 +15,9 @@ MonoBehaviour:
   craftGroups:
   - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: a003f13d72884127aa546e22be0f73d7, type: 2}
     <Count>k__BackingField: 5
-  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 8453fc58ca4c47c8a23c3c6fa5ceaf0b, type: 2}
-    <Count>k__BackingField: 3
   - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: b859d97518225804c90e415b16b98b89, type: 2}
+    <Count>k__BackingField: 3
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 47994d9212e42d04e80b7e239f46a806, type: 2}
     <Count>k__BackingField: 3
   requiredCrafts: []
   <ResultItem>k__BackingField: {fileID: 11400000, guid: 1ba9ddeec6be5884682f046976235177, type: 2}
