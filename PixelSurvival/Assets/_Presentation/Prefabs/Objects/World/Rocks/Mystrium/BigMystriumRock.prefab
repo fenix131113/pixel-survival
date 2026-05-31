@@ -145,6 +145,11 @@ MonoBehaviour:
   shakeDuration: 0.1
   shakeStrength: 0.2
   shakeVibrato: 10
+  enableHitFlash: 0
+  targetRenderers:
+  - {fileID: 790828959972785431}
+  hitFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  hitFlashDuration: 0.15
 --- !u!114 &5093151571748794432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,5 +230,5 @@ MonoBehaviour:
   maxHealth: 18
   immediatelyDestroy: 1
   needType: 1
-  levelRequirementMode: 0
-  minimumRequiredTool: {fileID: 11400000, guid: aa765316515c32a478980bb1a51a0ea6, type: 2}
+  levelRequirementMode: 1
+  minimumRequiredTool: {fileID: 11400000, guid: 8020ab57802ff7146a1786bccedefa24, type: 2}
