@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects;
+using GameAssembly.PlayerSystem.Data;
+using GameAssembly.PlayerSystem.Variables;
 using GameAssembly.UiSystem;
 using GameAssembly.UiSystem.Data;
+using GameAssembly.Utils.VariablesSystem;
 using UnityEngine;
+using VContainer;
 
 namespace GameAssembly.ObjectsSystem.View.ObjectsView
 {
@@ -13,6 +17,12 @@ namespace GameAssembly.ObjectsSystem.View.ObjectsView
         [SerializeField] private List<GameObject> tiers;
         [SerializeField] private MenuType menuType;
         [SerializeField] private List<MenuType> allowedMenusOnTop;
+        
+        [Inject] private IVariablesResolver<PlayerVariableBlockerType, Action, Action> _variables;
+        
+        private readonly IVariableBlocker<PlayerVariableBlockerType> _workbenchBlocker =
+            new PlayerVariableBlocker(PlayerVariableBlockerType.MOVEMENT, PlayerVariableBlockerType.INTERACT,
+                PlayerVariableBlockerType.LOOK, PlayerVariableBlockerType.BUILD, PlayerVariableBlockerType.ATTACK);
         
         public event Action OnMenuCanceled;
      
@@ -28,11 +38,13 @@ namespace GameAssembly.ObjectsSystem.View.ObjectsView
         public void Open()
         {
             menu.SetActive(true);
+            _variables.RegisterBlocker(_workbenchBlocker);
         }
 
         public void Close()
         {
-            menu.SetActive(false);   
+            menu.SetActive(false);
+            _workbenchBlocker.Dispose();
         }
 
         public void Cancel()

@@ -74,7 +74,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   healthType: 2
-  maxHealth: 12
+  maxHealth: 5
   immediatelyDestroy: 1
 --- !u!70 &7001000000000000006
 CapsuleCollider2D:

@@ -474,6 +474,7 @@ GameObject:
   - component: {fileID: -7355307408136034134}
   - component: {fileID: -3329573428407861186}
   - component: {fileID: 940379009787909008}
+  - component: {fileID: -8809916932432013584}
   - component: {fileID: 614244200033262236}
   - component: {fileID: 3510546047238882582}
   - component: {fileID: 7482978751402099095}
@@ -714,6 +715,24 @@ MonoBehaviour:
   healthType: 1
   maxHealth: 100
   immediatelyDestroy: 0
+--- !u!114 &-8809916932432013584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7138410634727892820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f37d0ca221004e4ba60645c0961a6f0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.HealthSystem.HealthRecovery
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  health: {fileID: 940379009787909008}
+  startRecoveryTime: 15
+  healthPerSecond: 4
 --- !u!114 &614244200033262236
 MonoBehaviour:
   m_ObjectHideFlags: 0
