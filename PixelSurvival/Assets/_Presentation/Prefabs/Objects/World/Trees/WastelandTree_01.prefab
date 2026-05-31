@@ -128,7 +128,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  <Definition>k__BackingField: {fileID: 11400000, guid: ef80312260d6c7744b5439e6814d7435, type: 2}
+  <Definition>k__BackingField: {fileID: 11400000, guid: fa308380cbabd9f4cb6c40df059287c4, type: 2}
 --- !u!114 &2499666144833926294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,6 +145,11 @@ MonoBehaviour:
   shakeDuration: 0.1
   shakeStrength: 0.2
   shakeVibrato: 10
+  enableHitFlash: 0
+  targetRenderers:
+  - {fileID: 7847636496733160904}
+  hitFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  hitFlashDuration: 0.15
 --- !u!70 &4954559596156287215
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -201,6 +206,8 @@ MonoBehaviour:
   maxHealth: 5
   immediatelyDestroy: 1
   needType: 2
+  levelRequirementMode: 0
+  minimumRequiredTool: {fileID: 0}
 --- !u!114 &8691968958009847500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,6 +226,6 @@ MonoBehaviour:
   healthObject: {fileID: 7907169684741054474}
   droppingObject: {fileID: 9090697042307161094, guid: 3be4b7b7b0e727441b9259d6e5613423, type: 3}
   drops:
-  - itemDefinition: {fileID: 11400000, guid: c96e8e0e9efd4a35a35c5ad9d74f9d9f, type: 2}
-    minCount: 5
-    maxCount: 10
+  - itemDefinition: {fileID: 11400000, guid: a003f13d72884127aa546e22be0f73d7, type: 2}
+    minCount: 3
+    maxCount: 6

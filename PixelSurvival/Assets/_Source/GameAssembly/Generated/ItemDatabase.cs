@@ -53,8 +53,6 @@ namespace GameAssembly.Generated
         public static readonly ItemDefinitionSO CopperIngot;
         public static readonly ItemDefinitionSO CopperOre;
         public static readonly ItemDefinitionSO CopperPlate;
-        public static readonly ItemDefinitionSO EpicenterWoodLog;
-        public static readonly ItemDefinitionSO EpicenterWoodPlank;
         public static readonly ItemDefinitionSO GrassItem;
         public static readonly ItemDefinitionSO IronIngot;
         public static readonly ItemDefinitionSO IronOre;
@@ -75,8 +73,6 @@ namespace GameAssembly.Generated
         public static readonly ItemDefinitionSO Viridium;
         public static readonly ItemDefinitionSO ViridiumIngot;
         public static readonly ItemDefinitionSO ViridiumPlate;
-        public static readonly ItemDefinitionSO WastelandWoodLog;
-        public static readonly ItemDefinitionSO WastelandWoodPlank;
         public static readonly ItemDefinitionSO WoodLog;
         public static readonly ItemDefinitionSO WoodPlank;
         public static readonly ItemDefinitionSO Stump;
@@ -136,8 +132,6 @@ namespace GameAssembly.Generated
             CopperIngot = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/CopperIngot");
             CopperOre = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/CopperOre");
             CopperPlate = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/CopperPlate");
-            EpicenterWoodLog = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/EpicenterWoodLog");
-            EpicenterWoodPlank = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/EpicenterWoodPlank");
             GrassItem = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/GrassItem");
             IronIngot = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/IronIngot");
             IronOre = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/IronOre");
@@ -158,8 +152,6 @@ namespace GameAssembly.Generated
             Viridium = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Viridium");
             ViridiumIngot = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/ViridiumIngot");
             ViridiumPlate = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/ViridiumPlate");
-            WastelandWoodLog = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/WastelandWoodLog");
-            WastelandWoodPlank = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/WastelandWoodPlank");
             WoodLog = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/WoodLog");
             WoodPlank = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/WoodPlank");
             Stump = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Stump");

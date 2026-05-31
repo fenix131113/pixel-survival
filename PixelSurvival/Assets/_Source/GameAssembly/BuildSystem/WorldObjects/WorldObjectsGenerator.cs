@@ -256,8 +256,8 @@ namespace GameAssembly.BuildSystem.WorldObjects
 
                 if (_registry.TryPlaceObjectForGeneration(definition, origin, _world))
                 {
-                    Debug.Log(
-                        $"[{nameof(WorldObjectsGenerator)}] Guaranteed red-biome object '{definition.name}' spawned at {origin} (island #{islandIndex}).");
+                    //Debug.Log(
+                        //$"[{nameof(WorldObjectsGenerator)}] Guaranteed red-biome object '{definition.name}' spawned at {origin} (island #{islandIndex}).");
                     return true;
                 }
             }

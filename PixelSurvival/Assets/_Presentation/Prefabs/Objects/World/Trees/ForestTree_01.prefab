@@ -145,6 +145,11 @@ MonoBehaviour:
   shakeDuration: 0.1
   shakeStrength: 0.2
   shakeVibrato: 10
+  enableHitFlash: 0
+  targetRenderers:
+  - {fileID: 5018924016460604506}
+  hitFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  hitFlashDuration: 0.15
 --- !u!70 &7619298761593306721
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -201,6 +206,8 @@ MonoBehaviour:
   maxHealth: 10
   immediatelyDestroy: 1
   needType: 2
+  levelRequirementMode: 0
+  minimumRequiredTool: {fileID: 0}
 --- !u!114 &5282983972327263388
 MonoBehaviour:
   m_ObjectHideFlags: 0

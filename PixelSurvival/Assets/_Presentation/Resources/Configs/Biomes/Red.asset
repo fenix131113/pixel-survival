@@ -21,4 +21,4 @@ MonoBehaviour:
   <NaturalSpawn>k__BackingField: 0
   <Min>k__BackingField: 0.75
   <Max>k__BackingField: 1
-  <WallDensity>k__BackingField: 0.4
+  <WallDensity>k__BackingField: 0.25

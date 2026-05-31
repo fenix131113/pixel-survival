@@ -20,13 +20,13 @@ namespace GameAssembly.CraftSystem.View
         private CraftManager _craftManager;
         private WorldCreateManager _worldCreateManager;
         private Tween _animTween;
-        private float _startScale;
+        private Vector3 _startScale;
         private Color _iconStartColor;
         private bool _isUnlocked = true;
 
         private void Start()
         {
-            _startScale = transform.localScale.x;
+            _startScale = transform.localScale;
             _iconStartColor = icon ? icon.color : Color.white;
 
             if (!NetworkClient.active)
@@ -85,8 +85,8 @@ namespace GameAssembly.CraftSystem.View
         private void CraftEffect()
         {
             _animTween?.Kill();
-            transform.localScale = Vector3.one * _startScale;
-            _animTween = transform.DOPunchScale(transform.localScale * effectMultiplier, effectDuration);
+            transform.localScale = _startScale;
+            _animTween = transform.DOPunchScale(Vector3.Scale(_startScale, Vector3.one * effectMultiplier), effectDuration);
         }
 
         private void TryRebindWorldCreateManager()
