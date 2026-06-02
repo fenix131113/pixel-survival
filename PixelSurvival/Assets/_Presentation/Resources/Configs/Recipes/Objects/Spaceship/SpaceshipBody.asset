@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SpaceshipBody
   m_EditorClassIdentifier: GameAssembly::GameAssembly.CraftSystem.Data.CraftRecipeSO
   craftGroups:
-  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: dd540cd91821408ab90bcdb5b4356130, type: 2}
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 5fee503810814b549da5b06d6ae3a85a, type: 2}
     <Count>k__BackingField: 2
   - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 0a5aa8954bdc4a92bf6395959ff5d642, type: 2}
     <Count>k__BackingField: 2
