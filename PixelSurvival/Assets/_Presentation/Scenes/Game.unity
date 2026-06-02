@@ -16001,6 +16001,14 @@ MonoBehaviour:
   chunkPrefab: {fileID: 8156280199853017371, guid: 1eab7a3bf26bc2f41b9bc944a2afc28b, type: 3}
   globalUpperVisualTilemap: {fileID: 0}
   globalFloorVisualTilemap: {fileID: 0}
+  blockDamageVisualTilemap: {fileID: 0}
+  blockDamageSprites:
+  - {fileID: 1580265692, guid: b764d1fabe4836d498aa68269e6ed248, type: 3}
+  - {fileID: 1208425046, guid: b764d1fabe4836d498aa68269e6ed248, type: 3}
+  - {fileID: -1338683820, guid: b764d1fabe4836d498aa68269e6ed248, type: 3}
+  - {fileID: 1640830424, guid: b764d1fabe4836d498aa68269e6ed248, type: 3}
+  - {fileID: 294936986, guid: b764d1fabe4836d498aa68269e6ed248, type: 3}
+  - {fileID: -138226454, guid: b764d1fabe4836d498aa68269e6ed248, type: 3}
   visualChunksPerFrame: 4
 --- !u!1 &617311388
 GameObject:
@@ -26069,7 +26077,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1110816897
 RectTransform:
   m_ObjectHideFlags: 0

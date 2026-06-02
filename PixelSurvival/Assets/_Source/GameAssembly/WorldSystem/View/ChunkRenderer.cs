@@ -6,8 +6,6 @@ namespace GameAssembly.WorldSystem.View
 {
     public class ChunkRenderer : MonoBehaviour
     {
-        private static readonly Color _damagedTintColor = new(0.45f, 0.45f, 0.45f, 1f);
-
         [field: SerializeField] public Tilemap UpperTilemap { get; private set; }
         [field: SerializeField] public Tilemap FloorTilemap { get; private set; }
         [SerializeField] private TilemapCollider2D tilemapCollider;
@@ -66,23 +64,6 @@ namespace GameAssembly.WorldSystem.View
 
             tilemapCollider.ProcessTilemapChanges();
             Chunk.DirtyCollider = false;
-        }
-
-        public void SetBlockDamageTint(Vector2Int localIndexes, float progress01)
-        {
-            var tilePos = new Vector3Int(localIndexes.x, localIndexes.y, 1);
-            if (!UpperTilemap.GetTile(tilePos))
-                return;
-
-            UpperTilemap.SetTileFlags(tilePos, TileFlags.None);
-            UpperTilemap.SetColor(tilePos, Color.Lerp(Color.white, _damagedTintColor, Mathf.Clamp01(progress01)));
-        }
-
-        public void ClearBlockDamageTint(Vector2Int localIndexes)
-        {
-            var tilePos = new Vector3Int(localIndexes.x, localIndexes.y, 1);
-            UpperTilemap.SetTileFlags(tilePos, TileFlags.None);
-            UpperTilemap.SetColor(tilePos, Color.white);
         }
 
         private void SetChunkTilemapRenderersEnabled(bool enabled)

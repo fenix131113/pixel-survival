@@ -12,11 +12,14 @@ namespace GameAssembly.WorldSystem.View
         [SerializeField] private ChunkRenderer chunkPrefab;
         [SerializeField] private Tilemap globalUpperVisualTilemap;
         [SerializeField] private Tilemap globalFloorVisualTilemap;
+        [SerializeField] private Tilemap blockDamageVisualTilemap;
+        [SerializeField] private Sprite[] blockDamageSprites;
+        [SerializeField] private int blockDamageSortingOrder = 0;
         [SerializeField, Min(1)] private int visualChunksPerFrame = 4;
 
         private readonly Dictionary<ChunkCoord, ChunkRenderer> _chunksRenderers = new();
         private readonly Dictionary<Vector2Int, float> _activeBlockDamageProgress = new();
-        private static readonly Color DamagedTintColor = new(0.45f, 0.45f, 0.45f, 1f);
+        private Tile[] _blockDamageTiles;
         private Coroutine _initialVisualBuildCoroutine;
         private bool _isInitialVisualBuildCompleted;
 
@@ -52,14 +55,15 @@ namespace GameAssembly.WorldSystem.View
                     pair.Value.OnChunkCellChanged -= OnChunkCellChanged;
             }
 
-            if (!_worldCreateManager)
-                return;
-
-            _worldCreateManager.ClientOnBlockDamageProgress -= OnBlockDamageProgress;
-            _worldCreateManager.ClientOnBlockDamageCleared -= OnBlockDamageCleared;
+            if (_worldCreateManager)
+            {
+                _worldCreateManager.ClientOnBlockDamageProgress -= OnBlockDamageProgress;
+                _worldCreateManager.ClientOnBlockDamageCleared -= OnBlockDamageCleared;
+            }
 
             InitialVisualBuildProgressChanged = null;
             InitialVisualBuildStateChanged = null;
+            ClearBlockDamageTileCache();
         }
 
         private void LateUpdate()
@@ -68,7 +72,7 @@ namespace GameAssembly.WorldSystem.View
                 return;
 
             foreach (var pair in _activeBlockDamageProgress)
-                TryApplyBlockDamageTint(pair.Key, pair.Value);
+                TryApplyBlockDamageOverlay(pair.Key, pair.Value);
         }
 
         private void OnGenerateProgressChanged(object sender, float e)
@@ -95,7 +99,7 @@ namespace GameAssembly.WorldSystem.View
 
             //rend.RebuildVisual();
             rend.RebuildCollider();
-            ApplyDamageTintForChunk(chunk.Coord);
+            ApplyDamageOverlayForChunk(chunk.Coord);
         }
 
         private void RebuildChunkVisual(Chunk chunk)
@@ -156,48 +160,53 @@ namespace GameAssembly.WorldSystem.View
         private void OnBlockDamageProgress(Vector2Int blockWorldPos, float progress01, int currentDamage, int maxHealth)
         {
             _activeBlockDamageProgress[blockWorldPos] = progress01;
-            TryApplyBlockDamageTint(blockWorldPos, progress01);
+            TryApplyBlockDamageOverlay(blockWorldPos, progress01);
         }
 
         private void OnBlockDamageCleared(Vector2Int blockWorldPos)
         {
             _activeBlockDamageProgress.Remove(blockWorldPos);
-            TryClearBlockDamageTint(blockWorldPos);
+            TryClearBlockDamageOverlay(blockWorldPos);
         }
 
-        private void ApplyDamageTintForChunk(ChunkCoord chunkCoord)
+        private void ApplyDamageOverlayForChunk(ChunkCoord chunkCoord)
         {
             foreach (var pair in _activeBlockDamageProgress)
             {
                 if (!GetChunkCoordByWorldPos(pair.Key).Equals(chunkCoord))
                     continue;
 
-                TryApplyBlockDamageTint(pair.Key, pair.Value);
+                TryApplyBlockDamageOverlay(pair.Key, pair.Value);
             }
         }
 
-        private void TryApplyBlockDamageTint(Vector2Int blockWorldPos, float progress01)
+        private void TryApplyBlockDamageOverlay(Vector2Int blockWorldPos, float progress01)
         {
-            if (!globalUpperVisualTilemap)
+            if (!globalUpperVisualTilemap || !blockDamageVisualTilemap)
                 return;
 
-            var tilePos = ToVisualTilePos(blockWorldPos);
-            if (!globalUpperVisualTilemap.GetTile(tilePos))
+            var blockTilePos = ToVisualTilePos(blockWorldPos);
+            var damageTilePos = ToBlockDamageVisualTilePos(blockWorldPos);
+            if (!globalUpperVisualTilemap.GetTile(blockTilePos))
+            {
+                blockDamageVisualTilemap.SetTile(damageTilePos, null);
                 return;
+            }
 
-            globalUpperVisualTilemap.SetTileFlags(tilePos, TileFlags.None);
-            globalUpperVisualTilemap.SetColor(tilePos,
-                Color.Lerp(Color.white, DamagedTintColor, Mathf.Clamp01(progress01)));
+            blockDamageVisualTilemap.SetTileFlags(damageTilePos, TileFlags.None);
+            blockDamageVisualTilemap.SetColor(damageTilePos, Color.white);
+            blockDamageVisualTilemap.SetTile(damageTilePos, ResolveBlockDamageTile(progress01));
         }
 
-        private void TryClearBlockDamageTint(Vector2Int blockWorldPos)
+        private void TryClearBlockDamageOverlay(Vector2Int blockWorldPos)
         {
-            if (!globalUpperVisualTilemap)
+            if (!blockDamageVisualTilemap)
                 return;
 
-            var tilePos = ToVisualTilePos(blockWorldPos);
-            globalUpperVisualTilemap.SetTileFlags(tilePos, TileFlags.None);
-            globalUpperVisualTilemap.SetColor(tilePos, Color.white);
+            var tilePos = ToBlockDamageVisualTilePos(blockWorldPos);
+            blockDamageVisualTilemap.SetTileFlags(tilePos, TileFlags.None);
+            blockDamageVisualTilemap.SetColor(tilePos, Color.white);
+            blockDamageVisualTilemap.SetTile(tilePos, null);
         }
 
         private void RebuildAllVisuals()
@@ -205,9 +214,13 @@ namespace GameAssembly.WorldSystem.View
             EnsureVisualTilemaps();
             globalUpperVisualTilemap.ClearAllTiles();
             globalFloorVisualTilemap.ClearAllTiles();
+            blockDamageVisualTilemap.ClearAllTiles();
 
             foreach (var pair in _world.Chunks)
                 RebuildChunkVisual(pair.Value);
+
+            foreach (var pair in _activeBlockDamageProgress)
+                TryApplyBlockDamageOverlay(pair.Key, pair.Value);
 
             RefreshGlobalVisualTilemaps();
         }
@@ -217,6 +230,7 @@ namespace GameAssembly.WorldSystem.View
             EnsureVisualTilemaps();
             globalUpperVisualTilemap.ClearAllTiles();
             globalFloorVisualTilemap.ClearAllTiles();
+            blockDamageVisualTilemap.ClearAllTiles();
 
             var chunks = new List<KeyValuePair<ChunkCoord, Chunk>>(_world.Chunks);
             var totalChunks = chunks.Count;
@@ -245,7 +259,7 @@ namespace GameAssembly.WorldSystem.View
 
                 RebuildChunkVisual(pair.Value);
                 RefreshChunkArea(pair.Key);
-                ApplyDamageTintForChunk(pair.Key);
+                ApplyDamageOverlayForChunk(pair.Key);
 
                 processedChunks++;
                 InitialVisualBuildProgressChanged?.Invoke(processedChunks / (float)totalChunks);
@@ -280,6 +294,7 @@ namespace GameAssembly.WorldSystem.View
         {
             globalUpperVisualTilemap.RefreshAllTiles();
             globalFloorVisualTilemap.RefreshAllTiles();
+            blockDamageVisualTilemap.RefreshAllTiles();
         }
 
         private void RefreshChunkArea(ChunkCoord chunkCoord)
@@ -296,13 +311,14 @@ namespace GameAssembly.WorldSystem.View
                     var tilePos = new Vector3Int(x, y, 0);
                     globalFloorVisualTilemap.RefreshTile(tilePos);
                     globalUpperVisualTilemap.RefreshTile(tilePos);
+                    blockDamageVisualTilemap.RefreshTile(tilePos);
                 }
             }
         }
 
         private void EnsureVisualTilemaps()
         {
-            if (!globalUpperVisualTilemap || !globalFloorVisualTilemap)
+            if (!globalUpperVisualTilemap || !globalFloorVisualTilemap || !blockDamageVisualTilemap)
             {
                 var visualGrid = GetOrCreateVisualGrid();
 
@@ -317,12 +333,23 @@ namespace GameAssembly.WorldSystem.View
                     globalUpperVisualTilemap = CreateVisualTilemap("UpperVisualTilemap", visualGrid.transform,
                         chunkPrefab ? chunkPrefab.UpperTilemap : null);
                 }
+
+                if (!blockDamageVisualTilemap)
+                {
+                    var damageTemplateTilemap = globalUpperVisualTilemap;
+                    if (!damageTemplateTilemap && chunkPrefab)
+                        damageTemplateTilemap = chunkPrefab.UpperTilemap;
+
+                    blockDamageVisualTilemap = CreateVisualTilemap("BlockDamageVisualTilemap", visualGrid.transform,
+                        damageTemplateTilemap, blockDamageSortingOrder);
+                }
             }
 
             ConfigureVisualTilemapRenderers();
         }
 
-        private static Tilemap CreateVisualTilemap(string name, Transform parent, Tilemap templateTilemap)
+        private static Tilemap CreateVisualTilemap(string name, Transform parent, Tilemap templateTilemap,
+            int sortOrder = -1)
         {
             var go = new GameObject(name);
             go.transform.SetParent(parent, false);
@@ -331,17 +358,27 @@ namespace GameAssembly.WorldSystem.View
             var renderer = go.AddComponent<TilemapRenderer>();
 
             if (!templateTilemap)
+            {
+                if (sortOrder != -1)
+                    renderer.sortingOrder = sortOrder;
+
                 return tilemap;
+            }
 
             tilemap.animationFrameRate = templateTilemap.animationFrameRate;
             tilemap.color = templateTilemap.color;
             tilemap.tileAnchor = templateTilemap.tileAnchor;
 
             if (!templateTilemap.TryGetComponent<TilemapRenderer>(out var templateRenderer))
+            {
+                if (sortOrder != -1)
+                    renderer.sortingOrder = sortOrder;
+
                 return tilemap;
+            }
 
             renderer.sortingLayerID = templateRenderer.sortingLayerID;
-            renderer.sortingOrder = templateRenderer.sortingOrder;
+            renderer.sortingOrder = sortOrder == -1 ? templateRenderer.sortingOrder : sortOrder;
             renderer.sharedMaterial = templateRenderer.sharedMaterial;
             renderer.mode = templateRenderer.mode;
 
@@ -370,13 +407,16 @@ namespace GameAssembly.WorldSystem.View
                 globalUpperVisualTilemap.SetColor(tilePos, Color.white);
 
                 if (_activeBlockDamageProgress.TryGetValue(worldPos, out var damageProgress))
-                    TryApplyBlockDamageTint(worldPos, damageProgress);
+                    TryApplyBlockDamageOverlay(worldPos, damageProgress);
+                else
+                    TryClearBlockDamageOverlay(worldPos);
             }
             else
             {
                 globalUpperVisualTilemap.SetTile(tilePos, null);
                 globalUpperVisualTilemap.SetTileFlags(tilePos, TileFlags.None);
                 globalUpperVisualTilemap.SetColor(tilePos, Color.white);
+                TryClearBlockDamageOverlay(worldPos);
             }
         }
 
@@ -402,6 +442,7 @@ namespace GameAssembly.WorldSystem.View
                     var tilePos = ToVisualTilePos(worldPos);
                     globalFloorVisualTilemap.RefreshTile(tilePos);
                     globalUpperVisualTilemap.RefreshTile(tilePos);
+                    blockDamageVisualTilemap.RefreshTile(tilePos);
                 }
             }
         }
@@ -413,6 +454,88 @@ namespace GameAssembly.WorldSystem.View
             {
                 upperRenderer.mode = TilemapRenderer.Mode.Individual;
             }
+
+            if (blockDamageVisualTilemap &&
+                blockDamageVisualTilemap.TryGetComponent<TilemapRenderer>(out var damageRenderer))
+            {
+                if (globalUpperVisualTilemap &&
+                    globalUpperVisualTilemap.TryGetComponent<TilemapRenderer>(out var upperTilemapRenderer))
+                {
+                    damageRenderer.sortingLayerID = upperTilemapRenderer.sortingLayerID;
+                    damageRenderer.sortingOrder = blockDamageSortingOrder == -1
+                        ? upperTilemapRenderer.sortingOrder + 1
+                        : blockDamageSortingOrder;
+                    damageRenderer.sharedMaterial = upperTilemapRenderer.sharedMaterial;
+                }
+                else if (blockDamageSortingOrder != -1)
+                {
+                    damageRenderer.sortingOrder = blockDamageSortingOrder;
+                }
+
+                damageRenderer.mode = TilemapRenderer.Mode.SRPBatch;
+            }
+        }
+
+        private TileBase ResolveBlockDamageTile(float progress01)
+        {
+            if (blockDamageSprites == null || blockDamageSprites.Length == 0)
+                return null;
+
+            var index = GetBlockDamageSpriteIndex(progress01, blockDamageSprites.Length);
+            var sprite = blockDamageSprites[index];
+            if (!sprite)
+                return null;
+
+            EnsureBlockDamageTileCache();
+
+            var tile = _blockDamageTiles[index];
+            if (tile && tile.sprite == sprite)
+                return tile;
+
+            if (tile)
+                Destroy(tile);
+
+            tile = ScriptableObject.CreateInstance<Tile>();
+            tile.hideFlags = HideFlags.DontSave;
+            tile.sprite = sprite;
+            tile.color = Color.white;
+            tile.colliderType = Tile.ColliderType.None;
+            _blockDamageTiles[index] = tile;
+
+            return tile;
+        }
+
+        private void EnsureBlockDamageTileCache()
+        {
+            if (_blockDamageTiles != null && _blockDamageTiles.Length == blockDamageSprites.Length)
+                return;
+
+            ClearBlockDamageTileCache();
+            _blockDamageTiles = new Tile[blockDamageSprites.Length];
+        }
+
+        private void ClearBlockDamageTileCache()
+        {
+            if (_blockDamageTiles == null)
+                return;
+
+            foreach (var tile in _blockDamageTiles)
+            {
+                if (tile)
+                    Destroy(tile);
+            }
+
+            _blockDamageTiles = null;
+        }
+
+        private static int GetBlockDamageSpriteIndex(float progress01, int spritesCount)
+        {
+            if (spritesCount <= 0)
+                return -1;
+
+            // The first sprite covers 0..step; for 5 sprites that is 0..20%.
+            return Mathf.Clamp(Mathf.CeilToInt(Mathf.Clamp01(progress01) * spritesCount) - 1, 0,
+                spritesCount - 1);
         }
 
         private GameObject GetOrCreateVisualGrid()
@@ -430,6 +553,11 @@ namespace GameAssembly.WorldSystem.View
         private static Vector3Int ToVisualTilePos(Vector2Int blockWorldPos)
         {
             return new Vector3Int(blockWorldPos.x, blockWorldPos.y, 0);
+        }
+
+        private static Vector3Int ToBlockDamageVisualTilePos(Vector2Int blockWorldPos)
+        {
+            return new Vector3Int(blockWorldPos.x, blockWorldPos.y + 1, 0);
         }
 
         private static ChunkCoord GetChunkCoordByWorldPos(Vector2Int blockWorldPos)
