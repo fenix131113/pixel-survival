@@ -23,7 +23,7 @@ namespace GameAssembly.PlayerSystem.View
         [SerializeField] private GameObject inventoryPanel;
         [SerializeField] private Transform cellsParent;
         [SerializeField] private Transform hotBarParent;
-        [SerializeField] private MenuType[] allowedMenuTypesOnTop = { MenuType.CHEST, MenuType.FURNACE };
+        [SerializeField] private MenuType[] allowedMenuTypesOnTop = { MenuType.CHEST, MenuType.FURNACE, MenuType.CAMPFIRE };
 
         [Inject] private MovingItem _movingItem;
         [Inject] private InputSystem_Actions _input;
@@ -142,23 +142,25 @@ namespace GameAssembly.PlayerSystem.View
         {
             if (allowedMenuTypesOnTop == null || allowedMenuTypesOnTop.Length == 0)
             {
-                allowedMenuTypesOnTop = new[] { MenuType.CHEST, MenuType.FURNACE };
+                allowedMenuTypesOnTop = new[] { MenuType.CHEST, MenuType.FURNACE, MenuType.CAMPFIRE };
                 return;
             }
 
             var hasChest = false;
             var hasFurnace = false;
+            var hasCampfire = false;
 
             foreach (var menuType in allowedMenuTypesOnTop)
             {
                 hasChest |= menuType == MenuType.CHEST;
                 hasFurnace |= menuType == MenuType.FURNACE;
+                hasCampfire |= menuType == MenuType.CAMPFIRE;
             }
 
-            if (hasChest && hasFurnace)
+            if (hasChest && hasFurnace && hasCampfire)
                 return;
 
-            var missingCount = (hasChest ? 0 : 1) + (hasFurnace ? 0 : 1);
+            var missingCount = (hasChest ? 0 : 1) + (hasFurnace ? 0 : 1) + (hasCampfire ? 0 : 1);
             var result = new MenuType[allowedMenuTypesOnTop.Length + missingCount];
             allowedMenuTypesOnTop.CopyTo(result, 0);
 
@@ -166,7 +168,9 @@ namespace GameAssembly.PlayerSystem.View
             if (!hasChest)
                 result[index++] = MenuType.CHEST;
             if (!hasFurnace)
-                result[index] = MenuType.FURNACE;
+                result[index++] = MenuType.FURNACE;
+            if (!hasCampfire)
+                result[index] = MenuType.CAMPFIRE;
 
             allowedMenuTypesOnTop = result;
         }

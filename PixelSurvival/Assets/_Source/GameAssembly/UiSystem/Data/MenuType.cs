@@ -9,5 +9,6 @@
         CRAFT_MENU = 4,
         FURNACE = 5,
         WORKBENCH = 6,
+        CAMPFIRE = 7,
     }
 }

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75bb2e3d603e42c4bdd8b1ec757d68fd, type: 3}
+  m_Name: Campfire
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.CraftSystem.Data.CraftRecipeSO
+  craftGroups: []
+  requiredCrafts: []
+  <ResultItem>k__BackingField: {fileID: 11400000, guid: f4ca57fb47f804440b2ae7ab52743c72, type: 2}
+  <ResultCount>k__BackingField: 1
+  id: c743e21a7c3c45489b73919f7bfc7a9c

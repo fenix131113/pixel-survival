@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7d3e3418bd74489b1d2e792ffbc4263, type: 3}
+  m_Name: Campfire
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.PlaceableObjectItemDefinitionSO
+  <NameTranslationKey>k__BackingField: object.campfire
+  <Icon>k__BackingField: {fileID: -901824377, guid: 0cf4f92b88e264542978695fad1fd9aa, type: 3}
+  <InventoryIcon>k__BackingField: {fileID: 0}
+  <MaxCount>k__BackingField: 99
+  <InHandAttackAnimationKey>k__BackingField: 
+  id: 59c9bb25baa3474da1cac55f8c346384
+  <PlaceableDefinition>k__BackingField: {fileID: 11400000, guid: e31ae6a8980a6194089ad96014b806cd, type: 2}

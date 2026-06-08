@@ -36,6 +36,7 @@ namespace GameAssembly.Generated
         public static readonly ItemDefinitionSO WoodenPlanksBlock;
         public static readonly ItemDefinitionSO YellowBlock;
         public static readonly ItemDefinitionSO YellowFloor;
+        public static readonly ItemDefinitionSO Campfire;
         public static readonly ItemDefinitionSO Chest;
         public static readonly ItemDefinitionSO EndGameChest;
         public static readonly ItemDefinitionSO Furnace;
@@ -115,6 +116,7 @@ namespace GameAssembly.Generated
             WoodenPlanksBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/WoodenPlanksBlock");
             YellowBlock = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/YellowBlock");
             YellowFloor = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/YellowFloor");
+            Campfire = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Campfire");
             Chest = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Chest");
             EndGameChest = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/EndGameChest");
             Furnace = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + "/Furnace");

@@ -55,6 +55,7 @@ namespace GameAssembly.Core
             builder.RegisterComponentInHierarchy<WorkbenchView>();
             builder.RegisterComponentInHierarchy<EndGameChestView>();
             builder.RegisterComponentInHierarchy<FurnaceView>();
+            builder.RegisterComponentInHierarchy<CampfireView>();
 
             #endregion
 
