@@ -175,6 +175,7 @@ MonoBehaviour:
   hostPanel: {fileID: 1919864453}
   lobbyPlayersListLabel: {fileID: 1374787992}
   blocker: {fileID: 1494331795}
+  exitButton: {fileID: 604132759}
 --- !u!114 &47898040
 MonoBehaviour:
   m_ObjectHideFlags: 0

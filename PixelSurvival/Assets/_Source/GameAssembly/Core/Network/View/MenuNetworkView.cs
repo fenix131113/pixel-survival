@@ -20,6 +20,7 @@ namespace GameAssembly.Core.Network.View
         [SerializeField] private GameObject hostPanel;
         [SerializeField] private TMP_Text lobbyPlayersListLabel;
         [Header("Other")] [SerializeField] private GameObject blocker;
+        [SerializeField] private Button exitButton;
 
         private NetManager _netManager;
         private MenuPanelAnimator _hostPanelAnimator;
@@ -191,12 +192,14 @@ namespace GameAssembly.Core.Network.View
             _waitForEosInitializationRoutine = StartCoroutine(WaitForEosInitialization());
         }
 
+        private void OnExitButtonClicked() => Application.Quit();
+
         private IEnumerator WaitForEosInitialization()
         {
             while (true)
             {
                 var eosSdkComponent = FindFirstObjectByType<EOSSDKComponent>();
-                if (eosSdkComponent != null && EOSSDKComponent.Initialized)
+                if (eosSdkComponent && EOSSDKComponent.Initialized)
                     break;
 
                 yield return null;
@@ -214,6 +217,7 @@ namespace GameAssembly.Core.Network.View
             startHostButton.onClick.AddListener(OnStartGameButtonClicked);
             joinButton.onClick.AddListener(OnJoinButtonClicked);
             leaveHostButton.onClick.AddListener(OnLeaveButtonClicked);
+            exitButton.onClick.AddListener(OnExitButtonClicked);
 
             // Auto-expose
             _netManager.ClientOnChangedLobbyPlayer += UpdatePlayersList;
@@ -229,6 +233,7 @@ namespace GameAssembly.Core.Network.View
             startHostButton.onClick.RemoveAllListeners();
             joinButton.onClick.RemoveAllListeners();
             leaveHostButton.onClick.RemoveAllListeners();
+            exitButton.onClick.RemoveAllListeners();
 
             if (_netManager == null)
                 return;
