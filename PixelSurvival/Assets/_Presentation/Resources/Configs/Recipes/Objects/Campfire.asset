@@ -12,8 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75bb2e3d603e42c4bdd8b1ec757d68fd, type: 3}
   m_Name: Campfire
   m_EditorClassIdentifier: GameAssembly::GameAssembly.CraftSystem.Data.CraftRecipeSO
-  craftGroups: []
-  requiredCrafts: []
+  craftGroups:
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: a003f13d72884127aa546e22be0f73d7, type: 2}
+    <Count>k__BackingField: 4
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 844d305cee0640f4be0c95160739a8f5, type: 2}
+    <Count>k__BackingField: 8
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 5fee503810814b549da5b06d6ae3a85a, type: 2}
+    <Count>k__BackingField: 1
+  requiredCrafts:
+  - {fileID: 11400000, guid: 4f3924195d6575741941f5702da7c23f, type: 2}
+  - {fileID: 11400000, guid: cd12dc366e0542b0a17a27076e18234d, type: 2}
   <ResultItem>k__BackingField: {fileID: 11400000, guid: f4ca57fb47f804440b2ae7ab52743c72, type: 2}
   <ResultCount>k__BackingField: 1
   id: c743e21a7c3c45489b73919f7bfc7a9c

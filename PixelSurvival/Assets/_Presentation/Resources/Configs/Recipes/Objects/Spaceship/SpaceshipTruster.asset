@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::GameAssembly.CraftSystem.Data.CraftRecipeSO
   craftGroups:
   - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: dd540cd91821408ab90bcdb5b4356130, type: 2}
-    <Count>k__BackingField: 1
+    <Count>k__BackingField: 3
   - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 98877bb4f99f435a9a79c370447e182c, type: 2}
-    <Count>k__BackingField: 1
-  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 5fee503810814b549da5b06d6ae3a85a, type: 2}
     <Count>k__BackingField: 2
+  - <ItemDefinition>k__BackingField: {fileID: 11400000, guid: 5fee503810814b549da5b06d6ae3a85a, type: 2}
+    <Count>k__BackingField: 4
   requiredCrafts:
   - {fileID: 11400000, guid: 9774d35e83f78d446a1dbda58b17a561, type: 2}
   <ResultItem>k__BackingField: {fileID: 11400000, guid: 8a84033bb0cf90542b45b8ec89320831, type: 2}
