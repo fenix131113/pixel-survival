@@ -62,7 +62,7 @@ namespace GameAssembly.Core.Network.View
         {
             blocker.gameObject.SetActive(true);
             _netManager.RegisterLobbyMessages();
-            _netManager.CreateHost(ReadJoinCodeInput());
+            _netManager.CreateHost();
             startHostButton.gameObject.SetActive(true);
         }
 
@@ -102,11 +102,6 @@ namespace GameAssembly.Core.Network.View
         private void OnLobbyCodeReady(string lobbyCode)
         {
             _lobbyCode = lobbyCode;
-
-            if (joinCodeInput)
-            {
-                joinCodeInput.text = lobbyCode;
-            }
 
             blocker.gameObject.SetActive(false);
             ShowHostPanel();

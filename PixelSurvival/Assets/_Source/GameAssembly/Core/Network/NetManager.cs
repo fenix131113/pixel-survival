@@ -50,7 +50,7 @@ namespace GameAssembly.Core.Network
             }
         }
 
-        public void CreateHost(string joinCode = null)
+        public void CreateHost()
         {
             if (NetworkServer.active || NetworkClient.active)
             {
@@ -70,11 +70,7 @@ namespace GameAssembly.Core.Network
                 return;
             }
 
-            var normalizedCode = NormalizeJoinCode(joinCode);
-            if (string.IsNullOrWhiteSpace(normalizedCode))
-            {
-                normalizedCode = CreateRandomJoinCode();
-            }
+            var normalizedCode = CreateRandomJoinCode();
 
             _isCreatingLobby = true;
 
