@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GrayGrass
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.BlockItemDefinitionSO
   <NameTranslationKey>k__BackingField: item.block.gray_grass
-  <Icon>k__BackingField: {fileID: 1921483897, guid: ac650ec66e35eba42a1c94cadf29267d, type: 3}
+  <Icon>k__BackingField: {fileID: 0}
   <InventoryIcon>k__BackingField: {fileID: 0}
   <MaxCount>k__BackingField: 99
   <InHandAttackAnimationKey>k__BackingField: 
