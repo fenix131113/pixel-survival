@@ -31,6 +31,11 @@ namespace GameAssembly.EnemySystem
         [SerializeField, Min(1)] private int attackDamage = 6;
         [SerializeField, Min(0.05f)] private float attackCooldown = 1.1f;
 
+        [Header("Knockback")]
+        [SerializeField, Min(0f)] private float playerHitKnockbackImpulse = 5f;
+        [SerializeField, Min(0.01f)] private float playerHitKnockbackDuration = 0.25f;
+        [SerializeField, Min(0f)] private float playerHitAttackLockDuration = 0.45f;
+
         [Header("Attack Visual")]
         [SerializeField, Min(0f)] private float attackHopDistance = 0.22f;
         [SerializeField, Min(0.01f)] private float attackHopOutDuration = 0.07f;
@@ -54,6 +59,8 @@ namespace GameAssembly.EnemySystem
         private Vector3 _visualDefaultLocalPosition;
         private Coroutine _attackVisualRoutine;
         private int _attackVisualNonce;
+        private float _knockbackUntilTime;
+        private float _attackLockedUntilTime;
 
         private void Awake()
         {
@@ -89,6 +96,7 @@ namespace GameAssembly.EnemySystem
             if (!isServer)
                 return;
 
+            Server_Bind();
             _nextTargetSearchTime = Time.time + Random.Range(0f, targetSearchInterval);
             _nextPathRefreshTime = Time.time + Random.Range(0f, pathRefreshInterval);
             _nextAttackTime = Time.time + Random.Range(0f, attackCooldown);
@@ -97,6 +105,9 @@ namespace GameAssembly.EnemySystem
         private void Update()
         {
             if (!isServer)
+                return;
+
+            if (Server_IsKnockbackActive())
                 return;
 
             Server_UpdateTargeting();
@@ -109,6 +120,9 @@ namespace GameAssembly.EnemySystem
             if (!isServer)
                 return;
 
+            if (Server_IsKnockbackActive())
+                return;
+
             Server_MoveAlongPath();
         }
 
@@ -119,6 +133,9 @@ namespace GameAssembly.EnemySystem
 
             if (visualRoot)
                 visualRoot.localPosition = _visualDefaultLocalPosition;
+
+            if (isServer)
+                Server_Expose();
         }
 
         [Server]
@@ -139,6 +156,38 @@ namespace GameAssembly.EnemySystem
             _target = null;
             _targetLostDeadline = 0f;
             Server_ClearPath();
+        }
+
+        [Server]
+        public void Server_ApplyPlayerHitKnockback(Vector2 knockbackDirection)
+        {
+            if (healthObject && healthObject.GetHealth() <= 0)
+                return;
+
+            var now = Time.time;
+            var knockbackDuration = Mathf.Max(0f, playerHitKnockbackDuration);
+            var attackLockDuration = Mathf.Max(playerHitAttackLockDuration, knockbackDuration);
+
+            if (knockbackDuration > 0f)
+                _knockbackUntilTime = Mathf.Max(_knockbackUntilTime, now + knockbackDuration);
+
+            if (attackLockDuration > 0f)
+            {
+                _attackLockedUntilTime = Mathf.Max(_attackLockedUntilTime, now + attackLockDuration);
+                _nextAttackTime = Mathf.Max(_nextAttackTime, _attackLockedUntilTime);
+            }
+
+            Server_ClearPath();
+
+            if (!body || playerHitKnockbackImpulse <= 0f)
+                return;
+
+            var direction = knockbackDirection.sqrMagnitude > 0.0001f
+                ? knockbackDirection.normalized
+                : Vector2.right;
+
+            body.linearVelocity = Vector2.zero;
+            body.AddForce(direction * playerHitKnockbackImpulse, ForceMode2D.Impulse);
         }
 
         [Server]
@@ -203,6 +252,9 @@ namespace GameAssembly.EnemySystem
         private void Server_UpdateAttacks()
         {
             if (!_target || !Server_IsTargetAliveAndValid(_target))
+                return;
+
+            if (Time.time < _attackLockedUntilTime)
                 return;
 
             if (Time.time < _nextAttackTime)
@@ -303,6 +355,12 @@ namespace GameAssembly.EnemySystem
         }
 
         [Server]
+        private bool Server_IsKnockbackActive()
+        {
+            return Time.time < _knockbackUntilTime;
+        }
+
+        [Server]
         private void Server_ClearPath()
         {
             _currentPathIndex = 0;
@@ -318,6 +376,9 @@ namespace GameAssembly.EnemySystem
             _pathPending = false;
 
             if (!this || !isServer)
+                return;
+
+            if (Server_IsKnockbackActive())
                 return;
 
             if (path == null || path.error || path.vectorPath == null || path.vectorPath.Count == 0)
@@ -401,6 +462,24 @@ namespace GameAssembly.EnemySystem
 
             if (_attackVisualNonce == nonce)
                 _attackVisualRoutine = null;
+        }
+
+        private void OnAgentDamaged(int newValue, int oldValue, DamageContext ctx)
+        {
+            if(!ctx.DamageSourceObject)
+                return;
+            
+            Server_ApplyPlayerHitKnockback((transform.position - ctx.DamageSourceObject.transform.position).normalized);
+        }
+
+        private void Server_Bind()
+        {
+            healthObject.OnHealthChangedCtx += OnAgentDamaged;
+        }
+
+        private void Server_Expose()
+        {
+            healthObject.OnHealthChangedCtx -= OnAgentDamaged;
         }
 
 #if UNITY_EDITOR

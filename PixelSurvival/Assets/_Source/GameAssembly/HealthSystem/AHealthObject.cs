@@ -17,6 +17,7 @@ namespace GameAssembly.HealthSystem
         /// Called on server and clients
         /// </summary>
         public event Action<int, int> OnHealthChanged;
+        public event Action<int, int, DamageContext> OnHealthChangedCtx;
         
         /// <summary>
         /// Called on server and clients
@@ -45,6 +46,7 @@ namespace GameAssembly.HealthSystem
             var temp = _health;
             _health = Mathf.Clamp(_health + value, 0, maxHealth);
             OnHealthChanged?.Invoke(temp, _health);
+            OnHealthChangedCtx?.Invoke(temp, _health, ctx);
 
             if (_health != 0)
                 return;
