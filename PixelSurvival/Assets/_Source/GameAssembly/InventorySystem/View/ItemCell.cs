@@ -1,4 +1,5 @@
 ﻿using GameAssembly.ItemsSystem;
+using GameAssembly.LocalizationSystem;
 using GameAssembly.UiSystem;
 using GameAssembly.Utils;
 using Mirror;
@@ -10,18 +11,20 @@ using VContainer;
 
 namespace GameAssembly.InventorySystem.View
 {
-    public class ItemCell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerClickHandler // TODO: Make new class for hot bar slot with PlayerSelector link
+    public class ItemCell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler // TODO: Make new class for hot bar slot with PlayerSelector link
     {
         [SerializeField] private Image icon;
         [SerializeField] private TMP_Text counter;
         [SerializeField] private GameObject selection;
 
         [Inject] private MovingItem _movingItem;
+        [Inject] private FloatingLabel _floatingLabel;
 
         private NetworkIdentity _inventoryIdentity;
         private IInventory _inventory;
         private bool _isExposed = true;
         private bool _injected;
+        private bool _floatingTarget;
 
         public int CellIndex { get; private set; }
         private ItemInstance _lastItem;
@@ -127,6 +130,26 @@ namespace GameAssembly.InventorySystem.View
 
         public void OnEndDrag(PointerEventData eventData)
         {
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            var item = _inventory.GetItemByIndex(CellIndex);
+            
+            if(item != null)
+            {
+                _floatingLabel.Show(LocalizationService.Get(item.Definition.NameTranslationKey));
+                _floatingTarget = true;
+            }
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            if(!_floatingTarget)
+                return;
+            
+            _floatingTarget = false;
+            _floatingLabel.Hide();
         }
     }
 }
