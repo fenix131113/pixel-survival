@@ -24,7 +24,6 @@ namespace GameAssembly.InventorySystem.View
         private IInventory _inventory;
         private bool _isExposed = true;
         private bool _injected;
-        private bool _floatingTarget;
 
         public int CellIndex { get; private set; }
         private ItemInstance _lastItem;
@@ -136,19 +135,17 @@ namespace GameAssembly.InventorySystem.View
         {
             var item = _inventory.GetItemByIndex(CellIndex);
             
-            if(item != null)
+            if(item != null && !_floatingLabel.Target)
             {
-                _floatingLabel.Show(LocalizationService.Get(item.Definition.NameTranslationKey));
-                _floatingTarget = true;
+                _floatingLabel.Show(gameObject, LocalizationService.Get(item.Definition.NameTranslationKey));
             }
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if(!_floatingTarget)
+            if(_floatingLabel.Target != gameObject)
                 return;
             
-            _floatingTarget = false;
             _floatingLabel.Hide();
         }
     }

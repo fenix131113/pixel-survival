@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GameAssembly.InventorySystem;
+using GameAssembly.InventorySystem.View;
 using GameAssembly.PlayerSystem;
 using GameAssembly.UiSystem.Data;
 using Mirror;
@@ -21,6 +22,7 @@ namespace GameAssembly.UiSystem
         [SerializeField] private EscMenuView escMenuView;
 
         [Inject] private InputSystem_Actions _input;
+        [Inject] private FloatingLabel _floatingLabel;
 
         private PlayerLocalInventoryManager _playerPlayerLocalInventoryManager;
         private PlayerSelector _playerSelector;
@@ -70,8 +72,11 @@ namespace GameAssembly.UiSystem
             _openedMenus.Remove(menu);
             
             if(!_openedMenus.Any(x => x is IUiInventory))
+            {
                 inventoriesPanel.SetActive(false);
-            
+                _floatingLabel.Hide();
+            }
+
             if(menu.GetMenuType() == MenuType.PLAYER_INVENTORY)
             {
                 var invMenu = _openedMenus.FirstOrDefault(x => x is IUiInventory);

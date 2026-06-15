@@ -8,27 +8,29 @@ namespace GameAssembly.InventorySystem.View
     {
         [SerializeField] private TMP_Text label;
 
-        private bool _isShowing;
+        public GameObject Target { get; private set; }
 
         private void Update()
         {
-            if(!_isShowing)
+            if(!Target)
                 return;
             
             transform.position = Mouse.current.position.ReadValue();
+            label.gameObject.SetActive(true);
         }
 
-        public void Show(string text)
+        public void Show(GameObject target, string text)
         {
             label.text = text;
+            Target = target;
             gameObject.SetActive(true);
-            _isShowing = true;
         }
 
         public void Hide()
         {
+            label.gameObject.SetActive(false);
             gameObject.SetActive(false);
-            _isShowing = false;
+            Target = null;
         }
     }
 }
