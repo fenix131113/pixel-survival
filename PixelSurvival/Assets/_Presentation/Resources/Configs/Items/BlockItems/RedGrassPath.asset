@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12209283b1ab46ea9e7a7fb80228d6a7, type: 3}
   m_Name: RedGrassPath
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.BlockItemDefinitionSO
-  <NameTranslationKey>k__BackingField: 
+  <NameTranslationKey>k__BackingField: item.block.red_grasspath
   <Icon>k__BackingField: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   <InventoryIcon>k__BackingField: {fileID: 0}
   <MaxCount>k__BackingField: 99

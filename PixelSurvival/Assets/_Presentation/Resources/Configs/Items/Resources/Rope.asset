@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238d98b4711a4976aee192cdb4f3f8cd, type: 3}
   m_Name: Rope
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.ItemDefinitionSO
-  <NameTranslationKey>k__BackingField: 
+  <NameTranslationKey>k__BackingField: item.resource.rope
   <Icon>k__BackingField: {fileID: 3873563287768506616, guid: d383589cbeaecf74199c3420a5229490, type: 3}
   <InventoryIcon>k__BackingField: {fileID: 3873563287768506616, guid: d383589cbeaecf74199c3420a5229490, type: 3}
   <MaxCount>k__BackingField: 99

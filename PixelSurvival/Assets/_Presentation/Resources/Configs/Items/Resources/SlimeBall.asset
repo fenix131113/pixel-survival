@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238d98b4711a4976aee192cdb4f3f8cd, type: 3}
   m_Name: SlimeBall
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.ItemDefinitionSO
-  <NameTranslationKey>k__BackingField: 
+  <NameTranslationKey>k__BackingField: item.resource.slime_ball
   <Icon>k__BackingField: {fileID: 21300000, guid: 688da47aeec038b4abb26eb7231198f7, type: 3}
   <InventoryIcon>k__BackingField: {fileID: 0}
   <MaxCount>k__BackingField: 99

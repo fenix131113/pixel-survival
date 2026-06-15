@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d3e3418bd74489b1d2e792ffbc4263, type: 3}
   m_Name: SpaceshipControllerItem
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.PlaceableObjectItemDefinitionSO
-  <NameTranslationKey>k__BackingField: object.spaceship.controller
+  <NameTranslationKey>k__BackingField: item.object.spaceship.controller
   <Icon>k__BackingField: {fileID: -4231173064356196466, guid: 5ebdaa823d5c00f4f8167135eb314efe, type: 3}
   <InventoryIcon>k__BackingField: {fileID: 0}
   <MaxCount>k__BackingField: 99

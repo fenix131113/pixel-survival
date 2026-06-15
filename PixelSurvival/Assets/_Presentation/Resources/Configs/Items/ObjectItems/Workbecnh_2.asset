@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d3e3418bd74489b1d2e792ffbc4263, type: 3}
   m_Name: Workbecnh_2
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.PlaceableObjectItemDefinitionSO
-  <NameTranslationKey>k__BackingField: object.workbench_tier_2
+  <NameTranslationKey>k__BackingField: item.object.workbench_tier_2
   <Icon>k__BackingField: {fileID: -93383037, guid: 0cf4f92b88e264542978695fad1fd9aa, type: 3}
   <InventoryIcon>k__BackingField: {fileID: 0}
   <MaxCount>k__BackingField: 1

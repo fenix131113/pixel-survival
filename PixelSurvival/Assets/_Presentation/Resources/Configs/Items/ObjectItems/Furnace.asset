@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d3e3418bd74489b1d2e792ffbc4263, type: 3}
   m_Name: Furnace
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.PlaceableObjectItemDefinitionSO
-  <NameTranslationKey>k__BackingField: object.furnace
+  <NameTranslationKey>k__BackingField: item.object.furnace
   <Icon>k__BackingField: {fileID: 3756906577449214555, guid: d8c63b4d7ef31da43b6cc17e755bb3f1, type: 3}
   <InventoryIcon>k__BackingField: {fileID: 904535661, guid: 0cf4f92b88e264542978695fad1fd9aa, type: 3}
   <MaxCount>k__BackingField: 99

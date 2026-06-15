@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238d98b4711a4976aee192cdb4f3f8cd, type: 3}
   m_Name: SpaceshipBlueprintPart
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.ItemDefinitionSO
-  <NameTranslationKey>k__BackingField: item.spaceship_blueprint_part
+  <NameTranslationKey>k__BackingField: item.recource.spaceship.spaceship_blueprint_part
   <Icon>k__BackingField: {fileID: 21300000, guid: 6d78de8e1dc77254eb08cf3405cb9982, type: 3}
   <InventoryIcon>k__BackingField: {fileID: 0}
   <MaxCount>k__BackingField: 1

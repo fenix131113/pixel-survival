@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d3e3418bd74489b1d2e792ffbc4263, type: 3}
   m_Name: Chest
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.PlaceableObjectItemDefinitionSO
-  <NameTranslationKey>k__BackingField: object.chest
+  <NameTranslationKey>k__BackingField: item.object.chest
   <Icon>k__BackingField: {fileID: 1249829606, guid: d3c1683f797d2034bb4344c4f5e50fc7, type: 3}
+  <InventoryIcon>k__BackingField: {fileID: 0}
   <MaxCount>k__BackingField: 1
+  <InHandAttackAnimationKey>k__BackingField: 
   id: ebbd1189cac5493a9ea0977572f7e9bf
   <PlaceableDefinition>k__BackingField: {fileID: 11400000, guid: 32e99a64601925041974a85005f0a334, type: 2}

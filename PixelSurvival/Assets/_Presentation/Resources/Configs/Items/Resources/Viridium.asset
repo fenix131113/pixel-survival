@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238d98b4711a4976aee192cdb4f3f8cd, type: 3}
   m_Name: Viridium
   m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.ItemDefinitionSO
-  <NameTranslationKey>k__BackingField: 
+  <NameTranslationKey>k__BackingField: item.resource.viridium
   <Icon>k__BackingField: {fileID: 2107215887564933441, guid: f90bbf936440e5947b7b95b222297f14, type: 3}
   <InventoryIcon>k__BackingField: {fileID: 2107215887564933441, guid: f90bbf936440e5947b7b95b222297f14, type: 3}
   <MaxCount>k__BackingField: 99
