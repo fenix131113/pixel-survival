@@ -1,5 +1,5 @@
 ﻿using GameAssembly.Generated;
-using GameAssembly.ItemsSystem.Items;
+using FoodBehaviour = GameAssembly.ItemsSystem.Behaviours.FoodBehaviour;
 
 namespace GameAssembly.ItemsSystem
 {
@@ -12,7 +12,19 @@ namespace GameAssembly.ItemsSystem
             if(Initialized)
                 return;
             
-            ItemRegistry.Instance.RegisterItemBehaviour(ItemDatabase.Apple, new DebugBehaviour());
+            var foodBehaviour = new FoodBehaviour();
+            
+            //ItemRegistry.Instance.RegisterItemBehaviour(ItemDatabase.Apple, new DebugBehaviour());
+            ItemRegistry.Instance.RegisterItemBehaviour(ItemDatabase.ProteinPorridge, foodBehaviour);
+            ItemRegistry.Instance.RegisterItemBehaviour(ItemDatabase.SweetWorm, foodBehaviour);
+            ItemRegistry.Instance.RegisterItemBehaviour(ItemDatabase.CrispyWorm, foodBehaviour);
+            ItemRegistry.Instance.RegisterItemBehaviour(ItemDatabase.VerySweetStone, foodBehaviour);
+            ItemRegistry.Instance.RegisterItemBehaviour(ItemDatabase.SweetPorridge, foodBehaviour);
+            ItemRegistry.Instance.RegisterItemBehaviour(ItemDatabase.RockyPorridge, foodBehaviour);
+            ItemRegistry.Instance.RegisterItemBehaviour(ItemDatabase.Worm, foodBehaviour);
+            ItemRegistry.Instance.RegisterItemBehaviour(ItemDatabase.SweetRoot, foodBehaviour);
+            ItemRegistry.Instance.RegisterItemBehaviour(ItemDatabase.Resin, foodBehaviour);
+            ItemRegistry.Instance.RegisterItemBehaviour(ItemDatabase.SweetRock, foodBehaviour);
 
             Initialized = true;
         }

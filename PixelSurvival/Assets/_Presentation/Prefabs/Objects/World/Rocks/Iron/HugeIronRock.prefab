@@ -171,9 +171,15 @@ MonoBehaviour:
   - itemDefinition: {fileID: 11400000, guid: 3acd72c3ea9f49d4959c19bb9fb3dfe9, type: 2}
     minCount: 6
     maxCount: 8
+    dropChance: 1
   - itemDefinition: {fileID: 11400000, guid: 47994d9212e42d04e80b7e239f46a806, type: 2}
     minCount: 8
     maxCount: 8
+    dropChance: 1
+  - itemDefinition: {fileID: 11400000, guid: 5ed643aecefa9514799c643c1bca431c, type: 2}
+    minCount: 1
+    maxCount: 1
+    dropChance: 0.05
 --- !u!70 &2975290843859016171
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

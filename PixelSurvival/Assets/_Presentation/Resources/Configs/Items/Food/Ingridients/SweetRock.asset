@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee6f136443484b709577e03f4d4e8bb6, type: 3}
+  m_Name: SweetRock
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.ItemsSystem.Data.FoodItemDefinitionSO
+  <NameTranslationKey>k__BackingField: item.food.ingridient.sweet_rock
+  <Icon>k__BackingField: {fileID: -125841259962605178, guid: 4a4bd51d04c71834599cccf5d4ef1620, type: 3}
+  <InventoryIcon>k__BackingField: {fileID: 0}
+  <MaxCount>k__BackingField: 99
+  <InHandAttackAnimationKey>k__BackingField: 
+  id: 32ff71d7636d40aba5f0ff319193ba0f
+  <HealthRecover>k__BackingField: 15

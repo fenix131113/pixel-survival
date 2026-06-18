@@ -219,6 +219,7 @@ MonoBehaviour:
   - itemDefinition: {fileID: 11400000, guid: f4ca57fb47f804440b2ae7ab52743c72, type: 2}
     minCount: 1
     maxCount: 1
+    dropChance: 0
 --- !u!114 &4882609737007306925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,15 +257,41 @@ MonoBehaviour:
   healthObject: {fileID: 4882609737007306925}
   campfireRenderer: {fileID: 8289104064334937809}
   allowedInputItems:
-  - {fileID: 11400000, guid: b859d97518225804c90e415b16b98b89, type: 2}
-  - {fileID: 11400000, guid: 47994d9212e42d04e80b7e239f46a806, type: 2}
-  - {fileID: 11400000, guid: 8c1ddf9a282e4057864b9e2d75588e71, type: 2}
+  - {fileID: 11400000, guid: 292b7808a3e92e740b1f5d9b77cb7900, type: 2}
+  - {fileID: 11400000, guid: 5ed643aecefa9514799c643c1bca431c, type: 2}
+  - {fileID: 11400000, guid: ee7946fd33e55224da6e891e675a6909, type: 2}
+  - {fileID: 11400000, guid: d4d5e16bb25ee694fa06b1ea4958e137, type: 2}
   recipes:
-  - <FirstInputItem>k__BackingField: {fileID: 11400000, guid: b859d97518225804c90e415b16b98b89, type: 2}
-    <SecondInputItem>k__BackingField: {fileID: 11400000, guid: 47994d9212e42d04e80b7e239f46a806, type: 2}
-    <ResultItem>k__BackingField: {fileID: 11400000, guid: 59d9aee1d83f46a59e9ef16d7e07a1ad, type: 2}
+  - <FirstInputItem>k__BackingField: {fileID: 11400000, guid: ee7946fd33e55224da6e891e675a6909, type: 2}
+    <SecondInputItem>k__BackingField: {fileID: 11400000, guid: d4d5e16bb25ee694fa06b1ea4958e137, type: 2}
+    <ResultItem>k__BackingField: {fileID: 11400000, guid: 204a6ee80652f634d94823b22d590de7, type: 2}
     <ResultCount>k__BackingField: 1
-    <CookTimeSeconds>k__BackingField: 0.75
+    <CookTimeSeconds>k__BackingField: 1
+  - <FirstInputItem>k__BackingField: {fileID: 11400000, guid: ee7946fd33e55224da6e891e675a6909, type: 2}
+    <SecondInputItem>k__BackingField: {fileID: 11400000, guid: 292b7808a3e92e740b1f5d9b77cb7900, type: 2}
+    <ResultItem>k__BackingField: {fileID: 11400000, guid: 20aa2033b41deb64bb9eb78bc3b38126, type: 2}
+    <ResultCount>k__BackingField: 1
+    <CookTimeSeconds>k__BackingField: 1
+  - <FirstInputItem>k__BackingField: {fileID: 11400000, guid: ee7946fd33e55224da6e891e675a6909, type: 2}
+    <SecondInputItem>k__BackingField: {fileID: 11400000, guid: 5ed643aecefa9514799c643c1bca431c, type: 2}
+    <ResultItem>k__BackingField: {fileID: 11400000, guid: 586f04dbc7efdf749ac529bf60d17fb7, type: 2}
+    <ResultCount>k__BackingField: 1
+    <CookTimeSeconds>k__BackingField: 1
+  - <FirstInputItem>k__BackingField: {fileID: 11400000, guid: 292b7808a3e92e740b1f5d9b77cb7900, type: 2}
+    <SecondInputItem>k__BackingField: {fileID: 11400000, guid: 5ed643aecefa9514799c643c1bca431c, type: 2}
+    <ResultItem>k__BackingField: {fileID: 11400000, guid: 8e553f5cf6d6858468274adac3ceb5d4, type: 2}
+    <ResultCount>k__BackingField: 1
+    <CookTimeSeconds>k__BackingField: 1
+  - <FirstInputItem>k__BackingField: {fileID: 11400000, guid: 292b7808a3e92e740b1f5d9b77cb7900, type: 2}
+    <SecondInputItem>k__BackingField: {fileID: 11400000, guid: d4d5e16bb25ee694fa06b1ea4958e137, type: 2}
+    <ResultItem>k__BackingField: {fileID: 11400000, guid: 67afc4f5d825b10499baf9b692cd0471, type: 2}
+    <ResultCount>k__BackingField: 1
+    <CookTimeSeconds>k__BackingField: 1
+  - <FirstInputItem>k__BackingField: {fileID: 11400000, guid: 5ed643aecefa9514799c643c1bca431c, type: 2}
+    <SecondInputItem>k__BackingField: {fileID: 11400000, guid: d4d5e16bb25ee694fa06b1ea4958e137, type: 2}
+    <ResultItem>k__BackingField: {fileID: 11400000, guid: 16be52386ae0d4b4983f6393bea7f7fc, type: 2}
+    <ResultCount>k__BackingField: 1
+    <CookTimeSeconds>k__BackingField: 1
   fallbackResultItem: {fileID: 11400000, guid: 2c3aeb4d1f0f44ddaa4dabc2ef30fded, type: 2}
   fallbackResultCount: 1
   fallbackCookTimeSeconds: 1

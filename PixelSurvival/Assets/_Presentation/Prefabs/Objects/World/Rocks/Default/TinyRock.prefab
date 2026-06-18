@@ -145,6 +145,11 @@ MonoBehaviour:
   shakeDuration: 0.1
   shakeStrength: 0.2
   shakeVibrato: 10
+  enableHitFlash: 0
+  targetRenderers:
+  - {fileID: 1746791392542887288}
+  hitFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  hitFlashDuration: 0.15
 --- !u!114 &3629214873813039001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,6 +171,11 @@ MonoBehaviour:
   - itemDefinition: {fileID: 11400000, guid: 47994d9212e42d04e80b7e239f46a806, type: 2}
     minCount: 2
     maxCount: 3
+    dropChance: 1
+  - itemDefinition: {fileID: 11400000, guid: 5ed643aecefa9514799c643c1bca431c, type: 2}
+    minCount: 1
+    maxCount: 1
+    dropChance: 0.05
 --- !u!70 &8120951610252462373
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -222,3 +232,5 @@ MonoBehaviour:
   maxHealth: 4
   immediatelyDestroy: 1
   needType: 1
+  levelRequirementMode: 0
+  minimumRequiredTool: {fileID: 0}

@@ -230,6 +230,11 @@ MonoBehaviour:
   - itemDefinition: {fileID: 11400000, guid: a003f13d72884127aa546e22be0f73d7, type: 2}
     minCount: 3
     maxCount: 6
+    dropChance: 1
+  - itemDefinition: {fileID: 11400000, guid: 292b7808a3e92e740b1f5d9b77cb7900, type: 2}
+    minCount: 1
+    maxCount: 1
+    dropChance: 0.05
 --- !u!1 &5288724656227363812
 GameObject:
   m_ObjectHideFlags: 0

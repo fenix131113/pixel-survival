@@ -338,6 +338,9 @@ namespace GameAssembly.ObjectsSystem.InteractiveSystem.InteractiveObjects
         [Server]
         private bool TryAddResult(ItemDefinitionSO resultItem, int resultCount)
         {
+            if (!fallbackResultItem)
+                return true;
+            
             if (!CanAddResult(resultItem, resultCount))
                 return false;
 

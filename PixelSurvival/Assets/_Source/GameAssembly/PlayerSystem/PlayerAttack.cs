@@ -18,6 +18,7 @@ using PlayerSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using VContainer;
+
 // ReSharper disable Unity.PerformanceCriticalCodeInvocation
 
 namespace GameAssembly.PlayerSystem
@@ -117,7 +118,7 @@ namespace GameAssembly.PlayerSystem
                 return;
 
             ApplyAttackMovementBlock();
-            CheckForBehaviour();
+            CheckForAttackBehaviour();
             TriggerAttackAnimation();
 
             var animationKey = _selector.IsSelectedItem
@@ -142,6 +143,12 @@ namespace GameAssembly.PlayerSystem
         #region Server
 
         [Command]
+        private void Cmd_AimPerform()
+        {
+            CheckForAimBehaviour();
+        }
+
+        [Command]
         private void Cmd_MeleeAttack(float lookDegrees)
         {
             if (_cooldown > 0)
@@ -152,7 +159,7 @@ namespace GameAssembly.PlayerSystem
 
             if (isServerOnly)
             {
-                CheckForBehaviour();
+                CheckForAttackBehaviour();
                 TriggerAttackAnimation();
                 OnMeleeAttack?.Invoke(lookDegrees, animationKey);
             }
@@ -210,7 +217,8 @@ namespace GameAssembly.PlayerSystem
 
                     if (cell.Block.type != BlockType.AIR && cell.Block.IsBreakable)
                     {
-                        var blockDamage = ResolveBlockMiningDamage(cell.Block.definition, selectedToolDefinition, damage);
+                        var blockDamage =
+                            ResolveBlockMiningDamage(cell.Block.definition, selectedToolDefinition, damage);
                         if (blockDamage <= 0)
                         {
                             _blockDamageSystem.Server_ClearPlayerTarget(attackerNetId);
@@ -297,7 +305,8 @@ namespace GameAssembly.PlayerSystem
         }
 
         [Server]
-        private bool TryBreakPlacedFloor(Chunk chunk, Vector2Int localIndexes, ToolItemDefinitionSO selectedToolDefinition,
+        private bool TryBreakPlacedFloor(Chunk chunk, Vector2Int localIndexes,
+            ToolItemDefinitionSO selectedToolDefinition,
             int baseDamage)
         {
             if (chunk == null || !CanBreakPlacedFloor(selectedToolDefinition))
@@ -358,11 +367,18 @@ namespace GameAssembly.PlayerSystem
             _networkAnimator.SetTrigger(triggerName);
         }
 
-        private void CheckForBehaviour()
+        private void CheckForAttackBehaviour()
         {
             if (_selector.IsSelectedItem &&
                 ItemRegistry.Instance.ItemHasBehaviour(_selector.GetSelectedItem().Definition, out var behaviour))
                 behaviour.OnAttack(new ItemContext(_selector.GetSelectedItem(), _inventory, netIdentity));
+        }
+
+        private void CheckForAimBehaviour()
+        {
+            if (_selector.IsSelectedItem &&
+                ItemRegistry.Instance.ItemHasBehaviour(_selector.GetSelectedItem().Definition, out var behaviour))
+                behaviour.OnAim(new ItemContext(_selector.GetSelectedItem(), _inventory, netIdentity));
         }
 
         private void OnAttackStarted(InputAction.CallbackContext callbackContext)
@@ -388,11 +404,21 @@ namespace GameAssembly.PlayerSystem
             MeleeAttack();
         }
 
+        private void OnAimPerformed(InputAction.CallbackContext callbackContext)
+        {
+            if (!_input.Player.enabled || _variables.IsVariableBlocked(PlayerVariableBlockerType.INTERACT))
+                return;
+
+            CheckForAimBehaviour();
+            Cmd_AimPerform();
+        }
+
         private void Bind()
         {
             _input.Player.Attack.started += OnAttackStarted;
             _input.Player.Attack.performed += OnAttackPerformed;
             _input.Player.Attack.canceled += OnAttackCanceled;
+            _input.Player.Aim.performed += OnAimPerformed;
         }
 
         private void Expose()
@@ -400,6 +426,7 @@ namespace GameAssembly.PlayerSystem
             _input.Player.Attack.started -= OnAttackStarted;
             _input.Player.Attack.performed -= OnAttackPerformed;
             _input.Player.Attack.canceled -= OnAttackCanceled;
+            _input.Player.Aim.performed -= OnAimPerformed;
             _isAttackHeld = false;
             ReleaseAttackMovementBlock();
         }

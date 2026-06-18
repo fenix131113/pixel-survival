@@ -127,3 +127,23 @@ MonoBehaviour:
     value: Viridium Axe
   - key: item.tool.viridium_pickaxe
     value: Viridium Pickaxe
+  - key: item.food.cooked.crispy_worm
+    value: Crispy Worm +30 HP
+  - key: item.food.cooked.protein_porridge
+    value: Protein Porridge +45 HP
+  - key: item.food.cooked.rocky_porridge
+    value: Rocky Porridge +40 HP
+  - key: item.food.cooked.sweet_porridge
+    value: Sweet Porridge +35 HP
+  - key: item.food.cooked.sweet_worm
+    value: Sweet Worm +30 HP
+  - key: item.food.cooked.very_sweet_stone
+    value: Very Sweet Stone +30 HP
+  - key: item.food.ingridient.resin
+    value: Resin +10 HP
+  - key: item.food.ingridient.sweet_rock
+    value: Sweet Rock +15 HP
+  - key: item.food.ingridient.sweet_root
+    value: Sweet Root +20 HP
+  - key: item.food.ingridient.worm
+    value: Worm +10 HP

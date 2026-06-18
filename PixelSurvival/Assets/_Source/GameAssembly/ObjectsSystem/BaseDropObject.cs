@@ -5,6 +5,7 @@ using GameAssembly.ItemsSystem;
 using GameAssembly.ItemsSystem.Data;
 using Mirror;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace GameAssembly.ObjectsSystem
 {
@@ -16,17 +17,20 @@ namespace GameAssembly.ObjectsSystem
             [SerializeField] private ItemDefinitionSO itemDefinition;
             [SerializeField] private int minCount;
             [SerializeField] private int maxCount;
+            [Range(0f, 1f)] [SerializeField] private float dropChance;
 
             public DropDefinition(ItemDefinitionSO itemDefinition, int minCount, int maxCount)
             {
                 this.itemDefinition = itemDefinition;
                 this.minCount = minCount;
+                dropChance = 1f;
                 this.maxCount = maxCount;
             }
 
             public ItemDefinitionSO ItemDefinition => itemDefinition;
             public int MinCount => minCount;
             public int MaxCount => maxCount;
+            public float DropChance => dropChance;
         }
 
         [SerializeField] private AHealthObject healthObject;
@@ -35,7 +39,7 @@ namespace GameAssembly.ObjectsSystem
 
         private void Start()
         {
-            if(!isServer)
+            if (!isServer)
                 return;
 
             Bind();
@@ -43,26 +47,27 @@ namespace GameAssembly.ObjectsSystem
 
         private void OnDestroy()
         {
-            if(!isServer)
+            if (!isServer)
                 return;
 
             Expose();
         }
-        
+
         private void OnDeath()
         {
-            if(!isServer)
+            if (!isServer)
                 return;
 
             foreach (var drop in EnumerateDrops())
-                SpawnDrop(drop);
+                if (Random.Range(0f, 1f) <= drop.DropChance)
+                    SpawnDrop(drop);
         }
 
         private IEnumerable<DropDefinition> EnumerateDrops()
         {
             if (drops is not { Count: > 0 })
                 yield break;
-            
+
             foreach (var drop in drops)
                 yield return drop;
         }
@@ -74,7 +79,7 @@ namespace GameAssembly.ObjectsSystem
 
             var normalizedMin = Mathf.Max(0, drop.MinCount);
             var normalizedMax = Mathf.Max(normalizedMin, drop.MaxCount);
-            var count = UnityEngine.Random.Range(normalizedMin, normalizedMax + 1);
+            var count = Random.Range(normalizedMin, normalizedMax + 1);
 
             if (count <= 0)
                 return;
@@ -102,7 +107,7 @@ namespace GameAssembly.ObjectsSystem
 
         protected override void OnValidate()
         {
-            if(!healthObject && TryGetComponent(out AHealthObject hp))
+            if (!healthObject && TryGetComponent(out AHealthObject hp))
                 healthObject = hp;
         }
     }

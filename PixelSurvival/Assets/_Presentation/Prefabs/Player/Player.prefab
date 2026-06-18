@@ -731,8 +731,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   health: {fileID: 940379009787909008}
-  startRecoveryTime: 15
-  healthPerSecond: 4
+  startRecoveryTime: 20
+  healthPerSecond: 1
 --- !u!114 &614244200033262236
 MonoBehaviour:
   m_ObjectHideFlags: 0

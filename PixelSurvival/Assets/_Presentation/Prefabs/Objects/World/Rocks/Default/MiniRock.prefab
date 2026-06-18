@@ -146,6 +146,11 @@ MonoBehaviour:
   shakeDuration: 0.1
   shakeStrength: 0.2
   shakeVibrato: 10
+  enableHitFlash: 0
+  targetRenderers:
+  - {fileID: 547815672919939402}
+  hitFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  hitFlashDuration: 0.15
 --- !u!114 &632627689672336008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,13 +186,15 @@ MonoBehaviour:
   syncInterval: 0
   healthObject: {fileID: 632627689672336008}
   droppingObject: {fileID: 9090697042307161094, guid: 3be4b7b7b0e727441b9259d6e5613423, type: 3}
-  itemDefinition: {fileID: 11400000, guid: 47994d9212e42d04e80b7e239f46a806, type: 2}
-  minCount: 1
-  maxCount: 1
   drops:
   - itemDefinition: {fileID: 11400000, guid: 47994d9212e42d04e80b7e239f46a806, type: 2}
     minCount: 1
     maxCount: 1
+    dropChance: 1
+  - itemDefinition: {fileID: 11400000, guid: 5ed643aecefa9514799c643c1bca431c, type: 2}
+    minCount: 1
+    maxCount: 1
+    dropChance: 0.05
 --- !u!70 &2486496918473114559
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
