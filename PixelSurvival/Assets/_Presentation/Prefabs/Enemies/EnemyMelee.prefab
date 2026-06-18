@@ -198,7 +198,7 @@ MonoBehaviour:
   viewDistance: 10
   targetSearchInterval: 0.2
   loseTargetDelay: 1.5
-  moveSpeed: 4
+  moveSpeed: 3.25
   pathRefreshInterval: 0.3
   nextWaypointDistance: 0.15
   attackDistance: 1

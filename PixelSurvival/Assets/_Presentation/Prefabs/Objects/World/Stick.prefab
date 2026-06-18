@@ -146,6 +146,11 @@ MonoBehaviour:
   shakeDuration: 0.1
   shakeStrength: 0.2
   shakeVibrato: 10
+  enableHitFlash: 0
+  targetRenderers:
+  - {fileID: 4892626270957507914}
+  hitFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  hitFlashDuration: 0.15
 --- !u!114 &4398431638445388705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,9 +186,6 @@ MonoBehaviour:
   syncInterval: 0
   healthObject: {fileID: 4398431638445388705}
   droppingObject: {fileID: 9090697042307161094, guid: 3be4b7b7b0e727441b9259d6e5613423, type: 3}
-  itemDefinition: {fileID: 11400000, guid: b859d97518225804c90e415b16b98b89, type: 2}
-  minCount: 1
-  maxCount: 1
   drops:
   - itemDefinition: {fileID: 11400000, guid: b859d97518225804c90e415b16b98b89, type: 2}
     minCount: 1
