@@ -15,5 +15,115 @@ MonoBehaviour:
   languageCode: en
   languageName: English
   entries:
-  - key: object.spaceship.controller
-    value: Spaceship Controller
+  - key: item.block.blue_wall
+    value: Blue Stone Wall
+  - key: item.block.bricks
+    value: Brick Wall
+  - key: item.block.bricks_floor
+    value: Brick Floor
+  - key: item.block.dead_wall
+    value: Dead Plant Wall
+  - key: item.block.dirt
+    value: Plant Wall
+  - key: item.block.planks_light_floor
+    value: Plank Floor
+  - key: item.block.red_block
+    value: Red Stone Wall
+  - key: item.block.rocks
+    value: Rock Wall
+  - key: item.block.stone
+    value: Stone Wall
+  - key: item.block.log_wall
+    value: Log Wall
+  - key: item.block.plank_wall
+    value: Plank Wall
+  - key: item.object.campfire
+    value: Campfire
+  - key: item.object.chest
+    value: Chest
+  - key: item.object.furnace
+    value: Furnace
+  - key: item.object.workbench_tier_0
+    value: Workbench lvl1
+  - key: item.object.workbench_tier_2
+    value: Workbench lvl2
+  - key: item.object.workbench_tier_3
+    value: Workbench lvl3
+  - key: item.object.spaceship.body
+    value: Spaceship Body
+  - key: item.object.spaceship.controller
+    value: Spaceship Cabin
+  - key: item.object.spaceship.left_wing
+    value: Left Wing
+  - key: item.object.spaceship.right_wing
+    value: Right Wing
+  - key: item.object.spaceship.truster
+    value: Truster
+  - key: item.resource.brick
+    value: Brick
+  - key: item.resource.copper_ingot
+    value: Copper Ingot
+  - key: item.resource.copper_ore
+    value: Copper Ore
+  - key: item.resource.copper_plate
+    value: Copper Plate
+  - key: item.resource.grass_item
+    value: Bunch of Grass
+  - key: item.resource.iron_Ingot
+    value: Iron Ingot
+  - key: item.resource.iron_ore
+    value: Iron Ore
+  - key: item.resource.iron_plate
+    value: Iron Plate
+  - key: item.resource.mystrium
+    value: Mystrium
+  - key: item.resource.mystrium_ingot
+    value: Mystrium Ingot
+  - key: item.resource.mystrium_plate
+    value: Mystrium Plate
+  - key: item.resource.rope
+    value: Rope
+  - key: item.resource.slime_ball
+    value: Slime Ball
+  - key: item.resource.stick
+    value: Stick
+  - key: item.resource.stone
+    value: Rock
+  - key: item.resource.viridium
+    value: Viridium
+  - key: item.resource.viridium_ingot
+    value: Viridium Ingot
+  - key: item.resource.viridium_plate
+    value: Viridium Plate
+  - key: item.resource.wood_log
+    value: Log
+  - key: item.resource.wood_plank
+    value: Plank
+  - key: item.recource.spaceship.compressor
+    value: Lamp
+  - key: item.recource.spaceship.overheater
+    value: Pump
+  - key: item.recource.spaceship.radiator
+    value: Motherboard
+  - key: item.recource.spaceship.spaceship_blueprint
+    value: Blueprint
+  - key: item.recource.spaceship.spaceship_blueprint_part
+    value: Part of Blueprint
+  - key: item.recource.spaceship.turbine
+    value: Turbine
+  - key: item.tool.copper_axe
+    value: Copper Axe
+  - key: item.tool.copper_pickaxe
+    value: Copper Pickaxe
+  - key: item.tool.iron_axe
+    value: Iron Axe
+  - key: item.tool.iron_pickaxe
+    value: Iron Pickaxe
+  - key: item.tool.stone_axe
+    value: Stone Axe
+  - key: item.tool.stone_pickaxe
+    value: Stone Pickaxe
+  - key: item.tool.viridium_axe
+    value: Viridium Axe
+  - key: item.tool.viridium_pickaxe
+    value: Viridium Pickaxe
