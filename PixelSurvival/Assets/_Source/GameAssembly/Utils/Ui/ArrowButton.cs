@@ -41,14 +41,14 @@ namespace GameAssembly.Utils.Ui
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            arrow.SetActive(true);
+            arrow?.SetActive(true);
             _isSelected = true;
             _tween = buttonTransform.DOScale(Vector3.one * upSize, sizeUpTime);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            arrow.SetActive(false);
+            arrow?.SetActive(false);
             _isSelected = false;
             buttonTransform.localPosition = _startPosition;
             _tween?.Kill();

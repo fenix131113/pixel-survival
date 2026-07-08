@@ -1042,8 +1042,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 50%
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 88fb52f6d7dac194ab28935c52e77816, type: 2}
+  m_sharedMaterial: {fileID: -4922061569178909860, guid: 88fb52f6d7dac194ab28935c52e77816, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4798,15 +4798,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: Settings
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 88fb52f6d7dac194ab28935c52e77816, type: 2}
+  m_sharedMaterial: {fileID: -4922061569178909860, guid: 88fb52f6d7dac194ab28935c52e77816, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4823,8 +4823,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7551,6 +7551,7 @@ GameObject:
   - component: {fileID: 282410399}
   - component: {fileID: 282410398}
   - component: {fileID: 282410397}
+  - component: {fileID: 282410401}
   m_Layer: 5
   m_Name: ExitMenuButton
   m_TagString: Untagged
@@ -7663,7 +7664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7688,6 +7689,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 282410395}
   m_CullTransparentMesh: 1
+--- !u!114 &282410401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282410395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf7ad5ea1bcc45a4aa89e0289dfd78d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.Utils.Ui.ArrowButton
+  arrow: {fileID: 0}
+  buttonTransform: {fileID: 970246780}
+  floatAmplitude: 5
+  floatSpeed: 2
+  upSize: 1.25
+  sizeUpTime: 0.25
 --- !u!1 &285908190
 GameObject:
   m_ObjectHideFlags: 0
@@ -9413,13 +9432,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   enemyPrefab: {fileID: 7001000000000000009, guid: c9cacf9ef477fc24cbd5a142498c49ac, type: 3}
-  globalMaxEnemies: 40
-  spawnIntervalMin: 30
-  spawnIntervalMax: 60
+  globalMaxEnemies: 10
+  spawnIntervalMin: 50
+  spawnIntervalMax: 80
   spawnCountMin: 1
-  spawnCountMax: 4
-  minSpawnDistanceFromPlayers: 20
-  maxSpawnDistanceFromPlayer: 40
+  spawnCountMax: 2
+  minSpawnDistanceFromPlayers: 25
+  maxSpawnDistanceFromPlayer: 50
   spawnAttemptsPerEnemy: 25
   spawnCheckRadius: 0.35
   spawnBlockingLayers:
@@ -9632,8 +9651,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Visual
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 88fb52f6d7dac194ab28935c52e77816, type: 2}
+  m_sharedMaterial: {fileID: -4922061569178909860, guid: 88fb52f6d7dac194ab28935c52e77816, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -21166,7 +21185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -21863,7 +21882,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 335.4751, y: 0.000031233}
+  m_AnchoredPosition: {x: 335.4751, y: -3.2}
   m_SizeDelta: {x: 356.0455, y: 71.1233}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &864466912
@@ -21888,8 +21907,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 100/100
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 88fb52f6d7dac194ab28935c52e77816, type: 2}
+  m_sharedMaterial: {fileID: -4922061569178909860, guid: 88fb52f6d7dac194ab28935c52e77816, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -23084,8 +23103,8 @@ RectTransform:
   - {fileID: 1591483173}
   - {fileID: 519401856}
   - {fileID: 1880123419}
-  - {fileID: 840151287}
   - {fileID: 1662234216}
+  - {fileID: 840151287}
   - {fileID: 286401574}
   - {fileID: 1998037719}
   - {fileID: 1161146920}
@@ -25534,15 +25553,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: Exit to menu
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 88fb52f6d7dac194ab28935c52e77816, type: 2}
+  m_sharedMaterial: {fileID: -4922061569178909860, guid: 88fb52f6d7dac194ab28935c52e77816, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -25559,8 +25578,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -27518,6 +27537,135 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4706162533970272636, guid: 81979cd516ae3794bb4ad206bc4d05a2, type: 3}
   m_PrefabInstance: {fileID: 1080864545}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1083548680
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1083548682}
+  - component: {fileID: 1083548681}
+  m_Layer: 0
+  m_Name: MusicAudio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &1083548681
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083548680}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: fb7c7ffda0b838942a2ff9407ab39cb5, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.2
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &1083548682
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083548680}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 252, y: 263, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1086799090
 GameObject:
   m_ObjectHideFlags: 0
@@ -27757,6 +27905,7 @@ GameObject:
   - component: {fileID: 1110816900}
   - component: {fileID: 1110816899}
   - component: {fileID: 1110816898}
+  - component: {fileID: 1110816902}
   m_Layer: 5
   m_Name: SettingsButton
   m_TagString: Untagged
@@ -27869,7 +28018,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -27894,6 +28043,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1110816896}
   m_CullTransparentMesh: 1
+--- !u!114 &1110816902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110816896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf7ad5ea1bcc45a4aa89e0289dfd78d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.Utils.Ui.ArrowButton
+  arrow: {fileID: 0}
+  buttonTransform: {fileID: 187737280}
+  floatAmplitude: 5
+  floatSpeed: 2
+  upSize: 1.25
+  sizeUpTime: 0.25
 --- !u!1001 &1111064628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29684,15 +29851,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: Continue
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 88fb52f6d7dac194ab28935c52e77816, type: 2}
+  m_sharedMaterial: {fileID: -4922061569178909860, guid: 88fb52f6d7dac194ab28935c52e77816, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -29709,8 +29876,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -46312,7 +46479,7 @@ GameObject:
   - component: {fileID: 1662234218}
   - component: {fileID: 1662234217}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: KeysHelper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46359,14 +46526,14 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'C - Craft
 
-    Tab - Inventory
+    RMB - Use
 
-    RMB - Place
+    LMB - Attack
 
-    LMB - Attack'
+    Tab - Inventory'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 88fb52f6d7dac194ab28935c52e77816, type: 2}
+  m_sharedMaterial: {fileID: -4922061569178909860, guid: 88fb52f6d7dac194ab28935c52e77816, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -47401,7 +47568,7 @@ Transform:
   m_GameObject: {fileID: 1687212014}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 240, y: 240, z: 529}
+  m_LocalPosition: {x: 240, y: 240.2, z: 529.2}
   m_LocalScale: {x: 527.6419, y: 737.76184, z: 2.0694}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -47979,6 +48146,7 @@ GameObject:
   - component: {fileID: 1704265578}
   - component: {fileID: 1704265577}
   - component: {fileID: 1704265580}
+  - component: {fileID: 1704265581}
   m_Layer: 5
   m_Name: ContinueButton
   m_TagString: Untagged
@@ -48063,7 +48231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -48116,6 +48284,24 @@ MonoBehaviour:
   pressEase: 6
   releaseEase: 27
   alphaEase: 6
+--- !u!114 &1704265581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704265575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf7ad5ea1bcc45a4aa89e0289dfd78d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::GameAssembly.Utils.Ui.ArrowButton
+  arrow: {fileID: 0}
+  buttonTransform: {fileID: 1194084421}
+  floatAmplitude: 5
+  floatSpeed: 2
+  upSize: 1.25
+  sizeUpTime: 0.25
 --- !u!1 &1710363553
 GameObject:
   m_ObjectHideFlags: 0
@@ -66308,3 +66494,4 @@ SceneRoots:
   - {fileID: 326526017}
   - {fileID: 1687212016}
   - {fileID: 1558013946}
+  - {fileID: 1083548682}

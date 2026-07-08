@@ -1,5 +1,5 @@
 ﻿using GameAssembly.Generated;
-using FoodBehaviour = GameAssembly.ItemsSystem.Behaviours.FoodBehaviour;
+using GameAssembly.ItemsSystem.Behaviours;
 
 namespace GameAssembly.ItemsSystem
 {

@@ -38,10 +38,12 @@ namespace Editor.Items
         [MenuItem("Tools/Generate/Regenerate ItemDatabase")]
         private static void Generate()
         {
-            var items = AssetDatabase.FindAssets("t:ItemDefinitionSO")
-                .Select(guid => AssetDatabase.LoadAssetAtPath<ItemDefinitionSO>(AssetDatabase.GUIDToAssetPath(guid)))
+            var assets = AssetDatabase.FindAssets("t:ItemDefinitionSO");
+            var items = assets.Select(guid => AssetDatabase.LoadAssetAtPath<ItemDefinitionSO>(AssetDatabase.GUIDToAssetPath(guid)))
                 .Where(x => x)
                 .ToList();
+
+            var paths = assets.Select(AssetDatabase.GUIDToAssetPath).ToList();
 
             const string path = "Assets/_Source/GameAssembly/Generated/ItemDatabase.cs";
             Directory.CreateDirectory("Assets/_Source/GameAssembly/Generated");
@@ -68,10 +70,11 @@ namespace Editor.Items
             writer.WriteLine("        static ItemDatabase()");
             writer.WriteLine("        {");
 
-            foreach (var item in items)
+            for (var index = 0; index < items.Count; index++)
             {
+                var item = items[index];
                 var safeName = item.name.Replace(" ", "_");
-                var assetPath = item.name;
+                var assetPath = paths[index].Split("/Items/")[^1].Replace(".asset", "");
                 writer.WriteLine(
                     $"            {safeName} = Resources.Load<ItemDefinitionSO>(AssetsPaths.ITEM_CONFIGS_PATH + \"/{assetPath}\");");
             }

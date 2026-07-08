@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using GameAssembly.ItemsSystem.Data;
+using UnityEngine;
 
 namespace GameAssembly.ItemsSystem
 {
@@ -19,6 +20,9 @@ namespace GameAssembly.ItemsSystem
 
         public bool ItemHasBehaviour(ItemDefinitionSO item, out IItemBehaviour behaviour) => _itemBehaviours.TryGetValue(item, out behaviour);
 
-        public void RegisterItemBehaviour(ItemDefinitionSO item, IItemBehaviour behaviour) => _itemBehaviours.TryAdd(item, behaviour);
+        public void RegisterItemBehaviour(ItemDefinitionSO item, IItemBehaviour behaviour)
+        {
+            _itemBehaviours.TryAdd(item, behaviour);
+        }
     }
 }
